@@ -2,13 +2,15 @@ import jinja2
 import os
 from classes.PlantSpecies import PlantSpecies
 
-template_dir          : str = 'html_templates'
-species_overview_name : str = 'species_overview.html'
-species_details_name  : str = 'species_details.html'
+template_dir                   : str = 'html_templates'
+species_overview_template_name : str = 'species_overview.html'
+species_details_template_name  : str = 'species_details.html'
+index_template_name            : str = 'index.html'
 
 out_dir               : str = 'html_out'
 species_details_out   : str = 'plant_species'
 species_overview_out  : str = 'species_overview.html'
+index_out             : str = 'index.html'
 
 def create_if_not_exists(dir_name:str)->None:
     if not os.path.exists(dir_name):
@@ -35,8 +37,9 @@ class HTMLRenderer:
         self.load_templates()
     
     def load_templates(self) -> None:
-        self.species_overview_template = self.env.get_template(species_overview_name)
-        self.species_details_template  = self.env.get_template(species_details_name)
+        self.species_overview_template = self.env.get_template(species_overview_template_name)
+        self.species_details_template  = self.env.get_template(species_details_template_name)
+        self.index_template = self.env.get_template(index_template_name)
 
     def create_plant_li(self,plant:PlantSpecies) -> str:
         li_template = '<li><a href="%s/%s">%s</a></li>'
@@ -59,7 +62,15 @@ class HTMLRenderer:
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 
+    def render_index(self) -> None:
+        index_html = self.index_template.render()
+        write_html(index_out,index_html)
+
     def render_all_species(self,plants:list[PlantSpecies]) -> None:
         self.render_species_overview(plants)
         for plant in plants:
             self.render_species_details(plant)
+
+    def render_all(self,plants:list[PlantSpecies]) -> None:
+        self.render_all_species(plants)
+        self.render_index()
