@@ -1,6 +1,7 @@
-import LoadJSON
+import load_json 
+import classes.HTMLRenderer
 
-plants = LoadJSON.load_all_plants() 
+plants = load_json.load_all_plants() 
+renderer = classes.HTMLRenderer.HTMLRenderer()
 
-for plant in plants:
-    print(plant.show())
+renderer.render_all_species(plants)
