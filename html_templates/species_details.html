@@ -5,7 +5,19 @@
   </head>
   <body>
     <h1>{{- species_name -}}</h1>
-    {{- species_info -}}
+    <ul id="species_details">
+      <li> Scientific Name: {{- species_scientific_name -}}</li>
+      <li> Sunlight Requirements: {{- species_sunlicght -}}</li>
+      <li> Temperature Range: {{-species_temp_min -}} - {{-species_temp_max-}}</li>
+      <li> Optimal Temperature Range: {{-species_opt_temp_min-}}-{{-species_opt_temp_max}}</li>
+      <li> Minimum Distance to next plant: {{-species_dist-}}cm </li>
+      <li> pH Range: {{-species_ph_min-}}-{{-species_ph_max-}}</li>
+      <li> Watering: {{-species_watering_notes-}}</li>
+      <li> Fertilizing: {{-species_fertilizing_notes-}}</li>
+      <li> Pruning: {{-species_pruning_notes-}}</li>
+      <li> Companions: {{-species_companions-}}</li>
+      <li> Notes: {{-species_additional_notes-}}</li>
+    </ul>
     <a href="../species_overview.html">Back</a>
   </body>
 </html>

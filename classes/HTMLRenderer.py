@@ -56,8 +56,8 @@ class HTMLRenderer:
         write_html(species_overview_out,plant_li)
 
     def render_species_details(self,plant:PlantSpecies) -> None:
-        species_details:str = plant.show()
-        species_html:str = self.species_details_template.render(species_name=plant.species_name,species_info=species_details)
+        info_dict = plant.get_info_dict()
+        species_html:str = self.species_details_template.render(info_dict)
         species_file_name = get_species_html_name(plant.species_name) 
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)

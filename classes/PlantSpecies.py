@@ -54,6 +54,26 @@ class PlantSpecies:
         self.pruning_notes           = list(json_dict['pruning_notes'])
         self.companions              = list(json_dict['companions'])
         self.additional_notes        = list(json_dict['additional_notes'])
+
+    def get_info_dict(self) -> dict[str,str]:
+       info_dict = { 
+         'species_name':self.species_name,
+         'species_scientific_name':self.scientific_name,
+         'species_sunlight':showSunlightType(self.sunlight_requirements),
+         'species_temp_min':self.temperature_min,
+         'species_temp_max':self.temperature_max,
+         'species_opt_temp_min':self.optimal_temperature_min,
+         'species_opt_temp_max':self.optimal_temperature_max,
+         'species_dist':self.plant_distance_cm,
+         'species_ph_min':self.ph_min,
+         'species_ph_max':self.ph_max,
+         'species_watering_notes':', '.join(self.watering_notes),
+         'species_fertilizing_notes':', '.join(self.fertilizing_notes),
+         'species_pruning_notes':', '.join(self.pruning_notes),
+         'species_companions':', '.join(self.companions),
+         'species_additional_notes':', '.join(self.additional_notes) 
+        }
+       return info_dict
                                 
     def show(self) -> str:
         out_str = '''Plant %s
