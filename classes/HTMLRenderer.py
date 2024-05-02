@@ -43,8 +43,8 @@ class HTMLRenderer:
 
     def create_plant_li(self,plant:PlantSpecies) -> str:
         li_template = '<li><a href="%s/%s">%s</a></li>'
-        details_file_name = get_species_html_name(plant.species_name)
-        return li_template % (species_details_out,details_file_name,plant.species_name)
+        details_file_name = get_species_html_name(plant.info['name'])
+        return li_template % (species_details_out,details_file_name,plant.info['name'])
 
     def render_species_overview(self,plants:list[PlantSpecies]) -> None:
         plant_lis :list[str] = []
@@ -58,7 +58,7 @@ class HTMLRenderer:
     def render_species_details(self,plant:PlantSpecies) -> None:
         info_dict = plant.get_info_dict()
         species_html:str = self.species_details_template.render(info_dict)
-        species_file_name = get_species_html_name(plant.species_name) 
+        species_file_name = get_species_html_name(plant.info['name']) 
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 

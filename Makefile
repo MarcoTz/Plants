@@ -2,6 +2,10 @@
 
 MAINPY = "main.py"
 OUTDIR = "html_out"
+ADDSPECIES = "add_species.py"
+
+new-species: 
+	python $(ADDSPECIES)
 
 clean: 
 	rm -rf $(OUTDIR)
