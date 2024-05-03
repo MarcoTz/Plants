@@ -1,7 +1,7 @@
 import load_json 
 import classes.HTMLRenderer
 
-plants = load_json.load_all_plants() 
+(plants,species) = load_json.load_plants_species()
 renderer = classes.HTMLRenderer.HTMLRenderer()
 
-renderer.render_all(plants)
+renderer.render_all(species,plants)

@@ -1,0 +1,9 @@
+{
+    "plant_name":"Nadja",
+    "species_name":"Chili Pepper",
+    "current_height": 12,
+    "current_width" : 5,
+    "activity_log": [],
+    "growth_log":[],
+    "plant_notes":[]
+}
