@@ -10,9 +10,7 @@ def load_activities() -> list[LogItem]:
     log_file_path : str = os.path.join(log_dir,activity_log_file_name)
     log_file = open(log_file_path,'r')
     reader : csv.DictReader = csv.DictReader(log_file,delimiter=';')
-    print(reader.fieldnames)
     for log_row in reader:
-        print(log_row)
         log_plants : list[str] = log_row['Plants'].split(',')
         log_plants : list[str] = list(map(lambda x: x.strip(),log_plants))
         log_date   : datetime.datetime = datetime.datetime.strptime(log_row['Date'],date_format)

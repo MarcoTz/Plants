@@ -6,5 +6,4 @@ from common.common import *
 (plants,species) = load_plants_species()
 activities = load_activities()
 renderer = HTMLRenderer(plants,species,activities)
-
 renderer.render_all()
