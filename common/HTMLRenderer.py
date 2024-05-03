@@ -151,6 +151,8 @@ class HTMLRenderer:
         if species_exists(info_dict['plant_species_name']):
             a_template = '<a href="../%s/%s">%s</a>'
             info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
+        else: 
+            print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
 
         plant_logs : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
         log_trs : list[str] = []
