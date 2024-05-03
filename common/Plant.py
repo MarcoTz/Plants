@@ -1,6 +1,6 @@
 import datetime 
 from typing import TypedDict
-from common import date_format
+from common.common import date_format,PlantInformation
 
 class LogItem(TypedDict):
     log_activity : str
@@ -20,15 +20,6 @@ def show_GrowthItem(it:GrowthItem) -> str:
     date_str : str = it['log_date'].strftime(date_format)
     return '%s: height: %scm, width: %scm' % (date_str,it['log_height_cm'],it['log_width_cm'])
 
-class PlantInformation(TypedDict):
-    plant_name       : str
-    species_name     : str
-    current_height   : float
-    current_width    : float
-    current_location : str
-    origin           : str
-    obtained         : datetime.datetime
-    plant_notes      : list[str]
 
 class Plant: 
 

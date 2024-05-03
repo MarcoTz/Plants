@@ -1,7 +1,7 @@
+from common.PlantSpecies import PlantSpecies
+from common.Plant import Plant
 import jinja2
 import os
-from classes.PlantSpecies import PlantSpecies
-from classes.Plant import Plant
 
 template_dir                   : str = 'html_templates'
 species_overview_template_name : str = 'species_overview.html'

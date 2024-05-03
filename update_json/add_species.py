@@ -1,10 +1,3 @@
-from classes.PlantSpecies import SpeciesInformation
-
-import json
-import os
-
-species_dir = 'PlantSpecies'
-
 def get_notes() -> list[str]:
     new_note:str = input('').strip()
     if new_note == '':
@@ -15,9 +8,9 @@ def get_notes() -> list[str]:
         return rest_notes
 
 
-if __name__ == '__main__':
+def create_species():
     print('--Create new Plant Species--')
-    plant_name          : str           = input('Enter species (common) name:').strip()
+    species_name        : str           = input('Enter species (common) name:').strip()
     scientific_name     : str           = input('Enter scientific name:').strip()
     sunlight_str        : str           = input('Enter sunlight requirements (direct/indirect/shade):').strip()
     min_temp            : float         = float(input('Enter minimal (survivable) temperature (in C): '))
@@ -38,8 +31,8 @@ if __name__ == '__main__':
     print('Enter any additional notes (leave line blank to finish')
     notes               : list[str]     = get_notes()
 
-    json_dict:SpeciesInformation = {
-            "name"                      : plant_name,
+    return {
+            "name"                      : species_name,
             "scientific_name"           : scientific_name,
             "sunlight_requirements"     : sunlight_str,
             "temperature_min"           : min_temp,
@@ -55,11 +48,4 @@ if __name__ == '__main__':
             "companions"                : companions,
             "additional_notes"          : notes 
             }
-    
-    new_species_file_name = plant_name.replace(' ','')+'.json'
-    new_species_path = os.path.join(species_dir,new_species_file_name)
-    new_species_file = open(new_species_path,'w+')
 
-    new_species_file.write(json.dumps(json_dict))
-    new_species_file.close()
-    print('Saved %s'%new_species_file_name)

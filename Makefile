@@ -2,7 +2,7 @@
 
 MAINPY = "main.py"
 OUTDIR = "html_out"
-ADDSPECIES = "add_species.py"
+ADDSPECIES = "json_updater.py"
 
 new-species: 
 	python $(ADDSPECIES)
