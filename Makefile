@@ -2,10 +2,13 @@
 
 MAINPY = "main.py"
 OUTDIR = "html_out"
-ADDSPECIES = "json_updater.py"
+JSONUPDATER = "json_updater.py"
 
 new-species: 
-	python $(ADDSPECIES)
+	python $(JSONUPDATER) add-species
+new-plant:
+	python $(JSONUPDATER) add-plant
+
 
 clean: 
 	rm -rf $(OUTDIR)
