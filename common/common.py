@@ -4,6 +4,24 @@ import datetime
 date_time_format = '%d.%m.%Y %H:%M:%S'
 date_format = '%d.%m.%Y'
 
+
+template_dir                   : str = 'html_templates'
+species_overview_template_name : str = 'species_overview.html'
+species_details_template_name  : str = 'species_details.html'
+plant_overview_template_name   : str = 'plant_overview.html'
+plant_details_template_name    : str = 'plant_details.html'
+index_template_name            : str = 'index.html'
+
+out_dir               : str = 'html_out'
+species_details_out   : str = 'plant_species'
+plant_details_out     : str = 'plants'
+species_overview_out  : str = 'species_overview.html'
+plant_overview_out    : str = 'plant_overview.html'
+index_out             : str = 'index.html'
+
+species_dir           : str = 'PlantSpecies'
+plants_dir            : str = 'Plants'
+
 class SpeciesInformation(TypedDict):
   name : str
   scientific_name : str

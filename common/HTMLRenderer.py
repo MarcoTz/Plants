@@ -1,21 +1,9 @@
 from common.PlantSpecies import PlantSpecies
 from common.Plant import Plant
+from common.common import *
 import jinja2
 import os
 
-template_dir                   : str = 'html_templates'
-species_overview_template_name : str = 'species_overview.html'
-species_details_template_name  : str = 'species_details.html'
-plant_overview_template_name   : str = 'plant_overview.html'
-plant_details_template_name    : str = 'plant_details.html'
-index_template_name            : str = 'index.html'
-
-out_dir               : str = 'html_out'
-species_details_out   : str = 'plant_species'
-plant_details_out     : str = 'plants'
-species_overview_out  : str = 'species_overview.html'
-plant_overview_out    : str = 'plant_overview.html'
-index_out             : str = 'index.html'
 
 def create_if_not_exists(dir_name:str)->None:
     if not os.path.exists(dir_name):
@@ -25,9 +13,13 @@ def write_html(out_file_name:str,html_contents:str) -> None:
     out_file = open(out_file_path,'w+')
     out_file.write(html_contents)
     out_file.close()
-
 def get_html_name(plant_name:str) -> str:
-    return plant_name.replace(' ','_')+'.html'
+    return plant_name.replace(' ','')+'.html'
+
+def species_exists(species_name:str) -> bool:
+    species_file_name = species_name.replace(' ','')+'.json'
+    species_path = os.path.join(species_dir,species_file_name)
+    return os.path.exists(species_path)
 
 class HTMLRenderer: 
 
@@ -94,7 +86,10 @@ class HTMLRenderer:
 
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
-        info_dict['plant_species_link'] = get_html_name(info_dict['plant_species_name'])
+        plant_species : str = info_dict['plant_species_name']
+        if species_exists(info_dict['plant_species_name']):
+            a_template = '<a href="../%s/%s">%s</a>'
+            info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
         plant_full_name = os.path.join(plant_details_out,plant_file_name)
