@@ -34,6 +34,10 @@ class HTMLRenderer:
     species_list : list[PlantSpecies]
     activity_log : list[LogItem]
     growth_log   : list[GrowthItem]
+    
+    #for debugging
+    assigned_activity : list[LogItem]
+    assigned_growth   : list[GrowthItem]
 
     def __init__(self,
                  plants     : list[Plant],
@@ -51,6 +55,9 @@ class HTMLRenderer:
         self.activity_log = activities
         growth.sort(key=lambda x:x['log_date'])
         self.growth_log = growth
+
+        self.assigned_activity = []
+        self.assigned_growth = []
     
     def load_templates(self) -> None:
         self.species_overview_template = self.env.get_template(species_overview_template_name)
@@ -61,10 +68,18 @@ class HTMLRenderer:
         self.activities_template       = self.env.get_template(activity_log_template_name)
 
     def get_plant_logs(self,plant_name:str) -> list[LogItem]:
-        return list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
+        plant_logs : list[LogItem] =  list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
+        for log in plant_logs:
+            if log not in self.assigned_activity:
+                self.assigned_activity.append(log)
+        return plant_logs
 
     def get_plant_growth(self,plant_name:str) -> list[GrowthItem]:
-        return list(filter(lambda x:x['log_plant'] == plant_name,self.growth_log))
+        plant_logs : list[GrowthItem] = list(filter(lambda x:x['log_plant'] == plant_name,self.growth_log))
+        for log in plant_logs:
+            if log not in self.assigned_growth:
+                self.assigned_growth.append(log)
+        return plant_logs
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<li><a href="%s/%s">%s</a></li>'
@@ -184,3 +199,10 @@ class HTMLRenderer:
         self.render_all_plants()
         self.render_activity_log()
         self.render_index()
+
+        for log_item in self.activity_log:
+            if log_item not in self.assigned_activity:
+                print('Cannot assign activity to plant %s'%log_item['log_plant'])
+        for log_item in self.growth_log:
+            if log_item not in self.assigned_growth:
+                print('Cannot assign growth to plant %s'%log_item['log_plant'])
