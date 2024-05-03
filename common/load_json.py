@@ -1,13 +1,10 @@
-from common.common import PlantInformation, SpeciesInformation, date_format
+from common.common import * 
 from common.Plant import Plant
 from common.PlantSpecies import PlantSpecies
 
 import os 
 import json
 import datetime 
-
-species_dir : str = 'PlantSpecies'
-plant_dir   : str = 'Plants'
 
 def load_plant_file(file_name:str) -> PlantInformation:
     plant_file = open(file_name,'r')
@@ -22,8 +19,8 @@ def load_species_file(file_name:str) -> SpeciesInformation:
 
 def load_all_plant_files() -> list[PlantInformation]:
     dir_list = []
-    for file_name in os.listdir(plant_dir):
-        full_name = os.path.join(plant_dir,file_name)
+    for file_name in os.listdir(plants_dir):
+        full_name = os.path.join(plants_dir,file_name)
         if os.path.isdir(full_name):
             continue
         json_dir = load_plant_file(full_name)

@@ -4,7 +4,6 @@ import datetime
 date_time_format = '%d.%m.%Y %H:%M:%S'
 date_format = '%d.%m.%Y'
 
-
 template_dir                   : str = 'html_templates'
 species_overview_template_name : str = 'species_overview.html'
 species_details_template_name  : str = 'species_details.html'
@@ -19,8 +18,10 @@ species_overview_out  : str = 'species_overview.html'
 plant_overview_out    : str = 'plant_overview.html'
 index_out             : str = 'index.html'
 
-species_dir           : str = 'PlantSpecies'
-plants_dir            : str = 'Plants'
+species_dir             : str = 'PlantSpecies'
+plants_dir              : str = 'Plants'
+log_dir                 : str = 'Logs'
+activity_log_file_name  : str = 'Activities.csv'
 
 class SpeciesInformation(TypedDict):
   name : str
@@ -49,3 +50,9 @@ class PlantInformation(TypedDict):
     origin           : str
     obtained         : datetime.datetime
     plant_notes      : list[str]
+
+class LogItem(TypedDict):
+    log_activity : str
+    log_date     : datetime.datetime
+    log_note     : str
+    log_plant    : str

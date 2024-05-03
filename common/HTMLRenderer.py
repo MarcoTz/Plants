@@ -29,12 +29,19 @@ class HTMLRenderer:
     plant_overview_template   : jinja2.Template
     plant_details_template    : jinja2.Template
 
-    def __init__(self) -> None:
+    plant_list   : list[Plant]
+    species_list : list[PlantSpecies]
+    activity_log : list[LogItem]
+
+    def __init__(self,plants:list[Plant],species:list[PlantSpecies],activities:list[LogItem]) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
         create_if_not_exists(out_dir)
         create_if_not_exists(os.path.join(out_dir,species_details_out))
         create_if_not_exists(os.path.join(out_dir,plant_details_out))
         self.load_templates()
+        self.plant_list   = plants
+        self.species_list = species
+        self.activity_log = activities
     
     def load_templates(self) -> None:
         self.species_overview_template = self.env.get_template(species_overview_template_name)
@@ -42,6 +49,9 @@ class HTMLRenderer:
         self.plant_overview_template   = self.env.get_template(plant_overview_template_name)
         self.plant_details_template    = self.env.get_template(plant_details_template_name)
         self.index_template            = self.env.get_template(index_template_name)
+
+    def get_plant_logs(self,plant_name:str) -> list[LogItem]:
+        return list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<li><a href="%s/%s">%s</a></li>'
@@ -59,18 +69,23 @@ class HTMLRenderer:
                 )
         return li_template % info_tuple 
 
-    def render_species_overview(self,plants:list[PlantSpecies]) -> None:
+    def create_activity_tr(self,log_item:LogItem) -> str: 
+        tr_template = '<tr><td>%s</td><td>%s</td><td>%s</td></tr>'
+        tr_tuple = (log_item['log_date'].strftime(date_format), log_item['log_activity'], log_item['log_note'])
+        return tr_template % tr_tuple
+
+    def render_species_overview(self) -> None:
         plant_lis :list[str] = []
-        for plant in plants:
+        for plant in self.species_list:
             plant_li : str = self.create_species_li(plant)
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
         plant_li : str = self.species_overview_template.render(species_list_items=lis_str)
         write_html(species_overview_out,plant_li)
 
-    def render_plant_overview(self,plants:list[Plant]) -> None:
+    def render_plant_overview(self) -> None:
         plant_lis : list[str] = []
-        for plant in plants: 
+        for plant in self.plant_list: 
             plant_li : str = self.create_plant_li(plant)
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
@@ -86,10 +101,19 @@ class HTMLRenderer:
 
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
+
         plant_species : str = info_dict['plant_species_name']
         if species_exists(info_dict['plant_species_name']):
             a_template = '<a href="../%s/%s">%s</a>'
             info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
+
+        plant_log : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
+        log_trs : list[str] = []
+        for log_item in plant_log:
+            log_tr = self.create_activity_tr(log_item)
+            log_trs.append(log_tr)
+        info_dict['plant_activities'] = '\n'.join(log_trs)
+
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
         plant_full_name = os.path.join(plant_details_out,plant_file_name)
@@ -99,17 +123,17 @@ class HTMLRenderer:
         index_html = self.index_template.render()
         write_html(index_out,index_html)
 
-    def render_all_species(self,plants:list[PlantSpecies]) -> None:
-        self.render_species_overview(plants)
-        for plant in plants:
+    def render_all_species(self) -> None:
+        self.render_species_overview()
+        for plant in self.species_list:
             self.render_species_details(plant)
 
-    def render_all_plants(self,plants:list[Plant]) -> None:
-        self.render_plant_overview(plants)
-        for plant in plants:
+    def render_all_plants(self) -> None:
+        self.render_plant_overview()
+        for plant in self.plant_list:
             self.render_plant_details(plant)
 
-    def render_all(self,species:list[PlantSpecies],plants:list[Plant]) -> None:
-        self.render_all_species(species)
-        self.render_all_plants(plants)
+    def render_all(self) -> None:
+        self.render_all_species()
+        self.render_all_plants()
         self.render_index()
