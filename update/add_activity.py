@@ -19,12 +19,14 @@ def create_activity():
     log_plants : list[str] = get_plants()
 
     log_note : str = input('Enter additional Note: ').strip()
+    log_note = ' ' if log_note is None else log_note
 
     return { 
             'log_date':log_date,
             'log_activity':log_activity,
-            'log_note':log_note,
-            'log_plants':','.join(log_plants)}
+            'log_plants':','.join(log_plants),
+            'log_note':log_note}
+
 
 def create_multiple_activities():
     activity = create_activity()

@@ -19,8 +19,8 @@ def load_activities() -> list[LogItem]:
             new_log_item : LogItem = {
                 'log_activity': log_row['Activity'],
                 'log_date': log_date,
-                'log_note':log_row['Note'],
-                'log_plant':log_plant
+                'log_plant':log_plant,
+                'log_note':log_row['Note']
                 }
             log_list.append(new_log_item)
     return log_list 

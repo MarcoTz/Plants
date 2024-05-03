@@ -28,6 +28,7 @@ class HTMLRenderer:
     species_details_template  : jinja2.Template
     plant_overview_template   : jinja2.Template
     plant_details_template    : jinja2.Template
+    activities_template       : jinja2.Template
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
@@ -41,6 +42,7 @@ class HTMLRenderer:
         self.load_templates()
         self.plant_list   = plants
         self.species_list = species
+        activities.sort(key=lambda x: x['log_date'])
         self.activity_log = activities
     
     def load_templates(self) -> None:
@@ -49,6 +51,7 @@ class HTMLRenderer:
         self.plant_overview_template   = self.env.get_template(plant_overview_template_name)
         self.plant_details_template    = self.env.get_template(plant_details_template_name)
         self.index_template            = self.env.get_template(index_template_name)
+        self.activities_template       = self.env.get_template(activity_log_template_name)
 
     def get_plant_logs(self,plant_name:str) -> list[LogItem]:
         return list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
@@ -69,10 +72,17 @@ class HTMLRenderer:
                 )
         return li_template % info_tuple 
 
-    def create_activity_tr(self,log_item:LogItem) -> str: 
-        tr_template = '<tr><td>%s</td><td>%s</td><td>%s</td></tr>'
-        tr_tuple = (log_item['log_date'].strftime(date_format), log_item['log_activity'], log_item['log_note'])
-        return tr_template % tr_tuple
+    def create_activity_tr(self,log_item:LogItem,include_plant:bool) -> str: 
+        td_template : str = '<td>%s</td>'
+        tr : str = '<tr>'
+        tr += td_template % log_item['log_date'].strftime(date_format)
+        tr += td_template % log_item['log_activity']
+        plant_link_template : str = '<td><a href="%s/%s">%s</a></td>'
+        plant_link_tuple : tuple[str,str,str] = (plant_details_out,get_html_name(log_item['log_plant']),log_item['log_plant'])
+        tr += plant_link_template % plant_link_tuple if include_plant else ''
+        tr += td_template % log_item['log_note']
+        tr += '</tr>'
+        return tr 
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
@@ -110,7 +120,7 @@ class HTMLRenderer:
         plant_log : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
         log_trs : list[str] = []
         for log_item in plant_log:
-            log_tr = self.create_activity_tr(log_item)
+            log_tr = self.create_activity_tr(log_item,False)
             log_trs.append(log_tr)
         info_dict['plant_activities'] = '\n'.join(log_trs)
 
@@ -118,6 +128,15 @@ class HTMLRenderer:
         plant_file_name = get_html_name(plant.info['plant_name'])
         plant_full_name = os.path.join(plant_details_out,plant_file_name)
         write_html(plant_full_name,plant_html)
+
+    def render_activity_log(self) -> None: 
+        tr_list : list[str] = []
+        for log_item in self.activity_log:
+            item_tr = self.create_activity_tr(log_item,True)
+            tr_list.append(item_tr)
+        tr_str : str = '\n'.join(tr_list)
+        log_html : str = self.activities_template.render(activity_log_rows=tr_str)
+        write_html(activity_log_out,log_html)
 
     def render_index(self) -> None:
         index_html = self.index_template.render()
@@ -136,4 +155,5 @@ class HTMLRenderer:
     def render_all(self) -> None:
         self.render_all_species()
         self.render_all_plants()
+        self.render_activity_log()
         self.render_index()
