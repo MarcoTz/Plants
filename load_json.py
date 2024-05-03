@@ -1,8 +1,10 @@
 from classes.PlantSpecies import PlantSpecies,SpeciesInformation
 from classes.Plant        import Plant,PlantInformation
+from common import date_format
 
 import os 
 import json
+import datetime 
 
 species_dir : str = 'PlantSpecies'
 plant_dir   : str = 'Plants'
@@ -10,7 +12,9 @@ plant_dir   : str = 'Plants'
 def load_plant_file(file_name:str) -> PlantInformation:
     plant_file = open(file_name,'r')
     file_contents = plant_file.read()
-    return json.loads(file_contents)
+    json_contents = json.loads(file_contents)
+    json_contents['obtained'] = datetime.datetime.strptime(json_contents['obtained'], date_format)
+    return json_contents
 def load_species_file(file_name:str) -> SpeciesInformation:
     plant_file = open(file_name,'r')
     file_contents = plant_file.read()

@@ -1,7 +1,7 @@
 import datetime 
 from typing import TypedDict
+from common import date_format
 
-date_format = '%d.%m.%Y %H:%M:%S'
 class LogItem(TypedDict):
     log_activity : str
     log_date : datetime.datetime
@@ -21,14 +21,14 @@ def show_GrowthItem(it:GrowthItem) -> str:
     return '%s: height: %scm, width: %scm' % (date_str,it['log_height_cm'],it['log_width_cm'])
 
 class PlantInformation(TypedDict):
-    plant_name      : str
-    species_name    : str
-    current_height  : float
-    current_width   : float
-    activity_log    : list[LogItem]
-    growth_log      : list[GrowthItem]
-    plant_notes     : list[str]
-
+    plant_name       : str
+    species_name     : str
+    current_height   : float
+    current_width    : float
+    current_location : str
+    origin           : str
+    obtained         : datetime.datetime
+    plant_notes      : list[str]
 
 class Plant: 
 
@@ -38,22 +38,19 @@ class Plant:
         self.info = json_dict
 
     def get_info_dict(self) -> dict[str,str]:
-        log_item_strs : list[str] = list(map(lambda x: show_LogItem(x),self.info['activity_log']))
-        growth_strs : list[str] = list(map(lambda x: show_GrowthItem(x),self.info['growth_log']))
         info_dict = {
                 'plant_name': self.info['plant_name'],
                 'plant_species_name':self.info['species_name'],
                 'plant_height':self.info['current_height'],
                 'plant_width':self.info['current_height'],
-                'plant_activities':'\n'.join(log_item_strs),
-                'plant_growth': '\n'.join(growth_strs),
+                'plant_location': self.info['current_location'],
+                'plant_origin': self.info['origin'],
+                'plant_obtained' : self.info['obtained'].strftime(date_format),
                 'plant_notes': '\n'.join(self.info['plant_notes'])
                 }
         return info_dict
 
     def show(self) -> str: 
-        log_item_strs : list[str] = list(map(lambda x: show_LogItem(x),self.info['activity_log']))
-        growth_strs : list[str] = list(map(lambda x: show_GrowthItem(x),self.info['growth_log']))
         out_str :str = '''
         Plant: %s, 
         Species: %s,
@@ -62,13 +59,11 @@ class Plant:
         Growth: %s 
         Notes : %s'''
 
-        info_tuple :tuple[str,str,str,str,str,str,str]= (
+        info_tuple :tuple[str,str,str,str,str]= (
                 self.info['plant_name'],
                 self.info['species_name'],
                 str(self.info['current_height']),
                 str(self.info['current_width']),
-                '\n'.join(log_item_strs),
-                '\n'.join(growth_strs),
                 '\n'.join(self.info['plant_notes'])
                 )
 

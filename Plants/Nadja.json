@@ -3,7 +3,8 @@
     "species_name":"Chili Pepper",
     "current_height": 12,
     "current_width" : 5,
-    "activity_log": [],
-    "growth_log":[],
+    "current_location":"Balcony",
+    "origin":"Hornbach",
+    "obtained": "08.04.2024",
     "plant_notes":[]
 }
