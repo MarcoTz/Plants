@@ -1,17 +1,5 @@
-import datetime 
-from typing import TypedDict
 from common.common import * 
 from common.common import date_format,PlantInformation
-
-class GrowthItem(TypedDict):
-    log_date : datetime.datetime
-    log_height_cm : float 
-    log_width_cm : float
-
-def show_GrowthItem(it:GrowthItem) -> str:
-    date_str : str = it['log_date'].strftime(date_format)
-    return '%s: height: %scm, width: %scm' % (date_str,it['log_height_cm'],it['log_width_cm'])
-
 
 class Plant: 
 

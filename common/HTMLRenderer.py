@@ -33,8 +33,13 @@ class HTMLRenderer:
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
     activity_log : list[LogItem]
+    growth_log   : list[GrowthItem]
 
-    def __init__(self,plants:list[Plant],species:list[PlantSpecies],activities:list[LogItem]) -> None:
+    def __init__(self,
+                 plants     : list[Plant],
+                 species    : list[PlantSpecies],
+                 activities : list[LogItem],
+                 growth     : list[GrowthItem]) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
         create_if_not_exists(out_dir)
         create_if_not_exists(os.path.join(out_dir,species_details_out))
@@ -44,6 +49,8 @@ class HTMLRenderer:
         self.species_list = species
         activities.sort(key=lambda x: x['log_date'])
         self.activity_log = activities
+        growth.sort(key=lambda x:x['log_date'])
+        self.growth_log = growth
     
     def load_templates(self) -> None:
         self.species_overview_template = self.env.get_template(species_overview_template_name)
@@ -55,6 +62,9 @@ class HTMLRenderer:
 
     def get_plant_logs(self,plant_name:str) -> list[LogItem]:
         return list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
+
+    def get_plant_growth(self,plant_name:str) -> list[GrowthItem]:
+        return list(filter(lambda x:x['log_plant'] == plant_name,self.growth_log))
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<li><a href="%s/%s">%s</a></li>'
@@ -83,6 +93,16 @@ class HTMLRenderer:
         tr += td_template % log_item['log_note']
         tr += '</tr>'
         return tr 
+
+    def create_growth_tr(self,log_item:GrowthItem) -> str:
+        td_template : str = '<td>%s</td>'
+        tr : str = '<tr>'
+        tr += td_template % log_item['log_date'].strftime(date_format)
+        tr += td_template % log_item['log_height_cm'] + 'cm'
+        tr += td_template % log_item['log_width_cm'] + 'cm'
+        tr += td_template % log_item['log_note']
+        tr += '</tr>'
+        return tr
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
@@ -117,12 +137,19 @@ class HTMLRenderer:
             a_template = '<a href="../%s/%s">%s</a>'
             info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
 
-        plant_log : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
+        plant_logs : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
         log_trs : list[str] = []
-        for log_item in plant_log:
+        for log_item in plant_logs:
             log_tr = self.create_activity_tr(log_item,False)
             log_trs.append(log_tr)
         info_dict['plant_activities'] = '\n'.join(log_trs)
+
+        plant_growth : list[GrowthItem] = self.get_plant_growth(info_dict['plant_name'])
+        growth_trs : list[str] = []
+        for log_item in plant_growth:
+            item_tr = self.create_growth_tr(log_item)
+            growth_trs.append(item_tr)
+        info_dict['plant_growth'] = '\n'.join(growth_trs)
 
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])

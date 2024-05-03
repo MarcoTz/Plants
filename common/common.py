@@ -24,6 +24,7 @@ species_dir             : str = 'PlantSpecies'
 plants_dir              : str = 'Plants'
 log_dir                 : str = 'Logs'
 activity_log_file_name  : str = 'Activities.csv'
+growth_log_file_name    : str = 'Growth.csv'
 
 class SpeciesInformation(TypedDict):
   name : str
@@ -58,3 +59,11 @@ class LogItem(TypedDict):
     log_date     : datetime.datetime
     log_note     : str
     log_plant    : str
+
+
+class GrowthItem(TypedDict):
+    log_date        : datetime.datetime
+    log_plant       : str
+    log_height_cm   : float 
+    log_width_cm    : float
+    log_note        : str

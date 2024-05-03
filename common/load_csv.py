@@ -24,3 +24,20 @@ def load_activities() -> list[LogItem]:
                 }
             log_list.append(new_log_item)
     return log_list 
+
+def load_growth() -> list[GrowthItem]:
+    growth_list : list[GrowthItem] = [] 
+
+    log_file_path : str = os.path.join(log_dir,growth_log_file_name)
+    log_file = open(log_file_path,'r')
+    reader : csv.DictReader = csv.DictReader(log_file,delimiter=';')
+    for log_row in reader:
+        new_growth_item : GrowthItem = {
+                'log_date' : datetime.datetime.strptime(log_row['Date'] ,date_format),
+                'log_plant':log_row['Plant'],
+                'log_height_cm' : float(log_row['Height']),
+                'log_width_cm' : float(log_row['Width']),
+                'log_note': log_row['Note']
+                }
+        growth_list.append(new_growth_item)
+    return growth_list 
