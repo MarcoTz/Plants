@@ -21,8 +21,8 @@ def create_activity():
     log_note : str = input('Enter additional Note: ').strip()
 
     return { 
-            'log_activity':log_activity,
             'log_date':log_date,
+            'log_activity':log_activity,
             'log_note':log_note,
             'log_plants':','.join(log_plants)}
 

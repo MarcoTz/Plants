@@ -24,7 +24,7 @@ def write_csv(csv_items:list[dict[str,str]],out_dir:str,out_file_name:str) -> No
     out_file = open(out_file_path,'a')
     csv_fields : list[str] = list(csv_items[0].keys())
     
-    writer : csv.DictWriter = csv.DictWriter(out_file,delimiter=':',fieldnames=csv_fields)
+    writer : csv.DictWriter = csv.DictWriter(out_file,delimiter=';',fieldnames=csv_fields)
     for csv_item in csv_items:
         writer.writerow(csv_item)
     print('Wrote log to %s' % out_file_name)
