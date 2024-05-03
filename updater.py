@@ -1,6 +1,7 @@
 from update.add_species  import create_species
 from update.add_plant    import create_plant
 from update.add_activity import create_multiple_activities
+from update.add_growth   import create_multiple_growth
 from common.common       import *
 
 import os 
@@ -46,4 +47,8 @@ if __name__ == '__main__':
         case 'add-activities':
             log_items = create_multiple_activities()
             write_csv(log_items,log_dir,activity_log_file_name)
+            exit(0)
+        case 'add-growth':
+            log_items = create_multiple_growth()
+            write_csv(log_items,log_dir,growth_log_file_name)
             exit(0)

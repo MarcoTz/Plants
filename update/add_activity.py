@@ -8,11 +8,20 @@ def get_plants()->list[str]:
     rest_plants.insert(0,new_plant)
     return rest_plants
 
+def get_log_date() -> str:
+    log_date    : str       = input('Enter log date (dd.mm.yyyy): ').strip()
+    try:
+        datetime.datetime.strptime(log_date,'%d.%m.%Y')
+        return log_date
+    except ValueError:
+        print('Could not parse date, please try again')
+        return get_log_date()
+
+
 def create_activity(): 
     print('-- Add Activity --')
 
-    log_date    : str       = input('Enter log date (dd.mm.yyyy): ').strip()
-    datetime.datetime.strptime(log_date,'%d.%m.%Y')
+    log_date    : str       =  get_log_date()
 
     log_activity : str = input('Enter Activity: ').strip()
     print('Enter affected plants (one per line, leave line blank to finish')

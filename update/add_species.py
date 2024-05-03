@@ -8,18 +8,28 @@ def get_notes() -> list[str]:
         return rest_notes
 
 
+def get_float(prompt:str) -> float:
+    nr : str = input(prompt)
+    try: 
+        nr_float = float(nr)
+        return nr_float
+    except ValueError:
+        print('Could not parse number, please try again')
+        return get_float(prompt)
+
+
 def create_species():
     print('--Create new Plant Species--')
     species_name        : str           = input('Enter species (common) name:').strip()
     scientific_name     : str           = input('Enter scientific name:').strip()
     sunlight_str        : str           = input('Enter sunlight requirements (direct/indirect/shade):').strip()
-    min_temp            : float         = float(input('Enter minimal (survivable) temperature (in C): '))
-    max_temp            : float         = float(input('Enter maximal (survivable) temperature (in C): '))
-    opt_min_temp        : float         = float(input('Enter optimal temperature lower end (in C): '))
-    opt_max_temp        : float         = float(input('Enter optimal temperature upper end (in C): '))
-    plant_distance      : int           = int(input('Enter minimal distance between plants (in cm): '))
-    ph_min              : float         = float(input('enter minimal pH value: '))
-    ph_max              : float         = float(input('Enter maximal pH value: '))
+    min_temp            : float         = get_float('Enter minimal (survivable) temperature (in C): ')
+    max_temp            : float         = get_float('Enter maximal (survivable) temperature (in C): ')
+    opt_min_temp        : float         = get_float('Enter optimal temperature lower end (in C): ')
+    opt_max_temp        : float         = get_float('Enter optimal temperature upper end (in C): ')
+    plant_distance      : float         = get_float('Enter minimal distance between plants (in cm): ')
+    ph_min              : float         = get_float('enter minimal pH value: ')
+    ph_max              : float         = get_float('Enter maximal pH value: ')
     print('Enter watering notes (leave line blank to finish)')
     watering_notes      : list[str]     = get_notes()
     print('Enter fertilizing notes (leave line blank to finish)')

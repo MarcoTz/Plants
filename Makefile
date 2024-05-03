@@ -10,6 +10,8 @@ new-plant:
 	python $(JSONUPDATER) add-plant
 new-activities:
 	python $(JSONUPDATER) add-activities
+new-growth:
+	python $(JSONUPDATER) add-growth
 
 
 clean: 
