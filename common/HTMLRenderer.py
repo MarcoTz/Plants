@@ -94,6 +94,7 @@ class HTMLRenderer:
 
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
+        info_dict['plant_species_link'] = get_html_name(info_dict['plant_species_name'])
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
         plant_full_name = os.path.join(plant_details_out,plant_file_name)

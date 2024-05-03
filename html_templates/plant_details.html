@@ -6,7 +6,7 @@
   <body>
     <h1>{{- plant_name -}}</h1>
     <ul id="plant_details">
-      <li> Species {{- plant_species_name -}}</li>
+      <li> Species <a href="../plant_species/{{- plant_species_link -}}">{{- plant_species_name -}}</a></li>
       <li> Current Height: {{- plant_height -}}</li>
       <li> Current Width: {{- plant_width -}}</li>
       <li> Current Location: {{- plant_location -}}</li>
@@ -16,6 +16,6 @@
       <li> Growth Log: {{- plant_growth -}} </li>
       <li> Notes: {{- plant_notes -}} </li>
     </ul>
-    <a href="../plant_overview.html">Back</a>
+    <a href="../index.html">Back</a>
   </body>
 </html>
