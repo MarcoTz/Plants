@@ -44,8 +44,10 @@ class HTMLRenderer:
         self.load_templates()
         self.plant_list   = plants
         self.species_list = species
-
         self.assigned_growth = []
+
+        self.plant_list.sort(key = lambda x: x.info['plant_name'])
+        self.species_list.sort(key=lambda x: x.info['name'])
     
     def load_templates(self) -> None:
         self.species_overview_template = self.env.get_template(species_overview_template_name)
@@ -146,12 +148,16 @@ class HTMLRenderer:
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
 
+        header_str : str = self.render_header(True)
+        info_dict['header'] = header_str
+
         plant_species : str = info_dict['plant_species_name']
         if species_exists(info_dict['plant_species_name']):
             a_template = '<a href="../%s/%s">%s</a>'
             info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
+
 
         log_trs : list[str] = []
         for log_item in plant.info['plant_activities']:
@@ -165,8 +171,15 @@ class HTMLRenderer:
             growth_trs.append(item_tr)
         info_dict['plant_growth'] = '\n'.join(growth_trs)
 
-        header_str : str = self.render_header(True)
-        info_dict['header'] = header_str
+        images_list : list[str] = [] 
+        images_path : str = os.path.join(img_dir,img_plants_dir)
+        for image_name in plant.image_names:
+            image_path : str = os.path.join(images_path,image_name)
+            new_img = '<img src="../../%s"/>' % image_path
+            images_list.append(new_img)
+        if images_list == []:
+            print('Could not find images for plant %s' % plant.info['plant_name'])
+        info_dict['plant_images'] = '\n'.join(images_list)
 
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
