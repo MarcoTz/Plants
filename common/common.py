@@ -13,6 +13,7 @@ plant_details_template_name    : str = 'plant_details.html'
 index_template_name            : str = 'index.html'
 activity_log_template_name     : str = 'activity_logs.html'
 header_template_name           : str = 'header.html'
+graveyard_template_name        : str = 'graveyard.html'
 
 out_dir               : str = 'html_out'
 species_details_out   : str = 'plant_species'
@@ -21,6 +22,7 @@ species_overview_out  : str = 'species_overview.html'
 plant_overview_out    : str = 'plant_overview.html'
 index_out             : str = 'index.html'
 activity_log_out      : str = 'activity_logs.html'
+graveyard_out         : str = 'graveyard.html'
 
 img_dir         : str = 'img'
 img_species_dir : str = 'species'
@@ -32,6 +34,7 @@ plants_dir              : str = 'Plants'
 log_dir                 : str = 'Logs'
 activity_log_file_name  : str = 'Activities.csv'
 growth_log_file_name    : str = 'Growth.csv'
+graveyard_file_name     : str = 'Graveyard.csv'
 
 class SpeciesInformation(TypedDict):
   name : str
@@ -70,3 +73,10 @@ class PlantInformation(TypedDict):
     plant_notes      : list[str]
     plant_activities : list[LogItem]
     plant_growth     : list[GrowthItem]
+
+class GraveyardPlant(TypedDict):
+    graveyard_plant     : str
+    graveyard_species   : str
+    graveyard_planted   : datetime.datetime
+    graveyard_died      : datetime.datetime
+    graveyard_reason    : str

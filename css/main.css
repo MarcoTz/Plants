@@ -69,7 +69,8 @@ td:nth-child(even){
 }
 #header > * {
   float:left;
-  width:33%;
+  width:25%;
+  text-align:center;
 }
 
 #header_row {

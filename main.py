@@ -1,5 +1,5 @@
 from common.load_json    import load_plants_species 
-from common.load_csv     import load_activities,load_growth
+from common.load_csv     import load_activities,load_growth,load_graveyard
 from common.HTMLRenderer import HTMLRenderer
 from common.Plant        import Plant
 from common.common import * 
@@ -78,5 +78,6 @@ growth = load_growth()
 assign_growth(plants,growth)
 load_images(plants)
 create_preview_images()
-renderer = HTMLRenderer(plants,species)
+graveyard = load_graveyard()
+renderer = HTMLRenderer(plants,species,graveyard)
 renderer.render_all()

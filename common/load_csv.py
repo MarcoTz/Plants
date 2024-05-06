@@ -35,13 +35,29 @@ def load_growth() -> dict[str,list[GrowthItem]]:
     reader : csv.DictReader = csv.DictReader(log_file,delimiter=';')
     for log_row in reader:
         new_growth_item : GrowthItem = {
-                'log_date' : datetime.datetime.strptime(log_row['Date'] ,date_format),
+                'log_date'      : datetime.datetime.strptime(log_row['Date'] ,date_format),
                 'log_height_cm' : float(log_row['Height']),
-                'log_width_cm' : float(log_row['Width']),
-                'log_note': log_row['Note']
+                'log_width_cm'  : float(log_row['Width']),
+                'log_note'      : log_row['Note']
                 }
         if log_row['Plant'] not in growth_dict:
             growth_dict[log_row['Plant']] = [new_growth_item]
         else:
             growth_dict[log_row['Plant']].append(new_growth_item)
     return growth_dict
+
+def load_graveyard() -> list[GraveyardPlant]:
+    graveyard_list : list[GraveyardPlant] = []
+    graveyard_file_path : str = os.path.join(log_dir,graveyard_file_name)
+    graveyard_file = open(graveyard_file_path,'r')
+    reader : csv.DictReader = csv.DictReader(graveyard_file,delimiter=';')
+    for graveyard_row in reader:
+        new_graveyard_item : GraveyardPlant = {
+                'graveyard_plant'  : graveyard_row['Name'] ,
+                'graveyard_species': graveyard_row['Species'],
+                'graveyard_planted': datetime.datetime.strptime(graveyard_row['Planted'],date_format),
+                'graveyard_died'   : datetime.datetime.strptime(graveyard_row['Died'],date_format),
+                'graveyard_reason' : graveyard_row['Reason']
+                }
+        graveyard_list.append(new_graveyard_item)
+    return graveyard_list

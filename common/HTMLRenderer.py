@@ -30,13 +30,16 @@ class HTMLRenderer:
     plant_details_template    : jinja2.Template
     activities_template       : jinja2.Template
     header_template           : jinja2.Template
+    graveyard_template        : jinja2.Template
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
+    graveyard    : list[GraveyardPlant]
     
     def __init__(self,
                  plants     : list[Plant],
-                 species    : list[PlantSpecies]) -> None:
+                 species    : list[PlantSpecies],
+                 graveyard  : list[GraveyardPlant]) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
         create_if_not_exists(out_dir)
         create_if_not_exists(os.path.join(out_dir,species_details_out))
@@ -45,6 +48,7 @@ class HTMLRenderer:
         self.plant_list   = plants
         self.species_list = species
         self.assigned_growth = []
+        self.graveyard = graveyard
 
         self.plant_list.sort(key = lambda x: x.info['plant_name'])
         self.species_list.sort(key=lambda x: x.info['name'])
@@ -57,6 +61,7 @@ class HTMLRenderer:
         self.index_template            = self.env.get_template(index_template_name)
         self.activities_template       = self.env.get_template(activity_log_template_name)
         self.header_template           = self.env.get_template(header_template_name)
+        self.graveyard_template        = self.env.get_template(graveyard_template_name)
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
@@ -118,7 +123,8 @@ class HTMLRenderer:
         header_dict : dict[str,str] = { 
             'plant_overview_link' : link_prefix + plant_overview_out,
             'species_overview_link' : link_prefix + species_overview_out,
-            'activities_link': link_prefix + activity_log_out} 
+            'activities_link': link_prefix + activity_log_out,
+            'graveyard_link':link_prefix+graveyard_out} 
         return self.header_template.render(header_dict)
 
     def render_species_overview(self) -> None:
@@ -222,6 +228,23 @@ class HTMLRenderer:
         log_html : str = self.activities_template.render(activity_log_rows=tr_str,header=header_str)
         write_html(activity_log_out,log_html)
 
+    def render_graveyard(self) -> None:
+        header_str : str = self.render_header(False)
+        rows_trs : list[str] = []
+        for graveyard_plant in self.graveyard:
+            new_tr : str = '<tr>'
+            new_tr += '<td>%s</td>' % graveyard_plant['graveyard_plant']
+            species : str = graveyard_plant['graveyard_species']
+            species_link : str = '<a href="%s/%s">%s</a>' % (species_details_out,get_html_name(species),species)
+            new_tr += '<td>%s</td>' % species_link 
+            new_tr += '<td>%s</td>' % graveyard_plant['graveyard_planted'].strftime(date_format)
+            new_tr += '<td>%s</td>' % graveyard_plant['graveyard_died'].strftime(date_format)
+            new_tr += '<td>%s</td>' % graveyard_plant['graveyard_reason']
+            new_tr += '</tr>'
+            rows_trs.append(new_tr)
+        graveyard_html : str = self.graveyard_template.render(header=header_str,graveyard_rows='\n'.join(rows_trs))
+        write_html(graveyard_out,graveyard_html)
+
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
         index_html = self.index_template.render(header=header_str)
@@ -241,4 +264,5 @@ class HTMLRenderer:
         self.render_all_species()
         self.render_all_plants()
         self.render_activity_log()
+        self.render_graveyard()
         self.render_index()
