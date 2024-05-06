@@ -2,6 +2,8 @@ from update.add_species  import create_species
 from update.add_plant    import create_plant
 from update.add_activity import create_multiple_activities
 from update.add_growth   import create_multiple_growth
+from update.move_to_graveyard   import move_to_graveyard,remove_plant_images
+from common.load_json           import load_plant_file
 from common.common       import *
 
 import os 
@@ -62,4 +64,24 @@ if __name__ == '__main__':
         case 'add-growth':
             log_items = create_multiple_growth()
             write_csv(log_items,log_dir,growth_log_file_name)
+            exit(0)
+        case 'move-to-graveyard': 
+            graveyard_info : dict[str,str] = move_to_graveyard()
+            plant_name : str = graveyard_info['graveyard_plant']
+            plant_file_path : str = os.path.join(plant_dir,plant_name+'.json')
+            current_plant_info : PlantInformation = load_plant_file(plant_file_path)
+
+            full_graveyard_info : dict[str,str] = {
+                    'graveyard_name':plant_name,
+                    'graveyard_species':current_plant_info['species_name'],
+                    'graveyard_planted':current_plant_info['obtained'].strftime(date_format),
+                    'graveyard_died':graveyard_info['graveyard_died_date'],
+                    'graveyard_reason':graveyard_info['graveyard_reason'] 
+                    }
+            write_csv([full_graveyard_info],log_dir,graveyard_file_name)
+            os.remove(plant_file_path)
+
+            plant_img_dir : str = os.path.join(img_dir,img_plants_dir)
+            plant_img_small_dir : str = os.path.join(plant_img_dir,img_small_dir)
+            remove_plant_images(plant_name,plant_img_dir,plant_img_small_dir)
             exit(0)

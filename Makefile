@@ -12,6 +12,8 @@ new-activities:
 	python $(JSONUPDATER) add-activities
 new-growth:
 	python $(JSONUPDATER) add-growth
+move-to-graveyard:
+	python $(JSONUPDATER) move-to-graveyard
 
 
 clean: 
