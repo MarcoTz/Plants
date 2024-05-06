@@ -29,16 +29,16 @@ class Plant:
 
     def add_activities(self,new_logs:list[LogItem]) -> None:
         self.info['plant_activities'].extend(new_logs)
-        self.info['plant_activities'].sort(key=lambda x: x['log_date'])
+        self.info['plant_activities'].sort(key=lambda x: x['log_date'],reverse=True)
 
     def add_growth(self,new_growth:list[GrowthItem])->None:
         self.info['plant_growth'].extend(new_growth)
-        self.info['plant_growth'].sort(key=lambda x:x['log_date'])
+        self.info['plant_growth'].sort(key=lambda x:x['log_date'],reverse=True)
         self.update_size()
 
     def add_images(self,images:list[tuple[datetime.datetime,str]]) -> None:
         self.images.extend(images)
-        self.images.sort(key=lambda x:x[0])
+        self.images.sort(key=lambda x:x[0],reverse=True)
 
     def update_size(self) -> None:
         self.current_height = self.info['plant_growth'][-1]['log_height_cm']
