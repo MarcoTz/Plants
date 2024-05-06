@@ -8,6 +8,7 @@ import os
 import json
 import sys
 import csv
+import datetime
  
 species_dir = 'PlantSpecies'
 plant_dir = 'Plants'
@@ -40,9 +41,19 @@ if __name__ == '__main__':
             write_json(species_information,species_dir,species_file_name)
             exit(0)
         case 'add-plant':
-            plant_information = create_plant()
-            plant_file_name = plant_information['plant_name'].replace(' ','')+'.json'
+            plant_information : dict[str,str] = create_plant()
+            plant_name : str = plant_information['plant_name']
+            plant_file_name : str = plant_name.replace(' ','')+'.json'
+            current_date : str = datetime.datetime.now().strftime(date_format)
+            first_growth : dict[str,str] = {
+                    'log_date':current_date,
+                    'log_plant':plant_name,
+                    'log_height_cm':plant_information['current_height'],
+                    'log_width_cm':plant_information['current_width'],
+                    'log_note':'Added during plant creation'}
+
             write_json(plant_information,plant_dir,plant_file_name)
+            write_csv([first_growth],log_dir,growth_log_file_name)
             exit(0)
         case 'add-activities':
             log_items = create_multiple_activities()
