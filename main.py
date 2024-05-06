@@ -35,13 +35,20 @@ def assign_growth(plants:list[Plant], growth: dict[str,list[GrowthItem]]) -> Non
 
 def load_images(plants:list[Plant]) -> None:
     images_dir = os.path.join(img_dir,img_plants_dir)
-    images_names = os.listdir(images_dir)
+    images_names : list[str] = os.listdir(images_dir)
+    images_names = list(filter(lambda x:not os.path.isdir(os.path.join(images_dir,x)),images_names))
     found_names = []
     for plant in plants:
         plant_name : str = plant.info['plant_name'].replace(' ','')
         plant_image_names : list[str] = list(filter(lambda x: plant_name in x,images_names))
         date_fun = lambda x: datetime.datetime.strptime(x[x.rfind('_')+1:].replace('.jpg',''),date_format_images)
-        plant_images : list[tuple[datetime.datetime,str]] = [(date_fun(image_name),image_name) for image_name in plant_image_names]
+        plant_images : list[tuple[datetime.datetime,str]] = []
+        try:
+            plant_images  = [(date_fun(image_name),image_name) for image_name in plant_image_names]
+        except ValueError:
+            print('Could not load images')
+            print(plant_image_names)
+            exit(1)
         plant.add_images(plant_images)
         found_names.extend(plant_image_names)
     unmatched = [image_name for image_name in images_names if image_name not in found_names]
