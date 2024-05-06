@@ -34,7 +34,7 @@ def assign_growth(plants:list[Plant], growth: dict[str,list[GrowthItem]]) -> Non
         print(unmatched)
 
 def load_images(plants:list[Plant]) -> None:
-    images_dir = os.path.join(img_dir,img_plants_dir)
+    images_dir = os.path.join(out_dir,img_dir,img_plants_dir)
     images_names : list[str] = os.listdir(images_dir)
     images_names = list(filter(lambda x:not os.path.isdir(os.path.join(images_dir,x)),images_names))
     found_names = []
@@ -57,7 +57,7 @@ def load_images(plants:list[Plant]) -> None:
         print(unmatched) 
 
 def create_preview_images() -> None:
-    plant_images_dir : str = os.path.join(img_dir,img_plants_dir)
+    plant_images_dir : str = os.path.join(out_dir,img_dir,img_plants_dir)
     preview_size = 128,128
     plant_images : list[str] = os.listdir(plant_images_dir)
     plant_images = list(map(lambda x: os.path.join(plant_images_dir,x),plant_images))

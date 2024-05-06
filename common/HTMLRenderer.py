@@ -82,7 +82,7 @@ class HTMLRenderer:
                     continue
                 image_name : str = species_plant.images[0][1]
                 image_path = os.path.join(img_dir,img_plants_dir,img_small_dir,image_name)
-                img_str = '<br/><img id="plant_overview" src="../%s"/>' %image_path
+                img_str = '<br/><img id="plant_overview" src="%s"/>' %image_path
 
         return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
@@ -93,7 +93,7 @@ class HTMLRenderer:
         if len(plant.images) > 0:
             image_url = os.path.join(img_dir,img_plants_dir)
             image_url = os.path.join(image_url,img_small_dir,plant.images[0][1])
-            img_str = '<br/><img id="plant_preview" src="../%s"/>' %image_url
+            img_str = '<br/><img id="plant_preview" src="%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
         info_tuple : tuple[str,str,str,str,str] = (
                 plant_details_out,
@@ -168,7 +168,7 @@ class HTMLRenderer:
         species_plants_str : str = ''
         plants_images_list : list[str] = []
         images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure id="plant_image"><img src="../../%s"/><figcaption>%s,%s</figcaption></figure>'
+        image_template  : str = '<figure id="plant_image"><img src="../%s"/><figcaption>%s,%s</figcaption></figure>'
         for species_plant in species_plants:
             plant_name = species_plant.info['plant_name']
             species_plants_str += '<a href="../%s/%s">%s</a><br/>' % (plant_details_out,get_html_name(plant_name),plant_name)
@@ -214,7 +214,7 @@ class HTMLRenderer:
 
         images_list : list[str] = [] 
         images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure id="plant_image"><img src="../../%s"/><figcaption>%s</figcaption></figure>'
+        image_template  : str = '<figure id="plant_image"><img src="../%s"/><figcaption>%s</figcaption></figure>'
         for (image_date,image_name) in plant.images:
             image_path : str = os.path.join(images_path,image_name)
             image_date_str : str = image_date.strftime(date_format)

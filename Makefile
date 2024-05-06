@@ -17,7 +17,7 @@ move-to-graveyard:
 
 
 clean: 
-	rm -rf $(OUTDIR)
+	rm -rf $(OUTDIR)/**/*.html
 
 build: 
 	python $(MAINPY)
