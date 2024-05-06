@@ -27,7 +27,8 @@ jobs:
       - name: Move Files
         run: |
           mkdir ../public
-          mv ./html_out ../public
+          mkdir ../public/docs
+          mv ./html_out ../public/docs
           mv ./img ../public
           mv ./css ../public
       - name: Deploy
