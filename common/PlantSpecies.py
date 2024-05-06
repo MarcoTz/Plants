@@ -19,11 +19,11 @@ class PlantSpecies:
          'species_dist':self.info['plant_distance_cm'],
          'species_ph_min':self.info['ph_min'],
          'species_ph_max':self.info['ph_max'],
-         'species_watering_notes':', '.join(self.info['watering_notes']),
-         'species_fertilizing_notes':', '.join(self.info['fertilizing_notes']),
-         'species_pruning_notes':', '.join(self.info['pruning_notes']),
-         'species_companions':', '.join(self.info['companions']),
-         'species_additional_notes':', '.join(self.info['additional_notes']) 
+         'species_watering_notes':'<br/>'.join(self.info['watering_notes']),
+         'species_fertilizing_notes':'<br/>'.join(self.info['fertilizing_notes']),
+         'species_pruning_notes':'<br/>'.join(self.info['pruning_notes']),
+         'species_companions':'<br/>'.join(self.info['companions']),
+         'species_additional_notes':'<br/>'.join(self.info['additional_notes']) 
         }
        return info_dict
                                 

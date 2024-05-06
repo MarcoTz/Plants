@@ -58,15 +58,10 @@ def load_images(plants:list[Plant]) -> None:
 
 def create_preview_images() -> None:
     plant_images_dir : str = os.path.join(img_dir,img_plants_dir)
-    species_images_dir : str = os.path.join(img_dir, img_species_dir)
     preview_size = 128,128
     plant_images : list[str] = os.listdir(plant_images_dir)
     plant_images = list(map(lambda x: os.path.join(plant_images_dir,x),plant_images))
-    species_images : list[str] = os.listdir(species_images_dir)
-    species_images = list(map(lambda x: os.path.join(species_images_dir,x),species_images))
-    all_images : list[str] = plant_images
-    all_images.extend(species_images)
-    for image_path in all_images:
+    for image_path in plant_images:
         if os.path.isdir(image_path):
             continue
         image_name = os.path.basename(image_path)

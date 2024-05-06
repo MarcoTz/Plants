@@ -63,16 +63,26 @@ class HTMLRenderer:
         self.header_template           = self.env.get_template(header_template_name)
         self.graveyard_template        = self.env.get_template(graveyard_template_name)
 
+    def get_plants_species(self,species:str) -> list[Plant]: 
+        species_li : list[Plant] = []
+        for plant in self.plant_list:
+            if plant.info['species_name'] == species:
+                species_li.append(plant)
+        return species_li
+
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
         details_file_name : str = get_html_name(plant.info['name'])
 
-        species_image_path = os.path.join(img_dir,img_species_dir)
-        species_image_path = os.path.join(species_image_path,img_small_dir,details_file_name.replace('html','jpg'))
+        species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
         img_str : str = ''
-
-        if os.path.exists(species_image_path):
-            img_str = '<br/><img id="plant_preview" src="../%s"/>' % species_image_path
+        if len(species_plants)>0:
+            for species_plant in species_plants:
+                if len(species_plant.images) == 0:
+                    continue
+                image_name : str = species_plant.images[0][1]
+                image_path = os.path.join(img_dir,img_plants_dir,img_small_dir,image_name)
+                img_str = '<br/><img id="plant_overview" src="../%s"/>' %image_path
 
         return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
@@ -153,15 +163,23 @@ class HTMLRenderer:
         info_dict['header'] = header_str
 
         species_file_name : str = get_html_name(plant.info['name']) 
-        species_image_path = os.path.join(img_dir,img_species_dir)
-        species_image_path = os.path.join(species_image_path,species_file_name.replace('html','jpg'))
-        image_template = '<div id="species_image"><img src="../../%s" /></div>'
-        if os.path.exists(species_image_path):
-            info_dict['species_image']=image_template % species_image_path
-        else: 
-            info_dict['species_image'] = ''
-            print('Could not find image for plant species %s' % plant.info['name'])
 
+        species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
+        species_plants_str : str = ''
+        plants_images_list : list[str] = []
+        images_path : str = os.path.join(img_dir,img_plants_dir)
+        image_template  : str = '<figure id="plant_image"><img src="../../%s"/><figcaption>%s,%s</figcaption></figure>'
+        for species_plant in species_plants:
+            plant_name = species_plant.info['plant_name']
+            species_plants_str += '<a href="../%s/%s">%s</a><br/>' % (plant_details_out,get_html_name(plant_name),plant_name)
+            for (image_date,image_name) in species_plant.images:
+                image_path : str = os.path.join(images_path,image_name)
+                image_date_str : str = image_date.strftime(date_format)
+                new_img = image_template % (image_path,plant_name,image_date_str)
+                plants_images_list.append(new_img)
+        
+        info_dict['plant_images'] = '\n'.join(plants_images_list)
+        info_dict['species_plants'] = species_plants_str 
 
         species_html:str = self.species_details_template.render(info_dict)
 

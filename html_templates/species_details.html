@@ -2,24 +2,31 @@
 <html>
   <head>
     <title>{{- species_name -}}</title>
-    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/main.css"/>
+    <link rel="stylesheet" href="../../css/details.css">
   </head>
   <body>
     {{-header-}}
     <h1>{{- species_name -}}</h1>
-    <ul id="species_details">
-      <li> Scientific Name: {{- species_scientific_name -}}</li>
-      <li> Sunlight Requirements: {{- species_sunlicght -}}</li>
-      <li> Temperature Range: {{-species_temp_min -}} - {{-species_temp_max-}}</li>
-      <li> Optimal Temperature Range: {{-species_opt_temp_min-}}-{{-species_opt_temp_max}}</li>
-      <li> Minimum Distance to next plant: {{-species_dist-}}cm </li>
-      <li> pH Range: {{-species_ph_min-}}-{{-species_ph_max-}}</li>
-      <li> Watering: {{-species_watering_notes-}}</li>
-      <li> Fertilizing: {{-species_fertilizing_notes-}}</li>
-      <li> Pruning: {{-species_pruning_notes-}}</li>
-      <li> Companions: {{-species_companions-}}</li>
-      <li> Notes: {{-species_additional_notes-}}</li>
-    </ul>
-    {{- species_image -}}
+    <div id="plant_details_container">
+      <table id="plant_details">
+        <tr><td>Scientific Name                 </td><td> {{- species_scientific_name -}}                       </td></tr>
+        <tr><td>Sunlight Requirements           </td><td> {{- species_sunlight -}}                              </td></tr>
+        <tr><td>Temperature Range               </td><td> {{-species_temp_min -}} - {{-species_temp_max-}}      </td></tr>
+        <tr><td>Optimal Temperature Range       </td><td> {{-species_opt_temp_min-}}-{{-species_opt_temp_max}}  </td></tr>
+        <tr><td>Minimum Distance to next plant  </td><td> {{-species_dist-}}cm                                  </td></tr>
+        <tr><td>pH Range                        </td><td> {{-species_ph_min-}}-{{-species_ph_max-}}             </td></tr>
+        <tr><td>Watering                        </td><td> {{-species_watering_notes-}}                          </td></tr>
+        <tr><td>Fertilizing                     </td><td> {{-species_fertilizing_notes-}}                       </td></tr>
+        <tr><td>Pruning                         </td><td> {{-species_pruning_notes-}}                           </td></tr>
+        <tr><td>Companions                      </td><td> {{-species_companions-}}                              </td></tr>
+        <tr><td>Notes                           </td><td> {{-species_additional_notes-}}                        </td></tr>
+        <tr><td>Plants of species               </td><td> {{-species_plants-}}                                  </td></tr>
+      </table>
+    </div>
+    <div id="plant_gallery">
+      <h2>Gallery</h2>
+      {{-plant_images-}}
+    </div>
   </body>
 </html>
