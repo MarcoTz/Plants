@@ -2,8 +2,9 @@ from update.add_species  import create_species
 from update.add_plant    import create_plant
 from update.add_activity import create_multiple_activities
 from update.add_growth   import create_multiple_growth
-from update.move_to_graveyard   import move_to_graveyard,remove_plant_images
+from update.move_to_graveyard   import move_to_graveyard,remove_plant_images,remove_plant_activities,remove_plant_growth
 from common.load_json           import load_plant_file
+from common.load_csv            import load_activities,load_growth
 from common.common       import *
 
 import os 
@@ -23,12 +24,16 @@ def write_json(json_dict:dict[str,str],out_dir:str,out_file_name:str) -> None:
     out_file.close()
     print('Saved %s'%out_file_name)
 
-def write_csv(csv_items:list[dict[str,str]],out_dir:str,out_file_name:str) -> None:
+def write_csv(csv_items:list[dict[str,str]],out_dir:str,out_file_name:str,overwrite:bool=False) -> None:
     out_file_path : str = os.path.join(out_dir,out_file_name)
-    out_file = open(out_file_path,'a')
+    write_mode : str = 'w' if overwrite else 'a' 
+    out_file = open(out_file_path,write_mode)
     csv_fields : list[str] = list(csv_items[0].keys())
     
     writer : csv.DictWriter = csv.DictWriter(out_file,delimiter=';',fieldnames=csv_fields)
+    if overwrite:
+        writer.writeheader()
+
     for csv_item in csv_items:
         writer.writerow(csv_item)
     print('Wrote log to %s' % out_file_name)
@@ -84,4 +89,12 @@ if __name__ == '__main__':
             plant_img_dir : str = os.path.join(img_dir,img_plants_dir)
             plant_img_small_dir : str = os.path.join(plant_img_dir,img_small_dir)
             remove_plant_images(plant_name,plant_img_dir,plant_img_small_dir)
+
+            plant_activities : dict[str,list[LogItem]] = load_activities()
+            plant_activities_csv : list[dict[str,str]] = remove_plant_activities(plant_activities,plant_name,date_format)
+            write_csv(plant_activities_csv,log_dir,activity_log_file_name,True)
+
+            plant_growth: dict[str,list[GrowthItem]] = load_growth()
+            plant_growth_csv : list[dict[str,str]] = remove_plant_growth(plant_growth,plant_name,date_format)
+            write_csv(plant_growth_csv,log_dir,growth_log_file_name,True)
             exit(0)

@@ -36,3 +36,38 @@ def remove_plant_images(plant_name:str,img_dir:str,img_small_dir:str) -> None:
         img_name_split : list[str] = img_path.split('_')
         if plant_name in img_name_split[0] and len(img_name_split) == 2:
             os.remove(img_path)
+
+
+def remove_plant_activities(plant_activities,plant_name:str,date_format:str) -> list[dict[str,str]]:
+    plant_activities_csv : list[dict[str,str]] = []
+
+    for plant in plant_activities.keys():
+        if plant==plant_name:
+            continue
+        for log_item in plant_activities[plant]:
+            new_activity = {
+                'Date':log_item['log_date'].strftime(date_format),
+                'Activity':log_item['log_activity'],
+                'Plants':plant,
+                'Note':log_item['log_note'],
+            }
+            plant_activities_csv.append(new_activity)
+    return plant_activities_csv
+
+def remove_plant_growth(plant_growth,plant_name:str,date_format:str) -> list[dict[str,str]]:
+    plant_growth_csv : list[dict[str,str]] = []
+
+    for plant in plant_growth.keys():
+        if plant == plant_name:
+            continue
+        for log_item in plant_growth[plant]:
+            new_growth = {
+                    'Date':log_item['log_date'].strftime(date_format),
+                    'Plant':plant,
+                    'Height':str(log_item['log_height_cm']),
+                    'Width':str(log_item['log_width_cm']),
+                    'Note':log_item['log_note'],
+                    }
+            plant_growth_csv.append(new_growth)
+
+    return plant_growth_csv
