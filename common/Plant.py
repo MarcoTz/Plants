@@ -13,7 +13,7 @@ class Plant:
                 'plant_name': self.info['plant_name'],
                 'plant_species_name':self.info['species_name'],
                 'plant_height':self.info['current_height'],
-                'plant_width':self.info['current_height'],
+                'plant_width':self.info['current_width'],
                 'plant_location': self.info['current_location'],
                 'plant_origin': self.info['origin'],
                 'plant_obtained' : self.info['obtained'].strftime(date_format),
