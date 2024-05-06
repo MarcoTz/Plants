@@ -1,0 +1,88 @@
+:root {
+  --bg-color: #222327;
+  --fg-color: #76cce0;
+  --link-color:#9ed072;
+  --link-color-visited:#729078;
+  --bg-color-odd:#2a2d37;
+  --bg-color-even:#425661;
+}
+
+body {
+ background:var(--bg-color);
+ color:var(--fg-color);
+ font-family: "Noto Sans";
+ font-size: 14pt;
+}
+
+h1 {
+  text-align:center;
+  width:100%;
+}
+h2 { 
+  text-align:center;
+  width:100%;
+} 
+
+a {
+  color:var(--link-color);
+}
+a:visited{
+  color:var(--link-color-visited);
+}
+
+ul {
+  list-style-type:none;
+}
+
+li {
+  margin-top:0.5em;
+} 
+li:nth-child(odd) {
+  background:var(--bg-color-odd);
+}
+li:nth-child(even){
+  background:var(--bg-color-even);
+}
+
+table {
+  border-collapse:collapse;
+  margin:auto;
+}
+tr:nth-child(odd){
+  background:var(--bg-color-odd);
+}
+tr:nth-child(even) {
+  background:var(--bg-color-even);
+}
+td {
+  padding-left:1em;
+  padding-right:1em;
+} 
+td:nth-child(odd){
+  text-align:right;
+}
+td:nth-child(even){
+  text-align:left;
+}
+
+#header {
+  width:90%;
+  padding-left:5%;
+  padding-right:5%;
+  padding-bottom:5%;
+}
+#header > * {
+  float:left;
+  width:25%;
+  text-align:center;
+}
+
+#header_row {
+  font-size: 16pt;
+}
+#hspace{
+  width:1em;
+}
+#vspace{
+  height:2em;
+}

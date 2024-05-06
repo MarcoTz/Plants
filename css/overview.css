@@ -1,0 +1,32 @@
+#plant_list {
+  display:flex;
+  align-items:stretch;
+  align-content:space-around;
+  justify-content:center;
+  gap:1em;
+  flex-wrap:wrap;
+  width:95%;
+}
+
+#plant_preview { 
+ height:50%;
+ margin-top:1em;
+ vertical-align:bottom;
+} 
+
+#plant_list_item{
+  display:block;
+  padding:1em;
+  height:9em;
+  width:10em;
+  border-radius:1em;
+  text-align:center;
+}
+
+
+#plant_list_item:nth-child(even){
+  background: var(--bg-color-even);
+}
+#plant_list_item:nth-child(odd){
+  background: var(--bg-color-odd);
+}
