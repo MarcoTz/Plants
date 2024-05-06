@@ -6,13 +6,13 @@ class Plant:
     info           : PlantInformation
     current_height : float
     current_width  : float
-    image_names    : list[str]
+    images         : list[tuple[datetime.datetime,str]]
     
     def __init__(self,json_dict:PlantInformation) -> None:
         self.info = json_dict
         self.current_height = float('nan')
         self.current_width = float('nan') 
-        self.image_names = []
+        self.images = []
 
     def get_info_dict(self) -> dict[str,str]:
         info_dict = {
@@ -36,9 +36,9 @@ class Plant:
         self.info['plant_growth'].sort(key=lambda x:x['log_date'])
         self.update_size()
 
-    def add_images(self,images:list[str]) -> None:
-        self.image_names.extend(images)
-        self.image_names.sort(key=lambda x:x.replace(self.info['plant_name']+'_',''))
+    def add_images(self,images:list[tuple[datetime.datetime,str]]) -> None:
+        self.images.extend(images)
+        self.images.sort(key=lambda x:x[0])
 
     def update_size(self) -> None:
         self.current_height = self.info['plant_growth'][-1]['log_height_cm']

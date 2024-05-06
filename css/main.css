@@ -75,6 +75,9 @@ td:nth-child(even){
 #header_row {
   font-size: 16pt;
 }
-#vspace{
+#hspace{
   width:1em;
+}
+#vspace{
+  height:2em;
 }

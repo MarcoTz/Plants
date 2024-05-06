@@ -3,6 +3,7 @@ import datetime
 
 date_time_format = '%d.%m.%Y %H:%M:%S'
 date_format = '%d.%m.%Y'
+date_format_images = '%d%m%Y'
 
 template_dir                   : str = 'html_templates'
 species_overview_template_name : str = 'species_overview.html'

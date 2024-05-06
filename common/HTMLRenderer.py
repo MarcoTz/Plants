@@ -130,11 +130,13 @@ class HTMLRenderer:
         info_dict:dict[str,str] = plant.get_info_dict()
         header_str : str = self.render_header(True)
         info_dict['header'] = header_str
+
         species_file_name : str = get_html_name(plant.info['name']) 
         species_image_path = os.path.join(img_dir,img_species_dir)
         species_image_path = os.path.join(species_image_path,species_file_name.replace('html','jpg'))
+        image_template = '<div id="species_image"><img src="../../%s" /></div>'
         if os.path.exists(species_image_path):
-            info_dict['species_image']='<img src="../../%s" />' % species_image_path
+            info_dict['species_image']=image_template % species_image_path
         else: 
             info_dict['species_image'] = ''
             print('Could not find image for plant species %s' % plant.info['name'])
@@ -173,9 +175,11 @@ class HTMLRenderer:
 
         images_list : list[str] = [] 
         images_path : str = os.path.join(img_dir,img_plants_dir)
-        for image_name in plant.image_names:
+        image_template  : str = '<figure id="plant_image"><img src="../../%s"/><figcaption>%s</figcaption></figure>'
+        for (image_date,image_name) in plant.images:
             image_path : str = os.path.join(images_path,image_name)
-            new_img = '<img src="../../%s"/>' % image_path
+            image_date_str : str = image_date.strftime(date_format)
+            new_img = image_template % (image_path,image_date_str)
             images_list.append(new_img)
         if images_list == []:
             print('Could not find images for plant %s' % plant.info['plant_name'])
