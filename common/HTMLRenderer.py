@@ -128,8 +128,18 @@ class HTMLRenderer:
         info_dict:dict[str,str] = plant.get_info_dict()
         header_str : str = self.render_header(True)
         info_dict['header'] = header_str
-        species_html:str = self.species_details_template.render(info_dict)
         species_file_name : str = get_html_name(plant.info['name']) 
+        species_image_path = os.path.join(img_dir,img_species_dir)
+        species_image_path = os.path.join(species_image_path,species_file_name.replace('html','jpg'))
+        if os.path.exists(species_image_path):
+            info_dict['species_image']='<img src="../../%s" />' % species_image_path
+        else: 
+            info_dict['species_image'] = ''
+            print('Could not find image for plant species %s' % plant.info['name'])
+
+
+        species_html:str = self.species_details_template.render(info_dict)
+
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 

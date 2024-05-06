@@ -1,4 +1,3 @@
-from typing import TypedDict
 from common.common import SpeciesInformation
 
 class PlantSpecies:

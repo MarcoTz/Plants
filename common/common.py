@@ -21,6 +21,9 @@ plant_overview_out    : str = 'plant_overview.html'
 index_out             : str = 'index.html'
 activity_log_out      : str = 'activity_logs.html'
 
+img_dir         : str = 'img'
+img_species_dir : str = 'species'
+
 species_dir             : str = 'PlantSpecies'
 plants_dir              : str = 'Plants'
 log_dir                 : str = 'Logs'
