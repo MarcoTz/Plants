@@ -1,33 +1,38 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> <html>
   <head>
     <title>{{- plant_name -}}</title>
     <link rel="stylesheet" href="../../css/main.css">
-    <link rel="stylesheed" href="../../css/plant_details.css">
+    <link rel="stylesheet" href="../../css/plant_details.css">
   </head>
   <body>
     {{-header-}}
     <h1>{{- plant_name -}}</h1>
-    <ul id="plant_details">
-      <li> Species {{- plant_species_name -}}</a></li>
-      <li> Current Height: {{- plant_height -}}</li>
-      <li> Current Width: {{- plant_width -}}</li>
-      <li> Current Location: {{- plant_location -}}</li>
-      <li> Place of origin: {{- plant_origin -}}</li>
-      <li> Date obtained: {{- plant_obtained -}} </li>
-      <li> Notes: {{- plant_notes -}} </li>
-    </ul>
-    <table id="plant_activity_log">
-      <th> Activity Log</th>
-      <tr> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
-      {{- plant_activities -}}
+    <div id="plant_details_container">
+      <table id="plant_details">
+        <tr> <td>Species</td>           <td id="vspace"></td> <td>{{- plant_species_name -}}</td></tr>
+        <tr> <td>Current Height</td>    <td id="vspace"></td> <td>{{- plant_height -}}cm    </td></tr>
+        <tr> <td>Current Width</td>     <td id="vspace"></td> <td>{{- plant_width -}}cm     </td></tr>
+        <tr> <td>Current Location</td>  <td id="vspace"></td> <td>{{- plant_location -}}    </td></tr>
+        <tr> <td>Place of origin</td>   <td id="vspace"></td> <td>{{- plant_origin -}}      </td></tr>
+        <tr> <td>Date obtained</td>     <td id="vspace"></td> <td>{{- plant_obtained -}}    </td></tr>
+        <tr> <td>Notes</td>             <td id="vspace"></td> <td>{{- plant_notes -}}       </td></tr>
     </table>
-    <table id="plant_growth_log">
-      <th> Growth </th>
-      <tr> <td>Date</td><td>Height</td><td>Width</td><td>Note</td></tr>
-      {{- plant_growth -}}
-    </table>
-    </table>
-    <a href="../index.html">Back</a>
+    </div>
+    <div id="logs_container">
+      <div id="plant_activity_log_container">
+        <h2> Activity Log </h2>
+        <table id="plant_activity_log">
+          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
+          {{- plant_activities -}}
+        </table>
+      </div>
+      <div id="plant_growth_log_container">
+        <h2>Growth Log</h2>
+        <table id="plant_growth_log">
+          <tr id="header_row"> <td>Date</td><td>Height</td><td>Width</td><td>Note</td></tr>
+          {{- plant_growth -}}
+        </table>
+      </div>
+    </div>
   </body>
 </html>

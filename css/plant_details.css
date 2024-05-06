@@ -1,3 +1,19 @@
-#plant_details{
-  margin:auto;
+#plant_details_container{
+  width:100%;
+}
+
+#logs_container{
+  width:100%
+}
+
+#plant_activity_log_container{
+  float:left;
+  padding:1em;
+  padding-left:15%;
+} 
+
+#plant_growth_log_container{
+  float:right;
+  padding:1em;
+  padding-right:15%;
 }

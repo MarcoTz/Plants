@@ -88,8 +88,10 @@ class HTMLRenderer:
         td_template : str = '<td>%s</td>'
         tr : str = '<tr>'
         tr += td_template % log_item['log_date'].strftime(date_format)
-        tr += td_template % log_item['log_height_cm'] + 'cm'
-        tr += td_template % log_item['log_width_cm'] + 'cm'
+        height_cm = str(log_item['log_height_cm'])+'cm'
+        tr += td_template % height_cm 
+        width_cm = str(log_item['log_width_cm']) + 'cm'
+        tr += td_template % width_cm 
         tr += td_template % log_item['log_note']
         tr += '</tr>'
         return tr
