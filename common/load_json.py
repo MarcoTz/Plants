@@ -11,7 +11,12 @@ def load_plant_file(file_name:str) -> PlantInformation:
     file_contents = plant_file.read()
     json_contents = json.loads(file_contents)
     json_contents['obtained'] = datetime.datetime.strptime(json_contents['obtained'], date_format)
+    if 'plant_activities' not in json_contents:
+        json_contents['plant_activities'] = []
+    if 'plant_growth' not in json_contents:
+        json_contents['plant_growth'] = []
     return json_contents
+
 def load_species_file(file_name:str) -> SpeciesInformation:
     plant_file = open(file_name,'r')
     file_contents = plant_file.read()

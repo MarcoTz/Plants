@@ -32,18 +32,10 @@ class HTMLRenderer:
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
-    activity_log : list[LogItem]
-    growth_log   : list[GrowthItem]
     
-    #for debugging
-    assigned_activity : list[LogItem]
-    assigned_growth   : list[GrowthItem]
-
     def __init__(self,
                  plants     : list[Plant],
-                 species    : list[PlantSpecies],
-                 activities : list[LogItem],
-                 growth     : list[GrowthItem]) -> None:
+                 species    : list[PlantSpecies]) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
         create_if_not_exists(out_dir)
         create_if_not_exists(os.path.join(out_dir,species_details_out))
@@ -51,12 +43,7 @@ class HTMLRenderer:
         self.load_templates()
         self.plant_list   = plants
         self.species_list = species
-        activities.sort(key=lambda x: x['log_date'])
-        self.activity_log = activities
-        growth.sort(key=lambda x:x['log_date'])
-        self.growth_log = growth
 
-        self.assigned_activity = []
         self.assigned_growth = []
     
     def load_templates(self) -> None:
@@ -66,20 +53,6 @@ class HTMLRenderer:
         self.plant_details_template    = self.env.get_template(plant_details_template_name)
         self.index_template            = self.env.get_template(index_template_name)
         self.activities_template       = self.env.get_template(activity_log_template_name)
-
-    def get_plant_logs(self,plant_name:str) -> list[LogItem]:
-        plant_logs : list[LogItem] =  list(filter(lambda x: x['log_plant'] == plant_name,self.activity_log))
-        for log in plant_logs:
-            if log not in self.assigned_activity:
-                self.assigned_activity.append(log)
-        return plant_logs
-
-    def get_plant_growth(self,plant_name:str) -> list[GrowthItem]:
-        plant_logs : list[GrowthItem] = list(filter(lambda x:x['log_plant'] == plant_name,self.growth_log))
-        for log in plant_logs:
-            if log not in self.assigned_growth:
-                self.assigned_growth.append(log)
-        return plant_logs
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<li><a href="%s/%s">%s</a></li>'
@@ -97,13 +70,13 @@ class HTMLRenderer:
                 )
         return li_template % info_tuple 
 
-    def create_activity_tr(self,log_item:LogItem,include_plant:bool) -> str: 
+    def create_activity_tr(self,log_item:LogItem,plant_name:str,include_plant:bool) -> str: 
         td_template : str = '<td>%s</td>'
         tr : str = '<tr>'
         tr += td_template % log_item['log_date'].strftime(date_format)
         tr += td_template % log_item['log_activity']
         plant_link_template : str = '<td><a href="%s/%s">%s</a></td>'
-        plant_link_tuple : tuple[str,str,str] = (plant_details_out,get_html_name(log_item['log_plant']),log_item['log_plant'])
+        plant_link_tuple : tuple[str,str,str] = (plant_details_out,get_html_name(plant_name),plant_name)
         tr += plant_link_template % plant_link_tuple if include_plant else ''
         tr += td_template % log_item['log_note']
         tr += '</tr>'
@@ -154,16 +127,14 @@ class HTMLRenderer:
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
 
-        plant_logs : list[LogItem] = self.get_plant_logs(info_dict['plant_name'])
         log_trs : list[str] = []
-        for log_item in plant_logs:
-            log_tr = self.create_activity_tr(log_item,False)
+        for log_item in plant.info['plant_activities']:
+            log_tr = self.create_activity_tr(log_item,plant.info['plant_name'],False)
             log_trs.append(log_tr)
         info_dict['plant_activities'] = '\n'.join(log_trs)
 
-        plant_growth : list[GrowthItem] = self.get_plant_growth(info_dict['plant_name'])
         growth_trs : list[str] = []
-        for log_item in plant_growth:
+        for log_item in plant.info['plant_growth']:
             item_tr = self.create_growth_tr(log_item)
             growth_trs.append(item_tr)
         info_dict['plant_growth'] = '\n'.join(growth_trs)
@@ -175,9 +146,16 @@ class HTMLRenderer:
 
     def render_activity_log(self) -> None: 
         tr_list : list[str] = []
-        for log_item in self.activity_log:
-            item_tr = self.create_activity_tr(log_item,True)
+        all_activities : list[tuple[str,LogItem]] = [] 
+        for plant in self.plant_list:
+            new_activities : list[LogItem] = plant.info['plant_activities']
+            activity_tuples = list(map(lambda x: (plant.info['plant_name'],x),new_activities))
+            all_activities.extend(activity_tuples)
+
+        for log_item in all_activities:
+            item_tr = self.create_activity_tr(log_item[1],log_item[0],True)
             tr_list.append(item_tr)
+
         tr_str : str = '\n'.join(tr_list)
         log_html : str = self.activities_template.render(activity_log_rows=tr_str)
         write_html(activity_log_out,log_html)
@@ -201,10 +179,3 @@ class HTMLRenderer:
         self.render_all_plants()
         self.render_activity_log()
         self.render_index()
-
-        for log_item in self.activity_log:
-            if log_item not in self.assigned_activity:
-                print('Cannot assign activity to plant %s'%log_item['log_plant'])
-        for log_item in self.growth_log:
-            if log_item not in self.assigned_growth:
-                print('Cannot assign growth to plant %s'%log_item['log_plant'])

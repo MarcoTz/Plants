@@ -43,27 +43,23 @@ class SpeciesInformation(TypedDict):
   companions:list[str]
   additional_notes:list[str]
 
-
-class PlantInformation(TypedDict):
-    plant_name       : str
-    species_name     : str
-    current_height   : float
-    current_width    : float
-    current_location : str
-    origin           : str
-    obtained         : datetime.datetime
-    plant_notes      : list[str]
-
 class LogItem(TypedDict):
     log_activity : str
     log_date     : datetime.datetime
     log_note     : str
-    log_plant    : str
-
 
 class GrowthItem(TypedDict):
     log_date        : datetime.datetime
-    log_plant       : str
     log_height_cm   : float 
     log_width_cm    : float
     log_note        : str
+
+class PlantInformation(TypedDict):
+    plant_name       : str
+    species_name     : str
+    current_location : str
+    origin           : str
+    obtained         : datetime.datetime
+    plant_notes      : list[str]
+    plant_activities : list[LogItem]
+    plant_growth     : list[GrowthItem]

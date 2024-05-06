@@ -4,8 +4,8 @@ import csv
 import os
 import datetime
 
-def load_activities() -> list[LogItem]:
-    log_list : list[LogItem] = []
+def load_activities() -> dict[str,list[LogItem]]:
+    log_dict : dict[str,list[LogItem]] = {}
 
     log_file_path : str = os.path.join(log_dir,activity_log_file_name)
     log_file = open(log_file_path,'r')
@@ -19,14 +19,16 @@ def load_activities() -> list[LogItem]:
             new_log_item : LogItem = {
                 'log_activity': log_row['Activity'],
                 'log_date': log_date,
-                'log_plant':log_plant,
                 'log_note':log_row['Note']
                 }
-            log_list.append(new_log_item)
-    return log_list 
+            if log_plant not in log_dict:
+                log_dict[log_plant] = [new_log_item]
+            else:
+                log_dict[log_plant].append(new_log_item)
+    return log_dict
 
-def load_growth() -> list[GrowthItem]:
-    growth_list : list[GrowthItem] = [] 
+def load_growth() -> dict[str,list[GrowthItem]]:
+    growth_dict : dict[str,list[GrowthItem]] = {}
 
     log_file_path : str = os.path.join(log_dir,growth_log_file_name)
     log_file = open(log_file_path,'r')
@@ -34,10 +36,12 @@ def load_growth() -> list[GrowthItem]:
     for log_row in reader:
         new_growth_item : GrowthItem = {
                 'log_date' : datetime.datetime.strptime(log_row['Date'] ,date_format),
-                'log_plant':log_row['Plant'],
                 'log_height_cm' : float(log_row['Height']),
                 'log_width_cm' : float(log_row['Width']),
                 'log_note': log_row['Note']
                 }
-        growth_list.append(new_growth_item)
-    return growth_list 
+        if log_row['Plant'] not in growth_dict:
+            growth_dict[log_row['Plant']] = [new_growth_item]
+        else:
+            growth_dict[log_row['Plant']].append(new_growth_item)
+    return growth_dict
