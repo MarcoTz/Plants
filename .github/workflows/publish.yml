@@ -26,11 +26,7 @@ jobs:
         run: make full
       - name: Move Files
         run: |
-          mkdir ../public
           mv ./html_out ../public/
-          mv ../public/html_out ../public/docs
-          mv ./img ../public
-          mv ./css ../public
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with: 
