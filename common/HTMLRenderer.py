@@ -59,18 +59,32 @@ class HTMLRenderer:
         self.header_template           = self.env.get_template(header_template_name)
 
     def create_species_li(self,plant:PlantSpecies) -> str:
-        li_template       : str = '<li><a href="%s/%s">%s</a></li>'
+        li_template       : str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
         details_file_name : str = get_html_name(plant.info['name'])
-        return li_template % (species_details_out,details_file_name,plant.info['name'])
+
+        species_image_path = os.path.join(img_dir,img_species_dir)
+        species_image_path = os.path.join(species_image_path,details_file_name.replace('html','jpg'))
+        img_str : str = ''
+
+        if os.path.exists(species_image_path):
+            img_str = '<br/><img id="plant_preview" src="../%s"/>' % species_image_path
+
+        return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
     def create_plant_li(self,plant:Plant) -> str:
-        li_template :str = '<li><a href="%s/%s">%s (%s)</a></li>'
+        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s (%s)</a>%s</div>'
+        
+        img_str : str = ''
+        if len(plant.images) > 0:
+            image_url = plant.images[-1][1]
+            img_str = '<br/><img id="plant_preview" src="../img/plants/%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
-        info_tuple : tuple[str,str,str,str] = (
+        info_tuple : tuple[str,str,str,str,str] = (
                 plant_details_out,
                 details_file_name,
                 plant.info['plant_name'],
-                plant.info['species_name']
+                plant.info['species_name'],
+                img_str
                 )
         return li_template % info_tuple 
 
