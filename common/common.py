@@ -11,6 +11,7 @@ plant_overview_template_name   : str = 'plant_overview.html'
 plant_details_template_name    : str = 'plant_details.html'
 index_template_name            : str = 'index.html'
 activity_log_template_name     : str = 'activity_logs.html'
+header_template_name           : str = 'header.html'
 
 out_dir               : str = 'html_out'
 species_details_out   : str = 'plant_species'

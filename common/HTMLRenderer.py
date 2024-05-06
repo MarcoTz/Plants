@@ -29,6 +29,7 @@ class HTMLRenderer:
     plant_overview_template   : jinja2.Template
     plant_details_template    : jinja2.Template
     activities_template       : jinja2.Template
+    header_template           : jinja2.Template
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
@@ -53,6 +54,7 @@ class HTMLRenderer:
         self.plant_details_template    = self.env.get_template(plant_details_template_name)
         self.index_template            = self.env.get_template(index_template_name)
         self.activities_template       = self.env.get_template(activity_log_template_name)
+        self.header_template           = self.env.get_template(header_template_name)
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<li><a href="%s/%s">%s</a></li>'
@@ -91,6 +93,14 @@ class HTMLRenderer:
         tr += td_template % log_item['log_note']
         tr += '</tr>'
         return tr
+    
+    def render_header(self,relative_up:bool) -> str: 
+        link_prefix : str = '../' if relative_up else './'
+        header_dict : dict[str,str] = { 
+            'plant_overview_link' : link_prefix + plant_overview_out,
+            'species_overview_link' : link_prefix + species_overview_out,
+            'activities_link': link_prefix + activity_log_out} 
+        return self.header_template.render(header_dict)
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
@@ -98,7 +108,8 @@ class HTMLRenderer:
             plant_li : str = self.create_species_li(plant)
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
-        plant_li : str = self.species_overview_template.render(species_list_items=lis_str)
+        header_str : str = self.render_header(False)
+        plant_li : str = self.species_overview_template.render(species_list_items=lis_str,header=header_str)
         write_html(species_overview_out,plant_li)
 
     def render_plant_overview(self) -> None:
@@ -107,13 +118,16 @@ class HTMLRenderer:
             plant_li : str = self.create_plant_li(plant)
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
-        plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str)
+        header_str : str = self.render_header(False)
+        plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str,header=header_str)
         write_html(plant_overview_out,plant_li)
 
     def render_species_details(self,plant:PlantSpecies) -> None:
         info_dict:dict[str,str] = plant.get_info_dict()
+        header_str : str = self.render_header(True)
+        info_dict['header'] = header_str
         species_html:str = self.species_details_template.render(info_dict)
-        species_file_name = get_html_name(plant.info['name']) 
+        species_file_name : str = get_html_name(plant.info['name']) 
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 
@@ -139,6 +153,9 @@ class HTMLRenderer:
             growth_trs.append(item_tr)
         info_dict['plant_growth'] = '\n'.join(growth_trs)
 
+        header_str : str = self.render_header(True)
+        info_dict['header'] = header_str
+
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
         plant_full_name = os.path.join(plant_details_out,plant_file_name)
@@ -157,11 +174,13 @@ class HTMLRenderer:
             tr_list.append(item_tr)
 
         tr_str : str = '\n'.join(tr_list)
-        log_html : str = self.activities_template.render(activity_log_rows=tr_str)
+        header_str : str = self.render_header(False)
+        log_html : str = self.activities_template.render(activity_log_rows=tr_str,header=header_str)
         write_html(activity_log_out,log_html)
 
     def render_index(self) -> None:
-        index_html = self.index_template.render()
+        header_str : str = self.render_header(False)
+        index_html = self.index_template.render(header=header_str)
         write_html(index_out,index_html)
 
     def render_all_species(self) -> None:

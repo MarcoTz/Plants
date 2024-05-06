@@ -1,0 +1,19 @@
+:root {
+  --bg-color: #222327;
+  --fg-color: #76cce0;
+  --link-color:#9ed072;
+  --link-color-visited:#729078;
+}
+
+body {
+ background:var(--bg-color);
+ color:var(--fg-color);
+ font-family: "Noto Sans";
+}
+
+a {
+  color:var(--link-color);
+}
+a:visited{
+  color:var(--link-color-visited);
+}

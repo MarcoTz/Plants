@@ -2,8 +2,11 @@
 <html>
   <head>
     <title>{{- plant_name -}}</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheed" href="../../css/plant_details.css">
   </head>
   <body>
+    {{-header-}}
     <h1>{{- plant_name -}}</h1>
     <ul id="plant_details">
       <li> Species {{- plant_species_name -}}</a></li>
@@ -12,7 +15,6 @@
       <li> Current Location: {{- plant_location -}}</li>
       <li> Place of origin: {{- plant_origin -}}</li>
       <li> Date obtained: {{- plant_obtained -}} </li>
-      <li> Growth Log: {{- plant_growth -}} </li>
       <li> Notes: {{- plant_notes -}} </li>
     </ul>
     <table id="plant_activity_log">
