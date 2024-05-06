@@ -82,7 +82,7 @@ class HTMLRenderer:
         img_str : str = ''
         if len(plant.images) > 0:
             image_url = os.path.join(img_dir,img_plants_dir)
-            image_url = os.path.join(image_url,img_small_dir,plant.images[-1][1])
+            image_url = os.path.join(image_url,img_small_dir,plant.images[0][1])
             img_str = '<br/><img id="plant_preview" src="../%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
         info_tuple : tuple[str,str,str,str,str] = (
