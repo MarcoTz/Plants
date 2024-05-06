@@ -77,6 +77,17 @@ td:nth-child(even){
   text-align:center;
 }
 
+#footer { 
+  width:90%;
+  margin:2em;
+  border-top:0.5em;
+  border-left:0px;
+  border-right:0px;
+  border-bottom:0px;
+  border-style:solid;
+  border-color:var(--bg-color-even);
+}
+
 #header_row {
   font-size: 16pt;
 }

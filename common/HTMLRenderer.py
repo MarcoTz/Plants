@@ -30,6 +30,7 @@ class HTMLRenderer:
     plant_details_template    : jinja2.Template
     activities_template       : jinja2.Template
     header_template           : jinja2.Template
+    footer_template           : jinja2.Template
     graveyard_template        : jinja2.Template
 
     plant_list   : list[Plant]
@@ -61,6 +62,7 @@ class HTMLRenderer:
         self.index_template            = self.env.get_template(index_template_name)
         self.activities_template       = self.env.get_template(activity_log_template_name)
         self.header_template           = self.env.get_template(header_template_name)
+        self.footer_template           = self.env.get_template(footer_template_name)
         self.graveyard_template        = self.env.get_template(graveyard_template_name)
 
     def get_plants_species(self,species:str) -> list[Plant]: 
@@ -144,7 +146,8 @@ class HTMLRenderer:
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
         header_str : str = self.render_header(False)
-        plant_li : str = self.species_overview_template.render(species_list_items=lis_str,header=header_str)
+        footer_str : str = self.footer_template.render()
+        plant_li : str = self.species_overview_template.render(species_list_items=lis_str,header=header_str,footer=footer_str)
         write_html(species_overview_out,plant_li)
 
     def render_plant_overview(self) -> None:
@@ -154,13 +157,16 @@ class HTMLRenderer:
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
         header_str : str = self.render_header(False)
-        plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str,header=header_str)
+        footer_str : str = self.footer_template.render()
+        plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str,header=header_str,footer=footer_str)
         write_html(plant_overview_out,plant_li)
 
     def render_species_details(self,plant:PlantSpecies) -> None:
         info_dict:dict[str,str] = plant.get_info_dict()
         header_str : str = self.render_header(True)
+        footer_str : str = self.footer_template.render()
         info_dict['header'] = header_str
+        info_dict['footer'] = footer_str
 
         species_file_name : str = get_html_name(plant.info['name']) 
 
@@ -190,7 +196,10 @@ class HTMLRenderer:
         info_dict:dict[str,str]= plant.get_info_dict()
 
         header_str : str = self.render_header(True)
+        footer_str : str = self.footer_template.render()
         info_dict['header'] = header_str
+        info_dict['footer'] = footer_str
+        info_dict['footer'] = footer_str
 
         plant_species : str = info_dict['plant_species_name']
         if species_exists(info_dict['plant_species_name']):
@@ -243,11 +252,13 @@ class HTMLRenderer:
 
         tr_str : str = '\n'.join(tr_list)
         header_str : str = self.render_header(False)
-        log_html : str = self.activities_template.render(activity_log_rows=tr_str,header=header_str)
+        footer_str : str = self.footer_template.render()
+        log_html : str = self.activities_template.render(activity_log_rows=tr_str,header=header_str,footer=footer_str)
         write_html(activity_log_out,log_html)
 
     def render_graveyard(self) -> None:
         header_str : str = self.render_header(False)
+        footer_str : str = self.footer_template.render()
         rows_trs : list[str] = []
         for graveyard_plant in self.graveyard:
             new_tr : str = '<tr>'
@@ -260,12 +271,13 @@ class HTMLRenderer:
             new_tr += '<td>%s</td>' % graveyard_plant['graveyard_reason']
             new_tr += '</tr>'
             rows_trs.append(new_tr)
-        graveyard_html : str = self.graveyard_template.render(header=header_str,graveyard_rows='\n'.join(rows_trs))
+        graveyard_html : str = self.graveyard_template.render(header=header_str,footer=footer_str,graveyard_rows='\n'.join(rows_trs))
         write_html(graveyard_out,graveyard_html)
 
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
-        index_html = self.index_template.render(header=header_str)
+        footer_str : str = self.footer_template.render()
+        index_html = self.index_template.render(header=header_str,footer=footer_str)
         write_html(index_out,index_html)
 
     def render_all_species(self) -> None:

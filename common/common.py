@@ -13,6 +13,7 @@ plant_details_template_name    : str = 'plant_details.html'
 index_template_name            : str = 'index.html'
 activity_log_template_name     : str = 'activity_logs.html'
 header_template_name           : str = 'header.html'
+footer_template_name           : str = 'footer.html'
 graveyard_template_name        : str = 'graveyard.html'
 
 out_dir               : str = 'html_out'
