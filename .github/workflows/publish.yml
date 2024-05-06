@@ -1,0 +1,37 @@
+name: Deploy Website
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  htmlBuild:
+    name: Publish Plants
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Jinja
+        run: pip install Jinja2
+      - name: Install PIL
+        run: pip install Pillow
+      - name: Build Project 
+        run: make full
+      - name: Move Files
+        run: |
+          mkdir ../public
+          mv ./html_out ../public
+          mv ./img ../public
+          mv ./css ../public
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with: 
+          folder: ../public
+          branch: gh-pages
