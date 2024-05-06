@@ -63,7 +63,7 @@ class HTMLRenderer:
         details_file_name : str = get_html_name(plant.info['name'])
 
         species_image_path = os.path.join(img_dir,img_species_dir)
-        species_image_path = os.path.join(species_image_path,details_file_name.replace('html','jpg'))
+        species_image_path = os.path.join(species_image_path,img_small_dir,details_file_name.replace('html','jpg'))
         img_str : str = ''
 
         if os.path.exists(species_image_path):
@@ -76,8 +76,9 @@ class HTMLRenderer:
         
         img_str : str = ''
         if len(plant.images) > 0:
-            image_url = plant.images[-1][1]
-            img_str = '<br/><img id="plant_preview" src="../img/plants/%s"/>' %image_url
+            image_url = os.path.join(img_dir,img_plants_dir)
+            image_url = os.path.join(image_url,img_small_dir,plant.images[-1][1])
+            img_str = '<br/><img id="plant_preview" src="../%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
         info_tuple : tuple[str,str,str,str,str] = (
                 plant_details_out,

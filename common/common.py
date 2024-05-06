@@ -25,6 +25,7 @@ activity_log_out      : str = 'activity_logs.html'
 img_dir         : str = 'img'
 img_species_dir : str = 'species'
 img_plants_dir  : str = 'plants'
+img_small_dir   : str = 'small'
 
 species_dir             : str = 'PlantSpecies'
 plants_dir              : str = 'Plants'

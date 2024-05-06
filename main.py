@@ -5,6 +5,7 @@ from common.Plant        import Plant
 from common.common import * 
 
 import os 
+from PIL import Image
 
 def assign_activities(plants : list[Plant], activities: dict[str,list[LogItem]]) -> None:
     for plant in plants:
@@ -48,11 +49,34 @@ def load_images(plants:list[Plant]) -> None:
         print('Could not match images to plants: ') 
         print(unmatched) 
 
+def create_preview_images() -> None:
+    plant_images_dir : str = os.path.join(img_dir,img_plants_dir)
+    species_images_dir : str = os.path.join(img_dir, img_species_dir)
+    preview_size = 128,128
+    plant_images : list[str] = os.listdir(plant_images_dir)
+    plant_images = list(map(lambda x: os.path.join(plant_images_dir,x),plant_images))
+    species_images : list[str] = os.listdir(species_images_dir)
+    species_images = list(map(lambda x: os.path.join(species_images_dir,x),species_images))
+    all_images : list[str] = plant_images
+    all_images.extend(species_images)
+    for image_path in all_images:
+        if os.path.isdir(image_path):
+            continue
+        image_name = os.path.basename(image_path)
+        plant_image_preview_path = image_path.replace(image_name,os.path.join(img_small_dir,image_name))
+        if os.path.exists(plant_image_preview_path):
+            continue
+        plant_image = Image.open(image_path)
+        plant_image.thumbnail(preview_size,Image.Resampling.LANCZOS)
+        plant_image.save(plant_image_preview_path,'JPEG')
+
+
 (plants,species) = load_plants_species()
 activities = load_activities()
 assign_activities(plants,activities)
 growth = load_growth()
 assign_growth(plants,growth)
 load_images(plants)
+create_preview_images()
 renderer = HTMLRenderer(plants,species)
 renderer.render_all()
