@@ -90,6 +90,7 @@ class PlantBot:
         if not await self.guard_access(update,context):
             return 
         current_inputs_str : str = '\n'.join(self.current_inputs) 
+        current_inputs_str = 'No inputs' if current_inputs_str == '' else current_inputs_str
         await self.send_message(update,context,current_inputs_str)
 
 
