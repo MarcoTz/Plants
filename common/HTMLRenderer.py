@@ -73,6 +73,25 @@ class HTMLRenderer:
                 species_li.append(plant)
         return species_li
 
+    def get_recent_activities_growth(self) -> tuple[list[tuple[str,GrowthItem]],list[tuple[str,LogItem]]]:
+        last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
+        recent_activities : list[tuple[str,LogItem]] = []
+        recent_growth     : list[tuple[str,GrowthItem]] = []
+        for plant in self.plant_list:
+            plant_activities : list[LogItem] = plant.info['plant_activities']
+            plant_activities = list(filter(lambda x: x['log_date'] >= last_week,plant_activities))
+            recent_plant_activities : list[tuple[str,LogItem]] = list(map(lambda x: (plant.info['plant_name'],x),plant_activities))
+            recent_activities.extend(recent_plant_activities)
+
+            plant_growth     : list[GrowthItem] = plant.info['plant_growth']
+            plant_growth = list(filter(lambda x: x['log_date'] >= last_week,plant_growth))
+            recent_plant_growth : list[tuple[str,GrowthItem]] = list(map(lambda x: (plant.info['plant_name'],x),plant_growth))
+            recent_growth.extend(recent_plant_growth)
+
+        recent_activities.sort(key = lambda x: x[1]['log_date'],reverse=True)
+        recent_growth.sort(key=lambda x: x[1]['log_date'],reverse=True)
+        return (recent_growth,recent_activities)
+
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template       : str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
         details_file_name : str = get_html_name(plant.info['name'])
@@ -134,10 +153,11 @@ class HTMLRenderer:
     def render_header(self,relative_up:bool) -> str: 
         link_prefix : str = '../' if relative_up else './'
         header_dict : dict[str,str] = { 
-            'plant_overview_link' : link_prefix + plant_overview_out,
+            'index_link'            : link_prefix + index_out,
+            'plant_overview_link'   : link_prefix + plant_overview_out,
             'species_overview_link' : link_prefix + species_overview_out,
-            'activities_link': link_prefix + activity_log_out,
-            'graveyard_link':link_prefix+graveyard_out} 
+            'activities_link'       : link_prefix + activity_log_out,
+            'graveyard_link'        :link_prefix+graveyard_out} 
         return self.header_template.render(header_dict)
 
     def render_species_overview(self) -> None:
@@ -278,7 +298,34 @@ class HTMLRenderer:
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
         footer_str : str = self.footer_template.render()
-        index_html = self.index_template.render(header=header_str,footer=footer_str)
+        recent_growth_str : str = ''
+        recent_activities_str : str = ''
+        (recent_growth,recent_activities) = self.get_recent_activities_growth()
+
+        for (plant_name,recent_growth_item) in recent_growth:
+            recent_growth_str += '<tr>'
+            recent_growth_str += '<td>%s</td>' % recent_growth_item['log_date'].strftime(date_format)
+            recent_growth_str += '<td>%s</td>' % plant_name
+            recent_growth_str += '<td>%s</td>' % (str(recent_growth_item['log_height_cm']) + 'cm')
+            recent_growth_str += '<td>%s</td>' % (str(recent_growth_item['log_width_cm']) + 'cm')
+            recent_growth_str += '<td>%s</td>' % recent_growth_item['log_note']
+            recent_growth_str += '</tr>'
+
+        for (plant_name,recent_activity_item) in recent_activities:
+            recent_activities_str += '<tr>'
+            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_date'].strftime(date_format)
+            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_activity']
+            recent_activities_str += '<td>%s</td>' % plant_name
+            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_note']
+            recent_activities_str += '</tr>'
+
+        index_dict : dict[str,str] = {
+                'header': header_str,
+                'footer':footer_str,
+                'recent_growth_rows':recent_growth_str,
+                'recent_activities_rows':recent_activities_str
+                }
+        index_html = self.index_template.render(index_dict)
         write_html(index_out,index_html)
 
     def render_all_species(self) -> None:

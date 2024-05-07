@@ -1,0 +1,23 @@
+#recent_activities_list {
+}
+
+#recent_growth_list {
+}
+
+#recent_updates_container {
+  overflow:auto;
+}
+
+#recent_growth_container {
+  display:inline;
+  float:left;
+  margin-left:5%;
+  width:45%;
+}
+
+#recent_activities_container{ 
+  display:inline;
+  float:right;
+  width:45%;
+  margin-right:5%;
+}

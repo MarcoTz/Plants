@@ -73,7 +73,7 @@ td:nth-child(even){
 }
 #header > * {
   float:left;
-  width:25%;
+  width:20%;
   text-align:center;
 }
 
