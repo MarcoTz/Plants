@@ -4,8 +4,9 @@
     <title>{{- species_name -}}</title>
     <link rel="stylesheet" href="../css/main.css"/>
     <link rel="stylesheet" href="../css/details.css">
+    <script src="../js/main.js"></script>
   </head>
-  <body>
+  <body onload="setup_img_events()">
     {{-header-}}
     <h1>{{- species_name -}}</h1>
     <div id="plant_details_container">

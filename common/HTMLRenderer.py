@@ -29,6 +29,7 @@ class HTMLRenderer:
     footer_template           : jinja2.Template
     graveyard_template        : jinja2.Template
     gallery_template          : jinja2.Template
+    image_viewer_template     : jinja2.Template
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
@@ -67,6 +68,7 @@ class HTMLRenderer:
         self.footer_template           = self.env.get_template(footer_template_name)
         self.graveyard_template        = self.env.get_template(graveyard_template_name)
         self.gallery_template          = self.env.get_template(gallery_template_name) 
+        self.image_viewer_template     = self.env.get_template(image_view_template_name)
 
     def get_plants_species(self,species:str) -> list[Plant]: 
         species_li : list[Plant] = []
@@ -206,7 +208,8 @@ class HTMLRenderer:
         return self.header_template.render(header_dict)
 
     def render_footer(self) -> str:
-        return self.footer_template.render(num_plants=len(self.plant_list))
+        image_viewer_str : str = self.image_viewer_template.render()
+        return self.footer_template.render(num_plants=len(self.plant_list),image_viewer=image_viewer_str)
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []

@@ -12,6 +12,7 @@ header_template_name           : str = 'header.html'
 footer_template_name           : str = 'footer.html'
 graveyard_template_name        : str = 'graveyard.html'
 gallery_template_name          : str = 'gallery.html'
+image_view_template_name       : str = 'image_view.html'
 
 out_dir               : str = 'html_out'
 species_details_out   : str = 'plant_species'
