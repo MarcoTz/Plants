@@ -34,3 +34,22 @@ img {
   width:15%;
   height:15%;
 }
+
+#next_activities_container {
+  display:flex;
+  justify-content:center;
+  margin:1em;
+  gap:1em;
+}
+#next_activities_container :nth-child(odd){
+  background:var(--bg-color-odd);
+}
+#next_activities_container :nth-child(even){
+  background:var(--bg-color-even);
+}
+
+#next_watering, #next_fertilizing {
+  text-align:center;
+  border-radius: 0.5em;
+  padding:0.5em;
+}

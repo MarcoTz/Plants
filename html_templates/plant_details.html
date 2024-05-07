@@ -7,6 +7,10 @@
   <body>
     {{-header-}}
     <h1>{{- plant_name -}}</h1>
+    <div id="next_activities_container">
+      <div id='next_watering'>Next watering date:<br/> {{-next_watering_date-}}</div>
+      <div id="next_fertilizing">Next fertilizing date:<br/> {{-next_fertilizing_date-}}</div>
+    </div>
     <div id="plant_details_container">
       <table id="plant_details">
         <tr> <td>Species</td>           <td id="hspace"></td> <td>{{- plant_species_name -}}</td></tr>

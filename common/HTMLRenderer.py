@@ -17,11 +17,6 @@ def write_html(out_file_name:str,html_contents:str) -> None:
 def get_html_name(plant_name:str) -> str:
     return plant_name.replace(' ','')+'.html'
 
-def species_exists(species_name:str) -> bool:
-    species_file_name = species_name.replace(' ','')+'.json'
-    species_path = os.path.join(species_dir,species_file_name)
-    return os.path.exists(species_path)
-
 class HTMLRenderer: 
 
     env                       : jinja2.Environment
@@ -74,6 +69,54 @@ class HTMLRenderer:
             if plant.info['species_name'] == species:
                 species_li.append(plant)
         return species_li
+
+    def get_species_plant(self,plant:Plant) -> PlantSpecies | None:
+        species_name : str = plant.info['species_name']
+        for species in self.species_list:
+            if species.info['name'] == species_name:
+                return species
+        return None
+
+    def get_next_watering_date(self,plant:Plant) -> datetime.datetime | None:
+        species : PlantSpecies | None = self.get_species_plant(plant)
+        if species is None:
+            return None
+
+        watering_interval : int = species.info['avg_watering_days']
+        if watering_interval == -1:
+            return None
+
+        filter_fun : function = lambda x: x['log_activity'].strip() == 'Watering'
+        watering_activities : list[LogItem] = list(filter(filter_fun,plant.info['plant_activities']))
+        if watering_activities == []:
+            return datetime.datetime.now()
+
+        watering_activities.sort(key=lambda x:x['log_date'])
+        last_watering_date : datetime.datetime = watering_activities[-1]['log_date']
+        watering_delta : datetime.timedelta = datetime.timedelta(days=watering_interval)
+
+        return last_watering_date + watering_delta
+
+    def get_next_fertilizing_date(self,plant:Plant) -> datetime.datetime | None:
+        species : PlantSpecies | None = self.get_species_plant(plant)
+        if species is None:
+             return None 
+
+        fertilizing_interval : int = species.info['avg_fertilizing_days']
+        if fertilizing_interval == -1:
+            return None
+
+        filter_fun : function = lambda x: x['log_activity'].strip() == 'Fertilizing'
+        fertilizing_activities : list[LogItem] = list(filter(filter_fun,plant.info['plant_activities']))
+
+        if fertilizing_activities == []:
+            return datetime.datetime.now()
+
+        fertilizing_activities.sort(key = lambda x: x['log_date'])
+        last_fertilizing_date : datetime.datetime = fertilizing_activities[-1]['log_date']
+        fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
+
+        return last_fertilizing_date + fertilizing_delta
 
     def get_recent_activities_growth(self) -> tuple[list[tuple[str,GrowthItem]],list[tuple[str,LogItem]]]:
         last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
@@ -223,26 +266,48 @@ class HTMLRenderer:
         footer_str : str = self.footer_template.render()
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
-        info_dict['footer'] = footer_str
-
-        plant_species : str = info_dict['plant_species_name']
-        if species_exists(info_dict['plant_species_name']):
-            a_template = '<a href="../%s/%s">%s</a>'
-            info_dict['plant_species_name'] = a_template % (species_details_out,get_html_name(plant_species),plant_species)
-        else: 
-            print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
-
-
+ 
         log_trs : list[str] = []
+        watering_activities : list[LogItem] = []
+        fertilizing_activities : list[LogItem] = []
         for log_item in plant.info['plant_activities']:
+            if log_item['log_activity'].strip() == 'Watering':
+                watering_activities.append(log_item)
+            if log_item['log_activity'].strip() == 'Fertilizing':
+                fertilizing_activities.append(log_item)
             log_tr = self.create_activity_tr(log_item,plant.info['plant_name'],False)
             log_trs.append(log_tr)
         info_dict['plant_activities'] = '\n'.join(log_trs)
+        
+        plant_species : str = info_dict['plant_species_name']
+        species : PlantSpecies | None = self.get_species_plant(plant)
+        if species is not None:
+            a_template = '<a href="../%s/%s">%s</a>'
+            species_link_tuple :tuple[str,str,str] = (species_details_out,get_html_name(plant_species),plant_species)
+            info_dict['plant_species_name'] = a_template % species_link_tuple
+
+        else: 
+            print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
+            info_dict['next_watering_date'] = ''
+            info_dict['next_fertilizing_date'] = ''
+
+        next_watering_date : datetime.datetime | None = self.get_next_watering_date(plant)
+        if next_watering_date is not None:
+             info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
+        else:
+            info_dict['next_watering_date'] = ''
+
+        next_fertilizing_date : datetime.datetime | None = self.get_next_fertilizing_date(plant)
+        if next_fertilizing_date is not None: 
+            info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
+        else: 
+            info_dict['next_fertilizing_date'] = '' 
 
         growth_trs : list[str] = []
         for log_item in plant.info['plant_growth']:
             item_tr = self.create_growth_tr(log_item)
             growth_trs.append(item_tr)
+
         info_dict['plant_growth'] = '\n'.join(growth_trs)
 
         images_list : list[str] = [] 
