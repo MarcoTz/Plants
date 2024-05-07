@@ -320,7 +320,7 @@ class HTMLRenderer:
         footer_str : str = self.footer_template.render()
 
         gallery_dict : dict[str,str] = {
-                'ehader': header_str,
+                'header': header_str,
                 'footer': footer_str,
                 'gallery_items': '\n'.join(plant_image_strs)
                 }

@@ -1,18 +1,1 @@
-{
-  "name": "Bunny Ear Cactus", 
-  "scientific_name": "Opuntia microdasys", 
-  "sunlight_requirements": "direct", 
-  "temperature_min": 10.0, 
-  "temperature_max": 38.0, 
-  "optimal_temperature_min": 21.0, 
-  "optimal_temperature_max": 38.0, 
-  "plant_distance_cm": 5, 
-  "ph_min": 6.7, 
-  "ph_max": 8.0, 
-  "watering_notes": 
-  ["Water only when soil is completely dry", "Reduce watering in winter ", "In summer, water about once every two weeks"], 
-  "fertilizing_notes": 
-  ["Only fertilize once at the beginning of growing period"], 
-  "pruning_notes": ["Remove ears when they overlap others", "Ensure all ears are hit by direct sunlight", "Only remove entire ears"],
-  "companions": ["Agave ", "Aloe Vera"], 
-  "additional_notes": ["Ears can be regrown after being removed"]}
+{"name": "Bunny Ear Cactus", "scientific_name": "Opuntia microdasys", "sunlight_requirements": "direct", "temperature_min": 10.0, "temperature_max": 38.0, "optimal_temperature_min": 21.0, "optimal_temperature_max": 38.0, "plant_distance_cm": 5, "ph_min": 6.7, "ph_max": 8.0, "watering_notes": ["Water only when soil is completely dry", "Reduce watering in winter ", "In summer, water about once every two weeks"], "fertilizing_notes": ["Only fertilize once at the beginning of growing period"], "pruning_notes": ["Remove ears when they overlap others", "Ensure all ears are hit by direct sunlight", "Only remove entire ears"], "companions": ["Agave ", "Aloe Vera"], "additional_notes": ["Ears can be regrown after being removed"], "avg_watering_days": 21, "avg_fertilizing_days": 365}

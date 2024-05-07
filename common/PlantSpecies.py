@@ -9,21 +9,23 @@ class PlantSpecies:
 
     def get_info_dict(self) -> dict[str,str]:
        info_dict = { 
-         'species_name':self.info['name'],
-         'species_scientific_name':self.info['scientific_name'],
-         'species_sunlight':self.info['sunlight_requirements'],
-         'species_temp_min':self.info['temperature_min'],
-         'species_temp_max':self.info['temperature_max'],
-         'species_opt_temp_min':self.info['optimal_temperature_min'],
-         'species_opt_temp_max':self.info['optimal_temperature_max'],
-         'species_dist':self.info['plant_distance_cm'],
-         'species_ph_min':self.info['ph_min'],
-         'species_ph_max':self.info['ph_max'],
-         'species_watering_notes':'<br/>'.join(self.info['watering_notes']),
-         'species_fertilizing_notes':'<br/>'.join(self.info['fertilizing_notes']),
-         'species_pruning_notes':'<br/>'.join(self.info['pruning_notes']),
-         'species_companions':'<br/>'.join(self.info['companions']),
-         'species_additional_notes':'<br/>'.join(self.info['additional_notes']) 
+         'species_name'                 : self.info['name'],
+         'species_scientific_name'      : self.info['scientific_name'],
+         'species_sunlight'             : self.info['sunlight_requirements'],
+         'species_temp_min'             : self.info['temperature_min'],
+         'species_temp_max'             : self.info['temperature_max'],
+         'species_opt_temp_min'         : self.info['optimal_temperature_min'],
+         'species_opt_temp_max'         : self.info['optimal_temperature_max'],
+         'species_dist'                 : self.info['plant_distance_cm'],
+         'species_ph_min'               : self.info['ph_min'],
+         'species_ph_max'               : self.info['ph_max'],
+         'species_watering_notes'       : '<br/>'.join(self.info['watering_notes']),
+         'species_watering_days'        : self.info['avg_watering_days'],
+         'species_fertilizing_notes'    : '<br/>'.join(self.info['fertilizing_notes']),
+         'species_fertilizing_days'     : self.info['avg_fertilizing_days'],
+         'species_pruning_notes'        : '<br/>'.join(self.info['pruning_notes']),
+         'species_companions'           : '<br/>'.join(self.info['companions']),
+         'species_additional_notes'     : '<br/>'.join(self.info['additional_notes']) 
         }
        return info_dict
                                 

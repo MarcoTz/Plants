@@ -1,9 +1,10 @@
 from file_io.load_json import load_bot_config
-
-from telegram.ext import Application,ApplicationBuilder,CommandHandler,ContextTypes,MessageHandler
-from telegram import Update
-
+from common.constants import * 
 from telegram_bot.BotActions import * 
+
+from telegram.ext import Application,ApplicationBuilder,CommandHandler,ContextTypes,MessageHandler,filters
+from telegram import Update,File
+import os 
 
 class PlantBot: 
     api_key         : str
@@ -19,6 +20,7 @@ class PlantBot:
         self.white_list = white_list
         self.handlers = []
         self.current_action = BotAction.IDLE
+        self.current_inputs = []
         self.application = ApplicationBuilder().token(api_key).build()
 
         new_growth_handler   : CommandHandler = CommandHandler('new_growth', self.new_growth)
@@ -27,7 +29,8 @@ class PlantBot:
         help_handler         : CommandHandler = CommandHandler('help',self.get_help)
         show_inputs_handler  : CommandHandler = CommandHandler('show_inputs',self.show_inputs)
         abort_handler        : CommandHandler = CommandHandler('abort',self.abort_action)
-        message_handler      : MessageHandler = MessageHandler(None,self.handle_message)
+        message_handler      : MessageHandler = MessageHandler(filters.TEXT,self.handle_message)
+        photo_handler        : MessageHandler = MessageHandler(filters.PHOTO,self.handle_photo)
 
         self.handlers.append(new_growth_handler)
         self.handlers.append(new_activity_handler)
@@ -36,6 +39,7 @@ class PlantBot:
         self.handlers.append(show_inputs_handler)
         self.handlers.append(abort_handler)
         self.handlers.append(message_handler)
+        self.handlers.append(photo_handler)
 
         self.application.add_handler(new_growth_handler)
         self.application.add_handler(new_activity_handler)
@@ -44,6 +48,7 @@ class PlantBot:
         self.application.add_handler(show_inputs_handler)
         self.application.add_handler(abort_handler)
         self.application.add_handler(message_handler)
+        self.application.add_handler(photo_handler)
 
     def run(self):
         self.application.run_polling()
@@ -124,10 +129,27 @@ class PlantBot:
 
     async def handle_message(self,update,context) -> None:
         if not await self.guard_access(update,context):
-            return 
+            return  
         message_text : str = self.get_message_text(update)
         ret_msg : str = self.handle_input(message_text)
         await self.send_message(update,context,ret_msg)
+
+    async def handle_photo(self,update,context) -> None:
+        if not await self.guard_access(update,context):
+            return
+        if update.effective_message.caption is None:
+            await self.send_message(update,context,'Please provited plant name as caption')
+            return 
+        
+        file_name_template = '%s_%s.jpg'
+        current_date : str = datetime.datetime.now().strftime(date_format_images)
+        plant_name : str = update.effective_message.caption.strip().replace(' ','')
+        new_file_name : str = file_name_template % (plant_name,current_date)
+        photo : str = update.effective_message.photo[-1].file_id
+        file  :  File = await context.bot.get_file(photo)
+        out_path : str = os.path.join(out_dir,img_dir,img_plants_dir,new_file_name)
+        await file.download_to_drive(out_path)
+        await self.send_message(update,context,'Saved new image as %s' % new_file_name)
 
     def handle_input(self,msg:str) -> str:
         if msg.startswith('/'):

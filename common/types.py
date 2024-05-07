@@ -3,20 +3,22 @@ import datetime
  
 class SpeciesInformation(TypedDict):
   name : str
-  scientific_name : str
-  sunlight_requirements: str 
-  temperature_min : float
-  temperature_max : float
-  optimal_temperature_min : float
-  optimal_temperature_max : float
-  plant_distance_cm : int
-  ph_min:float
-  ph_max:float
-  watering_notes:list[str]
-  fertilizing_notes:list[str]
-  pruning_notes:list[str]
-  companions:list[str]
-  additional_notes:list[str]
+  scientific_name           : str
+  sunlight_requirements     : str 
+  temperature_min           : float
+  temperature_max           : float
+  optimal_temperature_min   : float
+  optimal_temperature_max   : float
+  plant_distance_cm         : int
+  ph_min                    : float
+  ph_max                    : float
+  watering_notes            : list[str]
+  avg_watering_days         : int
+  fertilizing_notes         : list[str]
+  avg_fertilizing_days      : int
+  pruning_notes             : list[str]
+  companions                : list[str]
+  additional_notes          : list[str]
 
 class LogItem(TypedDict):
     log_activity : str
