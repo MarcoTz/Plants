@@ -33,6 +33,7 @@ class HTMLRenderer:
     header_template           : jinja2.Template
     footer_template           : jinja2.Template
     graveyard_template        : jinja2.Template
+    gallery_template          : jinja2.Template
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
@@ -65,6 +66,7 @@ class HTMLRenderer:
         self.header_template           = self.env.get_template(header_template_name)
         self.footer_template           = self.env.get_template(footer_template_name)
         self.graveyard_template        = self.env.get_template(graveyard_template_name)
+        self.gallery_template          = self.env.get_template(gallery_template_name) 
 
     def get_plants_species(self,species:str) -> list[Plant]: 
         species_li : list[Plant] = []
@@ -156,6 +158,7 @@ class HTMLRenderer:
             'index_link'            : link_prefix + index_out,
             'plant_overview_link'   : link_prefix + plant_overview_out,
             'species_overview_link' : link_prefix + species_overview_out,
+            'gallery_link'          : link_prefix + gallery_out,
             'activities_link'       : link_prefix + activity_log_out,
             'graveyard_link'        :link_prefix+graveyard_out} 
         return self.header_template.render(header_dict)
@@ -295,6 +298,37 @@ class HTMLRenderer:
         graveyard_html : str = self.graveyard_template.render(header=header_str,footer=footer_str,graveyard_rows='\n'.join(rows_trs))
         write_html(graveyard_out,graveyard_html)
 
+    def render_gallery(self) -> None:
+        all_plant_images : list[tuple[datetime.datetime,str,str]] = []
+
+        for plant in self.plant_list:
+            plant_images : list[tuple[datetime.datetime,str]] = plant.images
+            plant_images_with_name : list[tuple[datetime.datetime,str,str]] = list(map(lambda x: (x[0],plant.info['plant_name'],x[1]),plant_images))
+            all_plant_images.extend(plant_images_with_name)
+
+        all_plant_images.sort(key=lambda x: x[0],reverse=True)
+        plant_image_strs : list[str] = []
+        image_dir : str = os.path.join(img_dir,img_plants_dir)
+        image_template  : str = '<figure id="plant_image"><img src="%s/%s"/><figcaption>%s</figcaption></figure>'
+
+        for plant_image in all_plant_images:
+            plant_link : str = '<a href="%s/%s">%s</a>' % (plant_details_out,get_html_name(plant_image[1]),plant_image[1])
+            caption : str = plant_link + ' '+ plant_image[0].strftime(date_format)
+            plant_image_strs.append(image_template % (image_dir,plant_image[2],caption))
+
+        header_str : str = self.render_header(False)
+        footer_str : str = self.footer_template.render()
+
+        gallery_dict : dict[str,str] = {
+                'ehader': header_str,
+                'footer': footer_str,
+                'gallery_items': '\n'.join(plant_image_strs)
+                }
+
+        gallery_html : str = self.gallery_template.render(gallery_dict)
+        write_html(gallery_out,gallery_html)
+
+
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
         footer_str : str = self.footer_template.render()
@@ -342,5 +376,6 @@ class HTMLRenderer:
         self.render_all_species()
         self.render_all_plants()
         self.render_activity_log()
+        self.render_gallery()
         self.render_graveyard()
         self.render_index()
