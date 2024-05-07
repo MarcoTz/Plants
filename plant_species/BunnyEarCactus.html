@@ -4,8 +4,9 @@
     <title>Bunny Ear Cactus</title>
     <link rel="stylesheet" href="../css/main.css"/>
     <link rel="stylesheet" href="../css/details.css">
+    <script src="../js/main.js"></script>
   </head>
-  <body><div id="header">
+  <body onload="setup_img_events()"><div id="header">
   <a href="../index.html">Dashboard</a>
   <a href="../plant_overview.html">Plants</a>
   <a href="../species_overview.html">Plant Species</a>
@@ -34,6 +35,9 @@
     <div id="plant_gallery">
       <h2>Gallery</h2></div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
-  <div id="num_plants">Number of plants:57</div>
-</div></body>
+  <div id="num_plants">Number of plants:57</div><div id="image_viewer" onclick="close_image_viewer()">
+  <div id="image_box">
+    <img src="#" id="image_viewer_image"/>
+  </div>
+</div></div></body>
 </html>
