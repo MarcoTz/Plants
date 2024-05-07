@@ -34,8 +34,8 @@ class HTMLRenderer:
     species_list : list[PlantSpecies]
     graveyard    : list[GraveyardPlant]
 
-    plants_next_waterings : list[tuple[Plant,str]]
-    plants_next_fertilizings : list[tuple[Plant,str]]
+    plants_next_waterings    : list[tuple[Plant,datetime.datetime]]
+    plants_next_fertilizings : list[tuple[Plant,datetime.datetime]]
     
     def __init__(self,
                  plants     : list[Plant],
@@ -82,52 +82,40 @@ class HTMLRenderer:
                 return species
         return None
 
-    def get_next_watering_date(self,plant:Plant) -> str | None:
+    def get_next_dates(self,plant:Plant) -> tuple[datetime.datetime | None,datetime.datetime | None]:
         species : PlantSpecies | None = self.get_species_plant(plant)
         if species is None:
-            return None
+            return (None,None)
 
-        watering_interval : int = species.info['avg_watering_days']
-        if watering_interval == -1:
-            return None
-
-        filter_fun : function = lambda x: x['log_activity'].strip() == 'Watering'
-        watering_activities : list[LogItem] = list(filter(filter_fun,plant.info['plant_activities']))
-        if watering_activities == []:
-            return datetime.datetime.now().strftime(date_format)
-
-        watering_activities.sort(key=lambda x:x['log_date'],reverse=True)
-        last_watering_date : datetime.datetime = watering_activities[-1]['log_date']
-        watering_delta : datetime.timedelta = datetime.timedelta(days=watering_interval)
-
-        next_watering_date : datetime.datetime = last_watering_date + watering_delta
-        current_date : datetime.datetime = datetime.datetime.now()
-        next_watering_date = next_watering_date if next_watering_date > current_date else current_date
-        return next_watering_date.strftime(date_format)
-
-    def get_next_fertilizing_date(self,plant:Plant) -> str | None:
-        species : PlantSpecies | None = self.get_species_plant(plant)
-        if species is None:
-             return None 
-
+        watering_interval    : int = species.info['avg_watering_days']
+        next_watering_delta : datetime.timedelta = datetime.timedelta(days=watering_interval)
         fertilizing_interval : int = species.info['avg_fertilizing_days']
-        if fertilizing_interval == -1:
-            return None
+        next_fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
 
-        filter_fun : function = lambda x: x['log_activity'].strip() == 'Fertilizing'
-        fertilizing_activities : list[LogItem] = list(filter(filter_fun,plant.info['plant_activities']))
+        filter_fun : function = lambda y: lambda x: x['log_activity'].strip() == y 
+        plant_activities : list[LogItem] = plant.info['plant_activities']
+        watering_activities : list[LogItem] = list(filter(filter_fun('Watering'),plant_activities))
+        watering_activities.sort(key=lambda x:x['log_date'])
+        fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fetilizing'),plant_activities))
+        fertilizing_activities.sort(key=lambda x:x['log_date'])
 
-        if fertilizing_activities == []:
-            return datetime.datetime.now().strftime(date_format)
+        last_watering    : LogItem | None = watering_activities[-1] if watering_activities != [] else None
+        last_fertilizing : LogItem | None = fertilizing_activities[-1] if fertilizing_activities != [] else None
 
-        fertilizing_activities.sort(key = lambda x: x['log_date'],reverse=True)
-        last_fertilizing_date : datetime.datetime = fertilizing_activities[-1]['log_date']
-        fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
-
-        next_fertilizing_date : datetime.datetime = last_fertilizing_date + fertilizing_delta
+        next_watering    : datetime.datetime | None = None 
+        next_fertilizing : datetime.datetime | None = None 
         current_date : datetime.datetime = datetime.datetime.now()
-        next_fertilizing_date = next_fertilizing_date if next_fertilizing_date > current_date else current_date 
-        return next_fertilizing_date.strftime(date_format)
+        if watering_interval != -1:
+            last_date : datetime.datetime = last_watering['log_date'] if last_watering is not None else current_date
+            next_watering = last_date + next_watering_delta
+            next_watering = next_watering if next_watering > current_date else current_date
+
+        if fertilizing_interval != -1:
+            last_date : datetime.datetime = last_fertilizing['log_date'] if last_fertilizing is not None else current_date
+            next_fertilizing = last_date + next_fertilizing_delta
+            next_fertilizing = next_fertilizing if next_fertilizing > current_date else current_date
+
+        return (next_watering,next_fertilizing)
 
     def get_recent_activities_growth(self) -> tuple[list[tuple[str,GrowthItem]],list[tuple[str,LogItem]]]:
         last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
@@ -217,6 +205,9 @@ class HTMLRenderer:
             'graveyard_link'        :link_prefix+graveyard_out} 
         return self.header_template.render(header_dict)
 
+    def render_footer(self) -> str:
+        return self.footer_template.render(num_plants=len(self.plant_list))
+
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
         for plant in self.species_list:
@@ -224,7 +215,7 @@ class HTMLRenderer:
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         plant_li : str = self.species_overview_template.render(species_list_items=lis_str,header=header_str,footer=footer_str)
         write_html(species_overview_out,plant_li)
 
@@ -235,14 +226,14 @@ class HTMLRenderer:
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str,header=header_str,footer=footer_str)
         write_html(plant_overview_out,plant_li)
 
     def render_species_details(self,plant:PlantSpecies) -> None:
         info_dict:dict[str,str] = plant.get_info_dict()
         header_str : str = self.render_header(True)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
 
@@ -274,7 +265,7 @@ class HTMLRenderer:
         info_dict:dict[str,str]= plant.get_info_dict()
 
         header_str : str = self.render_header(True)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
  
@@ -302,19 +293,18 @@ class HTMLRenderer:
             info_dict['next_watering_date'] = ''
             info_dict['next_fertilizing_date'] = ''
 
-        next_watering_date : str | None = self.get_next_watering_date(plant)
+        (next_watering_date,next_fertilizing_date) = self.get_next_dates(plant)
         if next_watering_date is not None:
-             info_dict['next_watering_date'] = next_watering_date
+             info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
              self.plants_next_waterings.append((plant,next_watering_date))
         else:
-            info_dict['next_watering_date'] = ''
+            info_dict['next_watering_date'] = 'N/A'
 
-        next_fertilizing_date : str | None = self.get_next_fertilizing_date(plant)
         if next_fertilizing_date is not None: 
-            info_dict['next_fertilizing_date'] = next_fertilizing_date
+            info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
             self.plants_next_fertilizings.append((plant,next_fertilizing_date))
         else: 
-            info_dict['next_fertilizing_date'] = '' 
+            info_dict['next_fertilizing_date'] = 'N/A' 
 
         growth_trs : list[str] = []
         for log_item in plant.info['plant_growth']:
@@ -354,13 +344,13 @@ class HTMLRenderer:
 
         tr_str : str = '\n'.join(tr_list)
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         log_html : str = self.activities_template.render(activity_log_rows=tr_str,header=header_str,footer=footer_str)
         write_html(activity_log_out,log_html)
 
     def render_graveyard(self) -> None:
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         rows_trs : list[str] = []
         for graveyard_plant in self.graveyard:
             new_tr : str = '<tr>'
@@ -373,7 +363,13 @@ class HTMLRenderer:
             new_tr += '<td>%s</td>' % graveyard_plant['graveyard_reason']
             new_tr += '</tr>'
             rows_trs.append(new_tr)
-        graveyard_html : str = self.graveyard_template.render(header=header_str,footer=footer_str,graveyard_rows='\n'.join(rows_trs))
+
+        graveyard_dict : dict[str,str] = {
+                'header':header_str,
+                'footer':footer_str,
+                'graveyard_rows':'\n'.join(rows_trs)
+                }
+        graveyard_html : str = self.graveyard_template.render(graveyard_dict)
         write_html(graveyard_out,graveyard_html)
 
     def render_gallery(self) -> None:
@@ -381,7 +377,8 @@ class HTMLRenderer:
 
         for plant in self.plant_list:
             plant_images : list[tuple[datetime.datetime,str]] = plant.images
-            plant_images_with_name : list[tuple[datetime.datetime,str,str]] = list(map(lambda x: (x[0],plant.info['plant_name'],x[1]),plant_images))
+            tuple_fun : function = lambda x: (x[0],plant.info['plant_name'],x[1])
+            plant_images_with_name : list[tuple[datetime.datetime,str,str]] = list(map(tuple_fun,plant_images))
             all_plant_images.extend(plant_images_with_name)
 
         all_plant_images.sort(key=lambda x: x[0],reverse=True)
@@ -395,7 +392,7 @@ class HTMLRenderer:
             plant_image_strs.append(image_template % (image_dir,plant_image[2],caption))
 
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
 
         gallery_dict : dict[str,str] = {
                 'header': header_str,
@@ -409,7 +406,7 @@ class HTMLRenderer:
 
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
-        footer_str : str = self.footer_template.render()
+        footer_str : str = self.render_footer()
         recent_growth_str : str = ''
         recent_activities_str : str = ''
         (recent_growth,recent_activities) = self.get_recent_activities_growth()
@@ -432,21 +429,21 @@ class HTMLRenderer:
             recent_activities_str += '</tr>'
         
         current_date : datetime.datetime = datetime.datetime.now()
-        next_week : datetime.datetime = current_date + datetime.timedelta(weeks=1)
-        filter_fun : function = lambda x: datetime.datetime.strptime(x[1],date_format) <= next_week
-        next_waterings : list[tuple[Plant,str]] = list(filter(filter_fun,self.plants_next_waterings))
-        next_fertilizings : list[tuple[Plant,str]] = list(filter(filter_fun,self.plants_next_fertilizings))
+        next_week    : datetime.datetime = current_date + datetime.timedelta(weeks=1)
+        filter_fun   : function = lambda x:x[1] <= next_week
+        next_waterings    : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_waterings))
+        next_fertilizings : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
 
         next_activities : dict[tuple[str,str],list[str]] = {}
         for next_watering in next_waterings:
-            activity_key :tuple[str,str] = (next_watering[1],'Watering')
+            activity_key :tuple[str,str] = (next_watering[1].strftime(date_format),'Watering')
             activity_value : str = next_watering[0].info['plant_name']
             if activity_key in next_activities:
                 next_activities[activity_key].append(activity_value)
             else:
                 next_activities[activity_key] = [activity_value]
         for next_fertilizing in next_fertilizings:
-            activity_key = (next_fertilizing[1],'Fetilizing')
+            activity_key = (next_fertilizing[1].strftime(date_format),'Fetilizing')
             activity_value = next_fertilizing[0].info['plant_name']
             if activity_key in next_activities:
                 next_activities[activity_key].append(activity_value)
@@ -459,7 +456,7 @@ class HTMLRenderer:
         next_activity_div : str = '<div class="next_activity">%s<br/>%s<br/>%s</div>'
         for activity_key in activity_keys:
             activity_date : str = activity_key[0]
-            activity : str = activity_key[1]
+            activity      : str = activity_key[1]
             activity_plants : list[str] = next_activities[activity_key]
             plant_link_template = '<a href="%s/%s">%s</a>'
             plant_link_fun : function = lambda x: plant_link_template % (plant_details_out,get_html_name(x),x)
