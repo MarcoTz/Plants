@@ -305,7 +305,7 @@ class HTMLRenderer:
         for (plant_name,recent_growth_item) in recent_growth:
             recent_growth_str += '<tr>'
             recent_growth_str += '<td>%s</td>' % recent_growth_item['log_date'].strftime(date_format)
-            recent_growth_str += '<td>%s</td>' % plant_name
+            recent_growth_str += '<td><a href="%s/%s">%s</a></td>' % (plant_details_out,get_html_name(plant_name),plant_name)
             recent_growth_str += '<td>%s</td>' % (str(recent_growth_item['log_height_cm']) + 'cm')
             recent_growth_str += '<td>%s</td>' % (str(recent_growth_item['log_width_cm']) + 'cm')
             recent_growth_str += '<td>%s</td>' % recent_growth_item['log_note']
@@ -315,7 +315,7 @@ class HTMLRenderer:
             recent_activities_str += '<tr>'
             recent_activities_str += '<td>%s</td>' % recent_activity_item['log_date'].strftime(date_format)
             recent_activities_str += '<td>%s</td>' % recent_activity_item['log_activity']
-            recent_activities_str += '<td>%s</td>' % plant_name
+            recent_activities_str += '<td><a href="%s/%s">%s</td>' % (plant_details_out,get_html_name(plant_name),plant_name)
             recent_activities_str += '<td>%s</td>' % recent_activity_item['log_note']
             recent_activities_str += '</tr>'
 
