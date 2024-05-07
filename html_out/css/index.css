@@ -1,8 +1,25 @@
-#recent_activities_list {
+#next_activities {
+  display:flex;
+  align-items:start;
+  align-content:space-around;
+  justify-content:center;
+  gap:1em;
+  flex-wrap:wrap;
+  width:95%;
+}
+.next_activity {
+  border-radius:1em;
+  padding:0.5em;
+  width:8em;
+}
+.next_activity:nth-child(odd){
+  background:var(--bg-color-odd);
+}
+.next_activity:nth-child(even){
+  background:var(--bg-color-even);
 }
 
-#recent_growth_list {
-}
+
 
 #recent_updates_container {
   overflow:auto;

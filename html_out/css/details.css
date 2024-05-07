@@ -50,6 +50,6 @@ img {
 
 #next_watering, #next_fertilizing {
   text-align:center;
-  border-radius: 0.5em;
+  border-radius: 1em;
   padding:0.5em;
 }
