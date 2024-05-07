@@ -65,6 +65,10 @@ td:nth-child(even){
   text-align:left;
 }
 
+.hidden {
+  display:none;
+}
+
 #header {
   width:90%;
   padding-left:5%;
