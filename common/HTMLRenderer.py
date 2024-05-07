@@ -1,6 +1,7 @@
 from common.PlantSpecies import PlantSpecies
 from common.Plant import Plant
-from common.common import *
+from common.types import *
+from common.constants import * 
 import jinja2
 import os
 

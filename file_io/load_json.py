@@ -1,4 +1,5 @@
-from common.common import * 
+from common.types import * 
+from common.constants import * 
 from common.Plant import Plant
 from common.PlantSpecies import PlantSpecies
 
@@ -63,3 +64,11 @@ def load_plants_species() -> tuple[list[Plant],list[PlantSpecies]]:
     plants  : list[Plant]        = load_plants()
     species : list[PlantSpecies] = load_species()
     return (plants,species)
+
+def load_bot_config() -> tuple[str,list[int]]:
+    config_file_path = os.path.join(bot_dir,bot_config_name)
+    config_file = open(config_file_path,'r')
+    config_contents = json.loads(config_file.read())
+    api_key : str = config_contents['api_key']
+    whitelist : list[int] = config_contents['white_list']
+    return (api_key,whitelist)

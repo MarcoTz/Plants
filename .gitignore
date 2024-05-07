@@ -1,2 +1,3 @@
 __pycache__
 html_out/**/*.html
+conf.json

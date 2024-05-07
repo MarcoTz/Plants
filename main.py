@@ -1,8 +1,9 @@
-from common.load_json    import load_plants_species 
-from common.load_csv     import load_activities,load_growth,load_graveyard
-from common.HTMLRenderer import HTMLRenderer
-from common.Plant        import Plant
-from common.common import * 
+from file_io.load_json      import load_plants_species 
+from file_io.load_csv       import load_activities,load_growth,load_graveyard
+from common.HTMLRenderer    import HTMLRenderer
+from common.Plant           import Plant
+from common.types           import * 
+from common.constants       import * 
 
 import os 
 from PIL import Image
@@ -73,13 +74,14 @@ def create_preview_images() -> None:
         plant_image.save(plant_image_preview_path,'JPEG')
 
 
-(plants,species) = load_plants_species()
-activities = load_activities()
-assign_activities(plants,activities)
-growth = load_growth()
-assign_growth(plants,growth)
-load_images(plants)
-create_preview_images()
-graveyard = load_graveyard()
-renderer = HTMLRenderer(plants,species,graveyard)
-renderer.render_all()
+if __name__ == '__main__':
+    (plants,species) = load_plants_species()
+    activities = load_activities()
+    assign_activities(plants,activities)
+    growth = load_growth()
+    assign_growth(plants,growth)
+    load_images(plants)
+    create_preview_images()
+    graveyard = load_graveyard()
+    renderer = HTMLRenderer(plants,species,graveyard)
+    renderer.render_all()

@@ -1,4 +1,4 @@
-from common.common import SpeciesInformation
+from common.types import * 
 
 class PlantSpecies:
 

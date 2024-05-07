@@ -1,31 +1,15 @@
-import datetime
-
-def get_float(prompt:str) -> float:
-    nr : str = input(prompt)
-    try:
-        nr_float = float(nr)
-        return nr_float
-    except ValueError:
-        print('Could not parse number, please try again')
-        return get_float(prompt)
-
-def get_date() -> str:
-    date_str = input('Enter log date (dd.mm.yyyy): ').strip()
-    try:
-        datetime.datetime.strptime(date_str,'%d.%m.%Y')
-        return date_str
-    except ValueError:
-        print('Could not parse date, please try again')
-        return get_date()
+from update.parse_input import get_float, get_date
+from file_io.write_csv  import write_csv
+from common.constants   import *
 
 def create_growth(): 
     print('-- Add Growth --')
 
     log_plant : str = input('Enter Plant Name: ').strip()
-    log_date    : str       = get_date() 
+    log_date  : str       = get_date('Enter log date (dd.mm.yyyy): ')
 
     height_cm : float = get_float('Enter height (cm): ')
-    width_cm : float = get_float('Enter width (cm): ')
+    width_cm  : float = get_float('Enter width (cm): ')
 
     log_note : str = input('Enter additional Note: ').strip()
     log_note = ' ' if log_note is None else log_note
@@ -46,3 +30,7 @@ def create_multiple_growth():
         activities.insert(0,activity)
         return activities
     return [activity]
+
+def add_growth(log_items:list[dict[str,str]]) -> None:
+    write_csv(log_items,log_dir,growth_log_file_name)
+

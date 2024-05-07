@@ -1,22 +1,6 @@
-def get_notes() -> list[str]:
-    new_note:str = input('').strip()
-    if new_note == '':
-        return []
-    else:
-        rest_notes :list[str] = get_notes()
-        rest_notes.insert(0,new_note)
-        return rest_notes
-
-
-def get_float(prompt:str) -> float:
-    nr : str = input(prompt)
-    try: 
-        nr_float = float(nr)
-        return nr_float
-    except ValueError:
-        print('Could not parse number, please try again')
-        return get_float(prompt)
-
+from update.parse_input import get_float,get_lines
+from file_io.write_json import write_json
+from common.constants   import species_dir
 
 def create_species():
     print('--Create new Plant Species--')
@@ -31,15 +15,15 @@ def create_species():
     ph_min              : float         = get_float('enter minimal pH value: ')
     ph_max              : float         = get_float('Enter maximal pH value: ')
     print('Enter watering notes (leave line blank to finish)')
-    watering_notes      : list[str]     = get_notes()
+    watering_notes      : list[str]     = get_lines()
     print('Enter fertilizing notes (leave line blank to finish)')
-    fertilizing_notes   : list[str]     = get_notes()
+    fertilizing_notes   : list[str]     = get_lines()
     print('Enter pruning notes (leave line blank to finish)')
-    pruning_notes       : list[str]     = get_notes()
+    pruning_notes       : list[str]     = get_lines()
     print('Enter companion plants (one per line, leave blank to finish)')
-    companions          : list[str]     = get_notes()
+    companions          : list[str]     = get_lines()
     print('Enter any additional notes (leave line blank to finish')
-    notes               : list[str]     = get_notes()
+    notes               : list[str]     = get_lines()
 
     return {
             "name"                      : species_name,
@@ -58,4 +42,8 @@ def create_species():
             "companions"                : companions,
             "additional_notes"          : notes 
             }
+
+def add_species(species_information:dict[str,str]) -> None:
+    species_file_name = species_information['name'].replace(' ','')+ '.json'
+    write_json(species_information,species_dir,species_file_name)
 

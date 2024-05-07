@@ -1,32 +1,9 @@
+from update.parse_input import get_float,get_lines,get_date
+from file_io.write_csv import write_csv
+from file_io.write_json import write_json
+from common.constants import date_format, plants_dir,log_dir,growth_log_file_name
+
 import datetime 
-
-def get_notes() -> list[str]:
-    new_note:str = input('').strip()
-    if new_note == '':
-        return []
-    else:
-        rest_notes :list[str] = get_notes()
-        rest_notes.insert(0,new_note)
-        return rest_notes
-
-def get_float(prompt:str) -> float:
-    nr : str = input(prompt)
-    try: 
-        nr_float = float(nr)
-        return nr_float
-    except ValueError:
-        print('Could not parse number, please try again')
-        return get_float(prompt)
-
-def get_date() -> str:
-    date_str = input('Enter obtained date (dd.mm.yyyy): ').strip()
-    try:
-        datetime.datetime.strptime(date_str,'%d.%m.%Y')
-        return date_str
-    except ValueError: 
-        print('Could not parse date, please try again')
-        return get_date()
-
 
 def create_plant():
 
@@ -37,9 +14,9 @@ def create_plant():
     width        : float     = get_float('Enter current width (in cm): ')
     location     : str       = input('Enter current location: ').strip()
     origin       : str       = input('Enter plant origin: ').strip()
-    obtained     : str       = get_date() 
+    obtained     : str       = get_date('Enter obtained date (dd.mm.yyyy): ') 
     print('Enter additional notes (leave line blank to finish)')
-    plant_notes  : list[str] = get_notes()
+    plant_notes  : list[str] = get_lines()
     
 
     return { 
@@ -52,3 +29,19 @@ def create_plant():
             'obtained'         : obtained,
             'plant_notes'      : plant_notes 
             }
+
+
+def add_plant(plant_information:dict[str,str]) -> None:
+    plant_name : str = plant_information['plant_name']
+    plant_file_name : str = plant_name.replace(' ','')+'.json'
+    current_date : str = datetime.datetime.now().strftime(date_format)
+    first_growth : dict[str,str] = {
+        'log_date':current_date,
+        'log_plant':plant_name,
+        'log_height_cm':plant_information['current_height'],
+        'log_width_cm':plant_information['current_width'],
+        'log_note':'Added during plant creation'}
+
+    write_json(plant_information,plants_dir,plant_file_name)
+    write_csv([first_growth],log_dir,growth_log_file_name)
+
