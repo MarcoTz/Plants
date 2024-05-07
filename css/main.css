@@ -70,26 +70,60 @@ td:nth-child(even){
 }
 
 #header {
-  width:90%;
-  padding-left:5%;
-  padding-right:5%;
-  padding-bottom:5%;
+  width:100%;
+  margin-bottom:2em;
+  margin-top:2em;
+   
+  display:flex;
+  align-items:center;
+  align-content:space-around;
+  align-self:center;
+  justify-content:center;
+  gap:1em;
+  flex-wrap:none;
+
+  padding-bottom:1em;
+
+  border-top:0px;
+  border-right:0px;
+  border-left:0px;
+  border-bottom:0.5em;
+  border-style:solid;
+  border-color:var(--bg-color-even);
 }
+
 #header > * {
-  float:left;
-  width:16%;
+  font-size:16pt;
   text-align:center;
+  vertical-align:middle;
+  border-radius:1em;
+  width:10em;
+  height:3em;
+}
+#header > *:nth-child(odd){
+  background:var(--bg-color-odd);
+}
+#header > *:nth-child(even){
+  background:var(--bg-color-even);
 }
 
 #footer { 
-  width:90%;
-  margin:2em;
+  width:100%;
+  margin-top:2em;
   border-top:0.5em;
   border-left:0px;
   border-right:0px;
   border-bottom:0px;
   border-style:solid;
   border-color:var(--bg-color-even);
+}
+#github_link{
+  float:left;
+  margin-left:1em;
+}
+#num_plants{
+  float:right;
+  margin-right:1em;
 }
 
 #header_row {

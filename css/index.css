@@ -1,6 +1,6 @@
 #next_activities {
   display:flex;
-  align-items:start;
+  align-items:stretch;
   align-content:space-around;
   justify-content:center;
   gap:1em;
@@ -10,7 +10,7 @@
 .next_activity {
   border-radius:1em;
   padding:0.5em;
-  width:8em;
+  width:5em;
 }
 .next_activity:nth-child(odd){
   background:var(--bg-color-odd);
