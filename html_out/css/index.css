@@ -26,15 +26,17 @@
 }
 
 #recent_growth_container {
-  display:inline;
+  display:block;
   float:left;
   margin-left:5%;
-  width:45%;
+  margin-right:5%;
+  width:40%;
 }
 
 #recent_activities_container{ 
-  display:inline;
+  display:block;
   float:right;
-  width:45%;
+  width:40%;
   margin-right:5%;
+  margin-left:5%;
 }

@@ -90,7 +90,7 @@ class HTMLRenderer:
             return (None,None)
 
         watering_interval    : int = species.info['avg_watering_days']
-        next_watering_delta : datetime.timedelta = datetime.timedelta(days=watering_interval)
+        next_watering_delta  : datetime.timedelta = datetime.timedelta(days=watering_interval)
         fertilizing_interval : int = species.info['avg_fertilizing_days']
         next_fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
 
@@ -101,19 +101,19 @@ class HTMLRenderer:
         fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fetilizing'),plant_activities))
         fertilizing_activities.sort(key=lambda x:x['log_date'])
 
-        last_watering    : LogItem | None = watering_activities[-1] if watering_activities != [] else None
+        last_watering    : LogItem | None = watering_activities[-1]    if watering_activities != []    else None
         last_fertilizing : LogItem | None = fertilizing_activities[-1] if fertilizing_activities != [] else None
 
         next_watering    : datetime.datetime | None = None 
         next_fertilizing : datetime.datetime | None = None 
         current_date : datetime.datetime = datetime.datetime.now()
         if watering_interval != -1:
-            last_date : datetime.datetime = last_watering['log_date'] if last_watering is not None else current_date
+            last_date : datetime.datetime = last_watering['log_date'] if last_watering is not None else datetime.datetime.min
             next_watering = last_date + next_watering_delta
             next_watering = next_watering if next_watering > current_date else current_date
 
         if fertilizing_interval != -1:
-            last_date : datetime.datetime = last_fertilizing['log_date'] if last_fertilizing is not None else current_date
+            last_date : datetime.datetime = last_fertilizing['log_date'] if last_fertilizing is not None else datetime.datetime.min 
             next_fertilizing = last_date + next_fertilizing_delta
             next_fertilizing = next_fertilizing if next_fertilizing > current_date else current_date
 

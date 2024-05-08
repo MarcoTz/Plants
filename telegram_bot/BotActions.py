@@ -1,10 +1,11 @@
 from enum import Enum 
 import datetime 
-from common.constants import date_format
-from update.add_activity import add_activities
-from update.add_growth import add_growth
-from update.add_plant import add_plant
-from update.add_species import add_species
+from common.constants           import date_format
+from update.add_activity        import add_activities
+from update.add_growth          import add_growth
+from update.add_plant           import add_plant
+from update.add_species         import add_species
+from update.move_to_graveyard   import move_to_graveyard
 
 class BotAction(Enum):
    IDLE         = 1 
@@ -12,6 +13,7 @@ class BotAction(Enum):
    NEW_ACTIVITY = 3
    NEW_PLANT    = 4
    NEW_SPECIES  = 5
+   MOVE_GRAVEYARD = 6
 
 action_input_information : dict[BotAction,list[tuple[str,str]]] = {
         BotAction.IDLE : [],
@@ -56,7 +58,12 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter pruning notes (separate by comma, write "Done" for no notes',     'str'),
             ('Please enter companion plants (separate by comma,write "Done" for no notes',   'str'),
             ('Please enter additional notes (separate by comma, write "Done" for no notes',  'str')
-            ] 
+            ],
+        BotAction.MOVE_GRAVEYARD : [
+            ('PLease enter plant name',                 'str'),
+            ('Please enter died date (dd.mm.yyyy)',     'date'),
+            ('Please enter diead reason',               'str')
+            ]
     }
 
 def get_ret_msg(action:BotAction, ind:int) -> str:
@@ -71,6 +78,7 @@ def get_input_ty(action:BotAction, ind:int) -> str:
     except IndexError:
         return ''
 
+# json_key, split_on_comma, nothing_if_Done
 action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
         BotAction.IDLE : 
             [],
@@ -115,6 +123,11 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
             ('pruning_notes',           True,True),
             ('companions',              True,True),
             ('additional_notes',        True,True),
+            ],
+        BotAction.MOVE_GRAVEYARD : [
+            ('graveyard_plant',         False,False),
+            ('graveyard_died_date',     False,False),
+            ('graveyard_reason',        False,False)
             ]
 }
 
@@ -130,6 +143,8 @@ def get_action_writer(action:BotAction):
             return add_plant
         case BotAction.NEW_SPECIES:
             return add_species
+        case BotAction.MOVE_GRAVEYARD:
+            return move_to_graveyard
 
 def get_len_input(action:BotAction) -> int:
     return len(action_input_information[action])
@@ -146,6 +161,8 @@ def explain_BotAction(action:BotAction) -> str:
             return 'added new plant'
         case BotAction.NEW_SPECIES:
             return 'added new species'
+        case BotAction.MOVE_GRAVEYARD:
+            return 'moved to graveyard'
 
 def validate_msg(msg:str,ty:str) -> str | None:
     if ty == 'float' and not ensure_float(msg):
