@@ -49,7 +49,9 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter minimal distance to next plant (cm)',                             'float'),
             ('Please enter minimal pH value',                                                'float'),
             ('Please enter maximal pH value',                                                'float'),
+            ('Please enter average days between waterings',                                  'int'),
             ('Please enter watering notes (separate by comma, write "Done" for no notes',    'str'),
+            ('Please enter average days between fertilizings',                               'int'),
             ('Please enter fertilizing notes (separate by comma, write "Done" for no notes', 'str'),
             ('Please enter pruning notes (separate by comma, write "Done" for no notes',     'str'),
             ('Please enter companion plants (separate by comma,write "Done" for no notes',   'str'),
@@ -106,8 +108,10 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
             ('plant_distance_cm',       False,False),
             ('ph_min',                  False,False),
             ('ph_max',                  False,False),
+            ('avg_watering_days',       False,False),   
             ('watering_notes',          True,True),
             ('fertilizing_notes',       True,True),
+            ('avg_fertilizing_days',    False,False),
             ('pruning_notes',           True,True),
             ('companions',              True,True),
             ('additional_notes',        True,True),
@@ -148,11 +152,20 @@ def validate_msg(msg:str,ty:str) -> str | None:
         return 'Could not parse number, please try again'
     if ty == 'date' and not ensure_datetime(msg):
         return 'Could not parse date, please try again'
+    if ty == 'int' and not ensure_int(msg):
+        return 'Could not parse number, please try again'
     return None
 
 def ensure_datetime(msg:str) -> bool:
     try:
         datetime.datetime.strptime(msg,date_format)
+        return True
+    except ValueError:
+        return False
+
+def ensure_int(msg:str) -> bool:
+    try:
+        int(msg)
         return True
     except ValueError:
         return False

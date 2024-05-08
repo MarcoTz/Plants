@@ -14,8 +14,10 @@ def create_species():
     plant_distance      : float         = get_float('Enter minimal distance between plants (in cm): ')
     ph_min              : float         = get_float('enter minimal pH value: ')
     ph_max              : float         = get_float('Enter maximal pH value: ')
+    avg_watering_days   : int           = int(get_float('Enter average days between waterings'))
     print('Enter watering notes (leave line blank to finish)')
     watering_notes      : list[str]     = get_lines()
+    avg_fertilizing_days: int           = int(get_float('Enter average days between fertilizing'))
     print('Enter fertilizing notes (leave line blank to finish)')
     fertilizing_notes   : list[str]     = get_lines()
     print('Enter pruning notes (leave line blank to finish)')
@@ -37,7 +39,9 @@ def create_species():
             "ph_min"                    : ph_min,
             "ph_max"                    : ph_max,
             "watering_notes"            : watering_notes,
+            "avg_watering_days"         : avg_watering_days,
             "fertilizing_notes"         : fertilizing_notes,
+            "avg_fertilizing_days"      : avg_fertilizing_days,
             "pruning_notes"             : pruning_notes,
             "companions"                : companions,
             "additional_notes"          : notes 
