@@ -84,6 +84,14 @@ class HTMLRenderer:
                 return species
         return None
 
+    def get_plant_locations(self) -> list[str]:
+        locations : list[str] = []
+        for plant in self.plant_list:
+            plant_location = plant.info['current_location']
+            if plant_location not in locations:
+                locations.append(plant_location)
+        return locations 
+
     def get_next_dates(self,plant:Plant) -> tuple[datetime.datetime | None,datetime.datetime | None]:
         species : PlantSpecies | None = self.get_species_plant(plant)
         if species is None:
@@ -155,7 +163,7 @@ class HTMLRenderer:
         return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
     def create_plant_li(self,plant:Plant) -> str:
-        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s (%s)</a>%s</div>'
+        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a><br/><a href="%s/%s">%s</a>%s</div>'
         
         img_str : str = ''
         if len(plant.images) > 0:
@@ -163,10 +171,12 @@ class HTMLRenderer:
             image_url = os.path.join(image_url,img_small_dir,plant.images[0][1])
             img_str = '<br/><img id="plant_preview" src="%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
-        info_tuple : tuple[str,str,str,str,str] = (
+        info_tuple : tuple[str,str,str,str,str,str,str] = (
                 plant_details_out,
                 details_file_name,
                 plant.info['plant_name'],
+                species_details_out,
+                get_html_name(plant.info['species_name']),
                 plant.info['species_name'],
                 img_str
                 )
@@ -229,14 +239,26 @@ class HTMLRenderer:
         write_html(species_overview_out,plant_li)
 
     def render_plant_overview(self) -> None:
-        plant_lis : list[str] = []
+        plant_locations : list[str] = self.get_plant_locations()
+        location_divs : dict[str,str] = {} 
+        plant_lis : dict[str,list[str]] = {}
+        for location in plant_locations:
+            plant_lis[location] = []
+            location_divs[location] = '<div id="location_group"><h2>%s</h2>%s</div>'
+
         for plant in self.plant_list: 
             plant_li : str = self.create_plant_li(plant)
-            plant_lis.append(plant_li)
-        lis_str : str = '\n'.join(plant_lis)
+            plant_location : str = plant.info['current_location']
+            plant_lis[plant_location].append(plant_li)
+        
+        for location in plant_locations: 
+            location_lis = '\n'.join(plant_lis[location])
+            location_divs[location] = location_divs[location] % (location,location_lis)
+
+        items_str : str = '\n'.join(list(location_divs.values()))
         header_str : str = self.render_header(False)
         footer_str : str = self.render_footer()
-        plant_li : str = self.plant_overview_template.render(plant_list_items=lis_str,header=header_str,footer=footer_str)
+        plant_li : str = self.plant_overview_template.render(plant_list_items=items_str,header=header_str,footer=footer_str)
         write_html(plant_overview_out,plant_li)
 
     def render_species_details(self,plant:PlantSpecies) -> None:
