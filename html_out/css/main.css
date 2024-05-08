@@ -161,13 +161,13 @@ img {
   border-style:solid;
   border-color:var(--bg-color-even);
 }
-#github_link{
-  float:left;
-  margin-left:1em;
-}
-#num_plants{
+
+#footer > * {
+  margin:1em;
   float:right;
-  margin-right:1em;
+}
+#github_link {
+  float:left;
 }
 
 #header_row {

@@ -209,7 +209,13 @@ class HTMLRenderer:
 
     def render_footer(self) -> str:
         image_viewer_str : str = self.image_viewer_template.render()
-        return self.footer_template.render(num_plants=len(self.plant_list),image_viewer=image_viewer_str)
+        last_build_date_str : str = datetime.datetime.now().strftime(date_format)
+        footer_dict : dict[str,str] = {
+                'num_plants':str(len(self.plant_list)),
+                'image_viewer':image_viewer_str,
+                'last_build_date':last_build_date_str
+                }
+        return self.footer_template.render(footer_dict)
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
