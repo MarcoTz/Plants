@@ -412,7 +412,7 @@ class HTMLRenderer:
         plant_divs : list[str] = [] 
         plant_div_template : str = '''
             <div class="image_plant_container">
-                <h2>%s</h2>
+                <h2><a href="%s/%s">%s</a></h2>
                 <div class="images_plant">%s</div>
                 <div class="img_controls">
                 <div class="left_arrow">&#9754;</div>
@@ -429,14 +429,15 @@ class HTMLRenderer:
         for plant in self.plant_list:
             images_strs : list[str] = []
             plant_images : list[tuple[datetime.datetime,str]] = plant.images
-            plant_images.sort(key=lambda x: x[0])
+            plant_images.sort(key=lambda x: x[0],reverse=True)
             for (img_date,img_name) in plant.images:
                 img_path : str = os.path.join(img_dir,img_plants_dir,img_name)
                 current_ind : int = plant.images.index((img_date,img_name))+1
                 current_img : str = img_template % (img_path,img_date.strftime(date_format),str(current_ind),str(len(plant_images)))
                 images_strs.append(current_img)
-
-            current_plant_div : str = plant_div_template % (plant.info['plant_name'], '\n'.join(images_strs))
+            
+            plant_name : str = plant.info['plant_name']
+            current_plant_div : str = plant_div_template % (plant_details_out,get_html_name(plant_name),plant_name, '\n'.join(images_strs))
             plant_divs.append(current_plant_div)
 
         header_str : str = self.render_header(False)
