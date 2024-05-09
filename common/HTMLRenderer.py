@@ -163,7 +163,13 @@ class HTMLRenderer:
         return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
     def create_plant_li(self,plant:Plant) -> str:
-        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a><br/><a href="%s/%s">%s</a>%s</div>'
+        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a><br/>%s %s</div>'
+        species_link : str = '<a href="%s/%s">%s</a>'
+       
+        if self.get_species_plant(plant) is not None : 
+            species_link = species_link % (species_details_out,get_html_name(plant.info['species_name']),plant.info['species_name'])
+        else: 
+            species_link = plant.info['species_name']
         
         img_str : str = ''
         if len(plant.images) > 0:
@@ -171,13 +177,11 @@ class HTMLRenderer:
             image_url = os.path.join(image_url,img_small_dir,plant.images[0][1])
             img_str = '<br/><img id="plant_preview" src="%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
-        info_tuple : tuple[str,str,str,str,str,str,str] = (
+        info_tuple : tuple[str,str,str,str,str] = (
                 plant_details_out,
                 details_file_name,
                 plant.info['plant_name'],
-                species_details_out,
-                get_html_name(plant.info['species_name']),
-                plant.info['species_name'],
+                species_link,
                 img_str
                 )
         return li_template % info_tuple 
@@ -274,7 +278,7 @@ class HTMLRenderer:
         species_plants_str : str = ''
         plants_images_list : list[str] = []
         images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure id="plant_image"><img src="../%s"/><figcaption>%s,%s</figcaption></figure>'
+        image_template  : str = '<figure class="plant_image"><img src="../%s"/><figcaption>%s,%s</figcaption></figure>'
         for species_plant in species_plants:
             plant_name = species_plant.info['plant_name']
             species_plants_str += '<a href="../%s/%s">%s</a><br/>' % (plant_details_out,get_html_name(plant_name),plant_name)
@@ -346,7 +350,7 @@ class HTMLRenderer:
 
         images_list : list[str] = [] 
         images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure id="plant_image"><img src="../%s"/><figcaption>%s</figcaption></figure>'
+        image_template  : str = '<figure class="plant_image"><img src="../%s"/><figcaption>%s</figcaption></figure>'
         for (image_date,image_name) in plant.images:
             image_path : str = os.path.join(images_path,image_name)
             image_date_str : str = image_date.strftime(date_format)
@@ -404,23 +408,36 @@ class HTMLRenderer:
         write_html(graveyard_out,graveyard_html)
 
     def render_gallery(self) -> None:
-        all_plant_images : list[tuple[datetime.datetime,str,str]] = []
-
+        
+        plant_divs : list[str] = [] 
+        plant_div_template : str = '''
+            <div class="image_plant_container">
+                <h2>%s</h2>
+                <div class="images_plant">%s</div>
+                <div class="img_controls">
+                <div class="left_arrow">&#9754;</div>
+                <div class="right_arrow">&#9755;</div>
+                </div>
+            </div>'''
+        img_template : str = '''
+            <figure class="plant_image">
+                <img src="%s"/>
+                <figcaption>
+                    <div class="img_date">%s</div> <div class="img_nr">%s/%s</div>
+                </figcaption>
+            </figure>'''
         for plant in self.plant_list:
+            images_strs : list[str] = []
             plant_images : list[tuple[datetime.datetime,str]] = plant.images
-            tuple_fun : function = lambda x: (x[0],plant.info['plant_name'],x[1])
-            plant_images_with_name : list[tuple[datetime.datetime,str,str]] = list(map(tuple_fun,plant_images))
-            all_plant_images.extend(plant_images_with_name)
+            plant_images.sort(key=lambda x: x[0])
+            for (img_date,img_name) in plant.images:
+                img_path : str = os.path.join(img_dir,img_plants_dir,img_name)
+                current_ind : int = plant.images.index((img_date,img_name))+1
+                current_img : str = img_template % (img_path,img_date.strftime(date_format),str(current_ind),str(len(plant_images)))
+                images_strs.append(current_img)
 
-        all_plant_images.sort(key=lambda x: x[0],reverse=True)
-        plant_image_strs : list[str] = []
-        image_dir : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure id="plant_image"><img src="%s/%s"/><figcaption>%s</figcaption></figure>'
-
-        for plant_image in all_plant_images:
-            plant_link : str = '<a href="%s/%s">%s</a>' % (plant_details_out,get_html_name(plant_image[1]),plant_image[1])
-            caption : str = plant_link + ' '+ plant_image[0].strftime(date_format)
-            plant_image_strs.append(image_template % (image_dir,plant_image[2],caption))
+            current_plant_div : str = plant_div_template % (plant.info['plant_name'], '\n'.join(images_strs))
+            plant_divs.append(current_plant_div)
 
         header_str : str = self.render_header(False)
         footer_str : str = self.render_footer()
@@ -428,7 +445,7 @@ class HTMLRenderer:
         gallery_dict : dict[str,str] = {
                 'header': header_str,
                 'footer': footer_str,
-                'gallery_items': '\n'.join(plant_image_strs)
+                'gallery_items': '\n'.join(plant_divs)
                 }
 
         gallery_html : str = self.gallery_template.render(gallery_dict)
