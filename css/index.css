@@ -1,4 +1,4 @@
-#next_activities {
+#upcoming_tasks_container {
   display:flex;
   align-items:stretch;
   align-content:space-around;
@@ -7,15 +7,22 @@
   flex-wrap:wrap;
   width:95%;
 }
-.next_activity {
+
+#next_watering, #next_fertilizing, #next_growth {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:1em;
+}
+
+.next_activity_item {
   border-radius:1em;
   padding:0.5em;
-  width:5em;
 }
-.next_activity:nth-child(odd){
+.next_activity_item:nth-child(odd){
   background:var(--bg-color-odd);
 }
-.next_activity:nth-child(even){
+.next_activity_item:nth-child(even){
   background:var(--bg-color-even);
 }
 
