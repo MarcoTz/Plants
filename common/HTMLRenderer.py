@@ -127,6 +127,17 @@ class HTMLRenderer:
 
         return (next_watering,next_fertilizing)
 
+    def get_old_growth(self) -> list[Plant]:
+        plant_date_list : list[Plant] = [] 
+        last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=2)
+
+        for plant in self.plant_list:
+            last_growth_update : GrowthItem = plant.info['plant_growth'][0]
+            if last_growth_update['log_date'] > last_week: 
+                plant_date_list.append(plant)
+
+        return plant_date_list 
+
     def get_recent_activities_growth(self) -> tuple[list[tuple[str,GrowthItem]],list[tuple[str,LogItem]]]:
         last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
         recent_activities : list[tuple[str,LogItem]] = []
@@ -480,47 +491,42 @@ class HTMLRenderer:
         current_date : datetime.datetime = datetime.datetime.now()
         next_week    : datetime.datetime = current_date + datetime.timedelta(weeks=1)
         filter_fun   : function = lambda x:x[1] <= next_week
-        next_waterings    : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_waterings))
-        next_fertilizings : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
 
-        next_activities : dict[tuple[str,str],list[str]] = {}
-        for next_watering in next_waterings:
-            activity_key :tuple[str,str] = (next_watering[1].strftime(date_format),'Watering')
-            activity_value : str = next_watering[0].info['plant_name']
-            if activity_key in next_activities:
-                next_activities[activity_key].append(activity_value)
-            else:
-                next_activities[activity_key] = [activity_value]
-        for next_fertilizing in next_fertilizings:
-            activity_key = (next_fertilizing[1].strftime(date_format),'Fetilizing')
-            activity_value = next_fertilizing[0].info['plant_name']
-            if activity_key in next_activities:
-                next_activities[activity_key].append(activity_value)
-            else:
-                 next_activities[activity_key] = [activity_value]
-        
-        next_activities_strs : list[str] = []
-        activity_keys : list[tuple[str,str]] = list(next_activities.keys())
-        activity_keys.sort(key=lambda x: x[0])
-        next_activity_div : str = '<div class="next_activity">%s<br/>%s<br/>%s</div>'
-        for activity_key in activity_keys:
-            activity_date : str = activity_key[0]
-            activity      : str = activity_key[1]
-            activity_plants : list[str] = next_activities[activity_key]
-            plant_link_template = '<a href="%s/%s">%s</a>'
-            plant_link_fun : function = lambda x: plant_link_template % (plant_details_out,get_html_name(x),x)
-            activity_plants_links : list[str] = list(map(plant_link_fun,activity_plants))
-            activity_plants_str : str = '<br />'.join(activity_plants_links)
-            next_activity_str : str = next_activity_div % (activity_date,activity,activity_plants_str)
-            next_activities_strs.append(next_activity_str)
-            
+        next_activity_template : str = '<div class="next_activity_item">%s<br/>%s</div>'
+        next_waterings    : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_waterings))
+        next_watering_items : list[str] = []
+        for (plant,next_date) in next_waterings:    
+            plant_name : str = plant.info['plant_name']
+            plant_link : str = '<a href="%s">%s</a>' % (get_html_name(plant_name), plant_name)
+            next_watering_items.append(next_activity_template % (plant_link,next_date.strftime(date_format)))
+        next_waterings_str : str = '\n'.join(next_watering_items)
+
+        next_fertilizings : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
+        next_fertilizing_items : list[str] = []
+        for (plant,next_date) in next_fertilizings:
+            plant_name : str = plant.info['plant_name']
+            plant_link : str = '<a href="%s">%s</a>' % (get_html_name(plant_name),plant_name)
+            next_fertilizing_items.append(next_activity_template % (plant_link,next_date.strftime(date_format)))
+        next_fertilizings_str : str = '\n'.join(next_fertilizing_items)
+
+        next_growth_updates : list[Plant] = self.get_old_growth()
+        next_growth_template : str = '<div class="next_activity_item">%s</div>'
+        next_growth_strs : list[str] = []
+        for plant in next_growth_updates:
+            plant_name : str = plant.info['plant_name']
+            plant_link : str = '<a href="%s"/>%s</a>' % (get_html_name(plant_name),plant_name)
+            next_growth_strs.append(next_growth_template % plant_link)
+        next_growth_str : str = '\n'.join(next_growth_strs)
+             
 
         index_dict : dict[str,str] = {
                 'header': header_str,
                 'footer':footer_str,
                 'recent_growth_rows':recent_growth_str,
                 'recent_activities_rows':recent_activities_str,
-                'next_activity_items':'\n'.join(next_activities_strs)
+                'next_watering_items': next_waterings_str,
+                'next_fertilizing_items':next_fertilizings_str,
+                'next_growth_items':next_growth_str
                 }
         index_html = self.index_template.render(index_dict)
         write_html(index_out,index_html)

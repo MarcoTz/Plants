@@ -8,9 +8,20 @@
   </head>
   <body onload="setup_img_events()">
     {{-header-}}
-    <h1>Next Activities</h1>
-    <div id="next_activities">
-      {{-next_activity_items-}}
+    <h1> Upcoming Tasks </h1>
+    <div id="upcoming_tasks_container">
+      <h2> Next Waterings </h2>
+      <div id="next_watering">
+        {{-next_watering_items-}}
+      </div>
+      <h2> Next Fertilizings </h2>
+      <div id="next_fertilizing">
+        {{- next_fertilizing_items -}}
+      </div>
+      <h2> Next Growth Updates </h2> 
+      <div id="next_growth">
+        {{-next_growth_items-}}
+      </div>
     </div>
     <div id="recent_updates_container">
       <div id="recent_activities_container">
