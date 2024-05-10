@@ -158,7 +158,7 @@ class HTMLRenderer:
         return (recent_growth,recent_activities)
 
     def create_species_li(self,plant:PlantSpecies) -> str:
-        li_template       : str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
+        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
         details_file_name : str = get_html_name(plant.info['name'])
 
         species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
@@ -174,11 +174,25 @@ class HTMLRenderer:
         return li_template % (species_details_out,details_file_name,plant.info['name'],img_str)
 
     def create_plant_li(self,plant:Plant) -> str:
-        li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a><br/>%s %s</div>'
+        li_template       : str = '''
+            <div class="plant_list_item">
+                <a class="plant_link" href="%s/%s">%s</a>
+                <br/>
+                <div class="species_link">%s</div>
+                %s
+                <div class="temp_max">%s</div>
+                <div class="temp_min">%s</div>
+            </div>'''
+
         species_link : str = '<a href="%s/%s">%s</a>'
-       
-        if self.get_species_plant(plant) is not None : 
+        
+        max_temp : float = float('inf')
+        min_temp : float = float('-inf')
+        plant_species = self.get_species_plant(plant)
+        if plant_species is not None : 
             species_link = species_link % (species_details_out,get_html_name(plant.info['species_name']),plant.info['species_name'])
+            max_temp = plant_species.info['temperature_max']
+            min_temp = plant_species.info['temperature_min']
         else: 
             species_link = plant.info['species_name']
         
@@ -188,12 +202,14 @@ class HTMLRenderer:
             image_url = os.path.join(image_url,img_small_dir,plant.images[0][1])
             img_str = '<br/><img id="plant_preview" src="%s"/>' %image_url
         details_file_name :str = get_html_name(plant.info['plant_name'])
-        info_tuple : tuple[str,str,str,str,str] = (
+        info_tuple : tuple[str,str,str,str,str,str,str] = (
                 plant_details_out,
                 details_file_name,
                 plant.info['plant_name'],
                 species_link,
-                img_str
+                img_str,
+                str(max_temp),
+                str(min_temp)
                 )
         return li_template % info_tuple 
 
@@ -259,7 +275,7 @@ class HTMLRenderer:
         plant_lis : dict[str,list[str]] = {}
         for location in plant_locations:
             plant_lis[location] = []
-            location_divs[location] = '<div id="location_group"><h2>%s</h2>%s</div>'
+            location_divs[location] = '<div class="location_group"><h2>%s</h2>%s</div>'
 
         for plant in self.plant_list: 
             plant_li : str = self.create_plant_li(plant)

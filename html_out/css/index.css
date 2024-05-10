@@ -6,6 +6,7 @@
   gap:1em;
   flex-wrap:wrap;
   width:95%;
+  margin:auto;
 }
 
 #next_watering, #next_fertilizing, #next_growth {
