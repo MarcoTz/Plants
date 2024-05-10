@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/plant_overview.css">
     <script src="js/main.js"></script>
+    <script src="js/plant_filter.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
   <a href="./index.html">Dashboard</a>
@@ -13,64 +14,545 @@
   <a href="./gallery.html">Gallery</a>
   <a href="./activity_logs.html">Activities</a>
   <a href="./graveyard.html">Graveyard</a>
-</div><div id="plant_list"><div id="location_group"><h2>Balcony</h2><div id="plant_list_item"><a href="plants/Beehome.html">Beehome</a><br/>Mixed Flowers <br/><img id="plant_preview" src="img/plants/small/Beehome_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Biggie.html">Biggie</a><br/><a href="plant_species/Begonia.html">Begonia</a> <br/><img id="plant_preview" src="img/plants/small/Biggie_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Bruno.html">Bruno</a><br/><a href="plant_species/Ramson.html">Ramson</a> <br/><img id="plant_preview" src="img/plants/small/Bruno_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Chrom.html">Chrom</a><br/><a href="plant_species/Corn.html">Corn</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Claire.html">Claire</a><br/><a href="plant_species/Corn.html">Corn</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Crowley.html">Crowley</a><br/><a href="plant_species/GardenCress.html">Garden Cress</a> <br/><img id="plant_preview" src="img/plants/small/Crowley_14042024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Elvis.html">Elvis</a><br/><a href="plant_species/CommonIvy.html">Common Ivy</a> <br/><img id="plant_preview" src="img/plants/small/Elvis_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Flowey.html">Flowey</a><br/><a href="plant_species/Sunflower.html">Sunflower</a> <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Harry.html">Harry</a><br/><a href="plant_species/Hosta.html">Hosta</a> <br/><img id="plant_preview" src="img/plants/small/Harry_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Hella.html">Hella</a><br/><a href="plant_species/Hellebore.html">Hellebore</a> <br/><img id="plant_preview" src="img/plants/small/Hella_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Jerry.html">Jerry</a><br/><a href="plant_species/Tomato.html">Tomato</a> <br/><img id="plant_preview" src="img/plants/small/Jerry_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Kelly.html">Kelly</a><br/><a href="plant_species/Corn.html">Corn</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Kevin.html">Kevin</a><br/><a href="plant_species/SnakeGourd.html">Snake Gourd</a> <br/><img id="plant_preview" src="img/plants/small/Kevin_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Klaus.html">Klaus</a><br/><a href="plant_species/Corn.html">Corn</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Lily.html">Lily</a><br/><a href="plant_species/Lavender.html">Lavender</a> <br/><img id="plant_preview" src="img/plants/small/Lily_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Lucy.html">Lucy</a><br/><a href="plant_species/ChiliPepper.html">Chili Pepper</a> <br/><img id="plant_preview" src="img/plants/small/Lucy_08052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Mike.html">Mike</a><br/><a href="plant_species/AppleMint.html">Apple Mint</a> <br/><img id="plant_preview" src="img/plants/small/Mike_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Nadja.html">Nadja</a><br/><a href="plant_species/ChiliPepper.html">Chili Pepper</a> <br/><img id="plant_preview" src="img/plants/small/Nadja_08052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Nosferatu.html">Nosferatu</a><br/><a href="plant_species/Garlic.html">Garlic</a> <br/><img id="plant_preview" src="img/plants/small/Nosferatu_08052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Ollie.html">Ollie</a><br/><a href="plant_species/Onion.html">Onion</a> <br/><img id="plant_preview" src="img/plants/small/Ollie_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Perry.html">Perry</a><br/><a href="plant_species/Pea.html">Pea</a> <br/><img id="plant_preview" src="img/plants/small/Perry_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Sandy.html">Sandy</a><br/><a href="plant_species/ChiliPepper.html">Chili Pepper</a> <br/><img id="plant_preview" src="img/plants/small/Sandy_08052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Stefan.html">Stefan</a><br/><a href="plant_species/Strawberry.html">Strawberry</a> <br/><img id="plant_preview" src="img/plants/small/Stefan_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Steve.html">Steve</a><br/><a href="plant_species/Sunflower.html">Sunflower</a> <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Sunny.html">Sunny</a><br/><a href="plant_species/Sunflower.html">Sunflower</a> <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Tom.html">Tom</a><br/><a href="plant_species/Tomato.html">Tomato</a> <br/><img id="plant_preview" src="img/plants/small/Tom_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Zack.html">Zack</a><br/><a href="plant_species/Zucchini.html">Zucchini</a> <br/><img id="plant_preview" src="img/plants/small/Zim_Zack_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Zane.html">Zane</a><br/><a href="plant_species/Zucchini.html">Zucchini</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Zim.html">Zim</a><br/><a href="plant_species/Zucchini.html">Zucchini</a> <br/><img id="plant_preview" src="img/plants/small/Zim_Zack_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Zoey.html">Zoey</a><br/><a href="plant_species/Zucchini.html">Zucchini</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Zou.html">Zou</a><br/><a href="plant_species/Zucchini.html">Zucchini</a> <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/></div></div>
-<div id="location_group"><h2>Bedroom</h2><div id="plant_list_item"><a href="plants/Bob.html">Bob</a><br/><a href="plant_species/Basil.html">Basil</a> <br/><img id="plant_preview" src="img/plants/small/Bob_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Brock.html">Brock</a><br/><a href="plant_species/Broccoli.html">Broccoli</a> <br/><img id="plant_preview" src="img/plants/small/Brock_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Carl.html">Carl</a><br/><a href="plant_species/Carrot.html">Carrot</a> <br/><img id="plant_preview" src="img/plants/small/Carl_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Carol.html">Carol</a><br/><a href="plant_species/Carrot.html">Carrot</a> <br/><img id="plant_preview" src="img/plants/small/Carol_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Cerberus.html">Cerberus</a><br/><a href="plant_species/Pseudopilocereus.html">Pseudopilocereus</a> <br/><img id="plant_preview" src="img/plants/small/Cerberus_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Darryl.html">Darryl</a><br/><a href="plant_species/DroopingPricklyPear.html">Drooping Prickly Pear</a> <br/><img id="plant_preview" src="img/plants/small/Darryl_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Dirk.html">Dirk</a><br/><a href="plant_species/Hellebore.html">Hellebore</a> <br/><img id="plant_preview" src="img/plants/small/Dirk_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/George.html">George</a><br/><a href="plant_species/RoundLeafPeperomia.html">Round Leaf Peperomia</a> <br/><img id="plant_preview" src="img/plants/small/George_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Harvey.html">Harvey</a><br/><a href="plant_species/Haworthia.html">Haworthia</a> <br/><img id="plant_preview" src="img/plants/small/Harvey_05052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Howard.html">Howard</a><br/><a href="plant_species/Haworthia.html">Haworthia</a> <br/><img id="plant_preview" src="img/plants/small/Howard_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Ivan.html">Ivan</a><br/><a href="plant_species/IvoryTower.html">Ivory Tower</a> <br/><img id="plant_preview" src="img/plants/small/Ivan_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Maria.html">Maria</a><br/><a href="plant_species/PolkaDotPlant.html">Polka Dot Plant</a> <br/><img id="plant_preview" src="img/plants/small/Maria_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Martha.html">Martha</a><br/><a href="plant_species/MonsteraMinima.html">Monstera Minima</a> <br/><img id="plant_preview" src="img/plants/small/Martha_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Pepe.html">Pepe</a><br/><a href="plant_species/GymnocalyciumStenopleurum.html">Gymnocalycium Stenopleurum</a> <br/><img id="plant_preview" src="img/plants/small/Pepe_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Pete.html">Pete</a><br/><a href="plant_species/Beetroot.html">Beetroot</a> <br/><img id="plant_preview" src="img/plants/small/Pete_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Rosy.html">Rosy</a><br/><a href="plant_species/RoseCalathea.html">Rose Calathea</a> <br/><img id="plant_preview" src="img/plants/small/Rosy_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Sam.html">Sam</a><br/><a href="plant_species/Haworthia.html">Haworthia</a> <br/><img id="plant_preview" src="img/plants/small/Sam_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Terry.html">Terry</a><br/><a href="plant_species/Tomato.html">Tomato</a> <br/><img id="plant_preview" src="img/plants/small/Terry_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Valentina.html">Valentina</a><br/><a href="plant_species/AloeVera.html">Aloe Vera</a> <br/><img id="plant_preview" src="img/plants/small/Valentina_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Vera.html">Vera</a><br/><a href="plant_species/AloeVera.html">Aloe Vera</a> <br/><img id="plant_preview" src="img/plants/small/Vera_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Veronica.html">Veronica</a><br/><a href="plant_species/AloeVera.html">Aloe Vera</a> <br/><img id="plant_preview" src="img/plants/small/Veronica_06052024.jpg"/></div></div>
-<div id="location_group"><h2>Living Room</h2><div id="plant_list_item"><a href="plants/EvaLongoria.html">Eva Longoria</a><br/><a href="plant_species/Efeutute.html">Efeutute</a> <br/><img id="plant_preview" src="img/plants/small/EvaLongoria_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Findus.html">Findus</a><br/><a href="plant_species/Ficus.html">Ficus</a> <br/><img id="plant_preview" src="img/plants/small/Findus_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Jose.html">Jose</a><br/><a href="plant_species/DevilsIvy.html">Devils Ivy</a> <br/><img id="plant_preview" src="img/plants/small/Jose_07052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Liliana.html">Liliana</a><br/><a href="plant_species/PeaceLily.html">Peace Lily</a> <br/><img id="plant_preview" src="img/plants/small/Liliana_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Palm.html">Palm</a><br/><a href="plant_species/DragonTree.html">Dragon Tree</a> <br/><img id="plant_preview" src="img/plants/small/Palm_06052024.jpg"/></div>
-<div id="plant_list_item"><a href="plants/Peppa.html">Peppa</a><br/><a href="plant_species/RoundLeafPeperomia.html">Round Leaf Peperomia</a> <br/><img id="plant_preview" src="img/plants/small/Peppa_06052024.jpg"/></div></div></div><div id="footer">
+</div><table id="plant_search">
+      <th colspan=2>Filter</th>
+      <tr><td>Name:</td><td><input onKeyUp="filter_plants()" id="plant_search_name"/></td></tr>
+      <tr><td>Species:</td><td><input onKeyUp="filter_plants()" id="plant_search_species"/></td></tr>
+      <tr><td>Highest Templerature:</td><td>
+          <select id="max_temp_updown" onChange="filter_plants()">
+            <option value="+">above</option>
+            <option value="-">below</option> 
+          </select>
+          <input type="number" onKeyUp="filter_plants()" id="plant_search_max_temp"/> </td></tr>
+      <tr><td>Lowest Temperature: </td><td>
+          <select id="min_temp_updown" onChange="filter_plants()">
+           <option value="+">above</option>
+           <option value="-">below</option> 
+         </select> 
+         <input type="number" id="plant_search_min_temp" onKeyUp="filter_plants()"/></td></tr>
+    </table>
+    <div id="plant_list"><div class="location_group"><h2>Balcony</h2>
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Beehome.html">Beehome</a>
+                <br/>
+                <div class="species_link">Mixed Flowers</div>
+                <br/><img id="plant_preview" src="img/plants/small/Beehome_06052024.jpg"/>
+                <div class="temp_max">inf</div>
+                <div class="temp_min">-inf</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Biggie.html">Biggie</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Begonia.html">Begonia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Biggie_06052024.jpg"/>
+                <div class="temp_max">55.0</div>
+                <div class="temp_min">13.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Bruno.html">Bruno</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Ramson.html">Ramson</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Bruno_06052024.jpg"/>
+                <div class="temp_max">43.0</div>
+                <div class="temp_min">-25.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Chrom.html">Chrom</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Corn.html">Corn</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">13.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Claire.html">Claire</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Corn.html">Corn</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">13.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Crowley.html">Crowley</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/GardenCress.html">Garden Cress</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Crowley_14042024.jpg"/>
+                <div class="temp_max">38.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Elvis.html">Elvis</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/CommonIvy.html">Common Ivy</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Elvis_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">-2.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Flowey.html">Flowey</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Sunflower.html">Sunflower</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">-4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Harry.html">Harry</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Hosta.html">Hosta</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Harry_06052024.jpg"/>
+                <div class="temp_max">38.0</div>
+                <div class="temp_min">-2.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Hella.html">Hella</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Hellebore.html">Hellebore</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Hella_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">-20.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Jerry.html">Jerry</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Tomato.html">Tomato</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Jerry_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">10.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Kelly.html">Kelly</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Corn.html">Corn</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">13.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Kevin.html">Kevin</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/SnakeGourd.html">Snake Gourd</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Kevin_06052024.jpg"/>
+                <div class="temp_max">38.0</div>
+                <div class="temp_min">10.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Klaus.html">Klaus</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Corn.html">Corn</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">13.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Lily.html">Lily</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Lavender.html">Lavender</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Lily_06052024.jpg"/>
+                <div class="temp_max">38.0</div>
+                <div class="temp_min">-15.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Lucy.html">Lucy</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/ChiliPepper.html">Chili Pepper</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Lucy_08052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">5.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Mike.html">Mike</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/AppleMint.html">Apple Mint</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Mike_06052024.jpg"/>
+                <div class="temp_max">41.0</div>
+                <div class="temp_min">-20.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Nadja.html">Nadja</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/ChiliPepper.html">Chili Pepper</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Nadja_08052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">5.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Nosferatu.html">Nosferatu</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Garlic.html">Garlic</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Nosferatu_08052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Ollie.html">Ollie</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Onion.html">Onion</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Ollie_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">-2.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Perry.html">Perry</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Pea.html">Pea</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Perry_06052024.jpg"/>
+                <div class="temp_max">21.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Sandy.html">Sandy</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/ChiliPepper.html">Chili Pepper</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Sandy_08052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">5.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Stefan.html">Stefan</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Strawberry.html">Strawberry</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Stefan_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">-1.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Steve.html">Steve</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Sunflower.html">Sunflower</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">-4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Sunny.html">Sunny</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Sunflower.html">Sunflower</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Steve_Sunny_Flowey_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">-4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Tom.html">Tom</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Tomato.html">Tomato</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Tom_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">10.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Zack.html">Zack</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Zucchini.html">Zucchini</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zim_Zack_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Zane.html">Zane</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Zucchini.html">Zucchini</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Zim.html">Zim</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Zucchini.html">Zucchini</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zim_Zack_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Zoey.html">Zoey</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Zucchini.html">Zucchini</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Zou.html">Zou</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Zucchini.html">Zucchini</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">0.0</div>
+            </div></div>
+<div class="location_group"><h2>Bedroom</h2>
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Bob.html">Bob</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Basil.html">Basil</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Bob_06052024.jpg"/>
+                <div class="temp_max">35</div>
+                <div class="temp_min">4</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Brock.html">Brock</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Broccoli.html">Broccoli</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Brock_06052024.jpg"/>
+                <div class="temp_max">35.0</div>
+                <div class="temp_min">-2.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Carl.html">Carl</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Carrot.html">Carrot</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Carl_06052024.jpg"/>
+                <div class="temp_max">24.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Carol.html">Carol</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Carrot.html">Carrot</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Carol_06052024.jpg"/>
+                <div class="temp_max">24.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Cerberus.html">Cerberus</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Pseudopilocereus.html">Pseudopilocereus</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Cerberus_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">-2.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Darryl.html">Darryl</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/DroopingPricklyPear.html">Drooping Prickly Pear</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Darryl_06052024.jpg"/>
+                <div class="temp_max">43.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Dirk.html">Dirk</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Hellebore.html">Hellebore</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Dirk_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">-20.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/George.html">George</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/RoundLeafPeperomia.html">Round Leaf Peperomia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/George_06052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">10.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Harvey.html">Harvey</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Haworthia.html">Haworthia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Harvey_05052024.jpg"/>
+                <div class="temp_max">43.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Howard.html">Howard</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Haworthia.html">Haworthia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Howard_06052024.jpg"/>
+                <div class="temp_max">43.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Ivan.html">Ivan</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/IvoryTower.html">Ivory Tower</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Ivan_06052024.jpg"/>
+                <div class="temp_max">34.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Maria.html">Maria</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/PolkaDotPlant.html">Polka Dot Plant</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Maria_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">0.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Martha.html">Martha</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/MonsteraMinima.html">Monstera Minima</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Martha_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">15.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Pepe.html">Pepe</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/GymnocalyciumStenopleurum.html">Gymnocalycium Stenopleurum</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Pepe_06052024.jpg"/>
+                <div class="temp_max">38.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Pete.html">Pete</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Beetroot.html">Beetroot</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Pete_06052024.jpg"/>
+                <div class="temp_max">24.0</div>
+                <div class="temp_min">5.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Rosy.html">Rosy</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/RoseCalathea.html">Rose Calathea</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Rosy_06052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">18.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Sam.html">Sam</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Haworthia.html">Haworthia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Sam_06052024.jpg"/>
+                <div class="temp_max">43.0</div>
+                <div class="temp_min">4.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Terry.html">Terry</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Tomato.html">Tomato</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Terry_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">10.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Valentina.html">Valentina</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/AloeVera.html">Aloe Vera</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Valentina_06052024.jpg"/>
+                <div class="temp_max">38</div>
+                <div class="temp_min">-4</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Vera.html">Vera</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/AloeVera.html">Aloe Vera</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Vera_06052024.jpg"/>
+                <div class="temp_max">38</div>
+                <div class="temp_min">-4</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Veronica.html">Veronica</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/AloeVera.html">Aloe Vera</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Veronica_06052024.jpg"/>
+                <div class="temp_max">38</div>
+                <div class="temp_min">-4</div>
+            </div></div>
+<div class="location_group"><h2>Living Room</h2>
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/EvaLongoria.html">Eva Longoria</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Efeutute.html">Efeutute</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/EvaLongoria_06052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">12.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Findus.html">Findus</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/Ficus.html">Ficus</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Findus_06052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">16.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Jose.html">Jose</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/DevilsIvy.html">Devils Ivy</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Jose_07052024.jpg"/>
+                <div class="temp_max">32.0</div>
+                <div class="temp_min">12.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Liliana.html">Liliana</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/PeaceLily.html">Peace Lily</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Liliana_06052024.jpg"/>
+                <div class="temp_max">40.0</div>
+                <div class="temp_min">15.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Palm.html">Palm</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/DragonTree.html">Dragon Tree</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Palm_06052024.jpg"/>
+                <div class="temp_max">34.0</div>
+                <div class="temp_min">15.0</div>
+            </div>
+
+            <div class="plant_list_item">
+                <a class="plant_link" href="plants/Peppa.html">Peppa</a>
+                <br/>
+                <div class="species_link"><a href="plant_species/RoundLeafPeperomia.html">Round Leaf Peperomia</a></div>
+                <br/><img id="plant_preview" src="img/plants/small/Peppa_06052024.jpg"/>
+                <div class="temp_max">30.0</div>
+                <div class="temp_min">10.0</div>
+            </div></div></div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:58</div>
   <div id="last_build">Last build:&nbsp;10.05.2024</div><div id="image_viewer" onclick="close_image_viewer()">

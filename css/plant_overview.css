@@ -9,7 +9,26 @@
   width:95%;
 }
 
-#location_group {
+#plant_search {
+  background:var(--bg-color-even);
+  border-radius:1em;
+}
+
+td { 
+  padding-top:0.5em;
+  padding-bottom:0.5em;
+}
+
+input {
+  background: var(--bg-color);
+  color:var(--fg-color);
+}
+select { 
+  background: var(--bg-color);
+  color:var(--fg-color);
+}
+
+.location_group {
   display:flex;
   align-items:stretch;
   align-content:space-around;
@@ -24,7 +43,7 @@
  vertical-align:bottom;
 } 
 
-#plant_list_item{
+.plant_list_item{
   display:block;
   padding:1em;
   height:9em;
@@ -34,9 +53,17 @@
 }
 
 
-#plant_list_item:nth-child(even){
+.plant_list_item:nth-child(even){
   background: var(--bg-color-even);
 }
-#plant_list_item:nth-child(odd){
+.plant_list_item:nth-child(odd){
   background: var(--bg-color-odd);
+}
+
+.temp_max {
+  display:none;
+}
+
+.temp_min {
+  display:none;
 }
