@@ -138,22 +138,29 @@ class HTMLRenderer:
 
         return plant_date_list 
 
-    def get_recent_activities_growth(self) -> tuple[list[tuple[str,GrowthItem]],list[tuple[str,LogItem]]]:
+    def get_recent_activities_growth(self) -> tuple[
+            list[tuple[str,GrowthItem]],
+            dict[tuple[datetime.datetime,str],list[tuple[Plant,str]]]
+            ]:
         last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
-        recent_activities : list[tuple[str,LogItem]] = []
+        recent_activities : dict[tuple[datetime.datetime,str],list[tuple[Plant,str]]] = {}
         recent_growth     : list[tuple[str,GrowthItem]] = []
         for plant in self.plant_list:
             plant_activities : list[LogItem] = plant.info['plant_activities']
             plant_activities = list(filter(lambda x: x['log_date'] >= last_week,plant_activities))
-            recent_plant_activities : list[tuple[str,LogItem]] = list(map(lambda x: (plant.info['plant_name'],x),plant_activities))
-            recent_activities.extend(recent_plant_activities)
+            for plant_activity in plant_activities:
+                activity_key = (plant_activity['log_date'],plant_activity['log_activity'])
+                new_tuple : tuple[Plant,str] = (plant,plant_activity['log_note'])
+                if activity_key in recent_activities.keys():
+                    recent_activities[activity_key].append(new_tuple)
+                else:
+                    recent_activities[activity_key] = [new_tuple]
 
             plant_growth     : list[GrowthItem] = plant.info['plant_growth']
             plant_growth = list(filter(lambda x: x['log_date'] >= last_week,plant_growth))
             recent_plant_growth : list[tuple[str,GrowthItem]] = list(map(lambda x: (plant.info['plant_name'],x),plant_growth))
             recent_growth.extend(recent_plant_growth)
 
-        recent_activities.sort(key = lambda x: x[1]['log_date'],reverse=True)
         recent_growth.sort(key=lambda x: x[1]['log_date'],reverse=True)
         return (recent_growth,recent_activities)
 
@@ -496,12 +503,19 @@ class HTMLRenderer:
             recent_growth_str += '<td>%s</td>' % recent_growth_item['log_note']
             recent_growth_str += '</tr>'
 
-        for (plant_name,recent_activity_item) in recent_activities:
+        for (log_date, log_activity) in recent_activities:
             recent_activities_str += '<tr>'
-            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_date'].strftime(date_format)
-            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_activity']
-            recent_activities_str += '<td><a href="%s/%s">%s</td>' % (plant_details_out,get_html_name(plant_name),plant_name)
-            recent_activities_str += '<td>%s</td>' % recent_activity_item['log_note']
+            recent_activities_str += '<td>%s</td>' % log_date.strftime(date_format)
+            recent_activities_str += '<td>%s</td>' % log_activity 
+            plant_strs : list[str] = []
+            notes_strs : list[str] = []
+            for (plant,note) in recent_activities[(log_date,log_activity)]:
+                plant_name : str = plant.info['plant_name']
+                plant_strs.append('<a href="%s/%s">%s</a>' % (plant_details_out,get_html_name(plant_name),plant_name))
+                if not note.strip() == '':
+                    notes_strs.append(note)
+            recent_activities_str += '<td>%s</td>' % (', '.join(plant_strs))
+            recent_activities_str += '<td>%s</td>' % (', '.join(notes_strs)) 
             recent_activities_str += '</tr>'
         
         current_date : datetime.datetime = datetime.datetime.now()

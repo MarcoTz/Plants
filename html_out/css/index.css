@@ -30,21 +30,19 @@
 
 
 #recent_updates_container {
-  overflow:auto;
+  display:flex;
+  flex-wrap:wrap;
+  align-content:center;
+  align-items:center;
+  justify-content:center;
 }
 
 #recent_growth_container {
-  display:block;
-  float:left;
   margin-left:5%;
   margin-right:5%;
-  width:40%;
 }
 
 #recent_activities_container{ 
-  display:block;
-  float:right;
-  width:40%;
   margin-right:5%;
   margin-left:5%;
 }
