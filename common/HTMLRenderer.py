@@ -129,11 +129,13 @@ class HTMLRenderer:
 
     def get_old_growth(self) -> list[Plant]:
         plant_date_list : list[Plant] = [] 
-        last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=2)
+        two_weeks : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=2)
 
         for plant in self.plant_list:
-            last_growth_update : GrowthItem = plant.info['plant_growth'][0]
-            if last_growth_update['log_date'] > last_week: 
+            plant_growth : list[GrowthItem] = plant.info['plant_growth']
+            plant_growth.sort(key=lambda x: x['log_date'])
+            last_growth_update : GrowthItem = plant_growth[-1]
+            if last_growth_update['log_date'] < two_weeks: 
                 plant_date_list.append(plant)
 
         return plant_date_list 
@@ -546,6 +548,9 @@ class HTMLRenderer:
             new_activity_div : str = next_activity_template % (watering_date,'\n'.join(plant_links))
             next_watering_strs.append(new_activity_div)
 
+        if next_watering_dates == {}:
+            next_watering_strs = [next_activity_template % ('','All plants have been recently watered')]
+
         next_waterings_str : str = '\n'.join(next_watering_strs)
 
         next_fertilizings : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
@@ -570,7 +575,9 @@ class HTMLRenderer:
 
             new_activity_div : str = next_activity_template % (fertilizing_date,'\n'.join(plant_links))
             next_fertilizings_strs.append(new_activity_div)
-
+        
+        if next_fertilizing_dates == {}:
+            next_fertilizings_strs = [next_activity_template % ('','All plants have been recently fertilized')]
         next_fertilizings_str : str = '\n'.join(next_fertilizings_strs)
 
         next_growth_updates : list[Plant] = self.get_old_growth()
@@ -580,6 +587,9 @@ class HTMLRenderer:
             plant_name : str = plant.info['plant_name']
             plant_link : str = '<a href="%s/%s"/>%s</a>' % (plant_details_out,get_html_name(plant_name),plant_name)
             next_growth_strs.append(next_growth_template % plant_link)
+
+        if next_growth_updates == []:
+            next_growth_strs = [next_growth_template % ('All plants have been updated less than 2 weeks ago')]
         next_growth_str : str = '\n'.join(next_growth_strs)
              
 
