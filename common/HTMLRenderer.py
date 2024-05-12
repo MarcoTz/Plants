@@ -125,6 +125,13 @@ class HTMLRenderer:
             next_fertilizing = last_date + next_fertilizing_delta
             next_fertilizing = next_fertilizing if next_fertilizing > current_date else current_date
 
+        contains_autowaterer : list[LogItem] = list(filter(lambda x:'autowater' in x['log_activity'].lower(), plant.info['plant_activities']))
+        if len(list(filter(lambda x: 'remove' in x['log_activity'].lower(),contains_autowaterer))) > 1:
+            contains_autowaterer = [] 
+        if len(contains_autowaterer) > 0:
+            next_watering = datetime.datetime.max
+             
+
         return (next_watering,next_fertilizing)
 
     def get_old_growth(self) -> list[Plant]:
