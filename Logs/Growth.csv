@@ -103,7 +103,6 @@ Date;Plant;Height;Width;Note
 08.04.2024;Vera;8.0;4.0;
 03.05.2024;Vera;6.0;11.0;
 03.05.2024;Zou;13.0;5.0;
-03.05.2024;Veronica;2.0;1.0;
 03.05.2024;Chrom;15.0;5.0;
 05.05.2024;Darryl;33.0;10.0;
 05.05.2024;Harvey;1.0;1.0;
@@ -129,3 +128,4 @@ Date;Plant;Height;Width;Note
 08.05.2024;Lucy;10;10;
 08.05.2024;Sandy;9;8;
 08.05.2024;Nosferatu;8;0.1;Added during plant creation
+12.05.2024;Lily;7;7;After pruning, most stems had dried out

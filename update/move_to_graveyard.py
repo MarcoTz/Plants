@@ -85,7 +85,7 @@ def move_to_graveyard(graveyard_info:dict[str,str]) -> None:
 
     os.remove(plant_file_path)
 
-    plant_img_dir : str = os.path.join(img_dir,img_plants_dir)
+    plant_img_dir : str = os.path.join(out_dir,img_dir,img_plants_dir)
     plant_img_small_dir : str = os.path.join(plant_img_dir,img_small_dir)
     remove_plant_images(plant_name,plant_img_dir,plant_img_small_dir)
 
