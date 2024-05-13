@@ -58,18 +58,22 @@ Date;Plant;Height;Width;Note
 06.04.2024;Lily;25.0;25.0;
 14.04.2024;Lily;25.0;30.0;
 03.05.2024;Lily;18.0;15.0;
+12.05.2024;Lily;7.0;7.0;After pruning, most stems had dried out
 07.04.2024;Lucy;6.0;4.0;
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
+08.05.2024;Lucy;10.0;10.0;
 07.04.2024;Sandy;7.0;4.0;
 14.04.2024;Sandy;9.0;4.0;
 24.04.2024;Sandy;9.0;8.0;
+08.05.2024;Sandy;9.0;8.0;
 08.04.2024;Maria;2.0;2.0;
 14.04.2024;Maria;2.5;2.0;
 03.05.2024;Maria;2.0;1.0;
 08.04.2024;Nadja;10.0;5.0;
 14.04.2024;Nadja;12.0;5.0;
 24.04.2024;Nadja;15.0;5.0;
+08.05.2024;Nadja;22.0;17.0;
 09.04.2024;Ollie;14.0;3.0;
 03.05.2024;Ollie;20.0;8.0;
 14.04.2024;Palm;30.0;10.0;
@@ -107,7 +111,6 @@ Date;Plant;Height;Width;Note
 05.05.2024;Darryl;33.0;10.0;
 05.05.2024;Harvey;1.0;1.0;
 03.05.2024;Zane;7.0;5.0;
-03.05.2024;Zim;8.0;4.0;
 03.05.2024;Steve;11.0;3.0;
 03.05.2024;Ivan;8.0;5.0;
 03.05.2024;Tom;11.0;8.0;
@@ -124,8 +127,4 @@ Date;Plant;Height;Width;Note
 06.05.2024;Biggie;9.0;14.0;Added during plant creation
 06.05.2024;Harry;25.0;20.0;Added during plant creation
 06.05.2024;Sam;1.0;6.0;Added during plant creation
-08.05.2024;Nadja;22;17;
-08.05.2024;Lucy;10;10;
-08.05.2024;Sandy;9;8;
-08.05.2024;Nosferatu;8;0.1;Added during plant creation
-12.05.2024;Lily;7;7;After pruning, most stems had dried out
+08.05.2024;Nosferatu;8.0;0.1;Added during plant creation

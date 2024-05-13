@@ -31,11 +31,12 @@ class PlantBot:
                 ('new_activity','add new activity', self.new_activity),
                 ('new_plant','add new plant',self.new_plant),
                 ('new_species','add new species',self.new_species),
+                ('today','enter current date as input', self.today_input),
                 ('move_to_graveyard','move plant to graveyard',self.move_graveyard),
                 ('show_inputs','show current inputs',self.show_inputs),
                 ('abort','abort current action', self.abort_action),
-                ('today','enter current date as input', self.today_input),
-                ('push', 'publish current version to github', self.push_git)
+                ('push', 'publish current version to github', self.push_git),
+                ('check_notes','check for build notes',self.build_notes)
             ]
 
         for (cmd,_,action) in self.cmd_actions:
@@ -75,6 +76,13 @@ class PlantBot:
             await self.send_message(update,context,return_msg)
 
         return can_access
+
+    async def build_notes(self,update:Update,context:ContextTypes.DEFAULT_TYPE) -> None:
+        if not await self.guard_access(update,context):
+            return
+        build_note : str = subprocess.check_output(['make','build']).decode('utf-8')
+        await self.send_message(update,context,build_note)
+
 
     async def abort_action(self,update:Update,context:ContextTypes.DEFAULT_TYPE) -> None:
         if not await self.guard_access(update,context):
