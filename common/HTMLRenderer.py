@@ -106,7 +106,7 @@ class HTMLRenderer:
         plant_activities : list[LogItem] = plant.info['plant_activities']
         watering_activities : list[LogItem] = list(filter(filter_fun('Watering'),plant_activities))
         watering_activities.sort(key=lambda x:x['log_date'])
-        fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fetilizing'),plant_activities))
+        fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fertilizing'),plant_activities))
         fertilizing_activities.sort(key=lambda x:x['log_date'])
 
         last_watering    : LogItem | None = watering_activities[-1]    if watering_activities != []    else None

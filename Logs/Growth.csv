@@ -63,10 +63,12 @@ Date;Plant;Height;Width;Note
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
 08.05.2024;Lucy;10.0;10.0;
+13.05.2024;Lucy;12.0;13.0;
 07.04.2024;Sandy;7.0;4.0;
 14.04.2024;Sandy;9.0;4.0;
 24.04.2024;Sandy;9.0;8.0;
 08.05.2024;Sandy;9.0;8.0;
+13.05.2024;Sandy;11.5;10.5;
 08.04.2024;Maria;2.0;2.0;
 14.04.2024;Maria;2.5;2.0;
 03.05.2024;Maria;2.0;1.0;
@@ -74,6 +76,7 @@ Date;Plant;Height;Width;Note
 14.04.2024;Nadja;12.0;5.0;
 24.04.2024;Nadja;15.0;5.0;
 08.05.2024;Nadja;22.0;17.0;
+13.05.2024;Nadja;24.0;19.0;First buds formed
 09.04.2024;Ollie;14.0;3.0;
 03.05.2024;Ollie;20.0;8.0;
 14.04.2024;Palm;30.0;10.0;
@@ -87,9 +90,6 @@ Date;Plant;Height;Width;Note
 10.04.2024;Perry;0.1;0.1;First Sprouts
 14.04.2024;Perry;5.0;30.0;
 03.05.2024;Perry;7.0;30.0;
-14.04.2024;Pete;0.0;0.0;Planted Seeds
-18.04.2024;Pete;0.1;0.1;First Sprouts
-03.05.2024;Pete;4.0;5.0;
 08.04.2024;Rosy;45.0;40.0;
 03.05.2024;Rosy;35.0;35.0;
 14.04.2024;Sunny;0.0;0.0;Planted Seeds
@@ -100,10 +100,6 @@ Date;Plant;Height;Width;Note
 18.04.2024;Zoey;0.1;0.1;First Sprouts
 22.04.2024;Zoey;10.0;1.0;Repotted
 03.05.2024;Zoey;18.0;8.0;
-14.04.2024;Zack;0.0;0.0;Planted Seeds
-18.04.2024;Zack;0.1;0.1;First Sprouts
-22.04.2024;Zack;10.0;1.0;Repotted
-03.05.2024;Zack;12.0;5.0;
 08.04.2024;Vera;8.0;4.0;
 03.05.2024;Vera;6.0;11.0;
 03.05.2024;Zou;13.0;5.0;
@@ -119,7 +115,6 @@ Date;Plant;Height;Width;Note
 05.05.2024;Hella;32.0;28.0;
 03.05.2024;Terry;5.0;9.0;
 03.05.2024;Martha;13.0;17.0;
-03.05.2024;Claire;12.0;3.0;
 03.05.2024;Valentina;2.0;1.0;
 05.05.2024;Dirk;3.0;1.0;
 03.05.2024;Klaus;15.0;5.0;
@@ -128,6 +123,10 @@ Date;Plant;Height;Width;Note
 06.05.2024;Harry;25.0;20.0;Added during plant creation
 06.05.2024;Sam;1.0;6.0;Added during plant creation
 08.05.2024;Nosferatu;8.0;0.1;Added during plant creation
-13.05.2024;Nadja;24;19;First buds formed
-13.05.2024;Lucy;12;13;
-13.05.2024;Sandy;11.5;10.5;
+17.05.2024;Bob;6.5;4.5;
+17.05.2024;Beehome;19;30;
+17.05.2024;Perry;19;30;
+17.05.2024;Tom;15.5;17;
+17.05.2024;Jerry;17;22;
+17.05.2024;Ollie;36;20;
+17.05.2024;Nosferatu;23;10;Tallest plant, more bulbs have sprouted
