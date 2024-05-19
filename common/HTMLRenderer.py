@@ -240,18 +240,6 @@ class HTMLRenderer:
         tr += td_template % log_item['log_note']
         tr += '</tr>'
         return tr 
-
-    def create_growth_tr(self,log_item:GrowthItem) -> str:
-        td_template : str = '<td>%s</td>'
-        tr : str = '<tr>'
-        tr += td_template % log_item['log_date'].strftime(date_format)
-        height_cm = str(log_item['log_height_cm'])+'cm'
-        tr += td_template % height_cm 
-        width_cm = str(log_item['log_width_cm']) + 'cm'
-        tr += td_template % width_cm 
-        tr += td_template % log_item['log_note']
-        tr += '</tr>'
-        return tr
     
     def render_header(self,relative_up:bool) -> str: 
         link_prefix : str = '../' if relative_up else './'
@@ -384,12 +372,20 @@ class HTMLRenderer:
         else: 
             info_dict['next_fertilizing_date'] = 'N/A' 
 
-        growth_trs : list[str] = []
+        growth_dates   : list[str] = []
+        growth_widths  : list[str] = []
+        growth_heights : list[str] = []
         for log_item in plant.info['plant_growth']:
-            item_tr = self.create_growth_tr(log_item)
-            growth_trs.append(item_tr)
+            growth_dates.append('"%s"' % log_item['log_date'].strftime(date_format))
+            growth_widths.append(str(log_item['log_width_cm']))
+            growth_heights.append(str(log_item['log_height_cm']))
 
-        info_dict['plant_growth'] = '\n'.join(growth_trs)
+        growth_dates.reverse()
+        growth_heights.reverse()
+        growth_widths.reverse()
+        info_dict['plant_growth_dates'] = '[%s]' % (', '.join(growth_dates))
+        info_dict['plant_growth_heights'] = '[%s]' % (', '.join(growth_heights))
+        info_dict['plant_growth_widths'] = '[%s]' % (', '.join(growth_widths))
 
         images_list : list[str] = [] 
         images_path : str = os.path.join(img_dir,img_plants_dir)

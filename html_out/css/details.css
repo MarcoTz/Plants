@@ -53,3 +53,9 @@ img {
   border-radius: 1em;
   padding:0.5em;
 }
+
+#growth_chart { 
+  background:var(--bg-color-odd);
+  color:var(--fg-color);
+  border-radius:0.5em;
+}

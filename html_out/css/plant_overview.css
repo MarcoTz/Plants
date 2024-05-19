@@ -38,8 +38,8 @@ select {
 }
 
 #plant_preview { 
- height:50%;
- margin-top:1em;
+ height:40%;
+ margin-top:0.5em;
  vertical-align:bottom;
 } 
 
@@ -50,6 +50,7 @@ select {
   width:10em;
   border-radius:1em;
   text-align:center;
+  overflow:hidden;
 }
 
 

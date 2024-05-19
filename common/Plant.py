@@ -41,8 +41,8 @@ class Plant:
         self.images.sort(key=lambda x:x[0],reverse=True)
 
     def update_size(self) -> None:
-        self.current_height = self.info['plant_growth'][-1]['log_height_cm']
-        self.current_width  = self.info['plant_growth'][-1]['log_width_cm']
+        self.current_height = self.info['plant_growth'][0]['log_height_cm']
+        self.current_width  = self.info['plant_growth'][0]['log_width_cm']
 
     def show(self) -> str: 
         out_str :str = '''
