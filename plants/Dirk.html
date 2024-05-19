@@ -4,8 +4,18 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/details.css">
     <script src="../js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+      growth_dates   =["05.05.2024"];
+
+      growth_heights =[3.0];
+
+      growth_widths  =[1.0];
+
+    </script>
+    <script src="../js/details_graph.js"></script>
   </head>
-  <body onload="setup_img_events()"><div id="header">
+  <body onload="setup_img_events();create_growth_graph()"><div id="header">
   <a href="../index.html">Dashboard</a>
   <a href="../plant_overview.html">Plants</a>
   <a href="../species_overview.html">Plant Species</a>
@@ -38,8 +48,7 @@
       </div>
       <div id="plant_growth_log_container">
         <h2>Growth Log</h2>
-        <table id="plant_growth_log">
-          <tr id="header_row"> <td>Date</td><td>Height</td><td>Width</td><td>Note</td></tr><tr><td>05.05.2024</td><td>3.0cm</td><td>1.0cm</td><td></td></tr></table>
+        <canvas id="growth_chart"></canvas>
       </div>
     </div>
     <div id="vspace"></div>
