@@ -4,6 +4,7 @@ import datetime
 class SpeciesInformation(TypedDict):
   name : str
   scientific_name           : str
+  species_type              : str
   sunlight_requirements     : str 
   temperature_min           : float
   temperature_max           : float

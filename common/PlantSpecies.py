@@ -11,6 +11,7 @@ class PlantSpecies:
        info_dict = { 
          'species_name'                 : self.info['name'],
          'species_scientific_name'      : self.info['scientific_name'],
+         'species_type'                 : self.info['species_type'],
          'species_sunlight'             : self.info['sunlight_requirements'],
          'species_temp_min'             : self.info['temperature_min'],
          'species_temp_max'             : self.info['temperature_max'],
