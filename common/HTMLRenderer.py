@@ -406,14 +406,27 @@ class HTMLRenderer:
 
     def render_activity_log(self) -> None: 
         tr_list : list[str] = []
-        all_activities : list[tuple[str,LogItem]] = [] 
+        all_activities : list[tuple[LogItem,list[str]]] = []
         for plant in self.plant_list:
             new_activities : list[LogItem] = plant.info['plant_activities']
-            activity_tuples = list(map(lambda x: (plant.info['plant_name'],x),new_activities))
-            all_activities.extend(activity_tuples)
-
-        for log_item in all_activities:
-            item_tr = self.create_activity_tr(log_item[1],log_item[0],True)
+            for new_activity in new_activities:
+                same_activity : list[tuple[LogItem,list[str]]] = list(filter(lambda x: x[0]==new_activity,all_activities))
+                if len(same_activity) > 0:
+                    ind = all_activities.index(same_activity[0])
+                    curr_note : str = same_activity[0][0]['log_note']
+                    new_note : str = new_activity['log_note'].strip()
+                    new_note = curr_note + ', '+  new_note if new_note != '' else curr_note
+                    same_activity[0][0]['log_note'] = new_note
+                    same_activity[0][1].append(plant.info['plant_name'])
+                    del all_activities[ind]
+                    all_activities.append(same_activity[0])
+                else:
+                    all_activities.append((new_activity,[plant.info['plant_name']]))
+                    
+        all_activities.sort(key = lambda x:x[0]['log_date'])
+        
+        for (log_item,plants) in all_activities:
+            item_tr = self.create_activity_tr(log_item,', '.join(plants),True)
             tr_list.append(item_tr)
 
         tr_str : str = '\n'.join(tr_list)
