@@ -415,7 +415,7 @@ class HTMLRenderer:
                     ind = all_activities.index(same_activity[0])
                     curr_note : str = same_activity[0][0]['log_note']
                     new_note : str = new_activity['log_note'].strip()
-                    new_note = curr_note + ', '+  new_note if new_note != '' else curr_note
+                    new_note = curr_note + ', '+  new_note if new_note != '' and new_note not in curr_note else curr_note
                     same_activity[0][0]['log_note'] = new_note
                     same_activity[0][1].append(plant.info['plant_name'])
                     del all_activities[ind]
@@ -423,7 +423,7 @@ class HTMLRenderer:
                 else:
                     all_activities.append((new_activity,[plant.info['plant_name']]))
                     
-        all_activities.sort(key = lambda x:x[0]['log_date'])
+        all_activities.sort(key = lambda x:x[0]['log_date'],reverse=True)
         
         for (log_item,plants) in all_activities:
             item_tr = self.create_activity_tr(log_item,', '.join(plants),True)
