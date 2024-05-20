@@ -1,5 +1,5 @@
 Date;Activity;Plants;Note
-11.04.2024;Watering;Nadja;no note
+11.04.2024;Watering;Nadja;
 12.04.2024;Watering;Nadja;
 13.04.2024;Watering;Nadja;
 14.04.2024;Watering;Nadja;
@@ -16,7 +16,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Nadja;
 17.05.2024;Watering;Nadja;Rain Water
 18.05.2024;Fertilizing;Nadja;
-11.04.2024;Watering;Elvis;no note
+11.04.2024;Watering;Elvis;
 16.04.2024;Fertilizing;Elvis;
 22.04.2024;Watering;Elvis;
 24.04.2024;Watering;Elvis;
@@ -35,7 +35,7 @@ Date;Activity;Plants;Note
 07.05.2024;Watering;Bob;
 10.05.2024;Watering;Bob;
 14.05.2024;Watering;Bob;
-17.05.2024;Fertilizing;Bob;Root growth
+17.05.2024;Fertilizing;Bob;Root Growth
 12.04.2024;Watering;Kevin;
 13.04.2024;Watering;Kevin;
 13.04.2024;Added Autowaterer;Kevin;
@@ -61,7 +61,7 @@ Date;Activity;Plants;Note
 24.04.2024;Watering;Jose;
 07.05.2024;Watering;Jose;
 13.05.2024;Watering;Jose;
-17.05.2024;Fertilizing;Jose;Root growth
+17.05.2024;Fertilizing;Jose;Root Growth
 12.04.2024;Watering;Peppa;
 14.04.2024;Watering;Peppa;
 18.04.2024;Watering;Peppa;
@@ -132,7 +132,7 @@ Date;Activity;Plants;Note
 22.04.2024;Watering;Martha;
 07.05.2024;Watering;Martha;
 14.05.2024;Watering;Martha;
-17.05.2024;Fertilizing;Martha;Root growth
+17.05.2024;Fertilizing;Martha;Root Growth
 13.04.2024;Watering;Perry;
 14.04.2024;Watering;Perry;
 16.04.2024;Watering;Perry;
@@ -148,7 +148,7 @@ Date;Activity;Plants;Note
 14.04.2024;Watering;George;
 08.05.2024;Watering;George;
 14.05.2024;Watering;George;
-17.05.2024;Fertilizing;George;Root growth
+17.05.2024;Fertilizing;George;Root Growth
 14.04.2024;Watering;Lucy;
 22.04.2024;Watering;Lucy;
 22.04.2024;Repot;Lucy;
@@ -183,7 +183,7 @@ Date;Activity;Plants;Note
 08.05.2024;Watering;Lily;
 12.05.2024;Pruning;Lily;
 13.05.2024;Watering;Lily;
-17.05.2024;Fertilizing;Lily;Root growth
+17.05.2024;Fertilizing;Lily;Root Growth
 18.05.2024;Repot;Lily;
 15.04.2024;Watering;Findus;
 18.04.2024;Fertilizing;Findus;
@@ -202,10 +202,10 @@ Date;Activity;Plants;Note
 18.05.2024;Watering;Bruno;
 17.04.2024;Watering;Cerberus;Rainy day, outside plants are all wet
 07.05.2024;Watering;Cerberus;
-17.05.2024;Fertilizing;Cerberus;Root growth
+17.05.2024;Fertilizing;Cerberus;Root Growth
 22.04.2024;Watering;Pepe;
 06.05.2024;Watering;Pepe;
-17.05.2024;Fertilizing;Pepe;Root growth
+17.05.2024;Fertilizing;Pepe;Root Growth
 22.04.2024;Watering;Flowey;
 22.04.2024;Repot;Flowey;
 02.05.2024;Repot;Flowey;
@@ -259,7 +259,7 @@ Date;Activity;Plants;Note
 22.04.2024;Watering;Palm;
 09.05.2024;Watering;Palm;
 14.05.2024;Watering;Palm;
-17.05.2024;Fertilizing;Palm;Root growth
+17.05.2024;Fertilizing;Palm;Root Growth
 22.04.2024;Repot;Zoey;
 02.05.2024;Repot;Zoey;
 07.05.2024;Watering;Zoey;
@@ -278,7 +278,7 @@ Date;Activity;Plants;Note
 12.05.2024;Watering;Tom;
 13.05.2024;Watering;Tom;
 14.05.2024;Watering;Tom;
-15.05.2024;Watering;Tom;Rain water
+15.05.2024;Watering;Tom;Rain Water
 17.05.2024;Watering;Tom;Rain Water
 18.05.2024;Fertilizing;Tom;
 18.05.2024;Repot;Tom;
@@ -290,7 +290,7 @@ Date;Activity;Plants;Note
 12.05.2024;Watering;Jerry;
 13.05.2024;Watering;Jerry;
 14.05.2024;Watering;Jerry;
-15.05.2024;Watering;Jerry;Rain water
+15.05.2024;Watering;Jerry;Rain Water
 17.05.2024;Watering;Jerry;Rain Water
 18.05.2024;Fertilizing;Jerry;
 18.05.2024;Repot;Jerry;
@@ -341,7 +341,7 @@ Date;Activity;Plants;Note
 17.05.2024;Fertilizing;Howard;Root Growth
 05.05.2024;Repot;Darryl;
 05.05.2024;Watering;Darryl;
-17.05.2024;Fertilizing;Darryl;Root growth
+17.05.2024;Fertilizing;Darryl;Root Growth
 06.05.2024;Repot;Mike;
 05.05.2024;Watering;Mike;
 09.05.2024;Watering;Mike;
@@ -380,12 +380,12 @@ Date;Activity;Plants;Note
 13.05.2024;Repot;Terry;
 13.05.2024;Watering;Terry;
 14.05.2024;Watering;Terry;
-15.05.2024;Watering;Terry;Rain water
+15.05.2024;Watering;Terry;Rain Water
 07.05.2024;Watering;Valentina;
 08.05.2024;Watering;Valentina;
-17.05.2024;Fertilizing;Valentina;Root growth
+17.05.2024;Fertilizing;Valentina;Root Growth
 07.05.2024;Watering;Ivan;
-17.05.2024;Fertilizing;Ivan;Root growth
+17.05.2024;Fertilizing;Ivan;Root Growth
 08.05.2024;Watering;Dirk;
 14.05.2024;Watering;Dirk;
 18.05.2024;Watering;Dirk;

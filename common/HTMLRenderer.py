@@ -335,17 +335,43 @@ class HTMLRenderer:
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
  
-        log_trs : list[str] = []
+        log_trs : list[tuple[datetime.datetime,str]] = []
         watering_activities : list[LogItem] = []
         fertilizing_activities : list[LogItem] = []
         for log_item in plant.info['plant_activities']:
             if log_item['log_activity'].strip() == 'Watering':
                 watering_activities.append(log_item)
-            if log_item['log_activity'].strip() == 'Fertilizing':
+            elif log_item['log_activity'].strip() == 'Fertilizing':
                 fertilizing_activities.append(log_item)
-            log_tr = self.create_activity_tr(log_item,plant.info['plant_name'],False)
-            log_trs.append(log_tr)
-        info_dict['plant_activities'] = '\n'.join(log_trs)
+            else:
+                log_tr = self.create_activity_tr(log_item,plant.info['plant_name'],False)
+                log_trs.append((log_item['log_date'],log_tr))
+        if len(watering_activities) > 0:
+            watering_activities.sort(key=lambda x:x['log_date'],reverse=True)
+            last_watering : LogItem = watering_activities[0]
+            watering_note : str = last_watering['log_note']
+            if len(watering_activities) > 1: 
+                watering_note += ', ' if watering_note.strip() != '' else ''
+                watering_note += 'Last watering: %s' % watering_activities[1]['log_date'].strftime(date_format)
+            last_watering['log_note'] = watering_note
+            watering_tr = self.create_activity_tr(last_watering,plant.info['plant_name'],False)
+            log_trs.append((last_watering['log_date'],watering_tr))
+
+        if len(fertilizing_activities) > 0:
+            fertilizing_activities.sort(key=lambda x:x['log_date'],reverse=True)
+            last_fertilizing : LogItem = fertilizing_activities[0]
+            fertilizing_note : str = last_fertilizing['log_note']
+            if len(fertilizing_activities) > 1: 
+                fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
+                fertilizing_note += 'Last Fertilizing: %s' % fertilizing_activities[1]['log_date'].strftime(date_format)
+            last_fertilizing['log_note'] = fertilizing_note
+
+            fertilizing_tr = self.create_activity_tr(last_fertilizing,plant.info['plant_name'],False)
+            log_trs.append((last_fertilizing['log_date'],fertilizing_tr))
+
+        log_trs.sort(key=lambda x:x[0],reverse=True)
+
+        info_dict['plant_activities'] = '\n'.join(list(map(lambda x:x[1],log_trs)))
         
         plant_species : str = info_dict['plant_species_name']
         species : PlantSpecies | None = self.get_species_plant(plant)
@@ -530,7 +556,7 @@ class HTMLRenderer:
             for (plant,note) in recent_activities[(log_date,log_activity)]:
                 plant_name : str = plant.info['plant_name']
                 plant_strs.append('<a href="%s/%s">%s</a>' % (plant_details_out,get_html_name(plant_name),plant_name))
-                if not note.strip() == '':
+                if not note.strip() == '' and note not in notes_strs:
                     notes_strs.append(note)
             recent_activities_str += '<td>%s</td>' % (', '.join(plant_strs))
             recent_activities_str += '<td>%s</td>' % (', '.join(notes_strs)) 
