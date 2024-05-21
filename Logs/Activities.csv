@@ -16,6 +16,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Nadja;
 17.05.2024;Watering;Nadja;Rain Water
 18.05.2024;Fertilizing;Nadja;
+20.05.2024;Watering;Nadja;
 11.04.2024;Watering;Elvis;
 16.04.2024;Fertilizing;Elvis;
 22.04.2024;Watering;Elvis;
@@ -27,6 +28,7 @@ Date;Activity;Plants;Note
 13.05.2024;Watering;Elvis;
 14.05.2024;Watering;Elvis;
 18.05.2024;Watering;Elvis;
+20.05.2024;Watering;Elvis;
 12.04.2024;Watering;Bob;
 13.04.2024;Pruning;Bob;
 22.04.2024;Watering;Bob;
@@ -36,6 +38,7 @@ Date;Activity;Plants;Note
 10.05.2024;Watering;Bob;
 14.05.2024;Watering;Bob;
 17.05.2024;Fertilizing;Bob;Root Growth
+20.05.2024;Watering;Bob;
 12.04.2024;Watering;Kevin;
 13.04.2024;Watering;Kevin;
 13.04.2024;Added Autowaterer;Kevin;
@@ -55,6 +58,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Beehome;
 18.05.2024;Watering;Beehome;
 19.05.2024;Watering;Beehome;
+20.05.2024;Watering;Beehome;
 12.04.2024;Watering;Jose;
 18.04.2024;Watering;Jose;
 22.04.2024;Watering;Jose;
@@ -62,6 +66,7 @@ Date;Activity;Plants;Note
 07.05.2024;Watering;Jose;
 13.05.2024;Watering;Jose;
 17.05.2024;Fertilizing;Jose;Root Growth
+20.05.2024;Watering;Jose;
 12.04.2024;Watering;Peppa;
 14.04.2024;Watering;Peppa;
 18.04.2024;Watering;Peppa;
@@ -88,17 +93,7 @@ Date;Activity;Plants;Note
 11.05.2024;Watering;Ollie;
 12.05.2024;Watering;Ollie;
 14.05.2024;Watering;Ollie;
-12.04.2024;Watering;Crowley;
-13.04.2024;Watering;Crowley;
-14.04.2024;Watering;Crowley;
-16.04.2024;Watering;Crowley;
-09.05.2024;Watering;Crowley;
-10.05.2024;Watering;Crowley;
-11.05.2024;Watering;Crowley;
-12.05.2024;Watering;Crowley;
-13.05.2024;Watering;Crowley;
-14.05.2024;Watering;Crowley;
-17.05.2024;Watering;Crowley;Rain Water
+20.05.2024;Watering;Ollie;
 12.04.2024;Watering;Maria;
 16.04.2024;Watering;Maria;
 17.04.2024;Fertilizing;Maria;
@@ -116,6 +111,8 @@ Date;Activity;Plants;Note
 07.05.2024;Watering;Liliana;
 11.05.2024;Watering;Liliana;
 16.05.2024;Watering;Liliana;
+20.05.2024;Repot;Liliana;
+20.05.2024;Watering;Liliana;
 13.04.2024;Watering;Rosy;
 14.04.2024;Watering;Rosy;
 17.04.2024;Watering;Rosy;Rainy day, outside plants are all wet
@@ -145,10 +142,12 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Perry;
 18.05.2024;Watering;Perry;
 19.05.2024;Watering;Perry;
+20.05.2024;Watering;Perry;
 14.04.2024;Watering;George;
 08.05.2024;Watering;George;
 14.05.2024;Watering;George;
 17.05.2024;Fertilizing;George;Root Growth
+20.05.2024;Watering;George;
 14.04.2024;Watering;Lucy;
 22.04.2024;Watering;Lucy;
 22.04.2024;Repot;Lucy;
@@ -163,6 +162,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Lucy;
 17.05.2024;Watering;Lucy;Rain Water
 18.05.2024;Fertilizing;Lucy;
+20.05.2024;Watering;Lucy;
 14.04.2024;Watering;Stefan;
 22.04.2024;Watering;Stefan;
 22.04.2024;Repot;Stefan;
@@ -178,6 +178,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Stefan;
 17.05.2024;Watering;Stefan;Rain Water
 18.05.2024;Fertilizing;Stefan;
+20.05.2024;Watering;Stefan;
 14.04.2024;Watering;Lily;
 16.04.2024;Fertilizing;Lily;
 08.05.2024;Watering;Lily;
@@ -185,6 +186,7 @@ Date;Activity;Plants;Note
 13.05.2024;Watering;Lily;
 17.05.2024;Fertilizing;Lily;Root Growth
 18.05.2024;Repot;Lily;
+20.05.2024;Watering;Lily;
 15.04.2024;Watering;Findus;
 18.04.2024;Fertilizing;Findus;
 22.04.2024;Watering;Findus;
@@ -192,6 +194,7 @@ Date;Activity;Plants;Note
 09.05.2024;Watering;Findus;
 17.05.2024;Watering;Findus;
 18.05.2024;Fertilizing;Findus;
+19.05.2024;Watering;Findus;
 16.04.2024;Watering;Bruno;
 22.04.2024;Watering;Bruno;
 24.04.2024;Watering;Bruno;
@@ -200,38 +203,22 @@ Date;Activity;Plants;Note
 10.05.2024;Watering;Bruno;
 14.05.2024;Watering;Bruno;
 18.05.2024;Watering;Bruno;
+20.05.2024;Watering;Bruno;
 17.04.2024;Watering;Cerberus;Rainy day, outside plants are all wet
 07.05.2024;Watering;Cerberus;
 17.05.2024;Fertilizing;Cerberus;Root Growth
 22.04.2024;Watering;Pepe;
 06.05.2024;Watering;Pepe;
 17.05.2024;Fertilizing;Pepe;Root Growth
-22.04.2024;Watering;Flowey;
-22.04.2024;Repot;Flowey;
-02.05.2024;Repot;Flowey;
-05.05.2024;Watering;Flowey;
-09.05.2024;Watering;Flowey;
-10.05.2024;Watering;Flowey;
-11.05.2024;Watering;Flowey;
-12.05.2024;Watering;Flowey;
-14.05.2024;Watering;Flowey;
-16.05.2024;Watering;Flowey;
-17.05.2024;Watering;Flowey;Rain Water
-22.04.2024;Watering;Sunny;
-22.04.2024;Repot;Sunny;
-02.05.2024;Repot;Sunny;
-05.05.2024;Watering;Sunny;
-09.05.2024;Watering;Sunny;
-10.05.2024;Watering;Sunny;
-11.05.2024;Watering;Sunny;
-12.05.2024;Watering;Sunny;
-14.05.2024;Watering;Sunny;
-16.05.2024;Watering;Sunny;
-17.05.2024;Watering;Sunny;Rain Water
+20.05.2024;Repot;Pepe;Combined Sam, Pepe and Harvey into a single pot
+20.05.2024;Watering;Pepe;
 22.04.2024;Watering;Brock;
 22.04.2024;Repot;Brock;
 08.05.2024;Watering;Brock;
 11.05.2024;Watering;Brock;
+19.05.2024;Repot;Brock;
+19.05.2024;Watering;Brock;
+20.05.2024;Watering;Brock;
 22.04.2024;Watering;Kelly;
 22.04.2024;Repot;Kelly;
 02.05.2024;Repot;Kelly;
@@ -243,6 +230,7 @@ Date;Activity;Plants;Note
 14.05.2024;Watering;Kelly;
 18.05.2024;Repot;Kelly;
 18.05.2024;Watering;Kelly;
+20.05.2024;Watering;Kelly;
 22.04.2024;Watering;Sandy;
 22.04.2024;Repot;Sandy;
 24.04.2024;Watering;Sandy;
@@ -256,6 +244,7 @@ Date;Activity;Plants;Note
 16.05.2024;Watering;Sandy;
 17.05.2024;Watering;Sandy;Rain Water
 18.05.2024;Fertilizing;Sandy;
+20.05.2024;Watering;Sandy;
 22.04.2024;Watering;Palm;
 09.05.2024;Watering;Palm;
 14.05.2024;Watering;Palm;
@@ -282,6 +271,7 @@ Date;Activity;Plants;Note
 17.05.2024;Watering;Tom;Rain Water
 18.05.2024;Fertilizing;Tom;
 18.05.2024;Repot;Tom;
+20.05.2024;Watering;Tom;
 24.04.2024;Watering;Jerry;
 07.05.2024;Watering;Jerry;
 09.05.2024;Watering;Jerry;
@@ -294,6 +284,7 @@ Date;Activity;Plants;Note
 17.05.2024;Watering;Jerry;Rain Water
 18.05.2024;Fertilizing;Jerry;
 18.05.2024;Repot;Jerry;
+20.05.2024;Watering;Jerry;
 02.05.2024;Repot;Zane;
 07.05.2024;Watering;Zane;
 10.05.2024;Watering;Zane;
@@ -310,6 +301,7 @@ Date;Activity;Plants;Note
 14.05.2024;Watering;Klaus;
 18.05.2024;Repot;Klaus;
 18.05.2024;Watering;Klaus;
+20.05.2024;Watering;Klaus;
 02.05.2024;Repot;Chrom;
 07.05.2024;Watering;Chrom;
 10.05.2024;Watering;Chrom;
@@ -319,22 +311,19 @@ Date;Activity;Plants;Note
 17.05.2024;Watering;Chrom;Rain Water
 18.05.2024;Repot;Chrom;
 18.05.2024;Watering;Chrom;
-02.05.2024;Repot;Steve;
-05.05.2024;Watering;Steve;
-09.05.2024;Watering;Steve;
-10.05.2024;Watering;Steve;
-11.05.2024;Watering;Steve;
-14.05.2024;Watering;Steve;
-16.05.2024;Watering;Steve;
-17.05.2024;Watering;Steve;Rain Water
+20.05.2024;Watering;Chrom;
 04.05.2024;Repot;Hella;
 05.05.2024;Watering;Hella;
 08.05.2024;Watering;Hella;
 13.05.2024;Watering;Hella;
 17.05.2024;Watering;Hella;Rain Water
+20.05.2024;Watering;Hella;
 05.05.2024;Repot;Harvey;
 05.05.2024;Watering;Harvey;
 17.05.2024;Fertilizing;Harvey;Root Growth
+20.05.2024;Watering;Harvey;
+20.05.2024;Repot;Harvey;Combined Sam, Pepe and Harvey into a single pot
+20.05.2024;Watering;Harvey;
 05.05.2024;Repot;Howard;
 05.05.2024;Watering;Howard;
 08.05.2024;Watering;Howard;
@@ -362,18 +351,21 @@ Date;Activity;Plants;Note
 11.05.2024;Watering;Harry;
 13.05.2024;Watering;Harry;
 17.05.2024;Watering;Harry;Rain Water
+20.05.2024;Watering;Harry;
 07.05.2024;Watering;Carol;
 10.05.2024;Watering;Carol;
 13.05.2024;Watering;Carol;
 14.05.2024;Watering;Carol;
 17.05.2024;Watering;Carol;Rain Water
 18.05.2024;Watering;Carol;
+20.05.2024;Watering;Carol;
 07.05.2024;Watering;Carl;
 10.05.2024;Watering;Carl;
 13.05.2024;Watering;Carl;
 14.05.2024;Watering;Carl;
 17.05.2024;Watering;Carl;Rain Water
 18.05.2024;Watering;Carl;
+20.05.2024;Watering;Carl;
 07.05.2024;Watering;Terry;
 08.05.2024;Watering;Terry;
 10.05.2024;Watering;Terry;
@@ -381,6 +373,7 @@ Date;Activity;Plants;Note
 13.05.2024;Watering;Terry;
 14.05.2024;Watering;Terry;
 15.05.2024;Watering;Terry;Rain Water
+20.05.2024;Watering;Terry;
 07.05.2024;Watering;Valentina;
 08.05.2024;Watering;Valentina;
 17.05.2024;Fertilizing;Valentina;Root Growth
@@ -389,21 +382,20 @@ Date;Activity;Plants;Note
 08.05.2024;Watering;Dirk;
 14.05.2024;Watering;Dirk;
 18.05.2024;Watering;Dirk;
+20.05.2024;Watering;Dirk;
 24.04.2024;Watering;Nosferatu;
 05.05.2024;Watering;Nosferatu;
 10.05.2024;Watering;Nosferatu;
 12.05.2024;Watering;Nosferatu;
 14.05.2024;Watering;Nosferatu;
+20.05.2024;Watering;Nosferatu;
 09.05.2024;Watering;Sam;
 17.05.2024;Fertilizing;Sam;Root Growth
-19.05.2024;Repot;Brock;
-19.05.2024;Watering;Brock, Tony, Louie;
-19.05.2024;Watering;Findus;
-20.05.2024;Watering;Beehome, Perry, Sunny, Flowey, Steve, Crowley, Stefan, Hella, Nadja, Sandy, Lucy, Tom, Jerry, Terry, Tony, Louie, Ollie, Nosferatu, Chrom, Kelly, Klaus, Carl, Carol;
-20.05.2024;Watering;Harry, Brock;
-20.05.2024;Watering;Elvis, Bruno;
-20.05.2024;Watering;Bob, Dirk, George, Lily, Harvey;
-20.05.2024;Watering;Jose;
-20.05.2024;Repot;Liliana;
-20.05.2024;Repot;Sam, Pepe, Harvey;Combined Sam, Pepe and Harvey into a single pot
-20.05.2024;Watering;Liliana, Sam, Harvey, Pepe;
+20.05.2024;Repot;Sam;Combined Sam, Pepe and Harvey into a single pot
+20.05.2024;Watering;Sam;
+19.05.2024;Watering;Tony;
+20.05.2024;Watering;Tony;
+19.05.2024;Watering;Louie;
+20.05.2024;Watering;Louie;
+21.05.2024;Watering;Tom, Jerry, Louie, Tony;
+21.05.2024;Watering;Terry, Klaus, Chrom, Kelly, Nadja, Lucy, Sandy, Stefan, Hella;Rain Water
