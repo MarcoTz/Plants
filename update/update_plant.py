@@ -20,6 +20,8 @@ def get_update_info() -> tuple[str,str,str]:
     return (plant_name,update_key,update_value)
 
 
+def update_plant_dict(info_dict:dict[str,str]) -> None:
+    update_plant(info_dict['plant_name'],info_dict['update_key'],info_dict['update_value'])
 
 def update_plant(plant_name:str, update_key:str, update_value:str) -> None:
     plant_file_name : str = plant_name.replace(' ','')+'.json'
@@ -39,7 +41,8 @@ def update_plant(plant_name:str, update_key:str, update_value:str) -> None:
     if update_key == 'plant_notes':
         current_notes : list[str] = list(new_plant_information['plant_notes'])
         current_notes.append(update_value)
-    if update_key in new_plant_information:
+        new_plant_information['plant_notes'] = current_notes
+    elif update_key in new_plant_information:
         new_plant_information[update_key] = update_value
 
     write_json(new_plant_information,plants_dir,plant_file_name)

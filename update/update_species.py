@@ -40,6 +40,9 @@ def get_update_info() -> tuple[str,str,str]:
 
     return (species_name,update_key,update_value)
 
+def update_species_dict(info_dict:dict[str,str])->None:
+    update_species(info_dict['species_name'],info_dict['update_key'],info_dict['update_value'])
+
 def update_species(species_name:str, update_key:str, update_value:str) -> None: 
     species_file_name : str = species_name.replace(' ','') +'.json'
     species_path : str = os.path.join(species_dir,species_file_name)
@@ -71,7 +74,7 @@ def update_species(species_name:str, update_key:str, update_value:str) -> None:
         current_value:list[str] = list(new_species_info[update_key])
         current_value.append(update_value)
         new_species_info[update_key] = current_value
-    else:
+    elif update_key in new_species_info:
         new_species_info[update_key] = update_value
 
     write_json(new_species_info,species_dir,species_file_name)

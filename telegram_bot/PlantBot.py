@@ -31,6 +31,8 @@ class PlantBot:
                 ('new_activity','add new activity', self.new_activity),
                 ('new_plant','add new plant',self.new_plant),
                 ('new_species','add new species',self.new_species),
+                ('update_species','update species information',self.update_species),
+                ('update_plant','update plant information',self.update_plant),
                 ('today','enter current date as input', self.today_input),
                 ('move_to_graveyard','move plant to graveyard',self.move_graveyard),
                 ('show_inputs','show current inputs',self.show_inputs),
@@ -162,6 +164,12 @@ class PlantBot:
 
     async def move_graveyard(self,update,context) -> None:
         await self.new_action(BotAction.MOVE_GRAVEYARD,update,context)
+
+    async def update_plant(self,update,context) -> None:
+        await self.new_action(BotAction.UPDATE_PLANT,update,context)
+
+    async def update_species(self,update,context) -> None:
+        await self.new_action(BotAction.UPDATE_SPECIES,update,context)
 
     async def today_input(self,update,context) -> None:
         if not await self.guard_access(update,context): 

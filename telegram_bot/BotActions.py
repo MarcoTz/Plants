@@ -6,6 +6,8 @@ from update.add_growth          import add_growth
 from update.add_plant           import add_plant
 from update.add_species         import add_species
 from update.move_to_graveyard   import move_to_graveyard
+from update.update_plant        import update_plant_dict
+from update.update_species      import update_species_dict
 
 class BotAction(Enum):
    IDLE         = 1 
@@ -14,6 +16,8 @@ class BotAction(Enum):
    NEW_PLANT    = 4
    NEW_SPECIES  = 5
    MOVE_GRAVEYARD = 6
+   UPDATE_SPECIES = 7
+   UPDATE_PLANT = 8
 
 action_input_information : dict[BotAction,list[tuple[str,str]]] = {
         BotAction.IDLE : [],
@@ -64,6 +68,16 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('PLease enter plant name',                 'str'),
             ('Please enter died date (dd.mm.yyyy)',     'date'),
             ('Please enter diead reason',               'str')
+            ],
+        BotAction.UPDATE_SPECIES : [
+            ('Please enter species name',                       'str'),
+            ('Please enter field to update',                    'str'),
+            ('Please enter new value (notes will be appended)', 'str')
+            ],
+        BotAction.UPDATE_PLANT : [
+            ('Please enter plant name',                         'str'),
+            ('Please enter field to update',                    'str'),
+            ('Please enter new value (notes will be appended)', 'str')
             ]
     }
 
@@ -130,6 +144,16 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
             ('graveyard_plant',         False,False),
             ('graveyard_died_date',     False,False),
             ('graveyard_reason',        False,False)
+            ],
+        BotAction.UPDATE_PLANT : [
+            ('plant_name',False,False),
+            ('update_key',False,False),
+            ('update_value',False,False)
+            ],
+        BotAction.UPDATE_SPECIES : [
+            ('species_name',False,False),
+            ('update_key',False,False),
+            ('update_value',False,False)
             ]
 }
 
@@ -147,6 +171,10 @@ def get_action_writer(action:BotAction):
             return add_species
         case BotAction.MOVE_GRAVEYARD:
             return move_to_graveyard
+        case BotAction.UPDATE_PLANT:
+            return update_plant_dict
+        case BotAction.UPDATE_SPECIES:
+            return update_species_dict
 
 def get_len_input(action:BotAction) -> int:
     return len(action_input_information[action])
@@ -165,6 +193,10 @@ def explain_BotAction(action:BotAction) -> str:
             return 'added new species'
         case BotAction.MOVE_GRAVEYARD:
             return 'moved to graveyard'
+        case BotAction.UPDATE_PLANT:
+            return 'updated plant'
+        case BotAction.UPDATE_SPECIES:
+            return 'updated species'
 
 def validate_msg(msg:str,ty:str) -> str | None:
     if ty == 'float' and not ensure_float(msg):
