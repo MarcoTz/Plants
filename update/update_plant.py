@@ -28,17 +28,17 @@ def update_plant(plant_name:str, update_key:str, update_value:str) -> None:
     plant_path : str = os.path.join(plants_dir,plant_file_name)
     plant_information : PlantInformation = load_plant_file(plant_path)
     
-    new_plant_information : dict[str,str] = {
+    new_plant_information : dict[str,str | list[str]] = {
             'plant_name'       : plant_information['plant_name'],
             'species_name'     : plant_information['species_name'],
             'current_location' : plant_information['current_location'],
             'origin'           : plant_information['origin'],
             'obtained'         : plant_information['obtained'].strftime(date_format),
-            'plant_notes'      : ''.join(plant_information['plant_notes'])
+            'plant_notes'      : plant_information['plant_notes']
             }
     if update_key == 'plant_notes':
-        current_notes : str = new_plant_information['plant_notes'].strip()
-        current_notes += ',' + update_value if current_notes != '' else update_value
+        current_notes : list[str] = list(new_plant_information['plant_notes'])
+        current_notes.append(update_value)
     if update_key in new_plant_information:
         new_plant_information[update_key] = update_value
 
