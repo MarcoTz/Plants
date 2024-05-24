@@ -43,6 +43,7 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
         BotAction.NEW_SPECIES : [
             ('Please enter species common name',                                             'str'),
             ('Please enter plant scientific name',                                           'str'),
+            ('Please enter plant type (cactus/nightshade/etc)',                              'str'),
             ('Please enter sunlight requirements (direct/indirect/shade)',                   'str'),
             ('Please enter minimal survivable temperature (C)',                              'float'),
             ('Please enter maximal survivable temperature (C)',                              'float'),
@@ -108,6 +109,7 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
         BotAction.NEW_SPECIES : [
             ('name',                    False,False),
             ('scientific_name',         False,False),
+            ('species_type',            False,False),
             ('sunlight_requirements',   False,False),
             ('temperature_min',         False,False),
             ('temperature_max',         False,False),

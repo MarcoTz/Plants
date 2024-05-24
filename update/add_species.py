@@ -6,6 +6,7 @@ def create_species():
     print('--Create new Plant Species--')
     species_name        : str           = input('Enter species (common) name:').strip()
     scientific_name     : str           = input('Enter scientific name:').strip()
+    species_type        : str           = input('Enter plant type (cactus/ night shade/ etc)').strip()
     sunlight_str        : str           = input('Enter sunlight requirements (direct/indirect/shade):').strip()
     min_temp            : float         = get_float('Enter minimal (survivable) temperature (in C): ')
     max_temp            : float         = get_float('Enter maximal (survivable) temperature (in C): ')
@@ -30,6 +31,7 @@ def create_species():
     return {
             "name"                      : species_name,
             "scientific_name"           : scientific_name,
+            "species_type"              : species_type,
             "sunlight_requirements"     : sunlight_str,
             "temperature_min"           : min_temp,
             "temperature_max"           : max_temp,
