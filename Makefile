@@ -14,6 +14,8 @@ new-growth:
 	python $(JSONUPDATER) add-growth
 move-to-graveyard:
 	python $(JSONUPDATER) move-to-graveyard
+update-plant:
+	python $(JSONUPDATER) update-plant
 
 
 clean: 
