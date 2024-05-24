@@ -5,23 +5,20 @@ from common.PlantSpecies import PlantSpecies
 
 import os 
 import json
-import datetime 
 
 def load_plant_file(file_name:str) -> PlantInformation:
     plant_file = open(file_name,'r')
     file_contents = plant_file.read()
     json_contents = json.loads(file_contents)
-    json_contents['obtained'] = datetime.datetime.strptime(json_contents['obtained'], date_format)
-    if 'plant_activities' not in json_contents:
-        json_contents['plant_activities'] = []
-    if 'plant_growth' not in json_contents:
-        json_contents['plant_growth'] = []
-    return json_contents
+    plant_info = coalesce_plant(json_contents)
+    return plant_info 
 
 def load_species_file(file_name:str) -> SpeciesInformation:
     plant_file = open(file_name,'r')
     file_contents = plant_file.read()
-    return json.loads(file_contents)
+    file_json = json.loads(file_contents)
+    species_info = coalesce_species(file_json)
+    return species_info 
 
 def load_all_plant_files() -> list[PlantInformation]:
     dir_list = []

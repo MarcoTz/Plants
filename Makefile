@@ -16,7 +16,8 @@ move-to-graveyard:
 	python $(JSONUPDATER) move-to-graveyard
 update-plant:
 	python $(JSONUPDATER) update-plant
-
+update-species:
+	python $(JSONUPDATER) update-species
 
 clean: 
 	rm -rf $(OUTDIR)/**/*.html

@@ -97,9 +97,9 @@ class HTMLRenderer:
         if species is None:
             return (None,None)
 
-        watering_interval    : int = species.info['avg_watering_days']
+        watering_interval    : int = int(species.info['avg_watering_days'])
         next_watering_delta  : datetime.timedelta = datetime.timedelta(days=watering_interval)
-        fertilizing_interval : int = species.info['avg_fertilizing_days']
+        fertilizing_interval : int = int(species.info['avg_fertilizing_days'])
         next_fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
 
         filter_fun : function = lambda y: lambda x: x['log_activity'].strip() == y 
