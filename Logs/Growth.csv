@@ -4,11 +4,13 @@ Date;Plant;Height;Width;Note
 24.04.2024;Stefan;10.0;8.0;
 03.05.2024;Stefan;11.0;11.0;
 20.05.2024;Stefan;10.0;14.0;New stem is growing
+04.06.2024;Stefan;15.0;20.0;
 08.04.2024;Beehome;0.0;0.0;Planted Seeds
 12.04.2024;Beehome;0.1;0.1;First Sprouts
 03.05.2024;Beehome;7.0;30.0;
 17.05.2024;Beehome;19.0;30.0;
 20.05.2024;Beehome;23.0;30.0;
+03.06.2024;Beehome;50.0;30.0;
 06.04.2024;Bob;15.0;10.0;fresh from Rewe
 14.04.2024;Bob;6.0;3.0;
 24.04.2024;Bob;5.0;2.0;Split and repotted, almost died from hail
@@ -19,14 +21,19 @@ Date;Plant;Height;Width;Note
 18.04.2024;Brock;0.1;0.1;First Sprouts
 22.04.2024;Brock;11.0;2.0;Repotted
 03.05.2024;Brock;3.0;8.0;
+24.05.2024;Brock;7.0;2.0;
+04.06.2024;Brock;12.0;6.0;
 08.04.2024;Bruno;10.0;12.0;
 14.04.2024;Bruno;12.0;15.0;
 03.05.2024;Bruno;14.0;15.0;
 20.05.2024;Bruno;14.0;20.0;
+04.06.2024;Bruno;11.0;14.0;
 08.04.2024;Carl;0.0;0.0;Planted Seeds
 11.04.2024;Carl;0.0;0.1;First sprouts
 14.04.2024;Carl;2.0;0.5;
 03.05.2024;Carl;5.0;10.0;
+24.05.2024;Carl;5.0;10.0;
+04.06.2024;Carl;12.0;15.0;
 08.04.2024;Cerberus;8.0;8.0;
 03.05.2024;Cerberus;7.0;11.0;
 20.05.2024;Cerberus;8.5;7.5;
@@ -35,6 +42,7 @@ Date;Plant;Height;Width;Note
 03.05.2024;Elvis;12.0;32.0;
 18.05.2024;Elvis;13.0;35.0;
 20.05.2024;Elvis;13.0;38.0;
+04.06.2024;Elvis;16.0;33.0;
 14.04.2024;Eva Longoria;60.0;30.0;
 24.04.2024;Eva Longoria;20.0;15.0;Repotted and added stem
 03.05.2024;Eva Longoria;78.0;35.0;
@@ -50,6 +58,8 @@ Date;Plant;Height;Width;Note
 03.05.2024;Jerry;11.0;10.0;
 17.05.2024;Jerry;17.0;22.0;
 20.05.2024;Jerry;17.0;17.0;
+24.05.2024;Jerry;17.0;20.0;
+03.06.2024;Jerry;22.0;20.0;
 14.04.2024;Jose;20.0;10.0;
 03.05.2024;Jose;24.0;25.0;
 20.05.2024;Jose;35.0;15.0;
@@ -58,29 +68,31 @@ Date;Plant;Height;Width;Note
 22.04.2024;Kelly;10.0;1.0;Repotted
 03.05.2024;Kelly;12.0;1.0;
 20.05.2024;Kelly;12.0;2.0;
+04.06.2024;Kelly;16.0;12.0;
 08.04.2024;Kevin;28.0;10.0;
 14.04.2024;Kevin;30.0;12.0;
 03.05.2024;Kevin;23.0;25.0;
 20.05.2024;Kevin;28.0;17.0;
+04.06.2024;Kevin;23.0;32.0;
 08.04.2024;Liliana;24.0;15.0;
 03.05.2024;Liliana;21.0;28.0;
 20.05.2024;Liliana;24.0;30.0;
-06.04.2024;Lily;25.0;25.0;
-14.04.2024;Lily;25.0;30.0;
-03.05.2024;Lily;18.0;15.0;
-12.05.2024;Lily;7.0;7.0;After pruning, most stems had dried out
 07.04.2024;Lucy;6.0;4.0;
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
 08.05.2024;Lucy;10.0;10.0;
 13.05.2024;Lucy;12.0;13.0;
 20.05.2024;Lucy;17.0;15.0;
+24.05.2024;Lucy;22.0;18.0;
+04.06.2024;Lucy;27.0;20.0;
 07.04.2024;Sandy;7.0;4.0;
 14.04.2024;Sandy;9.0;4.0;
 24.04.2024;Sandy;9.0;8.0;
 08.05.2024;Sandy;9.0;8.0;
 13.05.2024;Sandy;11.5;10.5;
 20.05.2024;Sandy;14.0;13.0;
+24.05.2024;Sandy;15.0;14.0;
+03.06.2024;Sandy;20.0;22.0;
 08.04.2024;Maria;2.0;2.0;
 14.04.2024;Maria;2.5;2.0;
 03.05.2024;Maria;2.0;1.0;
@@ -91,10 +103,14 @@ Date;Plant;Height;Width;Note
 08.05.2024;Nadja;22.0;17.0;
 13.05.2024;Nadja;24.0;19.0;First buds formed
 20.05.2024;Nadja;29.0;20.0;
+24.05.2024;Nadja;28.0;25.0;
+04.06.2024;Nadja;35.0;28.0;
 09.04.2024;Ollie;14.0;3.0;
 03.05.2024;Ollie;20.0;8.0;
 17.05.2024;Ollie;36.0;20.0;
 20.05.2024;Ollie;28.0;26.0;
+24.05.2024;Ollie;40.0;22.0;
+04.06.2024;Ollie;48.0;38.0;
 14.04.2024;Palm;30.0;10.0;
 03.05.2024;Palm;17.0;1.0;
 20.05.2024;Palm;17.0;3.0;
@@ -111,6 +127,7 @@ Date;Plant;Height;Width;Note
 03.05.2024;Perry;7.0;30.0;
 17.05.2024;Perry;19.0;30.0;
 20.05.2024;Perry;24.0;30.0;
+03.06.2024;Perry;40.0;30.0;
 08.04.2024;Rosy;45.0;40.0;
 03.05.2024;Rosy;35.0;35.0;
 20.05.2024;Rosy;44.0;35.0;
@@ -119,25 +136,34 @@ Date;Plant;Height;Width;Note
 22.04.2024;Zoey;10.0;1.0;Repotted
 03.05.2024;Zoey;18.0;8.0;
 20.05.2024;Zoey;13.0;12.0;
+04.06.2024;Zoey;13.0;23.0;
 03.05.2024;Chrom;15.0;5.0;
 18.05.2024;Chrom;20.0;20.0;
 20.05.2024;Chrom;18.0;15.0;
+04.06.2024;Chrom;27.0;30.0;
 05.05.2024;Darryl;33.0;10.0;
 20.05.2024;Darryl;33.0;9.5;
 05.05.2024;Harvey;1.0;1.0;
 03.05.2024;Zane;7.0;5.0;
 20.05.2024;Zane;11.5;10.0;
+04.06.2024;Zane;16.0;25.0;
 03.05.2024;Ivan;8.0;5.0;
 20.05.2024;Ivan;9.0;8.5;
 03.05.2024;Tom;11.0;8.0;
 17.05.2024;Tom;15.5;17.0;
 20.05.2024;Tom;16.0;17.0;
+24.05.2024;Tom;17.0;17.0;
 05.05.2024;Howard;8.0;4.0;
 20.05.2024;Howard;6.0;4.0;
 03.05.2024;Carol;4.0;5.0;
+24.05.2024;Carol;3.0;1.0;
+04.06.2024;Carol;7.0;2.0;
 05.05.2024;Hella;32.0;28.0;
 20.05.2024;Hella;13.0;36.0;
+04.06.2024;Hella;20.0;42.0;
 03.05.2024;Terry;5.0;9.0;
+26.05.2024;Terry;13.0;10.0;
+04.06.2024;Terry;18.0;15.0;
 03.05.2024;Martha;13.0;17.0;
 20.05.2024;Martha;11.0;23.0;
 03.05.2024;Valentina;2.0;1.0;
@@ -147,37 +173,54 @@ Date;Plant;Height;Width;Note
 03.05.2024;Klaus;15.0;5.0;
 18.05.2024;Klaus;22.0;23.0;
 20.05.2024;Klaus;20.0;15.0;
+04.06.2024;Klaus;50.0;30.0;
 06.05.2024;Mike;22.0;10.0;Added during plant creation
 20.05.2024;Mike;23.0;12.0;
+04.06.2024;Mike;30.0;20.0;
 06.05.2024;Biggie;9.0;14.0;Added during plant creation
 20.05.2024;Biggie;12.0;12.0;
+04.06.2024;Biggie;13.0;13.0;
 06.05.2024;Harry;25.0;20.0;Added during plant creation
 20.05.2024;Harry;21.0;29.0;
+24.05.2024;Harry;15.0;30.0;
+04.06.2024;Harry;16.0;35.0;
 06.05.2024;Sam;1.0;6.0;Added during plant creation
 08.05.2024;Nosferatu;8.0;0.1;Added during plant creation
 17.05.2024;Nosferatu;23.0;10.0;Tallest plant, more bulbs have sprouted
 20.05.2024;Nosferatu;28.0;15.0;
+24.05.2024;Nosferatu;30.0;1.0;
+04.06.2024;Nosferatu;32.0;30.0;
 19.05.2024;Tony;14.0;8.0;Added during plant creation
+04.06.2024;Tony;21.0;16.0;
 19.05.2024;Louie;9.0;4.0;Added during plant creation
-24.05.2024;Nadja;28;25;
-24.05.2024;Lucy;22;18;
-24.05.2024;Sandy;15;14;
-24.05.2024;Tom;17;17;
-24.05.2024;Jerry;17;20;
-24.05.2024;Harry;15;30;
-24.05.2024;Brock;7;2;
-24.05.2024;Carol;3;1;
-24.05.2024;Carl;5;10;
-24.05.2024;Ollie;40;22;
-24.05.2024;Nosferatu;30;1;
-24.05.2024;Jake;11;5.5;Added during plant creation
-24.05.2024;Charles;12;7;Added during plant creation
-26.05.2024;Ray;11;8;Added during plant creation
-26.05.2024;Amy;12;8;Added during plant creation
-26.05.2024;Rosa;13;8;Added during plant creation
-26.05.2024;Gina;8;5;Added during plant creation
-26.05.2024;Scully;7;5;Added during plant creation
-26.05.2024;Hitchcock;8;7;Added during plant creation
-26.05.2024;Joan;4;7.5;Added during plant creation
-26.05.2024;Hadewijch;5.5;13;Added during plant creation
-26.05.2024;Terry;13;10;
+04.06.2024;Louie;12.0;10.0;
+24.05.2024;Jake;11.0;5.5;Added during plant creation
+04.06.2024;Jake;15.0;13.0;
+24.05.2024;Charles;12.0;7.0;Added during plant creation
+04.06.2024;Charles;14.0;10.0;
+26.05.2024;Ray;11.0;8.0;Added during plant creation
+04.06.2024;Ray;16.0;17.0;
+26.05.2024;Amy;12.0;8.0;Added during plant creation
+04.06.2024;Amy;13.0;13.0;
+26.05.2024;Rosa;13.0;8.0;Added during plant creation
+04.06.2024;Rosa;14.0;12.0;
+26.05.2024;Gina;8.0;5.0;Added during plant creation
+04.06.2024;Gina;11.0;13.0;
+26.05.2024;Scully;7.0;5.0;Added during plant creation
+04.06.2024;Scully;9.0;10.0;
+26.05.2024;Hitchcock;8.0;7.0;Added during plant creation
+04.06.2024;Hitchcock;13.0;12.0;
+26.05.2024;Joan;4.0;7.5;Added during plant creation
+26.05.2024;Hadewijch;5.5;13.0;Added during plant creation
+04.06.2024;Rob;16.0;13.0;Added during plant creation
+04.06.2024;Ben;10;8;Added during plant creation
+04.06.2024;Lucas;7;7;Added during plant creation
+04.06.2024;Nate;8;7;Added during plant creation
+04.06.2024;Sandra;12;8;Added during plant creation
+04.06.2024;Jim;8;5;Added during plant creation
+04.06.2024;Ben;6;3;Added during plant creation
+04.06.2024;Ebenezer;3;6;Added during plant creation
+04.06.2024;Tim;7;6;Added during plant creation
+04.06.2024;Chris;10;6;Added during plant creation
+04.06.2024;Bart;3;6;Added during plant creation
+04.06.2024;Bond;10;6;Added during plant creation
