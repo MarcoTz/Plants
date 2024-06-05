@@ -17,6 +17,7 @@ Date;Plant;Height;Width;Note
 03.05.2024;Bob;6.0;3.0;
 17.05.2024;Bob;6.5;4.5;
 20.05.2024;Bob;6.0;5.0;
+04.06.2024;Bob;5.5;7.0;Always leaning, but seems to have survived
 14.04.2024;Brock;0.0;0.0;Planted Seeds
 18.04.2024;Brock;0.1;0.1;First Sprouts
 22.04.2024;Brock;11.0;2.0;Repotted
@@ -37,6 +38,7 @@ Date;Plant;Height;Width;Note
 08.04.2024;Cerberus;8.0;8.0;
 03.05.2024;Cerberus;7.0;11.0;
 20.05.2024;Cerberus;8.5;7.5;
+04.06.2024;Cerberus;9.0;6.5;
 08.04.2024;Elvis;10.0;20.0;
 14.04.2024;Elvis;10.0;30.0;
 03.05.2024;Elvis;12.0;32.0;
@@ -47,13 +49,11 @@ Date;Plant;Height;Width;Note
 24.04.2024;Eva Longoria;20.0;15.0;Repotted and added stem
 03.05.2024;Eva Longoria;78.0;35.0;
 20.05.2024;Eva Longoria;85.0;40.0;
+04.06.2024;Eva Longoria;88.0;40.0;
 08.04.2024;Findus;70.0;40.0;
 03.05.2024;Findus;70.0;40.0;
 20.05.2024;Findus;80.0;50.0;
-08.04.2024;George;5.0;1.0;First Planted
-14.04.2024;George;6.0;1.0;
-03.05.2024;George;2.0;1.0;
-20.05.2024;George;2.0;3.0;
+04.06.2024;Findus;68.0;60.0;
 14.04.2024;Jerry;7.0;4.0;
 03.05.2024;Jerry;11.0;10.0;
 17.05.2024;Jerry;17.0;22.0;
@@ -63,6 +63,7 @@ Date;Plant;Height;Width;Note
 14.04.2024;Jose;20.0;10.0;
 03.05.2024;Jose;24.0;25.0;
 20.05.2024;Jose;35.0;15.0;
+04.06.2024;Jose;21.0;9.0;
 14.04.2024;Kelly;0.0;0.0;Planted Seeds
 18.04.2024;Kelly;0.1;0.1;First Sprouts
 22.04.2024;Kelly;10.0;1.0;Repotted
@@ -77,6 +78,7 @@ Date;Plant;Height;Width;Note
 08.04.2024;Liliana;24.0;15.0;
 03.05.2024;Liliana;21.0;28.0;
 20.05.2024;Liliana;24.0;30.0;
+04.06.2024;Liliana;21.0;27.0;
 07.04.2024;Lucy;6.0;4.0;
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
@@ -97,6 +99,7 @@ Date;Plant;Height;Width;Note
 14.04.2024;Maria;2.5;2.0;
 03.05.2024;Maria;2.0;1.0;
 20.05.2024;Maria;5.0;3.0;
+04.06.2024;Maria;7.0;5.0;Slowly looking better
 08.04.2024;Nadja;10.0;5.0;
 14.04.2024;Nadja;12.0;5.0;
 24.04.2024;Nadja;15.0;5.0;
@@ -114,14 +117,17 @@ Date;Plant;Height;Width;Note
 14.04.2024;Palm;30.0;10.0;
 03.05.2024;Palm;17.0;1.0;
 20.05.2024;Palm;17.0;3.0;
+04.06.2024;Palm;16.0;4.5;Sadly no new leaves, might be dead
 08.04.2024;Pepe;6.5;4.0;
 14.04.2024;Pepe;7.0;4.0;
 03.05.2024;Pepe;7.0;4.0;
 20.05.2024;Pepe;2.5;4.0;
+04.06.2024;Pepe;3.0;4.0;Struggled during repot, but seems fine now
 08.04.2024;Peppa;4.0;10.0;
 14.04.2024;Peppa;4.0;13.0;
 03.05.2024;Peppa;5.0;26.0;
 20.05.2024;Peppa;8.0;18.0;
+04.06.2024;Peppa;6.0;15.0;
 10.04.2024;Perry;0.1;0.1;First Sprouts
 14.04.2024;Perry;5.0;30.0;
 03.05.2024;Perry;7.0;30.0;
@@ -131,6 +137,7 @@ Date;Plant;Height;Width;Note
 08.04.2024;Rosy;45.0;40.0;
 03.05.2024;Rosy;35.0;35.0;
 20.05.2024;Rosy;44.0;35.0;
+04.06.2024;Rosy;38.0;47.0;Hard to measure, leaves move a lot
 14.04.2024;Zoey;0.0;0.0;Planted Seeds
 18.04.2024;Zoey;0.1;0.1;First Sprouts
 22.04.2024;Zoey;10.0;1.0;Repotted
@@ -143,18 +150,22 @@ Date;Plant;Height;Width;Note
 04.06.2024;Chrom;27.0;30.0;
 05.05.2024;Darryl;33.0;10.0;
 20.05.2024;Darryl;33.0;9.5;
+04.06.2024;Darryl;34.0;6.0;
 05.05.2024;Harvey;1.0;1.0;
+04.06.2024;Harvey;1.5;1.5;Might also be dead, but we will see
 03.05.2024;Zane;7.0;5.0;
 20.05.2024;Zane;11.5;10.0;
 04.06.2024;Zane;16.0;25.0;
 03.05.2024;Ivan;8.0;5.0;
 20.05.2024;Ivan;9.0;8.5;
+04.06.2024;Ivan;9.0;8.0;
 03.05.2024;Tom;11.0;8.0;
 17.05.2024;Tom;15.5;17.0;
 20.05.2024;Tom;16.0;17.0;
 24.05.2024;Tom;17.0;17.0;
 05.05.2024;Howard;8.0;4.0;
 20.05.2024;Howard;6.0;4.0;
+04.06.2024;Howard;8.0;4.5;Not sure how he's doing, roots seem fine, but the leaves are still dead
 03.05.2024;Carol;4.0;5.0;
 24.05.2024;Carol;3.0;1.0;
 04.06.2024;Carol;7.0;2.0;
@@ -166,10 +177,13 @@ Date;Plant;Height;Width;Note
 04.06.2024;Terry;18.0;15.0;
 03.05.2024;Martha;13.0;17.0;
 20.05.2024;Martha;11.0;23.0;
+04.06.2024;Martha;12.0;23.0;Might want more sunlight
 03.05.2024;Valentina;2.0;1.0;
 20.05.2024;Valentina;2.0;1.0;
+04.06.2024;Valentina;4.0;2.5;
 05.05.2024;Dirk;3.0;1.0;
 20.05.2024;Dirk;5.0;2.0;
+04.06.2024;Dirk;4.0;3.0;
 03.05.2024;Klaus;15.0;5.0;
 18.05.2024;Klaus;22.0;23.0;
 20.05.2024;Klaus;20.0;15.0;
@@ -185,6 +199,7 @@ Date;Plant;Height;Width;Note
 24.05.2024;Harry;15.0;30.0;
 04.06.2024;Harry;16.0;35.0;
 06.05.2024;Sam;1.0;6.0;Added during plant creation
+04.06.2024;Sam;2.0;4.0;
 08.05.2024;Nosferatu;8.0;0.1;Added during plant creation
 17.05.2024;Nosferatu;23.0;10.0;Tallest plant, more bulbs have sprouted
 20.05.2024;Nosferatu;28.0;15.0;
@@ -211,37 +226,18 @@ Date;Plant;Height;Width;Note
 26.05.2024;Hitchcock;8.0;7.0;Added during plant creation
 04.06.2024;Hitchcock;13.0;12.0;
 26.05.2024;Joan;4.0;7.5;Added during plant creation
+04.06.2024;Joan;4.0;5.0;
 26.05.2024;Hadewijch;5.5;13.0;Added during plant creation
+04.06.2024;Hadewijch;5.0;12.0;
 04.06.2024;Rob;16.0;13.0;Added during plant creation
-04.06.2024;Ben;10;8;Added during plant creation
-04.06.2024;Lucas;7;7;Added during plant creation
-04.06.2024;Nate;8;7;Added during plant creation
-04.06.2024;Sandra;12;8;Added during plant creation
-04.06.2024;Jim;8;5;Added during plant creation
-04.06.2024;Ben;6;3;Added during plant creation
-04.06.2024;Ebenezer;3;6;Added during plant creation
-04.06.2024;Tim;7;6;Added during plant creation
-04.06.2024;Chris;10;6;Added during plant creation
-04.06.2024;Bart;3;6;Added during plant creation
-04.06.2024;Bond;10;6;Added during plant creation
-04.06.2024;Jose;21;9;
-04.06.2024;Peppa;6;15;
-04.06.2024;Joan;4;5;
-04.06.2024;Hadewijch;5;12;
-04.06.2024;Palm;16;4.5;Sadly no new leaves, might be dead
-04.06.2024;Liliana;21;27;
-04.06.2024;Eva Longoria;88;40;
-04.06.2024;Findus;68;60;
-04.06.2024;Howard;8;4.5;Not sure how he's doing, roots seem fine, but the leaves are still dead
-04.06.2024;Valentina;4;2.5;
-04.06.2024;Bob;5.5;7;Always leaning, but seems to have survived
-04.06.2024;Dirk;4;3;
-04.06.2024;Maria;7;5;Slowly looking better
-04.06.2024;Rosy;38;47;Hard to measure, leaves move a lot
-04.06.2024;Ivan;9;8;
-04.06.2024;Pepe;3;4;Struggled during repot, but seems fine now
-04.06.2024;Sam;2;4;
-04.06.2024;Harvey;1.5;1.5;Might also be dead, but we will see
-04.06.2024;Cerberus;9;6.5;
-04.06.2024;Darryl;34;6;
-04.06.2024;Martha;12;23;Might want more sunlight
+04.06.2024;Ben;10.0;8.0;Added during plant creation
+04.06.2024;Ben;6.0;3.0;Added during plant creation
+04.06.2024;Lucas;7.0;7.0;Added during plant creation
+04.06.2024;Nate;8.0;7.0;Added during plant creation
+04.06.2024;Sandra;12.0;8.0;Added during plant creation
+04.06.2024;Jim;8.0;5.0;Added during plant creation
+04.06.2024;Ebenezer;3.0;6.0;Added during plant creation
+04.06.2024;Tim;7.0;6.0;Added during plant creation
+04.06.2024;Chris;10.0;6.0;Added during plant creation
+04.06.2024;Bart;3.0;6.0;Added during plant creation
+04.06.2024;Bond;10.0;6.0;Added during plant creation
