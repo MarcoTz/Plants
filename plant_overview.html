@@ -15,21 +15,21 @@
   <a href="./activity_logs.html">Activities</a>
   <a href="./graveyard.html">Graveyard</a>
 </div><table id="plant_search">
-      <th colspan=2>Filter</th>
-      <tr><td>Name:</td><td><input onKeyUp="filter_plants()" id="plant_search_name"/></td></tr>
-      <tr><td>Species:</td><td><input onKeyUp="filter_plants()" id="plant_search_species"/></td></tr>
-      <tr><td>Highest Templerature:</td><td>
+      <th colspan=10>Filter</th>
+      <tr><td>Name:</td><td><input onKeyUp="filter_plants()" id="plant_search_name"/></td>
+      <td>Species:</td><td><input onKeyUp="filter_plants()" id="plant_search_species"/></td>
+      <td>Highest Templerature:</td><td>
           <select id="max_temp_updown" onChange="filter_plants()">
             <option value="+">above</option>
             <option value="-">below</option> 
           </select>
-          <input type="number" onKeyUp="filter_plants()" id="plant_search_max_temp"/> </td></tr>
-      <tr><td>Lowest Temperature: </td><td>
+          <input type="number" onKeyUp="filter_plants()" id="plant_search_max_temp" /> </td>
+      <td>Lowest Temperature: </td><td>
           <select id="min_temp_updown" onChange="filter_plants()">
            <option value="+">above</option>
            <option value="-">below</option> 
          </select> 
-         <input type="number" id="plant_search_min_temp" onKeyUp="filter_plants()"/></td></tr>
+         <input type="number" id="plant_search_min_temp" onKeyUp="filter_plants()" /></td></tr>
     </table>
     <div id="plant_list"><div class="location_group"><h2>Balcony</h2>
             <div class="plant_list_item">
