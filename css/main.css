@@ -6,6 +6,13 @@
   --bg-color-odd:#2a2d37;
   --bg-color-even:#425661;
   --bg-color-trans:rgba(22,23,27,0.8);
+
+  --health-color1:#ff0f0f;
+  --health-color2:#f97b0e;
+  --health-color3:#f2e20d;
+  --health-color4:#92e513;
+  --health-color5:#33d818;
+
 }
 
 body {
