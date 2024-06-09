@@ -27,6 +27,8 @@ class PlantBot:
 
         self.cmd_actions = [
                 ('help','show help message', self.get_help),
+                ('watering','water plants today',self.new_watering),
+                ('fertilizing','fertilize plants today',self.new_fertilizing),
                 ('new_growth','add new growth',self.new_growth),
                 ('new_activity','add new activity', self.new_activity),
                 ('new_plant','add new plant',self.new_plant),
@@ -140,7 +142,6 @@ class PlantBot:
         help_message : str = 'Possible commands:\n ' + '\n '.join(help_strs) 
 
         await self.send_message(update,context,help_message)
-
     async def new_action(self,action:BotAction, update:Update,context:ContextTypes.DEFAULT_TYPE) -> None: 
         if not await self.guard_access(update,context):
             return
@@ -149,6 +150,12 @@ class PlantBot:
         message_text : str = self.get_message_text(update)
         ret_msg : str = self.handle_input(message_text)
         await self.send_message(update,context,ret_msg)
+
+    async def new_watering(self,update,context) -> None:
+        await self.new_action(BotAction.WATER_TODAY,update,context) 
+
+    async def new_fertilizing(self,update,context) -> None:
+        await self.new_action(BotAction.FERTILIZE_TODAY,update,context)
 
     async def new_growth(self,update,context) -> None: 
         await self.new_action(BotAction.NEW_GROWTH,update,context)

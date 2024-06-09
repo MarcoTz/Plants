@@ -18,6 +18,8 @@ class BotAction(Enum):
    MOVE_GRAVEYARD = 6
    UPDATE_SPECIES = 7
    UPDATE_PLANT = 8
+   WATER_TODAY = 9
+   FERTILIZE_TODAY = 10
 
 plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','plant_notes','current_location','plant_health']
 
@@ -100,6 +102,12 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter plant name',                         'str'),
             ('Please enter field to update (%s)' % ','.join(plant_update_fields),'plant_update_field'),
             ('Please enter new value (notes will be appended)', 'str')
+            ],
+        BotAction.WATER_TODAY : [
+            ('Please enter watered plants (separate by comma)', 'str')
+            ],
+        BotAction.FERTILIZE_TODAY : [
+            ('Please enter fertilized plants (separate by comma)','str')
             ]
     }
 
@@ -176,6 +184,12 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
             ('species_name',False,False),
             ('update_key',False,False),
             ('update_value',False,False)
+            ],
+        BotAction.WATER_TODAY: [
+            ('log_plants',False,False)
+            ],
+        BotAction.FERTILIZE_TODAY : [
+            ('log_plants',False,False)
             ]
 }
 
@@ -197,6 +211,20 @@ def get_action_writer(action:BotAction):
             return update_plant_dict
         case BotAction.UPDATE_SPECIES:
             return update_species_dict
+        case BotAction.WATER_TODAY:
+            return (lambda x: activity_shortcut('Watering',x))
+        case BotAction.FERTILIZE_TODAY: 
+            return (lambda x: activity_shortcut('Fertilizing',x))
+
+
+def activity_shortcut(activity:str, plants_dict):
+    activity_dict : dict[str,str] = {}
+    activity_dict['log_date'] = datetime.datetime.now().strftime(date_format)
+    activity_dict['log_activity'] = activity 
+    activity_dict['log_plants'] = plants_dict['log_plants'] 
+    activity_dict['log_note'] = ''
+    add_activities([activity_dict])
+
 
 def get_len_input(action:BotAction) -> int:
     return len(action_input_information[action])
@@ -219,6 +247,10 @@ def explain_BotAction(action:BotAction) -> str:
             return 'updated plant'
         case BotAction.UPDATE_SPECIES:
             return 'updated species'
+        case BotAction.WATER_TODAY:
+            return 'watered plants'
+        case BotAction.FERTILIZE_TODAY:
+            return 'fertilized plants'
 
 def validate_msg(msg:str,ty:str) -> str | None:
     if ty == 'float' and not ensure_float(msg):
