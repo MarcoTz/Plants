@@ -389,13 +389,13 @@ class HTMLRenderer:
             info_dict['next_fertilizing_date'] = ''
 
         (next_watering_date,next_fertilizing_date) = self.get_next_dates(plant)
-        if next_watering_date is not None:
+        if next_watering_date is not None and plant.info['plant_health'] != 0:
              info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
              self.plants_next_waterings.append((plant,next_watering_date))
         else:
             info_dict['next_watering_date'] = 'N/A'
 
-        if next_fertilizing_date is not None: 
+        if next_fertilizing_date is not None and plant.info['plant_health'] != 0: 
             info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
             self.plants_next_fertilizings.append((plant,next_fertilizing_date))
         else: 
@@ -633,6 +633,8 @@ class HTMLRenderer:
         next_growth_template : str = '<div class="next_growth_update">%s</div>'
         next_growth_strs : list[str] = []
         for plant in next_growth_updates:
+            if plant.info['plant_health'] == 0:
+                continue
             plant_name : str = plant.info['plant_name']
             plant_link : str = '<a href="%s/%s"/>%s</a>' % (plant_details_out,get_html_name(plant_name),plant_name)
             next_growth_strs.append(next_growth_template % plant_link)
