@@ -334,6 +334,9 @@ class HTMLRenderer:
         footer_str : str = self.render_footer()
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
+
+        dormant_str : str = 'dormant' if info_dict['plant_health'] == 0 else ''
+        info_dict['plant_health'] = '<div class="health%s">%s</div>' % (str(info_dict['plant_health']),dormant_str)
  
         log_trs : list[tuple[datetime.datetime,str]] = []
         watering_activities : list[LogItem] = []

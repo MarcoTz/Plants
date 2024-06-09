@@ -59,3 +59,43 @@ img {
   color:var(--fg-color);
   border-radius:0.5em;
 }
+
+
+.health0{
+}
+.health1{
+  background:var(--health-color1);
+  float:right;
+  border-radius:1em;
+  height:1.5em;
+  width:1.5em;
+}
+.health2{
+  background:var(--health-color2);
+  float:right;
+  border-radius:1em;
+  height:1.5em;
+  width:1.5em;
+}
+.health3{
+  background:var(--health-color3);
+  float:right;
+  border-radius:1em;
+  height:1.5em;
+  width:1.5em;
+
+}
+.health4{
+  background:var(--health-color4);
+  float:right;
+  border-radius:1em;
+  height:1.5em;
+  width:1.5em;
+}
+.health5{
+  background:var(--health-color5);
+  float:right;
+  border-radius:1em;
+  height:1.5em;
+  width:1.5em;
+}

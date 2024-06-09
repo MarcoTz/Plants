@@ -19,7 +19,7 @@ class BotAction(Enum):
    UPDATE_SPECIES = 7
    UPDATE_PLANT = 8
 
-plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','plant_notes','current_location']
+plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','plant_notes','current_location','plant_health']
 
 species_update_fields : list[str] = [
         "name",

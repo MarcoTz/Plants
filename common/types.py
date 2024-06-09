@@ -60,6 +60,7 @@ class GrowthItem(TypedDict):
 class PlantInformation(TypedDict):
     plant_name       : str
     species_name     : str
+    plant_health     : int
     current_location : str
     origin           : str
     obtained         : datetime.datetime
@@ -72,6 +73,7 @@ def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
     plant_info : PlantInformation = {
     'plant_name'       : str(json_dict['plant_name']),
     'species_name'     : str(json_dict['species_name']),
+    'plant_health'     : int(str(json_dict['plant_health'])),
     'current_location' : str(json_dict['current_location']),
     'origin'           : str(json_dict['origin']),
     'obtained'         : datetime.datetime.strptime(str(json_dict['obtained']),date_format),
@@ -80,8 +82,6 @@ def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
     'plant_growth'     : []
     } 
     return plant_info
-
-
 
 class GraveyardPlant(TypedDict):
     graveyard_plant     : str

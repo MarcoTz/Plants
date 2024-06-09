@@ -18,6 +18,7 @@ class Plant:
         info_dict = {
                 'plant_name': self.info['plant_name'],
                 'plant_species_name':self.info['species_name'],
+                'plant_health':self.info['plant_health'],
                 'plant_location': self.info['current_location'],
                 'plant_height' : self.current_height,
                 'plant_width' : self.current_width,
@@ -44,21 +45,3 @@ class Plant:
         self.current_height = self.info['plant_growth'][0]['log_height_cm']
         self.current_width  = self.info['plant_growth'][0]['log_width_cm']
 
-    def show(self) -> str: 
-        out_str :str = '''
-        Plant: %s, 
-        Species: %s,
-        Current dimensions: %scm x %scm
-        Activities: %s 
-        Growth: %s 
-        Notes : %s'''
-
-        info_tuple :tuple[str,str,str,str,str]= (
-                self.info['plant_name'],
-                self.info['species_name'],
-                str(self.current_height),
-                str(self.current_width),
-                '\n'.join(self.info['plant_notes'])
-                )
-
-        return out_str % info_tuple
