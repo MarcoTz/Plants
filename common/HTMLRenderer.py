@@ -355,7 +355,7 @@ class HTMLRenderer:
             watering_note : str = last_watering['log_note']
             if len(watering_activities) > 1: 
                 watering_note += ', ' if watering_note.strip() != '' else ''
-                watering_note += 'Last watering: %s' % watering_activities[1]['log_date'].strftime(date_format)
+                watering_note += 'Last Watering: %s' % watering_activities[1]['log_date'].strftime(date_format)
             last_watering['log_note'] = watering_note
             watering_tr = self.create_activity_tr(last_watering,plant.info['plant_name'],False)
             log_trs.append((last_watering['log_date'],watering_tr))
@@ -559,7 +559,11 @@ class HTMLRenderer:
             for (plant,note) in recent_activities[(log_date,log_activity)]:
                 plant_name : str = plant.info['plant_name']
                 plant_strs.append('<a href="%s/%s">%s</a>' % (plant_details_out,get_html_name(plant_name),plant_name))
-                if not note.strip() == '' and note not in notes_strs:
+                add_note : bool = not note.strip() == ''
+                add_note = add_note and note not in notes_strs
+                add_note = add_note and 'Last Watering' not in note
+                add_note = add_note and 'Last Fertilizing' not in note
+                if add_note:
                     notes_strs.append(note)
             recent_activities_str += '<td>%s</td>' % (', '.join(plant_strs))
             recent_activities_str += '<td>%s</td>' % (', '.join(notes_strs)) 
