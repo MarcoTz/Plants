@@ -19,6 +19,28 @@ class BotAction(Enum):
    UPDATE_SPECIES = 7
    UPDATE_PLANT = 8
 
+plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','plant_notes','current_location']
+
+species_update_fields : list[str] = [
+        "name",
+        "scientific_name",
+        "species_type",
+        "sunlight_requirements",
+        "temperature_min",
+        "temperature_max",
+        "optimal_temperature_min",
+        "optimal_temperature_max"   ,
+         "plant_distance_cm",
+         "ph_min",
+         "ph_max",
+         "watering_notes",
+         "avg_watering_days",
+         "fertilizing_notes",
+         "avg_fertilizing_days",
+         "pruning_notes",
+         "companions",
+         "additional_notes"]
+
 action_input_information : dict[BotAction,list[tuple[str,str]]] = {
         BotAction.IDLE : [],
         BotAction.NEW_GROWTH : [
@@ -71,12 +93,12 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ],
         BotAction.UPDATE_SPECIES : [
             ('Please enter species name',                       'str'),
-            ('Please enter field to update',                    'str'),
+            ('Please enter field to update (%s)' % ', '.join(species_update_fields),'species_update_field'),
             ('Please enter new value (notes will be appended)', 'str')
             ],
         BotAction.UPDATE_PLANT : [
             ('Please enter plant name',                         'str'),
-            ('Please enter field to update',                    'str'),
+            ('Please enter field to update (%s)' % ','.join(plant_update_fields),'plant_update_field'),
             ('Please enter new value (notes will be appended)', 'str')
             ]
     }
@@ -205,6 +227,10 @@ def validate_msg(msg:str,ty:str) -> str | None:
         return 'Could not parse date, please try again'
     if ty == 'int' and not ensure_int(msg):
         return 'Could not parse number, please try again'
+    if ty == 'plant_update_field' and not msg in plant_update_fields:
+        return 'Not a valid field, please try again'
+    if ty == 'species_update_field' and not msg in species_update_fields:
+        return 'Not a valid field, please try again'
     return None
 
 def ensure_datetime(msg:str) -> bool:
