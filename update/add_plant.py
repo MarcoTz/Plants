@@ -4,6 +4,7 @@ from file_io.write_json import write_json
 from common.constants import date_format, plants_dir,log_dir,growth_log_file_name
 
 import datetime 
+import json
 
 def create_plant():
 
@@ -13,6 +14,7 @@ def create_plant():
     height       : float     = get_float('Enter current height (in cm): ')
     width        : float     = get_float('Enter current width (in cm): ')
     location     : str       = input('Enter current location: ').strip()
+    health       : int       = int(get_float('Enter current health (0-5)'))
     origin       : str       = input('Enter plant origin: ').strip()
     obtained     : str       = get_date('Enter obtained date (dd.mm.yyyy): ') 
     print('Enter additional notes (leave line blank to finish)')
@@ -25,17 +27,18 @@ def create_plant():
             'current_height'   : height,
             'current_width'    : width,
             'current_location' : location,
+            'plant_health'     : health,
             'origin'           : origin,
             'obtained'         : obtained,
             'plant_notes'      : plant_notes 
             }
 
 
-def add_plant(plant_information:dict[str,str]) -> None:
+def add_plant(plant_information) -> None:
     plant_name : str = plant_information['plant_name']
     plant_file_name : str = plant_name.replace(' ','')+'.json'
     current_date : str = datetime.datetime.now().strftime(date_format)
-    first_growth : dict[str,str] = {
+    first_growth : dict[str,str]  = {
         'log_date':current_date,
         'log_plant':plant_name,
         'log_height_cm':plant_information['current_height'],
@@ -44,4 +47,3 @@ def add_plant(plant_information:dict[str,str]) -> None:
 
     write_json(plant_information,plants_dir,plant_file_name)
     write_csv([first_growth],log_dir,growth_log_file_name)
-
