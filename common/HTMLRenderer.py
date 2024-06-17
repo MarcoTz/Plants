@@ -31,6 +31,10 @@ class HTMLRenderer:
     gallery_template          : jinja2.Template
     image_viewer_template     : jinja2.Template
 
+    water_img : str = '🌊'
+    fertilize_img : str = '💩'
+    growth_img : str = '📏'
+
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
     graveyard    : list[GraveyardPlant]
@@ -582,9 +586,9 @@ class HTMLRenderer:
         next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.get_old_growth()))
         next_activities_list : list[tuple[Plant,datetime.datetime,str]] = []
         map_fun : function = lambda x: lambda y: (y[0],y[1],x)
-        next_activities_list.extend(list(map(map_fun('Watering'),next_waterings)))
-        next_activities_list.extend(list(map(map_fun('Fertilizing'),next_fertilizings)))
-        next_activities_list.extend(list(map(map_fun('Growth'),next_growth_updates)))
+        next_activities_list.extend(list(map(map_fun('%s Watering %s' % (self.water_img,self.water_img)),next_waterings)))
+        next_activities_list.extend(list(map(map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img)),next_fertilizings)))
+        next_activities_list.extend(list(map(map_fun('%s Growth %s' % (self.growth_img,self.growth_img)),next_growth_updates)))
 
 
         next_activities : dict[tuple[str,str],list[Plant]] = {}
