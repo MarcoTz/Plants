@@ -12,12 +12,22 @@
 #plant_search {
   background:var(--bg-color-even);
   border-radius:1em;
+  display:flex;
+  flex-wrap:wrap;
+  gap:1em;
+  padding-left:1em;
+  padding-right:1em;
+  padding-bottom:1em;
+  align-content:stretch;
+  justify-content:center;
+  width:auto;
 }
 
-td { 
-  padding-top:0.5em;
-  padding-bottom:0.5em;
+.search_header{ 
+  width:100%;
+  margin:auto;
 }
+
 
 input {
   background: var(--bg-color);
