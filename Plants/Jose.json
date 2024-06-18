@@ -1,1 +1,1 @@
-{"plant_name": "Jose", "species_name": "Devils Ivy", "current_height": 24.0, "current_width": 25.0, "current_location": "Living Room", "origin": "unknown", "obtained": "01.01.2019", "plant_notes": ["Origin and original height are unclear"], "plant_health": 1}
+{"plant_name": "Jose", "species_name": "Devils Ivy", "current_height": 24.0, "current_width": 25.0, "current_location": "Living Room", "origin": "unknown", "obtained": "01.01.2019", "plant_notes": ["Origin and original height are unclear"], "plant_health": 1, "auto_watering": false}

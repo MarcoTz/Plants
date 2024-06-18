@@ -1,1 +1,1 @@
-{"plant_name": "Hella", "species_name": "Hellebore", "current_height": 32.0, "current_width": 28.0, "current_location": "Balcony", "origin": "Egeria Flea Marked", "obtained": "04.05.2024", "plant_notes": [], "plant_health": 3}
+{"plant_name": "Hella", "species_name": "Hellebore", "current_height": 32.0, "current_width": 28.0, "current_location": "Balcony", "origin": "Egeria Flea Marked", "obtained": "04.05.2024", "plant_notes": [], "plant_health": 3, "auto_watering": false}

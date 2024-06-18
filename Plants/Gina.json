@@ -1,1 +1,1 @@
-{"plant_name": "Gina", "species_name": "Tomato", "current_height": "8", "current_width": "5", "current_location": "Balcony", "origin": "Terry", "obtained": "26.05.2024", "plant_notes": [""], "plant_health": 3}
+{"plant_name": "Gina", "species_name": "Tomato", "current_height": "8", "current_width": "5", "current_location": "Balcony", "origin": "Terry", "obtained": "26.05.2024", "plant_notes": [""], "plant_health": 3, "auto_watering": true}

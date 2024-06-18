@@ -1,1 +1,1 @@
-{"plant_name": "Bart", "species_name": "Basil", "current_height": "3", "current_width": "6", "current_location": "Balcony", "origin": "Rewe", "obtained": "22.05.2024", "plant_notes": [""], "plant_health": 3}
+{"plant_name": "Bart", "species_name": "Basil", "current_height": "3", "current_width": "6", "current_location": "Balcony", "origin": "Rewe", "obtained": "22.05.2024", "plant_notes": [""], "plant_health": 3, "auto_watering": true}

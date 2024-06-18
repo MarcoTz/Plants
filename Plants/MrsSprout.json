@@ -1,1 +1,1 @@
-{"plant_name": "Mrs Sprout", "species_name": "Chinese Fig", "current_height": "22", "current_width": "14", "current_location": "Living Room", "origin": "Hornbach", "obtained": "10.06.2024", "plant_notes": [""], "plant_health":"3"}
+{"plant_name": "Mrs Sprout", "species_name": "Chinese Fig", "current_height": "22", "current_width": "14", "current_location": "Living Room", "origin": "Hornbach", "obtained": "10.06.2024", "plant_notes": [""], "plant_health": "3", "auto_watering": false}

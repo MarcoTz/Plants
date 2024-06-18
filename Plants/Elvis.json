@@ -1,1 +1,1 @@
-{"plant_name": "Elvis", "species_name": "Common Ivy", "current_height": 12.0, "current_width": 32.0, "current_location": "Balcony", "origin": "Hornbach", "obtained": "08.04.2024", "plant_notes": [], "plant_health": 4}
+{"plant_name": "Elvis", "species_name": "Common Ivy", "current_height": 12.0, "current_width": 32.0, "current_location": "Balcony", "origin": "Hornbach", "obtained": "08.04.2024", "plant_notes": [], "plant_health": 4, "auto_watering": false}

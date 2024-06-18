@@ -13,17 +13,12 @@ for species_file_name in os.listdir(species_dir):
     species_dict = json.loads(species_json)
     print('%s (%s) ' % (species_dict['plant_name'],species_dict['species_name']))
     
-    plant_health_nr : int = -1 
-    while plant_health_nr == -1:
-        plant_health : str = input('Enter Plant health (0-5)')  
-        try: 
-            i : int = int(plant_health)
-            if -1 < i and i < 6:
-                plant_health_nr = i
-        except: 
-            pass
+    autowatered : bool = False 
+    is_autowatered : str = input('Is plant automatically watered? (y/n)')  
+    if is_autowatered.lower().strip() == 'y':
+        autowatered = True
 
-    species_dict['plant_health'] = plant_health_nr 
+    species_dict['auto_watering'] = autowatered 
     
     species_file = open(species_file_path,'w')
     species_file.write(json.dumps(species_dict))
