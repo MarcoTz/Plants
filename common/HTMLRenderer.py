@@ -322,6 +322,15 @@ class HTMLRenderer:
                 image_date_str : str = image_date.strftime(date_format)
                 new_img = image_template % (image_path,plant_name,image_date_str)
                 plants_images_list.append(new_img)
+
+        images_path : str = os.path.join(img_dir,img_species_dir)
+        species_name : str = plant.info['name']
+        for img_name in os.listdir(os.path.join(out_dir,images_path)):
+            if species_name.lower() in img_name.lower():
+                img_path : str = os.path.join(images_path,img_name)
+                new_img : str = image_template % (img_path,species_name,'')
+                plants_images_list.append(new_img)
+        
         
         info_dict['plant_images'] = '\n'.join(plants_images_list)
         info_dict['species_plants'] = species_plants_str 
