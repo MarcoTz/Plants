@@ -101,13 +101,13 @@ class HTMLRenderer:
         if species is None:
             return (None,None)
 
-        watering_interval    : int = int(species.info['avg_watering_days'])
-        next_watering_delta  : datetime.timedelta = datetime.timedelta(days=watering_interval)
-        fertilizing_interval : int = int(species.info['avg_fertilizing_days'])
+        watering_interval      : int = int(species.info['avg_watering_days'])
+        next_watering_delta    : datetime.timedelta = datetime.timedelta(days=watering_interval)
+        fertilizing_interval   : int = int(species.info['avg_fertilizing_days'])
         next_fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
 
-        filter_fun : function = lambda y: lambda x: x['log_activity'].strip() == y 
-        plant_activities : list[LogItem] = plant.info['plant_activities']
+        filter_fun          : function = lambda y: lambda x: x['log_activity'].strip() == y 
+        plant_activities    : list[LogItem] = plant.info['plant_activities']
         watering_activities : list[LogItem] = list(filter(filter_fun('Watering'),plant_activities))
         watering_activities.sort(key=lambda x:x['log_date'])
         fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fertilizing'),plant_activities))
@@ -120,20 +120,28 @@ class HTMLRenderer:
         next_fertilizing : datetime.datetime | None = None 
         current_date : datetime.datetime = datetime.datetime.now()
         if watering_interval != -1:
-            last_date : datetime.datetime = last_watering['log_date'] if last_watering is not None else datetime.datetime.min
-            next_watering = last_date + next_watering_delta
-            next_watering = next_watering if next_watering > current_date else current_date
+            last_date : datetime.datetime
+            if last_watering is not None:
+                last_date : datetime.datetime = last_watering['log_date']
+            else:
+                last_date : datetime.datetime = datetime.datetime.min
+            next_watering : datetime.datetime | None = last_date + next_watering_delta
+            
+            if next_watering <= current_date:
+                next_watering : datetime.datetime | None = current_date
 
         if fertilizing_interval != -1:
-            last_date : datetime.datetime = last_fertilizing['log_date'] if last_fertilizing is not None else datetime.datetime.min 
-            next_fertilizing = last_date + next_fertilizing_delta
-            next_fertilizing = next_fertilizing if next_fertilizing > current_date else current_date
-
-        contains_autowaterer : list[LogItem] = list(filter(lambda x:'autowater' in x['log_activity'].lower(), plant.info['plant_activities']))
-        if len(list(filter(lambda x: 'remove' in x['log_activity'].lower(),contains_autowaterer))) > 1:
-            contains_autowaterer = [] 
-        if len(contains_autowaterer) > 0:
-            next_watering = datetime.datetime.max
+            last_date : datetime.datetime 
+            if last_fertilizing is not None:
+                last_date : datetime.datetime = last_fertilizing['log_date']
+            else:
+                last_date : datetime.datetime = datetime.datetime.min
+            next_fertilizing : datetime.datetime | None = last_date + next_fertilizing_delta
+            if next_fertilizing <= current_date:
+                 next_fertilizing = current_date
+        
+        if plant.info['auto_water']:
+            next_watering : datetime.datetime|None = None 
              
 
         return (next_watering,next_fertilizing)
@@ -160,7 +168,8 @@ class HTMLRenderer:
         recent_growth     : list[tuple[str,GrowthItem]] = []
         for plant in self.plant_list:
             plant_activities : list[LogItem] = plant.info['plant_activities']
-            plant_activities = list(filter(lambda x: x['log_date'] >= last_week,plant_activities))
+            filter_fun : function = lambda x: x['log_date'] >= last_week
+            plant_activities = list(filter(filter_fun,plant_activities))
             for plant_activity in plant_activities:
                 activity_key = (plant_activity['log_date'],plant_activity['log_activity'])
                 new_tuple : tuple[Plant,str] = (plant,plant_activity['log_note'])
@@ -171,7 +180,8 @@ class HTMLRenderer:
 
             plant_growth     : list[GrowthItem] = plant.info['plant_growth']
             plant_growth = list(filter(lambda x: x['log_date'] >= last_week,plant_growth))
-            recent_plant_growth : list[tuple[str,GrowthItem]] = list(map(lambda x: (plant.info['plant_name'],x),plant_growth))
+            map_fun : function = lambda x: (plant.info['plant_name'],x)
+            recent_plant_growth : list[tuple[str,GrowthItem]] = list(map(map_fun,plant_growth))
             recent_growth.extend(recent_plant_growth)
 
         recent_growth.sort(key=lambda x: x[1]['log_date'],reverse=True)
@@ -210,7 +220,9 @@ class HTMLRenderer:
         min_temp : float = float('-inf')
         plant_species = self.get_species_plant(plant)
         if plant_species is not None : 
-            species_link = species_link % (species_details_out,get_html_name(plant.info['species_name']),plant.info['species_name'])
+            species_name : str = plant.info['species_name']
+            species_html_name : str = get_html_name(species_name)
+            species_link : str = species_link % (species_details_out,species_html_name,species_name)
             max_temp = plant_species.info['temperature_max']
             min_temp = plant_species.info['temperature_min']
         else: 

@@ -64,6 +64,7 @@ class PlantInformation(TypedDict):
     current_location : str
     origin           : str
     obtained         : datetime.datetime
+    auto_water       : bool
     plant_notes      : list[str]
     plant_activities : list[LogItem]
     plant_growth     : list[GrowthItem]
@@ -76,6 +77,7 @@ def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
     'plant_health'     : int(str(json_dict['plant_health'])),
     'current_location' : str(json_dict['current_location']),
     'origin'           : str(json_dict['origin']),
+    'auto_water'       : str(json_dict['auto_watering']).lower() == 'true',
     'obtained'         : datetime.datetime.strptime(str(json_dict['obtained']),date_format),
     'plant_notes'      : list(json_dict['plant_notes']),
     'plant_activities' : [],
