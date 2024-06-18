@@ -357,6 +357,7 @@ class HTMLRenderer:
 
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
+        plant_name : str = plant.info['plant_name'] 
 
         header_str : str = self.render_header(True)
         footer_str : str = self.render_footer()
@@ -364,10 +365,13 @@ class HTMLRenderer:
         info_dict['footer'] = footer_str
 
         dormant_str : str = 'dormant' if info_dict['plant_health'] == 0 else ''
-        info_dict['plant_health'] = '<div class="health%s">%s</div>' % (str(info_dict['plant_health']),dormant_str)
+        plant_health_div : str = '<div class="health%s">%s</div>'
+        health_str : str = str(info_dict['plant_health'])
+
+        info_dict['plant_health'] =  plant_health_div % (health_str,dormant_str)
  
         log_trs : list[tuple[datetime.datetime,str]] = []
-        watering_activities : list[LogItem] = []
+        watering_activities    : list[LogItem] = []
         fertilizing_activities : list[LogItem] = []
         for log_item in plant.info['plant_activities']:
             if log_item['log_activity'].strip() == 'Watering':
@@ -375,7 +379,7 @@ class HTMLRenderer:
             elif log_item['log_activity'].strip() == 'Fertilizing':
                 fertilizing_activities.append(log_item)
             else:
-                log_tr = self.create_activity_tr(log_item,plant.info['plant_name'],False)
+                log_tr : str = self.create_activity_tr(log_item,plant_name,False)
                 log_trs.append((log_item['log_date'],log_tr))
         if len(watering_activities) > 0:
             watering_activities.sort(key=lambda x:x['log_date'],reverse=True)
@@ -383,9 +387,10 @@ class HTMLRenderer:
             watering_note : str = last_watering['log_note']
             if len(watering_activities) > 1: 
                 watering_note += ', ' if watering_note.strip() != '' else ''
-                watering_note += 'Last Watering: %s' % watering_activities[1]['log_date'].strftime(date_format)
+                date_str : str = watering_activities[1]['log_date'].strftime(date_format)
+                watering_note += 'Last Watering: %s' % date_str
             last_watering['log_note'] = watering_note
-            watering_tr = self.create_activity_tr(last_watering,plant.info['plant_name'],False)
+            watering_tr = self.create_activity_tr(last_watering,plant_name,False)
             log_trs.append((last_watering['log_date'],watering_tr))
 
         if len(fertilizing_activities) > 0:
@@ -394,15 +399,17 @@ class HTMLRenderer:
             fertilizing_note : str = last_fertilizing['log_note']
             if len(fertilizing_activities) > 1: 
                 fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
-                fertilizing_note += 'Last Fertilizing: %s' % fertilizing_activities[1]['log_date'].strftime(date_format)
+                date_str : str = fertilizing_activities[1]['log_date'].strftime(date_format)
+                fertilizing_note += 'Last Fertilizing: %s' % date_str
             last_fertilizing['log_note'] = fertilizing_note
 
-            fertilizing_tr = self.create_activity_tr(last_fertilizing,plant.info['plant_name'],False)
+            fertilizing_tr = self.create_activity_tr(last_fertilizing,plant_name,False)
             log_trs.append((last_fertilizing['log_date'],fertilizing_tr))
 
         log_trs.sort(key=lambda x:x[0],reverse=True)
 
-        info_dict['plant_activities'] = '\n'.join(list(map(lambda x:x[1],log_trs)))
+        map_fun : function = lambda x : x[1]
+        info_dict['plant_activities'] = '\n'.join(list(map(map_fun,log_trs)))
         
         plant_species : str = info_dict['plant_species_name']
         species : PlantSpecies | None = self.get_species_plant(plant)
@@ -443,18 +450,8 @@ class HTMLRenderer:
         info_dict['plant_growth_dates'] = '[%s]' % (', '.join(growth_dates))
         info_dict['plant_growth_heights'] = '[%s]' % (', '.join(growth_heights))
         info_dict['plant_growth_widths'] = '[%s]' % (', '.join(growth_widths))
-
-        images_list : list[str] = [] 
-        images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure class="plant_image"><img src="../%s"/><figcaption>%s</figcaption></figure>'
-        for (image_date,image_name) in plant.images:
-            image_path : str = os.path.join(images_path,image_name)
-            image_date_str : str = image_date.strftime(date_format)
-            new_img = image_template % (image_path,image_date_str)
-            images_list.append(new_img)
-        if images_list == []:
-            print('Could not find images for plant %s' % plant.info['plant_name'])
-        info_dict['plant_images'] = '\n'.join(images_list)
+            
+        info_dict['plant_images'] = self.get_plant_gallery(plant,True)
 
         plant_html:str = self.plant_details_template.render(info_dict)
         plant_file_name = get_html_name(plant.info['plant_name'])
@@ -515,10 +512,8 @@ class HTMLRenderer:
                 }
         graveyard_html : str = self.graveyard_template.render(graveyard_dict)
         write_html(graveyard_out,graveyard_html)
-
-    def render_gallery(self) -> None:
-        
-        plant_divs : list[str] = [] 
+    
+    def get_plant_gallery(self,plant:Plant,relative_up:bool=False) -> str:
         plant_div_template : str = '''
             <div class="image_plant_container">
                 <h2><a href="%s/%s">%s</a></h2>
@@ -535,18 +530,29 @@ class HTMLRenderer:
                     <div class="img_date">%s</div> <div class="img_nr">%s/%s</div>
                 </figcaption>
             </figure>'''
+        images_strs : list[str] = []
+        plant_images : list[tuple[datetime.datetime,str]] = plant.images
+        plant_images.sort(key=lambda x: x[0],reverse=True)
+
+        for (img_date,img_name) in plant.images:
+            img_path : str = os.path.join(img_dir,img_plants_dir,img_name)
+            img_path : str = os.path.join('..',img_path) if relative_up else img_path
+            current_ind : int = plant.images.index((img_date,img_name))+1
+            img_date_str : str = img_date.strftime(date_format)
+            current_img : str = img_template % (img_path,img_date_str,str(current_ind),str(len(plant_images)))
+            images_strs.append(current_img)
+        plant_name : str = plant.info['plant_name']
+        plant_html_name : str = get_html_name(plant_name)
+        images_str : str = '\n'.join(images_strs)
+        current_plant_div : str = plant_div_template % (plant_details_out,plant_html_name,plant_name, images_str)
+
+        return current_plant_div
+
+    def render_gallery(self) -> None:
+        
+        plant_divs : list[str] = [] 
         for plant in self.plant_list:
-            images_strs : list[str] = []
-            plant_images : list[tuple[datetime.datetime,str]] = plant.images
-            plant_images.sort(key=lambda x: x[0],reverse=True)
-            for (img_date,img_name) in plant.images:
-                img_path : str = os.path.join(img_dir,img_plants_dir,img_name)
-                current_ind : int = plant.images.index((img_date,img_name))+1
-                current_img : str = img_template % (img_path,img_date.strftime(date_format),str(current_ind),str(len(plant_images)))
-                images_strs.append(current_img)
-            
-            plant_name : str = plant.info['plant_name']
-            current_plant_div : str = plant_div_template % (plant_details_out,get_html_name(plant_name),plant_name, '\n'.join(images_strs))
+            current_plant_div = self.get_plant_gallery(plant)
             plant_divs.append(current_plant_div)
 
         header_str : str = self.render_header(False)
