@@ -151,6 +151,9 @@ class HTMLRenderer:
         two_weeks : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=2)
 
         for plant in self.plant_list:
+            # skip dormant plants
+            if plant.info['plant_health'] == 0: 
+                continue
             plant_growth : list[GrowthItem] = plant.info['plant_growth']
             plant_growth.sort(key=lambda x: x['log_date'])
             last_growth_update : GrowthItem = plant_growth[-1]
