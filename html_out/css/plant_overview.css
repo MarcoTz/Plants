@@ -20,11 +20,16 @@
   padding-bottom:1em;
   align-content:stretch;
   justify-content:center;
-  width:auto;
+  width:90%;
+  margin:auto;
 }
 
 .search_header{ 
   width:100%;
+  text-align:center;
+  font-weight:bold;
+  font-size:14pt;
+  padding-top:0.5em;
   margin:auto;
 }
 
