@@ -364,11 +364,10 @@ class HTMLRenderer:
         info_dict['header'] = header_str
         info_dict['footer'] = footer_str
 
-        dormant_str : str = 'dormant' if info_dict['plant_health'] == 0 else ''
-        plant_health_div : str = '<div class="health%s">%s</div>'
+        plant_health_div : str = '<div class="health%s health">%s</div>'
         health_str : str = str(info_dict['plant_health'])
 
-        info_dict['plant_health'] =  plant_health_div % (health_str,dormant_str)
+        info_dict['plant_health'] =  plant_health_div % (health_str,health_str)
  
         log_trs : list[tuple[datetime.datetime,str]] = []
         watering_activities    : list[LogItem] = []
@@ -388,10 +387,8 @@ class HTMLRenderer:
             if len(watering_activities) > 1: 
                 watering_note += ', ' if watering_note.strip() != '' else ''
                 date_str : str = watering_activities[1]['log_date'].strftime(date_format)
-                watering_note += 'Last Watering: %s' % date_str
+                info_dict['last_watering_date'] = date_str
             last_watering['log_note'] = watering_note
-            watering_tr = self.create_activity_tr(last_watering,plant_name,False)
-            log_trs.append((last_watering['log_date'],watering_tr))
 
         if len(fertilizing_activities) > 0:
             fertilizing_activities.sort(key=lambda x:x['log_date'],reverse=True)
@@ -400,11 +397,10 @@ class HTMLRenderer:
             if len(fertilizing_activities) > 1: 
                 fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
                 date_str : str = fertilizing_activities[1]['log_date'].strftime(date_format)
-                fertilizing_note += 'Last Fertilizing: %s' % date_str
+                info_dict['last_fertilizing_date'] = date_str
+
             last_fertilizing['log_note'] = fertilizing_note
 
-            fertilizing_tr = self.create_activity_tr(last_fertilizing,plant_name,False)
-            log_trs.append((last_fertilizing['log_date'],fertilizing_tr))
 
         log_trs.sort(key=lambda x:x[0],reverse=True)
 
