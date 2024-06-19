@@ -15,6 +15,7 @@ def create_plant():
     width        : float     = get_float('Enter current width (in cm): ')
     location     : str       = input('Enter current location: ').strip()
     health       : int       = int(get_float('Enter current health (0-5)'))
+    auto_water   : bool      = input('Is plant automatically watered (y/n)').lower() == 'y'
     origin       : str       = input('Enter plant origin: ').strip()
     obtained     : str       = get_date('Enter obtained date (dd.mm.yyyy): ') 
     print('Enter additional notes (leave line blank to finish)')
@@ -28,6 +29,7 @@ def create_plant():
             'current_width'    : width,
             'current_location' : location,
             'plant_health'     : health,
+            'auto_watering'    : auto_water,
             'origin'           : origin,
             'obtained'         : obtained,
             'plant_notes'      : plant_notes 

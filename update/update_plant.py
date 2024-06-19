@@ -4,7 +4,7 @@ from common.constants import date_format, plants_dir
 from common.types import PlantInformation
 import os 
 
-update_fields : list[str] = ['plant_name','species_name','origin','obtained','plant_notes','current_location','plant_health']
+update_fields : list[str] = ['plant_name','species_name','origin','obtained','auto_watering','plant_notes','current_location','plant_health']
 
 def get_update_info() -> tuple[str,str,str]: 
     plant_name : str = input('Enter plant name ').strip()
@@ -37,6 +37,7 @@ def update_plant(plant_name:str, update_key:str, update_value:str) -> None:
             'current_location' : plant_information['current_location'],
             'origin'           : plant_information['origin'],
             'obtained'         : plant_information['obtained'].strftime(date_format),
+            'auto_watering'    : str(plant_information['auto_water']),
             'plant_notes'      : plant_information['plant_notes']
             }
     if update_key == 'plant_notes':
