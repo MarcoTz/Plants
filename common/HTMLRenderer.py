@@ -631,7 +631,7 @@ class HTMLRenderer:
         plant_link_template = '<a href="%s/%s">%s</a>'
         next_activity_strs : list[str] = [] 
         next_activity_keys : list[tuple[str,str]] = list(next_activities.keys())
-        next_activity_keys.sort(key = lambda x: x[0])
+        next_activity_keys.sort(key = lambda x: datetime.datetime.strptime(x[0],date_format))
         for activity_key in next_activity_keys:
             plant_links : list[str] = [] 
             for plant in next_activities[activity_key]:
