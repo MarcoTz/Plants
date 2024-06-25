@@ -620,29 +620,32 @@ class HTMLRenderer:
         next_activities_list.extend(list(map(map_fun('%s Growth %s' % (self.growth_img,self.growth_img)),next_growth_updates)))
 
 
-        next_activities : dict[tuple[str,str],list[Plant]] = {}
+        next_activities : dict[tuple[datetime.date,str],list[Plant]] = {}
 
-        for (plant,next_date,next_type) in next_activities_list:    
-            date_str : str = next_date.strftime(date_format)
-            key_tuple : tuple[str,str] = (date_str,next_type)
+        for (plant,next_date,next_type) in next_activities_list:
+            key_tuple : tuple[datetime.date,str] = (next_date.date(),next_type)
             if key_tuple in next_activities.keys():
                 next_activities[key_tuple].append(plant)
             else:
                 next_activities[key_tuple] = [plant]
 
-        next_activity_template : str = '<div class="next_activity_item"><div class="activity_header">%s: %s</div>%s</div>'
+        next_activity_template : str = '<div class="next_activity_item"><div class="activity_header">%s<br/>%s</div>%s</div>'
         plant_link_template = '<a href="%s/%s">%s</a>'
         next_activity_strs : list[str] = [] 
-        next_activity_keys : list[tuple[str,str]] = list(next_activities.keys())
-        next_activity_keys.sort(key = lambda x: datetime.datetime.strptime(x[0],date_format))
+        next_activity_keys : list[tuple[datetime.date,str]] = list(next_activities.keys())
+        next_activity_keys.sort(key = lambda x: x[0])
         for activity_key in next_activity_keys:
+            next_date = activity_key[0]
+            weekday_str : str = weekday_strs[next_date.weekday()]
+            date_str : str = weekday_str + ', ' + next_date.strftime(date_format)
+
             plant_links : list[str] = [] 
             for plant in next_activities[activity_key]:
                 plant_name : str = plant.info['plant_name']
                 new_plant_link : str = plant_link_template % (plant_details_out,get_html_name(plant_name),plant_name)
                 plant_links.append(new_plant_link)
             
-            next_activity : str = next_activity_template % (activity_key[0],activity_key[1], '\n'.join(plant_links))
+            next_activity : str = next_activity_template % (date_str,activity_key[1], '\n'.join(plant_links))
             next_activity_strs.append(next_activity)
 
         return '\n'.join(next_activity_strs)

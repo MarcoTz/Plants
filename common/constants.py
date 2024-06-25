@@ -38,3 +38,12 @@ graveyard_file_name     : str = 'Graveyard.csv'
 
 bot_dir                 : str = 'telegram_bot'
 bot_config_name         : str = 'conf.json'
+
+weekday_strs : list[str] = [
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+        'Sun']
