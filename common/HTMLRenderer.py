@@ -637,7 +637,64 @@ class HTMLRenderer:
 
         return '\n'.join(next_activity_strs)
 
+    def get_hall_of_fame(self) -> dict[str,str]:
+        plant_link_template : str = '<div class="hall_of_fame_item">%s<br/><a href="%s">%s</a><br/>%s</div>'
+        def get_plant_str(plant:Plant,winner_str:str,winning_stat:str):
+            plant_name : str = plant.info['plant_name']
+            plant_link : str = plant_details_out + '/' + get_html_name(plant_name)
+            return plant_link_template % (winner_str,plant_link,plant_name,winning_stat) 
 
+        plants_by_height : list[Plant] = self.plant_list.copy()
+        plants_by_height.sort(key=lambda x:x.current_height)
+
+        tallest_plant  : Plant = plants_by_height[-1]
+        tallest_height_str : str = str(tallest_plant.current_height) + 'cm'
+        tallest_plant_str : str = get_plant_str(tallest_plant,'Tallest Plant',tallest_height_str)
+
+        shortest_plant : Plant = plants_by_height[0]
+        shortest_height_str : str = str(shortest_plant.current_width) + 'cm'
+        shortest_plant_str : str = get_plant_str(shortest_plant,'Shortest Plant',shortest_height_str) 
+
+        plants_by_width : list[Plant] = self.plant_list.copy()
+        plants_by_width.sort(key=lambda x:x.current_width)
+
+        widest_plant : Plant = plants_by_width[-1]
+        widest_width_str : str = str(widest_plant.current_width) + 'cm'
+        widest_plant_str : str = get_plant_str(widest_plant,'Widest Plant',widest_width_str)
+        thinnest_plant : Plant = plants_by_width[0]
+        thinnest_width_str : str = str(thinnest_plant.current_width) + 'cm'
+        thinnest_plant_str : str = get_plant_str(thinnest_plant,'Thinnest Plant',thinnest_width_str)
+
+        plants_by_growth : list[Plant] = self.plant_list.copy()
+        plants_by_growth = list(filter(lambda x: len(x.info['plant_growth'])>2,plants_by_growth))
+
+        def get_growth_diff(plant:Plant):
+            plant.info['plant_growth'].sort(key=lambda x:x['log_date'])
+            x : GrowthItem = plant.info['plant_growth'][0]
+            y : GrowthItem = plant.info['plant_growth'][-1]
+            height_diff : float = x['log_height_cm'] - y['log_height_cm']
+            width_diff : float = x['log_width_cm'] - y['log_width_cm']
+            growth_diff : float = height_diff + width_diff
+            time_diff : float = float((x['log_date'] - y['log_date']).days)
+            if time_diff == 0.0:
+                return 0
+            return growth_diff/time_diff
+        plants_by_growth.sort(key=get_growth_diff)
+        fastest_plant : Plant = plants_by_growth[-1]
+        fastest_growth_diff : str = '{:.2f}'.format(get_growth_diff(fastest_plant)) + 'cm/day'
+        fastest_plant_str : str = get_plant_str(fastest_plant,'Fastest Growing Plant',fastest_growth_diff)
+        slowest_plant : Plant = plants_by_growth[0]
+        slowest_growth_diff : str = '{:.2f}'.format(get_growth_diff(slowest_plant)) + 'cm/day'
+        slowest_plant_str : str = get_plant_str(slowest_plant,'Slowest Growing Plant',slowest_growth_diff)
+
+        return {
+                'tallest_plant':tallest_plant_str,
+                'shortest_plant':shortest_plant_str,
+                'widest_plant':widest_plant_str,
+                'thinnest_plant':thinnest_plant_str,
+                'fastest_plant':fastest_plant_str,
+                'slowest_plant':slowest_plant_str
+                }
 
     def render_index(self) -> None:
         header_str : str = self.render_header(False)
@@ -656,6 +713,8 @@ class HTMLRenderer:
             plant_link : str = plant_details_out + '/'+get_html_name(plant_name)
             autowater_str += autowater_div % (plant_link, plant_name)
 
+        hall_of_fame_dict : dict[str,str] = self.get_hall_of_fame()
+
         index_dict : dict[str,str] = {
                 'header': header_str,
                 'footer':footer_str,
@@ -664,6 +723,8 @@ class HTMLRenderer:
                 'autowatered_plants':autowater_str,
                 'next_activities':next_activities_str,
                 }
+
+        index_dict = index_dict | hall_of_fame_dict
         index_html = self.index_template.render(index_dict)
         write_html(index_out,index_html)
 
