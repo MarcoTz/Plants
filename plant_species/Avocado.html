@@ -3,7 +3,8 @@
   <head>
     <title>Avocado</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,27 +15,30 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Avocado</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Persea americana</td></tr>
-        <tr><td>Species Type                    </td><td>Laurel</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
-        <tr><td>Temperature Range               </td><td>3.0-40.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>15.0-30.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>700cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>6.0-7.0</td></tr>
-        <tr><td>Watering                        </td><td>Soil should be moist but not drenched<br/>water frequently<br/>monitor soil moisture levels<br/>older trees should almost dry out between waterings</td></tr>
-        <tr><td>Average days between watering   </td><td>3</td></tr>
-        <tr><td>Fertilizing                     </td><td>Pause fertilizing during winter months<br/>careful to not overfertilize</td></tr>
-        <tr><td>Average days between fertilizing</td><td>35</td></tr>
-        <tr><td>Pruning                         </td><td>Best done before bloom<br/>remove dead branches<br/>do not prune too much<br/>clean up after pruning as old branches can grow funghi</td></tr>
-        <tr><td>Companions                      </td><td>lemon grass<br/>banana<br/>citrus fruit</td></tr>
-        <tr><td>Notes                           </td><td>can be grown from fruit pits<br/>throroughly clean the pit<br/>add toothpicks and place into water<br/>place into sunny and warm spot<br/>root growth should start between 2 and 6 weeks</td></tr>
-        <tr><td>Plants of species               </td><td></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Persea americana</td></tr>
+          <tr><td>Species Type                    </td><td>Laurel</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
+          <tr><td>Temperature Range               </td><td>3.0-40.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>15.0-30.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>700cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>6.0-7.0</td></tr>
+          <tr><td>Watering                        </td><td>Soil should be moist but not drenched<br/>water frequently<br/>monitor soil moisture levels<br/>older trees should almost dry out between waterings</td></tr>
+          <tr><td>Average days between watering   </td><td>3</td></tr>
+          <tr><td>Fertilizing                     </td><td>Pause fertilizing during winter months<br/>careful to not overfertilize</td></tr>
+          <tr><td>Average days between fertilizing</td><td>35</td></tr>
+          <tr><td>Pruning                         </td><td>Best done before bloom<br/>remove dead branches<br/>do not prune too much<br/>clean up after pruning as old branches can grow funghi</td></tr>
+          <tr><td>Companions                      </td><td>lemon grass<br/>banana<br/>citrus fruit</td></tr>
+          <tr><td>Notes                           </td><td>can be grown from fruit pits<br/>throroughly clean the pit<br/>add toothpicks and place into water<br/>place into sunny and warm spot<br/>root growth should start between 2 and 6 weeks</td></tr>
+          <tr><td>Plants of species               </td><td></td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">

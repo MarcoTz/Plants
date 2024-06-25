@@ -3,7 +3,8 @@
   <head>
     <title>Spinach</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,27 +15,30 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Spinach</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Spinacia oleracea</td></tr>
-        <tr><td>Species Type                    </td><td>Amaranth</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
-        <tr><td>Temperature Range               </td><td>0.0-25.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>15.0-20.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>7cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>6.0-8.0</td></tr>
-        <tr><td>Watering                        </td><td>water needs depend on soil temperature<br/>Be careful plants do not dry out, especially in pots<br/>Water early in the morning</td></tr>
-        <tr><td>Average days between watering   </td><td>7</td></tr>
-        <tr><td>Fertilizing                     </td><td>Fertilize once about one month after transplanting or thinning out<br/>fertilizer can also already be added to soil before transplanting</td></tr>
-        <tr><td>Average days between fertilizing</td><td>200</td></tr>
-        <tr><td>Pruning                         </td><td>No need to prune<br/>is harvested early</td></tr>
-        <tr><td>Companions                      </td><td>Beans<br/>Peas</td></tr>
-        <tr><td>Notes                           </td><td></td></tr>
-        <tr><td>Plants of species               </td><td></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Spinacia oleracea</td></tr>
+          <tr><td>Species Type                    </td><td>Amaranth</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
+          <tr><td>Temperature Range               </td><td>0.0-25.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>15.0-20.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>7cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>6.0-8.0</td></tr>
+          <tr><td>Watering                        </td><td>water needs depend on soil temperature<br/>Be careful plants do not dry out, especially in pots<br/>Water early in the morning</td></tr>
+          <tr><td>Average days between watering   </td><td>7</td></tr>
+          <tr><td>Fertilizing                     </td><td>Fertilize once about one month after transplanting or thinning out<br/>fertilizer can also already be added to soil before transplanting</td></tr>
+          <tr><td>Average days between fertilizing</td><td>200</td></tr>
+          <tr><td>Pruning                         </td><td>No need to prune<br/>is harvested early</td></tr>
+          <tr><td>Companions                      </td><td>Beans<br/>Peas</td></tr>
+          <tr><td>Notes                           </td><td></td></tr>
+          <tr><td>Plants of species               </td><td></td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">

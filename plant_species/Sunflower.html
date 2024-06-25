@@ -3,7 +3,8 @@
   <head>
     <title>Sunflower</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,27 +15,30 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Sunflower</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Hellanthus Annuus</td></tr>
-        <tr><td>Species Type                    </td><td>Asteraceae</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
-        <tr><td>Temperature Range               </td><td>-4.0-35.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>21.0-26.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>50cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>6.0-7.0</td></tr>
-        <tr><td>Watering                        </td><td>Water frequently during early growth<br/>Water deeply but infrequently<br/>Usually watering is needed about once a week, but during hot days watering is needed daily</td></tr>
-        <tr><td>Average days between watering   </td><td>6</td></tr>
-        <tr><td>Fertilizing                     </td><td>Fertilize twice a week during growth<br/>Use high nitrogen fertilizer<br/>Once flowers bloom, use potash</td></tr>
-        <tr><td>Average days between fertilizing</td><td>3</td></tr>
-        <tr><td>Pruning                         </td><td>Remove side leaves except ones near the flower</td></tr>
-        <tr><td>Companions                      </td><td>Tomato<br/>Corn<br/>Squash<br/>Rosemary<br/>Sage<br/>Thyme</td></tr>
-        <tr><td>Notes                           </td><td>Add stalks so they don't fall over</td></tr>
-        <tr><td>Plants of species               </td><td></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Hellanthus Annuus</td></tr>
+          <tr><td>Species Type                    </td><td>Asteraceae</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
+          <tr><td>Temperature Range               </td><td>-4.0-35.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>21.0-26.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>50cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>6.0-7.0</td></tr>
+          <tr><td>Watering                        </td><td>Water frequently during early growth<br/>Water deeply but infrequently<br/>Usually watering is needed about once a week, but during hot days watering is needed daily</td></tr>
+          <tr><td>Average days between watering   </td><td>6</td></tr>
+          <tr><td>Fertilizing                     </td><td>Fertilize twice a week during growth<br/>Use high nitrogen fertilizer<br/>Once flowers bloom, use potash</td></tr>
+          <tr><td>Average days between fertilizing</td><td>3</td></tr>
+          <tr><td>Pruning                         </td><td>Remove side leaves except ones near the flower</td></tr>
+          <tr><td>Companions                      </td><td>Tomato<br/>Corn<br/>Squash<br/>Rosemary<br/>Sage<br/>Thyme</td></tr>
+          <tr><td>Notes                           </td><td>Add stalks so they don't fall over</td></tr>
+          <tr><td>Plants of species               </td><td></td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">

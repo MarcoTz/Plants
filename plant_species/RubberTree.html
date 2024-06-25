@@ -3,7 +3,8 @@
   <head>
     <title>Rubber Tree</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,27 +15,30 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Rubber Tree</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Ficus Elastica</td></tr>
-        <tr><td>Species Type                    </td><td>Ficus</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>indirect</td></tr>
-        <tr><td>Temperature Range               </td><td>10.0-30.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>15.0-26.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>30cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>4.5-6.5</td></tr>
-        <tr><td>Watering                        </td><td>check soil about 8cm deep<br/>leaves turn yellow when overwatered<br/>needs more water in summer</td></tr>
-        <tr><td>Average days between watering   </td><td>7</td></tr>
-        <tr><td>Fertilizing                     </td><td>about once a month<br/>less during winter<br/>about every second watering</td></tr>
-        <tr><td>Average days between fertilizing</td><td>30</td></tr>
-        <tr><td>Pruning                         </td><td>can be pruned almost any time<br/>make sure to make clean cuts<br/>cut down by about a third to contain growth<br/>cut above trunk nodes to promote bushiness<br/>remove side shoots for height</td></tr>
-        <tr><td>Companions                      </td><td>Dragon Tree<br/>Croton</td></tr>
-        <tr><td>Notes                           </td><td></td></tr>
-        <tr><td>Plants of species               </td><td></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Ficus Elastica</td></tr>
+          <tr><td>Species Type                    </td><td>Ficus</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>indirect</td></tr>
+          <tr><td>Temperature Range               </td><td>10.0-30.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>15.0-26.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>30cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>4.5-6.5</td></tr>
+          <tr><td>Watering                        </td><td>check soil about 8cm deep<br/>leaves turn yellow when overwatered<br/>needs more water in summer</td></tr>
+          <tr><td>Average days between watering   </td><td>7</td></tr>
+          <tr><td>Fertilizing                     </td><td>about once a month<br/>less during winter<br/>about every second watering</td></tr>
+          <tr><td>Average days between fertilizing</td><td>30</td></tr>
+          <tr><td>Pruning                         </td><td>can be pruned almost any time<br/>make sure to make clean cuts<br/>cut down by about a third to contain growth<br/>cut above trunk nodes to promote bushiness<br/>remove side shoots for height</td></tr>
+          <tr><td>Companions                      </td><td>Dragon Tree<br/>Croton</td></tr>
+          <tr><td>Notes                           </td><td></td></tr>
+          <tr><td>Plants of species               </td><td></td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">

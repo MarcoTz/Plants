@@ -3,7 +3,8 @@
   <head>
     <title>Peace Lily</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,33 +15,86 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Peace Lily</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Spathiphullum</td></tr>
-        <tr><td>Species Type                    </td><td>Araceae</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>indirect</td></tr>
-        <tr><td>Temperature Range               </td><td>15.0-40.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>16.0-21.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>1cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>5.8-6.5</td></tr>
-        <tr><td>Watering                        </td><td>Does not need much water<br/>Water when about 5cm of soil have dried out<br/>Once watering is necessary, leaves will start to droop</td></tr>
-        <tr><td>Average days between watering   </td><td>7</td></tr>
-        <tr><td>Fertilizing                     </td><td>Fertilize about once every 6 weeks during growth<br/>Pause during winter and start again before spring</td></tr>
-        <tr><td>Average days between fertilizing</td><td>32</td></tr>
-        <tr><td>Pruning                         </td><td>Remove stem when flowers lose color and droop<br/>Remove yellow and shriveled leaves<br/>When removing a stem, remove directly at the base</td></tr>
-        <tr><td>Companions                      </td><td>Fern<br/>Lemon Bush<br/>Ginger</td></tr>
-        <tr><td>Notes                           </td><td>Direct sunglight will burn leaves<br/>Will not bloom when conditions are too dark<br/>Needs high humidity, mist regularly<br/>Can be grown without any soil, only in water<br/>Keep plant from drafts<br/>Are not actual lily plants</td></tr>
-        <tr><td>Plants of species               </td><td><a href="../plants/Liliana.html">Liliana</a><br/></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2><figure class="plant_image"><img src="../img/plants/Liliana_25062024.jpg"/><figcaption>Liliana,25.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Liliana_10062024.jpg"/><figcaption>Liliana,10.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Liliana_04062024.jpg"/><figcaption>Liliana,04.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/EvaLongoria_Palm_Jose_Liliana_Hadewijch_Joan_26052024.jpg"/><figcaption>Liliana,26.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Liliana_20052024.jpg"/><figcaption>Liliana,20.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Liliana_06052024.jpg"/><figcaption>Liliana,06.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Liliana_14042024.jpg"/><figcaption>Liliana,14.04.2024</figcaption></figure></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Spathiphullum</td></tr>
+          <tr><td>Species Type                    </td><td>Araceae</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>indirect</td></tr>
+          <tr><td>Temperature Range               </td><td>15.0-40.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>16.0-21.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>1cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>5.8-6.5</td></tr>
+          <tr><td>Watering                        </td><td>Does not need much water<br/>Water when about 5cm of soil have dried out<br/>Once watering is necessary, leaves will start to droop</td></tr>
+          <tr><td>Average days between watering   </td><td>7</td></tr>
+          <tr><td>Fertilizing                     </td><td>Fertilize about once every 6 weeks during growth<br/>Pause during winter and start again before spring</td></tr>
+          <tr><td>Average days between fertilizing</td><td>32</td></tr>
+          <tr><td>Pruning                         </td><td>Remove stem when flowers lose color and droop<br/>Remove yellow and shriveled leaves<br/>When removing a stem, remove directly at the base</td></tr>
+          <tr><td>Companions                      </td><td>Fern<br/>Lemon Bush<br/>Ginger</td></tr>
+          <tr><td>Notes                           </td><td>Direct sunglight will burn leaves<br/>Will not bloom when conditions are too dark<br/>Needs high humidity, mist regularly<br/>Can be grown without any soil, only in water<br/>Keep plant from drafts<br/>Are not actual lily plants</td></tr>
+          <tr><td>Plants of species               </td><td><a href="../plants/Liliana.html">Liliana</a>&nbsp;</td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2>
+            <div class="image_plant_container">
+                <h2><a href="plants/Liliana.html">Liliana</a></h2>
+                <div class="images_plant">
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_25062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">25.06.2024</div> <div class="img_nr">1/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_10062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">10.06.2024</div> <div class="img_nr">2/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_04062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">04.06.2024</div> <div class="img_nr">3/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/EvaLongoria_Palm_Jose_Liliana_Hadewijch_Joan_26052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">26.05.2024</div> <div class="img_nr">4/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_20052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">20.05.2024</div> <div class="img_nr">5/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_06052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">06.05.2024</div> <div class="img_nr">6/7</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Liliana_14042024.jpg"/>
+                <figcaption>
+                    <div class="img_date">14.04.2024</div> <div class="img_nr">7/7</div>
+                </figcaption>
+            </figure></div>
+                <div class="img_controls">
+                <div class="left_arrow">&#9754;</div>
+                <div class="right_arrow">&#9755;</div>
+                </div>
+            </div></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">

@@ -3,7 +3,8 @@
   <head>
     <title>Zucchini</title>
     <link rel="stylesheet" href="../css/main.css"/>
-    <link rel="stylesheet" href="../css/details.css">
+    <link rel="stylesheet" href="../css/species_details.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <script src="../js/main.js"></script>
   </head>
   <body onload="setup_img_events()"><div id="header">
@@ -14,47 +15,191 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Zucchini</h1>
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr><td>Scientific Name                 </td><td>Cucurbita Pepo</td></tr>
-        <tr><td>Species Type                    </td><td>Gourd</td></tr>
-        <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
-        <tr><td>Temperature Range               </td><td>0.0-32.0</td></tr>
-        <tr><td>Optimal Temperature Range       </td><td>21.0-29.0  </td></tr>
-        <tr><td>Minimum Distance to next plant  </td><td>60cm                                  </td></tr>
-        <tr><td>pH Range                        </td><td>6.0-7.5</td></tr>
-        <tr><td>Watering                        </td><td>Water frequently<br/>Keep soil moist<br/>At least water once a week</td></tr>
-        <tr><td>Average days between watering   </td><td>7</td></tr>
-        <tr><td>Fertilizing                     </td><td>Start fertilizing once flowers appear<br/>Then fertilize about once every 2 weeks</td></tr>
-        <tr><td>Average days between fertilizing</td><td>14</td></tr>
-        <tr><td>Pruning                         </td><td>Remove dead leaves<br/>Optionally remove leaves when they are overlapping</td></tr>
-        <tr><td>Companions                      </td><td>Beans<br/>Garlic<br/>Herbs</td></tr>
-        <tr><td>Notes                           </td><td>Flowers open for only one or two days usuall</td></tr>
-        <tr><td>Plants of species               </td><td><a href="../plants/Zane.html">Zane</a><br/><a href="../plants/Zoey.html">Zoey</a><br/></td></tr>
-      </table>
-    </div>
-    <div id="plant_gallery">
-      <h2>Gallery</h2><figure class="plant_image"><img src="../img/plants/Zane_Zoey_25062024.jpg"/><figcaption>Zane,25.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_18062024.jpg"/><figcaption>Zane,18.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_14062024.jpg"/><figcaption>Zane,14.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_10062024.jpg"/><figcaption>Zane,10.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_06062024.jpg"/><figcaption>Zane,06.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_04062024.jpg"/><figcaption>Zane,04.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_24052024.jpg"/><figcaption>Zane,24.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_20052024.jpg"/><figcaption>Zane,20.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/><figcaption>Zane,06.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zim_Zack_Zoey_Kelly_Zou_Klaus_Claire_Zane_Chrom_02052024.jpg"/><figcaption>Zane,02.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_25062024.jpg"/><figcaption>Zoey,25.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_18062024.jpg"/><figcaption>Zoey,18.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zoey_18062024.jpg"/><figcaption>Zoey,18.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_14062024.jpg"/><figcaption>Zoey,14.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_10062024.jpg"/><figcaption>Zoey,10.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zane_Zoey_06062024.jpg"/><figcaption>Zoey,06.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zoey_04062024.jpg"/><figcaption>Zoey,04.06.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zoey_20052024.jpg"/><figcaption>Zoey,20.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/><figcaption>Zoey,06.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Zim_Zack_Zoey_Kelly_Zou_Klaus_Claire_Zane_Chrom_02052024.jpg"/><figcaption>Zoey,02.05.2024</figcaption></figure>
-<figure class="plant_image"><img src="../img/plants/Brock_Flowey_Kelly_Pete_Sunny_Tim_Zack_Zoey_14042024.jpg"/><figcaption>Zoey,14.04.2024</figcaption></figure></div><div id="footer">
+    <div id="species_content">
+      <div id="species_details_container">
+        <table id="species_details">
+          <tr><td>Scientific Name                 </td><td>Cucurbita Pepo</td></tr>
+          <tr><td>Species Type                    </td><td>Gourd</td></tr>
+          <tr><td>Sunlight Requirements           </td><td>direct</td></tr>
+          <tr><td>Temperature Range               </td><td>0.0-32.0</td></tr>
+          <tr><td>Optimal Temperature Range       </td><td>21.0-29.0  </td></tr>
+          <tr><td>Minimum Distance to next plant  </td><td>60cm                                  </td></tr>
+          <tr><td>pH Range                        </td><td>6.0-7.5</td></tr>
+          <tr><td>Watering                        </td><td>Water frequently<br/>Keep soil moist<br/>At least water once a week</td></tr>
+          <tr><td>Average days between watering   </td><td>7</td></tr>
+          <tr><td>Fertilizing                     </td><td>Start fertilizing once flowers appear<br/>Then fertilize about once every 2 weeks</td></tr>
+          <tr><td>Average days between fertilizing</td><td>14</td></tr>
+          <tr><td>Pruning                         </td><td>Remove dead leaves<br/>Optionally remove leaves when they are overlapping</td></tr>
+          <tr><td>Companions                      </td><td>Beans<br/>Garlic<br/>Herbs</td></tr>
+          <tr><td>Notes                           </td><td>Flowers open for only one or two days usuall</td></tr>
+          <tr><td>Plants of species               </td><td><a href="../plants/Zane.html">Zane</a>&nbsp;<a href="../plants/Zoey.html">Zoey</a>&nbsp;</td></tr>
+        </table>
+      </div>
+      <div id="species_details_gallery">
+        <h2>Gallery</h2>
+            <div class="image_plant_container">
+                <h2><a href="plants/Zane.html">Zane</a></h2>
+                <div class="images_plant">
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_25062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">25.06.2024</div> <div class="img_nr">1/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_18062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">18.06.2024</div> <div class="img_nr">2/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_14062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">14.06.2024</div> <div class="img_nr">3/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_10062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">10.06.2024</div> <div class="img_nr">4/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_06062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">06.06.2024</div> <div class="img_nr">5/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_04062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">04.06.2024</div> <div class="img_nr">6/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_24052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">24.05.2024</div> <div class="img_nr">7/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_20052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">20.05.2024</div> <div class="img_nr">8/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">06.05.2024</div> <div class="img_nr">9/10</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zim_Zack_Zoey_Kelly_Zou_Klaus_Claire_Zane_Chrom_02052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">02.05.2024</div> <div class="img_nr">10/10</div>
+                </figcaption>
+            </figure></div>
+                <div class="img_controls">
+                <div class="left_arrow">&#9754;</div>
+                <div class="right_arrow">&#9755;</div>
+                </div>
+            </div>
+            <div class="image_plant_container">
+                <h2><a href="plants/Zoey.html">Zoey</a></h2>
+                <div class="images_plant">
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_25062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">25.06.2024</div> <div class="img_nr">1/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_18062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">18.06.2024</div> <div class="img_nr">2/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zoey_18062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">18.06.2024</div> <div class="img_nr">3/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_14062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">14.06.2024</div> <div class="img_nr">4/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_10062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">10.06.2024</div> <div class="img_nr">5/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zane_Zoey_06062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">06.06.2024</div> <div class="img_nr">6/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zoey_04062024.jpg"/>
+                <figcaption>
+                    <div class="img_date">04.06.2024</div> <div class="img_nr">7/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zoey_20052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">20.05.2024</div> <div class="img_nr">8/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zoey_Chrom_Kelly_Claire_Zou_Klaus_Zane_06052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">06.05.2024</div> <div class="img_nr">9/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Zim_Zack_Zoey_Kelly_Zou_Klaus_Claire_Zane_Chrom_02052024.jpg"/>
+                <figcaption>
+                    <div class="img_date">02.05.2024</div> <div class="img_nr">10/11</div>
+                </figcaption>
+            </figure>
+
+            <figure class="plant_image">
+                <img src="../img/plants/Brock_Flowey_Kelly_Pete_Sunny_Tim_Zack_Zoey_14042024.jpg"/>
+                <figcaption>
+                    <div class="img_date">14.04.2024</div> <div class="img_nr">11/11</div>
+                </figcaption>
+            </figure></div>
+                <div class="img_controls">
+                <div class="left_arrow">&#9754;</div>
+                <div class="right_arrow">&#9755;</div>
+                </div>
+            </div></div>
+
+    </div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
   <div id="num_plants">Number of plants:71</div>
   <div id="last_build">Last build:&nbsp;25.06.2024</div><div id="image_viewer" onclick="close_image_viewer()">
