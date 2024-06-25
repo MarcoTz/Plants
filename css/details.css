@@ -53,21 +53,6 @@ img {
 }
 
 
-#plant_activity_log_container{
-  padding:1em;
-  width:35%;
-} 
-
-
-
-#next_activities_container {
-  display:flex;
-  justify-content:center;
-  margin:1em;
-  gap:1em;
-}
-
-
 #growth_chart { 
   background:var(--bg-color-odd);
   color:var(--fg-color);
