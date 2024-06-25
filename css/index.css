@@ -51,3 +51,23 @@
   margin-right:5%;
   margin-left:5%;
 }
+
+#autowatering_container{
+  width:95%;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  align-content:space-around;
+  flex-wrap:wrap;
+  gap:1em;
+}
+.autowater_item:nth-child(odd){
+  background:var(--bg-color-odd);
+}
+.autowater_item:nth-child(even){
+  background:var(--bg-color-even);
+}
+.autowater_item{
+  border-radius:1em;
+  padding:0.5em;
+}
