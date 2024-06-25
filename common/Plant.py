@@ -14,7 +14,7 @@ class Plant:
         self.current_width = float('nan') 
         self.images = []
 
-    def get_info_dict(self) -> dict[str,str]:
+    def get_info_dict(self):
         info_dict = {
                 'plant_name': self.info['plant_name'],
                 'plant_species_name':self.info['species_name'],
@@ -24,6 +24,7 @@ class Plant:
                 'plant_width' : self.current_width,
                 'plant_origin': self.info['origin'],
                 'plant_obtained' : self.info['obtained'].strftime(date_format),
+                'plant_autowater':self.info['auto_water'],
                 'plant_notes': '\n'.join(self.info['plant_notes']),
                 }
         return info_dict

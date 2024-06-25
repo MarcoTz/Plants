@@ -34,6 +34,8 @@ class HTMLRenderer:
     water_img : str = '🌊'
     fertilize_img : str = '💩'
     growth_img : str = '📏'
+    is_autowatered_img : str = '✅'
+    not_autowatered_img : str = '❌'
 
     plant_list   : list[Plant]
     species_list : list[PlantSpecies]
@@ -368,6 +370,7 @@ class HTMLRenderer:
         health_str : str = str(info_dict['plant_health'])
 
         info_dict['plant_health'] =  plant_health_div % (health_str,health_str)
+        info_dict['plant_autowater'] = self.is_autowatered_img if info_dict['plant_autowater'] else self.not_autowatered_img
  
         log_trs : list[tuple[datetime.datetime,str]] = []
         watering_activities    : list[LogItem] = []
