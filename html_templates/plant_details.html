@@ -19,40 +19,43 @@
   <body onload="setup_img_events();create_growth_graph()">
     {{-header-}}
     <h1>{{- plant_name -}}&nbsp;({{- plant_species_name -}})</h1>
-    <div id="plant_details_gallery">
-      <h2>Gallery</h2>
-      {{-plant_images-}}
-    </div>
+   <div id="plant_content">
+      <div id="plant_details_gallery">
+       <h2>Gallery</h2>
+       {{-plant_images-}}
+     </div>
+      <div id="plant_info">
 
-    <div id="plant_information">
-      {{- plant_health -}}
-      <div id="next_watering">Next watering date:<br/> {{-next_watering_date-}}</div>
-      <div id="next_fertilizing">Next fertilizing date:<br/> {{-next_fertilizing_date-}}</div>
-      <div id="last_watering">Last watering date:<br/> {{-last_watering_date-}}</div>
-      <div id="last_fertilizing">Last fertilizing date:<br/> {{-last_fertilizing_date-}}</div>
+  	    <div id="plant_status">
+          <div class="status_item">Health<br/> {{- plant_health -}} </div>
+  	      <div class="status_item">Next watering date<br/> {{-next_watering_date-}}</div>
+  	      <div class="status_item">Next fertilizing date<br/> {{-next_fertilizing_date-}}</div>
+  	      <div class="status_item">Last watering date<br/> {{-last_watering_date-}}</div>
+  	      <div class="status_item">Last fertilizing date<br/> {{-last_fertilizing_date-}}</div>
+  	    </div>
+ 		    <div id="plant_growth_log_container">
+	        <h2>Growth Log</h2>
+	        <canvas id="growth_chart"></canvas>
+	      </div> 
+ 	
+  	    <div id="plant_details_container">
+          <h2>Other Information</h2>
+  	      <table id="plant_details">
+  	        <tr> <td>Current Height</td>    <td id="hspace"></td> <td>{{- plant_height -}}cm    </td></tr>
+  	        <tr> <td>Current Width</td>     <td id="hspace"></td> <td>{{- plant_width -}}cm     </td></tr>
+  	        <tr> <td>Current Location</td>  <td id="hspace"></td> <td>{{- plant_location -}}    </td></tr>
+  	        <tr> <td>Place of origin</td>   <td id="hspace"></td> <td>{{- plant_origin -}}      </td></tr>
+  	        <tr> <td>Date obtained</td>     <td id="hspace"></td> <td>{{- plant_obtained -}}    </td></tr>
+  	        <tr> <td>Notes</td>             <td id="hspace"></td> <td>{{- plant_notes -}}       </td></tr>
+  	      </table>
+          <h2>Activities</h2>
+  	      <table id="plant_activity_log">
+  	          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
+  	          {{- plant_activities -}}
+  	      </table>
+  	    </div>
+      </div>
     </div>
-
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr> <td>Current Height</td>    <td id="hspace"></td> <td>{{- plant_height -}}cm    </td></tr>
-        <tr> <td>Current Width</td>     <td id="hspace"></td> <td>{{- plant_width -}}cm     </td></tr>
-        <tr> <td>Current Location</td>  <td id="hspace"></td> <td>{{- plant_location -}}    </td></tr>
-        <tr> <td>Place of origin</td>   <td id="hspace"></td> <td>{{- plant_origin -}}      </td></tr>
-        <tr> <td>Date obtained</td>     <td id="hspace"></td> <td>{{- plant_obtained -}}    </td></tr>
-        <tr> <td>Notes</td>             <td id="hspace"></td> <td>{{- plant_notes -}}       </td></tr>
-      </table>
-    </div>
-    <div id="plant_activity_log_container">
-      <h2> Activity Log </h2>
-      <table id="plant_activity_log">
-          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
-          {{- plant_activities -}}
-      </table>
-    </div>
-    <div id="plant_growth_log_container">
-      <h2>Growth Log</h2>
-      <canvas id="growth_chart"></canvas>
-    </div> 
 
     <div id="vspace"></div>
     {{-footer-}}
