@@ -40,6 +40,7 @@ class PlantBot:
                 ('show_inputs','show current inputs',self.show_inputs),
                 ('abort','abort current action', self.abort_action),
                 ('push', 'publish current version to github', self.push_git),
+                ('status','check git status',self.check_git),
                 ('check_notes','check for build notes',self.build_notes)
             ]
 
@@ -127,6 +128,15 @@ class PlantBot:
             return
 
         await self.send_message(update,context,'Successfully pushed changes')
+
+    async def check_git(self,update,context) -> None:
+        if not await self.guard_access(update,context):
+            return
+        git_status_cmd : list[str] = ['git','status']
+        status_msg : str = subprocess.run(git_status_cmd,capture_output=True).stdout.decode('utf-8')
+
+        await self.send_message(update,context,status_msg)
+
 
 
     async def get_help(self,update,context) -> None:
