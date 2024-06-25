@@ -327,29 +327,16 @@ class HTMLRenderer:
         species_file_name : str = get_html_name(plant.info['name']) 
 
         species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
+        gallery_str : str = ''
         species_plants_str : str = ''
-        plants_images_list : list[str] = []
-        images_path : str = os.path.join(img_dir,img_plants_dir)
-        image_template  : str = '<figure class="plant_image"><img src="../%s"/><figcaption>%s,%s</figcaption></figure>'
         for species_plant in species_plants:
-            plant_name = species_plant.info['plant_name']
-            species_plants_str += '<a href="../%s/%s">%s</a><br/>' % (plant_details_out,get_html_name(plant_name),plant_name)
-            for (image_date,image_name) in species_plant.images:
-                image_path : str = os.path.join(images_path,image_name)
-                image_date_str : str = image_date.strftime(date_format)
-                new_img = image_template % (image_path,plant_name,image_date_str)
-                plants_images_list.append(new_img)
+            gallery_str += self.get_plant_gallery(species_plant,True)
 
-        images_path : str = os.path.join(img_dir,img_species_dir)
-        species_name : str = plant.info['name']
-        for img_name in os.listdir(os.path.join(out_dir,images_path)):
-            if species_name.lower() in img_name.lower():
-                img_path : str = os.path.join(images_path,img_name)
-                new_img : str = image_template % (img_path,species_name,'')
-                plants_images_list.append(new_img)
-        
-        
-        info_dict['plant_images'] = '\n'.join(plants_images_list)
+            plant_name = species_plant.info['plant_name']
+            species_plants_str += '<a href="../%s/%s">%s</a>&nbsp;' % (plant_details_out,get_html_name(plant_name),plant_name)
+
+         
+        info_dict['plant_images'] = gallery_str 
         info_dict['species_plants'] = species_plants_str 
 
         species_html:str = self.species_details_template.render(info_dict)
