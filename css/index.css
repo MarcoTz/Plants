@@ -71,3 +71,23 @@
   border-radius:1em;
   padding:0.5em;
 }
+
+#hall_of_fame {
+  display:flex;
+  flex-wrap:wrap;
+  width:95%;
+  gap:1em;
+  align-content:space-around;
+  justify-content:space-around;
+}
+.hall_of_fame_item{
+  border-radius:1em;
+  padding: 0.5em;
+  text-align:center;
+}
+.hall_of_fame_item:nth-child(odd){
+  background:var(--bg-color-odd);
+}
+.hall_of_fame:nth-child(even){
+  background:var(--bg-color-even);
+}
