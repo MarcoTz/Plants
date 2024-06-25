@@ -50,6 +50,7 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
              ('Please enter plant name',                     'str'),
              ('Please enter height (cm)',                    'float'),
              ('Please enter width (cm)',                     'float'),
+             ('Please enter health (0-5)',                   'int'),
              ('Please enter note, write "Done" for no note', 'str'),
         ],
         BotAction.NEW_ACTIVITY : [
@@ -133,6 +134,7 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
              ('growth_plant',           False,False),
              ('growth_height',          False,False),
              ('growth_width',           False,False),
+             ('plant_health',           False,False),
              ('growth_note',            False,True)
         ],
         BotAction.NEW_ACTIVITY : [
