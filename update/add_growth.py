@@ -40,7 +40,7 @@ def add_growth(log_items:list[dict[str,str]]) -> None:
     growth_items = []
     for growth_item in log_items:
         update_health = growth_item['plant_health']
-        plant_name : str = growth_item['log_plant']
+        plant_name : str = growth_item['growth_plant']
         update_plant(plant_name, 'plant_health',update_health)
         growth_item.pop('plant_health')
         growth_items.append(growth_item)
