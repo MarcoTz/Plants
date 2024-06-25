@@ -1,40 +1,64 @@
-#plant_information{
-  width:65%;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:stretch;
-  justify-content:space-around;
-  gap:1em;
-  padding-right:5%;
+#plant_content{
+  width:95%;
+  display:flow-root;
 }
 
 #plant_details_gallery {
  width:20%;
  float:left;
  padding-left:5%;
- padding-right:5%;
 }
 .image_plant_container { 
   width:100% !important;
 }
-
-#plant_activity_log_container{
-  padding:1em;
-  padding-left:5%;
-  width:35%;
-} 
-
-#plant_growth_log_container{
-  padding:1em;
-  width:35%;
-  float:left;
-  padding-left:10%;
-}
-
 img { 
   width: 100%;
   height: 100%;
 }
+
+#plant_growth_log_container{ 
+  width:50%;
+}
+#plant_info{ 
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-around;
+  align-items:center;
+  align-content:space-around;
+  width:70%;
+  float:right;
+  gap:1em;
+  padding-top:1em;
+}
+
+
+#plant_status{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  justify-content:space-around;
+  gap:1em;
+}
+
+#plant_status :nth-child(odd){
+  background:var(--bg-color-odd);
+}
+#plant_status :nth-child(even){
+  background:var(--bg-color-even);
+}
+.status_item {
+  text-align:center;
+  border-radius: 1em;
+  padding:0.5em;
+}
+
+
+#plant_activity_log_container{
+  padding:1em;
+  width:35%;
+} 
+
+
 
 #next_activities_container {
   display:flex;
@@ -42,18 +66,7 @@ img {
   margin:1em;
   gap:1em;
 }
-#next_activities_container :nth-child(odd){
-  background:var(--bg-color-odd);
-}
-#next_activities_container :nth-child(even){
-  background:var(--bg-color-even);
-}
 
-#next_watering, #next_fertilizing {
-  text-align:center;
-  border-radius: 1em;
-  padding:0.5em;
-}
 
 #growth_chart { 
   background:var(--bg-color-odd);
@@ -70,23 +83,24 @@ img {
   text-align:center;
   color:var(--fg-color-dark);
   font-size:18pt;
+  margin:auto;
 }
 
 .health0{
-  background:var(--health-color0);
+  background:var(--health-color0) !important;
 }
 .health1{
-  background:var(--health-color1);
+  background:var(--health-color1) !important;
 }
 .health2{
-  background:var(--health-color2);
+  background:var(--health-color2) !important;
 }
 .health3{
-  background:var(--health-color3);
+  background:var(--health-color3) !important;
 }
 .health4{
-  background:var(--health-color4);
+  background:var(--health-color4) !important;
 }
 .health5{
-  background:var(--health-color5);
+  background:var(--health-color5) !important;
 }

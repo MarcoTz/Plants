@@ -24,8 +24,9 @@
   <a href="../activity_logs.html">Activities</a>
   <a href="../graveyard.html">Graveyard</a>
 </div><h1>Pumbaa&nbsp;(<a href="../plant_species/ParlorPalm.html">Parlor Palm</a>)</h1>
-    <div id="plant_details_gallery">
-      <h2>Gallery</h2>
+   <div id="plant_content">
+      <div id="plant_details_gallery">
+       <h2>Gallery</h2>
             <div class="image_plant_container">
                 <h2><a href="plants/Pumbaa.html">Pumbaa</a></h2>
                 <div class="images_plant">
@@ -47,32 +48,36 @@
                 <div class="right_arrow">&#9755;</div>
                 </div>
             </div></div>
+      <div id="plant_info">
 
-    <div id="plant_information"><div class="health4 health">4</div><div id="next_watering">Next watering date:<br/>02.07.2024</div>
-      <div id="next_fertilizing">Next fertilizing date:<br/>23.09.2024</div>
-      <div id="last_watering">Last watering date:<br/>19.06.2024</div>
-      <div id="last_fertilizing">Last fertilizing date:<br/></div>
+  	    <div id="plant_status">
+          <div class="status_item">Health<br/><div class="health4 health">4</div></div>
+  	      <div class="status_item">Next watering date<br/>02.07.2024</div>
+  	      <div class="status_item">Next fertilizing date<br/>23.09.2024</div>
+  	      <div class="status_item">Last watering date<br/>19.06.2024</div>
+  	      <div class="status_item">Last fertilizing date<br/></div>
+  	    </div>
+ 		    <div id="plant_growth_log_container">
+	        <h2>Growth Log</h2>
+	        <canvas id="growth_chart"></canvas>
+	      </div> 
+ 	
+  	    <div id="plant_details_container">
+          <h2>Other Information</h2>
+  	      <table id="plant_details">
+  	        <tr> <td>Current Height</td>    <td id="hspace"></td> <td>22.0cm    </td></tr>
+  	        <tr> <td>Current Width</td>     <td id="hspace"></td> <td>26.0cm     </td></tr>
+  	        <tr> <td>Current Location</td>  <td id="hspace"></td> <td>Living Room</td></tr>
+  	        <tr> <td>Place of origin</td>   <td id="hspace"></td> <td>Hornbach</td></tr>
+  	        <tr> <td>Date obtained</td>     <td id="hspace"></td> <td>10.06.2024</td></tr>
+  	        <tr> <td>Notes</td>             <td id="hspace"></td> <td></td></tr>
+  	      </table>
+          <h2>Activities</h2>
+  	      <table id="plant_activity_log">
+  	          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr><tr><td>10.06.2024</td><td>Repot</td><td></td></tr></table>
+  	    </div>
+      </div>
     </div>
-
-    <div id="plant_details_container">
-      <table id="plant_details">
-        <tr> <td>Current Height</td>    <td id="hspace"></td> <td>22.0cm    </td></tr>
-        <tr> <td>Current Width</td>     <td id="hspace"></td> <td>26.0cm     </td></tr>
-        <tr> <td>Current Location</td>  <td id="hspace"></td> <td>Living Room</td></tr>
-        <tr> <td>Place of origin</td>   <td id="hspace"></td> <td>Hornbach</td></tr>
-        <tr> <td>Date obtained</td>     <td id="hspace"></td> <td>10.06.2024</td></tr>
-        <tr> <td>Notes</td>             <td id="hspace"></td> <td></td></tr>
-      </table>
-    </div>
-    <div id="plant_activity_log_container">
-      <h2> Activity Log </h2>
-      <table id="plant_activity_log">
-          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr><tr><td>10.06.2024</td><td>Repot</td><td></td></tr></table>
-    </div>
-    <div id="plant_growth_log_container">
-      <h2>Growth Log</h2>
-      <canvas id="growth_chart"></canvas>
-    </div> 
 
     <div id="vspace"></div><div id="footer">
   <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
