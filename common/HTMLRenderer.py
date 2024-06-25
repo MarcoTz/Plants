@@ -647,13 +647,21 @@ class HTMLRenderer:
         recent_growth_str : str = self.get_recent_growth_str(recent_growth)
         recent_activities_str : str = self.get_recent_activities_str(recent_activities)
         next_activities_str : str = self.get_next_activities_str()
-             
+        
+        autowatered_plants : list[Plant] = list(filter(lambda x:x.info['auto_water'],self.plant_list))
+        autowater_str : str = ''
+        autowater_div : str = '<div class="autowater_item"><a href="%s">%s</a></div>'
+        for auto_plant in autowatered_plants:
+            plant_name : str = auto_plant.info['plant_name']
+            plant_link : str = plant_details_out + '/'+get_html_name(plant_name)
+            autowater_str += autowater_div % (plant_link, plant_name)
 
         index_dict : dict[str,str] = {
                 'header': header_str,
                 'footer':footer_str,
                 'recent_growth_rows':recent_growth_str,
                 'recent_activities_rows':recent_activities_str,
+                'autowatered_plants':autowater_str,
                 'next_activities':next_activities_str,
                 }
         index_html = self.index_template.render(index_dict)
