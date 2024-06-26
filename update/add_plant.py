@@ -1,6 +1,7 @@
 from update.parse_input import get_float,get_lines,get_date
 from file_io.write_csv import write_csv
 from file_io.write_json import write_json
+from file_io.load_json import check_plant_exists
 from common.constants import date_format, plants_dir,log_dir,growth_log_file_name
 
 import datetime 
@@ -9,7 +10,9 @@ import json
 def create_plant():
 
     print('--Create new Plant--')
-    plant_name   : str       = input('Enter Plant name: ').strip()
+    plant_name : str = ''
+    while plant_name == '' or check_plant_exists(plant_name):
+        plant_name   : str       = input('Enter Plant name: ').strip()
     species_name : str       = input('Enter plant species: ').strip()
     height       : float     = get_float('Enter current height (in cm): ')
     width        : float     = get_float('Enter current width (in cm): ')

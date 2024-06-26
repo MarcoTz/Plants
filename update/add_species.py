@@ -1,10 +1,13 @@
 from update.parse_input import get_float,get_lines
 from file_io.write_json import write_json
+from file_io.load_json  import check_species_exists
 from common.constants   import species_dir
 
 def create_species():
     print('--Create new Plant Species--')
-    species_name        : str           = input('Enter species (common) name:').strip()
+    species_name        : str           = ''
+    while species_name == '' or check_species_exists(species_name):
+        species_name = input('Enter species (common) name:').strip()
     scientific_name     : str           = input('Enter scientific name:').strip()
     species_type        : str           = input('Enter plant type (cactus/ night shade/ etc)').strip()
     sunlight_str        : str           = input('Enter sunlight requirements (direct/indirect/shade):').strip()
