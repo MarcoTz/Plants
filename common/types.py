@@ -77,7 +77,7 @@ def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
     'plant_health'     : int(str(json_dict['plant_health'])),
     'current_location' : str(json_dict['current_location']),
     'origin'           : str(json_dict['origin']),
-    'auto_water'       : str(json_dict['auto_watering']).lower() == 'true',
+    'auto_water'       : str(json_dict['auto_watering']).lower() in ['true','y'],
     'obtained'         : datetime.datetime.strptime(str(json_dict['obtained']),date_format),
     'plant_notes'      : list(json_dict['plant_notes']),
     'plant_activities' : [],

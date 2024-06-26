@@ -295,4 +295,4 @@ def ensure_float(msg:str) -> bool:
         return False
 
 def ensure_bool(msg:str) -> bool:
-    return msg.lower().strip() == 'y'
+    return msg.lower().strip() in ['y','n']
