@@ -21,7 +21,7 @@ class BotAction(Enum):
    WATER_TODAY = 9
    FERTILIZE_TODAY = 10
 
-plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','auto_water','plant_notes','current_location','plant_health']
+plant_update_fields : list[str] = ['plant_name','species_name','origin','obtained','auto_watering','plant_notes','current_location','plant_health']
 
 species_update_fields : list[str] = [
         "name",
@@ -68,6 +68,7 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter current location',                                   'str'),
             ('Please enter plant origin',                                       'str'),
             ('Please enter obtained date (dd.mm.yyyy)',                         'date'),
+            ('Please enter if plant is automatically watered (y/n)',            'bool'),
             ('Please enter notes (separate by comma, write "Done" for no note', 'str')
             ],
         BotAction.NEW_SPECIES : [
@@ -152,6 +153,7 @@ action_output_information : dict[BotAction,list[tuple[str,bool,bool]]] = {
             ('current_location',        False,False),
             ('origin',                  False,False),
             ('obtained',                False,False),
+            ('auto_watering',           False,False),
             ('plant_notes',             True,True)
             ],
         BotAction.NEW_SPECIES : [
@@ -267,6 +269,8 @@ def validate_msg(msg:str,ty:str) -> str | None:
         return 'Not a valid field, please try again'
     if ty == 'species_update_field' and not msg in species_update_fields:
         return 'Not a valid field, please try again'
+    if ty == 'bool' and not ensure_bool(msg):
+        return 'Not y or n, please try again'
     return None
 
 def ensure_datetime(msg:str) -> bool:
@@ -289,3 +293,6 @@ def ensure_float(msg:str) -> bool:
         return True
     except ValueError:
         return False
+
+def ensure_bool(msg:str) -> bool:
+    return msg.lower().strip() == 'y'
