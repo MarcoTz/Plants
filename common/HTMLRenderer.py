@@ -376,8 +376,8 @@ class HTMLRenderer:
             watering_note : str = last_watering['log_note']
             if len(watering_activities) > 1: 
                 watering_note += ', ' if watering_note.strip() != '' else ''
-                date_str : str = watering_activities[1]['log_date'].strftime(date_format)
-                info_dict['last_watering_date'] = date_str
+            date_str : str = last_watering['log_date'].strftime(date_format)
+            info_dict['last_watering_date'] = date_str
             last_watering['log_note'] = watering_note
         else:
             info_dict['last_watering_date'] = 'N/A'
@@ -389,8 +389,9 @@ class HTMLRenderer:
             fertilizing_note : str = last_fertilizing['log_note']
             if len(fertilizing_activities) > 1: 
                 fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
-                date_str : str = fertilizing_activities[1]['log_date'].strftime(date_format)
-                info_dict['last_fertilizing_date'] = date_str
+            date_str : str = last_fertilizing['log_date'].strftime(date_format)
+            info_dict['last_fertilizing_date'] = date_str
+
             last_fertilizing['log_note'] = fertilizing_note
         else: 
             info_dict['last_fertilizing_date'] = 'N/A' 
