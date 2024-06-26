@@ -115,7 +115,7 @@ class HTMLRenderer:
         fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fertilizing'),plant_activities))
         fertilizing_activities.sort(key=lambda x:x['log_date'])
 
-        last_watering    : LogItem | None = watering_activities[-1]    if watering_activities != []    else None
+        last_watering    : LogItem | None = watering_activities[-1]    if watering_activities    != [] else None
         last_fertilizing : LogItem | None = fertilizing_activities[-1] if fertilizing_activities != [] else None
 
         next_watering    : datetime.datetime | None = None 
@@ -126,7 +126,7 @@ class HTMLRenderer:
             if last_watering is not None:
                 last_date : datetime.datetime = last_watering['log_date']
             else:
-                last_date : datetime.datetime = datetime.datetime.min
+                last_date : datetime.datetime = datetime.datetime.now() - next_watering_delta
             next_watering : datetime.datetime | None = last_date + next_watering_delta
             
             if next_watering <= current_date:
@@ -137,7 +137,7 @@ class HTMLRenderer:
             if last_fertilizing is not None:
                 last_date : datetime.datetime = last_fertilizing['log_date']
             else:
-                last_date : datetime.datetime = datetime.datetime.min
+                last_date : datetime.datetime = datetime.datetime.now() - next_fertilizing_delta
             next_fertilizing : datetime.datetime | None = last_date + next_fertilizing_delta
             if next_fertilizing <= current_date:
                  next_fertilizing = current_date
@@ -388,6 +388,9 @@ class HTMLRenderer:
                 fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
                 date_str : str = fertilizing_activities[1]['log_date'].strftime(date_format)
                 info_dict['last_fertilizing_date'] = date_str
+            else: 
+                info_dict['last_fertilizing_date'] = 'N/A' 
+                print('Never fertilized plant %s' % plant.info['plant_name'])
 
             last_fertilizing['log_note'] = fertilizing_note
 
@@ -601,10 +604,17 @@ class HTMLRenderer:
         next_fertilizings   : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
         next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.get_old_growth()))
         next_activities_list : list[tuple[Plant,datetime.datetime,str]] = []
+
         map_fun : function = lambda x: lambda y: (y[0],y[1],x)
-        next_activities_list.extend(list(map(map_fun('%s Watering %s' % (self.water_img,self.water_img)),next_waterings)))
-        next_activities_list.extend(list(map(map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img)),next_fertilizings)))
-        next_activities_list.extend(list(map(map_fun('%s Growth %s' % (self.growth_img,self.growth_img)),next_growth_updates)))
+        watering_fun = map_fun('%s Watering %s' % (self.water_img,self.water_img))
+        next_waterings_list = list(map(watering_fun,next_waterings))
+        next_activities_list.extend(next_waterings_list)
+        fertilizing_fun = map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img))
+        next_fertilizings_list = list(map(fertilizing_fun,next_fertilizings))
+        next_activities_list.extend(next_fertilizings_list)
+        growth_fun = map_fun('%s Growth %s' % (self.growth_img,self.growth_img))
+        next_growth_list = list(map(growth_fun,next_growth_updates))
+        next_activities_list.extend(next_growth_list)
 
 
         next_activities : dict[tuple[datetime.date,str],list[Plant]] = {}
