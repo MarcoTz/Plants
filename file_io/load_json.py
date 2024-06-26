@@ -69,3 +69,13 @@ def load_bot_config() -> tuple[str,list[int]]:
     api_key : str = config_contents['api_key']
     whitelist : list[int] = config_contents['white_list']
     return (api_key,whitelist)
+
+def check_plant_exists(plant_name:str) -> bool:
+    plant_file_name : str = plant_name.replace(' ','')+'.json'
+    plant_path : str = os.path.join(plants_dir,plant_file_name)
+    return os.path.isfile(plant_path)
+
+def check_species_exists(species_name:str) -> bool:
+    species_file_name : str = species_name.replace(' ','')+'.json'
+    species_path : str = os.path.join(species_dir,species_file_name)
+    return os.path.isfile(species_path)

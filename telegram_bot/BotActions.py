@@ -8,6 +8,7 @@ from update.add_species         import add_species
 from update.move_to_graveyard   import move_to_graveyard
 from update.update_plant        import update_plant_dict
 from update.update_species      import update_species_dict
+from file_io.load_json          import check_plant_exists,check_species_exists
 
 class BotAction(Enum):
    IDLE         = 1 
@@ -60,7 +61,7 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter note (write "Done" for no note)',     'str')
             ],
         BotAction.NEW_PLANT : [
-            ('Please enter plant name',                                         'str'), 
+            ('Please enter plant name',                                         'plant_file'), 
             ('Please enter species name',                                       'str'),
             ('Please enter current height (cm)',                                'float'),
             ('Please enter current width (cm)',                                 'float'),
@@ -72,7 +73,7 @@ action_input_information : dict[BotAction,list[tuple[str,str]]] = {
             ('Please enter notes (separate by comma, write "Done" for no note', 'str')
             ],
         BotAction.NEW_SPECIES : [
-            ('Please enter species common name',                                             'str'),
+            ('Please enter species common name',                                             'species_file'),
             ('Please enter plant scientific name',                                           'str'),
             ('Please enter plant type (cactus/nightshade/etc)',                              'str'),
             ('Please enter sunlight requirements (direct/indirect/shade)',                   'str'),
@@ -271,6 +272,10 @@ def validate_msg(msg:str,ty:str) -> str | None:
         return 'Not a valid field, please try again'
     if ty == 'bool' and not ensure_bool(msg):
         return 'Not y or n, please try again'
+    if ty == 'plant_file' and check_plant_exists(msg):
+        return 'Plant already exists, please try again'
+    if ty == 'species_file' and check_species_exists(msg):
+        return 'Species already exists, please try again'
     return None
 
 def ensure_datetime(msg:str) -> bool:
