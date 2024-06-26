@@ -50,7 +50,10 @@ def load_images(plants:list[Plant]) -> None:
             print('Could not load images')
             print(plant_image_names)
             exit(1)
-        plant.add_images(plant_images)
+        if len(plant_images)==0:
+            print('No images for plant %s' % plant.info['plant_name'])
+        else:
+            plant.add_images(plant_images)
         found_names.extend(plant_image_names)
     unmatched = [image_name for image_name in images_names if image_name not in found_names]
     if not unmatched == []:

@@ -379,6 +379,9 @@ class HTMLRenderer:
                 date_str : str = watering_activities[1]['log_date'].strftime(date_format)
                 info_dict['last_watering_date'] = date_str
             last_watering['log_note'] = watering_note
+        else:
+            info_dict['last_watering_date'] = 'N/A'
+            print('Never watered plant %s' % plant.info['plant_name'])
 
         if len(fertilizing_activities) > 0:
             fertilizing_activities.sort(key=lambda x:x['log_date'],reverse=True)
@@ -388,11 +391,11 @@ class HTMLRenderer:
                 fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
                 date_str : str = fertilizing_activities[1]['log_date'].strftime(date_format)
                 info_dict['last_fertilizing_date'] = date_str
-            else: 
-                info_dict['last_fertilizing_date'] = 'N/A' 
-                print('Never fertilized plant %s' % plant.info['plant_name'])
-
             last_fertilizing['log_note'] = fertilizing_note
+        else: 
+            info_dict['last_fertilizing_date'] = 'N/A' 
+            print('Never fertilized plant %s' % plant.info['plant_name'])
+
 
 
         log_trs.sort(key=lambda x:x[0],reverse=True)
