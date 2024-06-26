@@ -85,7 +85,10 @@ class PlantBot:
     async def build_notes(self,update:Update,context:ContextTypes.DEFAULT_TYPE) -> None:
         if not await self.guard_access(update,context):
             return
-        build_note : str = subprocess.check_output(['make','build']).decode('utf-8')
+        note_process = subprocess.run(['make','build'],capture_output=True,check=False)
+        build_note : str = note_process.stdout.decode('utf-8')
+        if build_note.strip() == '':
+            build_note = note_process.stderr.decode('utf-8')
         await self.send_message(update,context,build_note)
 
 
