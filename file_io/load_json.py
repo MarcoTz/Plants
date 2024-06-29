@@ -40,11 +40,11 @@ def load_all_species_files() -> list[SpeciesInformation]:
         dir_list.append(json_dir)
     return dir_list 
 
-def load_plants() -> list[Plant]:
+def load_plants(species_list:list[PlantSpecies]) -> list[Plant]:
     plant_infos : list[PlantInformation] = load_all_plant_files()
     plant_list  : list[Plant] = []
     for plant_info in plant_infos:
-        new_plant = Plant(plant_info)
+        new_plant = Plant(plant_info,species_list)
         plant_list.append(new_plant)
     return plant_list
 
@@ -58,8 +58,8 @@ def load_species() -> list[PlantSpecies]:
     return species_list
 
 def load_plants_species() -> tuple[list[Plant],list[PlantSpecies]]:
-    plants  : list[Plant]        = load_plants()
     species : list[PlantSpecies] = load_species()
+    plants  : list[Plant]        = load_plants(species)
     return (plants,species)
 
 def load_bot_config() -> tuple[str,list[int]]:

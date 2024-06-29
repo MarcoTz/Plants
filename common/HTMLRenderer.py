@@ -31,10 +31,10 @@ class HTMLRenderer:
     gallery_template          : jinja2.Template
     image_viewer_template     : jinja2.Template
 
-    water_img : str = '🌊'
-    fertilize_img : str = '💩'
-    growth_img : str = '📏'
-    is_autowatered_img : str = '✅'
+    water_img           : str = '🌊'
+    fertilize_img       : str = '💩'
+    growth_img          : str = '📏'
+    is_autowatered_img  : str = '✅'
     not_autowatered_img : str = '❌'
 
     plant_list   : list[Plant]
@@ -49,32 +49,33 @@ class HTMLRenderer:
                  species    : list[PlantSpecies],
                  graveyard  : list[GraveyardPlant]) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
+
         create_if_not_exists(out_dir)
         create_if_not_exists(os.path.join(out_dir,species_details_out))
         create_if_not_exists(os.path.join(out_dir,plant_details_out))
+
         self.load_templates()
-        self.plant_list   = plants
-        self.species_list = species
-        self.assigned_growth = []
-        self.graveyard = graveyard
-        self.plants_next_waterings = []
-        self.plants_next_fertilizings = []
+        self.plant_list               : list [Plant]                         = plants
+        self.species_list             : list[PlantSpecies]                   = species
+        self.graveyard                : list[GraveyardPlant]                 = graveyard
+        self.plants_next_waterings    : list[tuple[Plant,datetime.datetime]] = []
+        self.plants_next_fertilizings : list[tuple[Plant,datetime.datetime]] = []
 
         self.plant_list.sort(key = lambda x: x.info['plant_name'])
         self.species_list.sort(key=lambda x: x.info['name'])
     
     def load_templates(self) -> None:
-        self.species_overview_template = self.env.get_template(species_overview_template_name)
-        self.species_details_template  = self.env.get_template(species_details_template_name)
-        self.plant_overview_template   = self.env.get_template(plant_overview_template_name)
-        self.plant_details_template    = self.env.get_template(plant_details_template_name)
-        self.index_template            = self.env.get_template(index_template_name)
-        self.activities_template       = self.env.get_template(activity_log_template_name)
-        self.header_template           = self.env.get_template(header_template_name)
-        self.footer_template           = self.env.get_template(footer_template_name)
-        self.graveyard_template        = self.env.get_template(graveyard_template_name)
-        self.gallery_template          = self.env.get_template(gallery_template_name) 
-        self.image_viewer_template     = self.env.get_template(image_view_template_name)
+        self.species_overview_template  : jinja2.Template  = self.env.get_template(species_overview_template_name)
+        self.species_details_template   : jinja2.Template  = self.env.get_template(species_details_template_name)
+        self.plant_overview_template    : jinja2.Template  = self.env.get_template(plant_overview_template_name)
+        self.plant_details_template     : jinja2.Template  = self.env.get_template(plant_details_template_name)
+        self.index_template             : jinja2.Template  = self.env.get_template(index_template_name)
+        self.activities_template        : jinja2.Template  = self.env.get_template(activity_log_template_name)
+        self.header_template            : jinja2.Template  = self.env.get_template(header_template_name)
+        self.footer_template            : jinja2.Template  = self.env.get_template(footer_template_name)
+        self.graveyard_template         : jinja2.Template  = self.env.get_template(graveyard_template_name)
+        self.gallery_template           : jinja2.Template  = self.env.get_template(gallery_template_name) 
+        self.image_viewer_template      : jinja2.Template  = self.env.get_template(image_view_template_name)
 
     def get_plants_species(self,species:str) -> list[Plant]: 
         species_li : list[Plant] = []
@@ -83,13 +84,6 @@ class HTMLRenderer:
                 species_li.append(plant)
         return species_li
 
-    def get_species_plant(self,plant:Plant) -> PlantSpecies | None:
-        species_name : str = plant.info['species_name']
-        for species in self.species_list:
-            if species.info['name'] == species_name:
-                return species
-        return None
-
     def get_plant_locations(self) -> list[str]:
         locations : list[str] = []
         for plant in self.plant_list:
@@ -97,56 +91,6 @@ class HTMLRenderer:
             if plant_location not in locations:
                 locations.append(plant_location)
         return locations 
-
-    def get_next_dates(self,plant:Plant) -> tuple[datetime.datetime | None,datetime.datetime | None]:
-        species : PlantSpecies | None = self.get_species_plant(plant)
-        if species is None:
-            return (None,None)
-
-        watering_interval      : int = int(species.info['avg_watering_days'])
-        next_watering_delta    : datetime.timedelta = datetime.timedelta(days=watering_interval)
-        fertilizing_interval   : int = int(species.info['avg_fertilizing_days'])
-        next_fertilizing_delta : datetime.timedelta = datetime.timedelta(days=fertilizing_interval)
-
-        filter_fun          : function = lambda y: lambda x: x['log_activity'].strip() == y 
-        plant_activities    : list[LogItem] = plant.info['plant_activities']
-        watering_activities : list[LogItem] = list(filter(filter_fun('Watering'),plant_activities))
-        watering_activities.sort(key=lambda x:x['log_date'])
-        fertilizing_activities : list[LogItem] = list(filter(filter_fun('Fertilizing'),plant_activities))
-        fertilizing_activities.sort(key=lambda x:x['log_date'])
-
-        last_watering    : LogItem | None = watering_activities[-1]    if watering_activities    != [] else None
-        last_fertilizing : LogItem | None = fertilizing_activities[-1] if fertilizing_activities != [] else None
-
-        next_watering    : datetime.datetime | None = None 
-        next_fertilizing : datetime.datetime | None = None 
-        current_date : datetime.datetime = datetime.datetime.now()
-        if watering_interval != -1:
-            last_date : datetime.datetime
-            if last_watering is not None:
-                last_date : datetime.datetime = last_watering['log_date']
-            else:
-                last_date : datetime.datetime = datetime.datetime.now() - next_watering_delta
-            next_watering : datetime.datetime | None = last_date + next_watering_delta
-            
-            if next_watering <= current_date:
-                next_watering : datetime.datetime | None = current_date
-
-        if fertilizing_interval != -1:
-            last_date : datetime.datetime 
-            if last_fertilizing is not None:
-                last_date : datetime.datetime = last_fertilizing['log_date']
-            else:
-                last_date : datetime.datetime = datetime.datetime.now() - next_fertilizing_delta
-            next_fertilizing : datetime.datetime | None = last_date + next_fertilizing_delta
-            if next_fertilizing <= current_date:
-                 next_fertilizing = current_date
-        
-        if plant.info['auto_water']:
-            next_watering : datetime.datetime|None = None 
-             
-
-        return (next_watering,next_fertilizing)
 
     def get_old_growth(self) -> list[Plant]:
         plant_date_list : list[Plant] = [] 
@@ -223,7 +167,7 @@ class HTMLRenderer:
         
         max_temp : float = float('inf')
         min_temp : float = float('-inf')
-        plant_species = self.get_species_plant(plant)
+        plant_species = plant.species
         if plant_species is not None : 
             species_name : str = plant.info['species_name']
             species_html_name : str = get_html_name(species_name)
@@ -405,29 +349,29 @@ class HTMLRenderer:
         info_dict['plant_activities'] = '\n'.join(list(map(map_fun,log_trs)))
         
         plant_species : str = info_dict['plant_species_name']
-        species : PlantSpecies | None = self.get_species_plant(plant)
+        species : PlantSpecies | None = plant.species 
         if species is not None:
             a_template = '<a href="../%s/%s">%s</a>'
             species_link_tuple :tuple[str,str,str] = (species_details_out,get_html_name(plant_species),plant_species)
             info_dict['plant_species_name'] = a_template % species_link_tuple
+            (next_watering_date,next_fertilizing_date) = plant.get_next_dates()
+            if next_watering_date is not None and plant.info['plant_health'] != 0:
+                 info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
+                 self.plants_next_waterings.append((plant,next_watering_date))
+            else:
+                info_dict['next_watering_date'] = 'N/A'
+    
+            if next_fertilizing_date is not None and plant.info['plant_health'] != 0: 
+                info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
+                self.plants_next_fertilizings.append((plant,next_fertilizing_date))
+            else: 
+                info_dict['next_fertilizing_date'] = 'N/A' 
 
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
             info_dict['next_watering_date'] = ''
             info_dict['next_fertilizing_date'] = ''
-
-        (next_watering_date,next_fertilizing_date) = self.get_next_dates(plant)
-        if next_watering_date is not None and plant.info['plant_health'] != 0:
-             info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
-             self.plants_next_waterings.append((plant,next_watering_date))
-        else:
-            info_dict['next_watering_date'] = 'N/A'
-
-        if next_fertilizing_date is not None and plant.info['plant_health'] != 0: 
-            info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
-            self.plants_next_fertilizings.append((plant,next_fertilizing_date))
-        else: 
-            info_dict['next_fertilizing_date'] = 'N/A' 
+        
 
         growth_dates   : list[str] = []
         growth_widths  : list[str] = []
