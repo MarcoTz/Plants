@@ -360,7 +360,9 @@ class HTMLRenderer:
         plant_name : str = plant.info['plant_name']
         plant_html_name : str = get_html_name(plant_name)
         images_str : str = '\n'.join(images_strs)
-        current_plant_div : str = plant_div_template % (plant_details_out,plant_html_name,plant_name, images_str)
+        plant_path : str = plant_details_out
+        plant_path : str = os.path.join('..',plant_path) if relative_up else plant_path
+        current_plant_div : str = plant_div_template % (plant_path,plant_html_name,plant_name, images_str)
 
         return current_plant_div
 
