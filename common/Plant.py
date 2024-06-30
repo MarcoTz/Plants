@@ -37,15 +37,16 @@ class Plant:
         self.growth         : list[GrowthItem] = growth
         
     def get_info_dict(self):
-        watering_date_str    : str = 'N/A'
-        fertilizing_date_str : str = 'N/A'
+        next_watering_date_str    : str = 'N/A'
+        next_fertilizing_date_str : str = 'N/A'
         last_watering_str    : str = 'N/A'
         last_fertilizing_str : str = 'N/A'
-
+        
+        print(self.info['plant_name'])
         if self.next_watering is not None:
-            self.watering_date_str      : str = self.next_watering.strftime(date_format)
+            next_watering_date_str      : str = self.next_watering.strftime(date_format)
         if self.next_fertilizing is not None:
-            self.fertilizing_date_str   : str = self.next_fertilizing.strftime(date_format)
+            next_fertilizing_date_str   : str = self.next_fertilizing.strftime(date_format)
 
         filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
 
@@ -74,8 +75,8 @@ class Plant:
                 'plant_obtained'        : self.info['obtained'].strftime(date_format),
                 'plant_autowater'       : self.info['auto_water'],
                 'plant_notes'           : '\n'.join(self.info['plant_notes']),
-                'next_watering_date'    : watering_date_str,
-                'next_fertilizing_date' : fertilizing_date_str,
+                'next_watering_date'    : next_watering_date_str,
+                'next_fertilizing_date' : next_fertilizing_date_str,
                 'last_watering_date'    : last_watering_str,
                 'last_fertilizing_date' : last_fertilizing_str
                 }
