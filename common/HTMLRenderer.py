@@ -425,32 +425,46 @@ class HTMLRenderer:
 
     def get_next_activities_str(self) -> str:
         current_date : datetime.datetime = datetime.datetime.now()
+        
+        next_activity_list : list[tuple[Plant,str,datetime.datetime]] = self.manager.get_next_activity_dates()
 
-        next_waterings      : list[tuple[Plant,datetime.datetime]] = self.manager.get_next_watering_dates() 
-        next_fertilizings   : list[tuple[Plant,datetime.datetime]] = self.manager.get_next_fertilizing_dates()
         next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.manager.get_old_growth()))
-        next_activities_list : list[tuple[Plant,datetime.datetime,str]] = []
+        
 
-        map_fun : function = lambda x: lambda y: (y[0],y[1],x)
-        watering_fun = map_fun('%s Watering %s' % (self.water_img,self.water_img))
-        next_waterings_list = list(map(watering_fun,next_waterings))
-        next_activities_list.extend(next_waterings_list)
-        fertilizing_fun = map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img))
-        next_fertilizings_list = list(map(fertilizing_fun,next_fertilizings))
-        next_activities_list.extend(next_fertilizings_list)
-        growth_fun = map_fun('%s Growth %s' % (self.growth_img,self.growth_img))
+#        watering_fun = map_fun('%s Watering %s' % (self.water_img,self.water_img))
+#        next_waterings_list = list(map(watering_fun,next_waterings))
+#        next_activities_list.extend(next_waterings_list)
+
+#        fertilizing_fun = map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img))
+#        next_fertilizings_list = list(map(fertilizing_fun,next_fertilizings))
+#        next_activities_list.extend(next_fertilizings_list)
+
+        growth_fun : function = lambda x: (x[0],'Growth',x[1])
         next_growth_list = list(map(growth_fun,next_growth_updates))
-        next_activities_list.extend(next_growth_list)
+        next_activity_list.extend(next_growth_list)
 
 
         next_activities : dict[tuple[datetime.date,str],list[Plant]] = {}
 
-        for (plant,next_date,next_type) in next_activities_list:
+        for (plant,next_type,next_date,) in next_activity_list:
+            ty_imgs : tuple[str,str] = ('','')
+            match next_type:
+                case 'Watering':
+                    ty_imgs = (self.water_img,self.water_img)
+                case 'Fertilizing':
+                    ty_imgs = (self.fertilize_img,self.fertilize_img)
+                case 'Growth':
+                    ty_imgs  = (self.growth_img,self.growth_img)
+                case 'Watering + Fertilizing':
+                    ty_imgs = (self.water_img,self.fertilize_img)
+
+            next_type : str = '%s %s %s' % (ty_imgs[0],next_type,ty_imgs[1])
             key_tuple : tuple[datetime.date,str] = (next_date.date(),next_type)
             if key_tuple in next_activities.keys():
                 next_activities[key_tuple].append(plant)
             else:
                 next_activities[key_tuple] = [plant]
+
 
         next_activity_template : str = '<div class="next_activity_item"><div class="activity_header">%s<br/>%s</div>%s</div>'
         plant_link_template = '<a href="%s/%s">%s</a>'

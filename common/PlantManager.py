@@ -151,26 +151,44 @@ class PlantManager:
 
         return plant_date_list 
 
-    def get_next_watering_dates(self) -> list[tuple[Plant,datetime.datetime]]:
-        watering_list : list[tuple[Plant,datetime.datetime]] = []
+    def get_next_activity_dates(self) -> list[tuple[Plant,str,datetime.datetime]]:
+        activities_list : list[tuple[Plant,str,datetime.datetime]] = []
         current_date  : datetime.datetime = datetime.datetime.now()
         next_week     : datetime.datetime = current_date + datetime.timedelta(weeks=1)
 
         for plant in self.plants:
-            if plant.next_watering == None:
-                continue
-            if plant.next_watering <= next_week:
-                watering_list.append((plant,plant.next_watering))
-        return watering_list
+            watering_date : datetime.datetime | None = plant.next_watering
+            if watering_date is not None and watering_date > next_week:
+                watering_date : datetime.datetime | None = None 
 
-    def get_next_fertilizing_dates(self) -> list[tuple[Plant,datetime.datetime]]:
-        fertilizing_list : list[tuple[Plant,datetime.datetime]] = [] 
-        current_date     : datetime.datetime = datetime.datetime.now()
-        next_week        : datetime.datetime = current_date + datetime.timedelta(weeks=1)
+            fertilizing_date : datetime.datetime | None = plant.next_fertilizing
+            if fertilizing_date is not None and fertilizing_date > next_week:
+                fertilizing_date : datetime.datetime | None = None 
 
-        for plant in self.plants:
-            if plant.next_fertilizing == None:
+            if watering_date is None and fertilizing_date is None:
                 continue 
-            if plant.next_fertilizing <= next_week:
-                fertilizing_list.append((plant,plant.next_fertilizing))
-        return fertilizing_list
+
+            if watering_date is None and fertilizing_date is not None:
+                activity_tuple : tuple[Plant,str,datetime.datetime] = (plant,'Fertilizing',fertilizing_date)
+                activities_list.append(activity_tuple)
+                continue
+            if fertilizing_date is None and watering_date is not None:
+                activity_tuple : tuple[Plant,str,datetime.datetime] = (plant,'Watering',watering_date)
+                activities_list.append(activity_tuple)
+                continue 
+
+            if watering_date is not None and fertilizing_date is not None:
+                if (watering_date.day == fertilizing_date.day 
+                    and watering_date.month == fertilizing_date.month 
+                    and watering_date.year == fertilizing_date.year):
+                    activity_tuple : tuple[Plant,str,datetime.datetime] = (plant,'Watering + Fertilizing',watering_date)
+                    activities_list.append(activity_tuple)
+                    continue 
+
+                watering_tuple    : tuple[Plant,str,datetime.datetime] = (plant,'Watering',watering_date)
+                fertilizing_tuple : tuple[Plant,str,datetime.datetime] = (plant,'Fertilizing',fertilizing_date)
+                activities_list.append(watering_tuple)
+                activities_list.append(fertilizing_tuple)
+            
+
+        return activities_list
