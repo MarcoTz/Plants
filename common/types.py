@@ -66,8 +66,6 @@ class PlantInformation(TypedDict):
     obtained         : datetime.datetime
     auto_water       : bool
     plant_notes      : list[str]
-    plant_activities : list[LogItem]
-    plant_growth     : list[GrowthItem]
 
 def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
 
@@ -80,8 +78,6 @@ def coalesce_plant(json_dict:dict[str,str | list[str]]) -> PlantInformation:
     'auto_water'       : str(json_dict['auto_watering']).lower() in ['true','y'],
     'obtained'         : datetime.datetime.strptime(str(json_dict['obtained']),date_format),
     'plant_notes'      : list(json_dict['plant_notes']),
-    'plant_activities' : [],
-    'plant_growth'     : []
     } 
     return plant_info
 

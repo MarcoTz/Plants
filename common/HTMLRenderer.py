@@ -1,5 +1,6 @@
 from common.PlantSpecies import PlantSpecies
 from common.Plant import Plant
+from common.PlantManager import PlantManager
 from common.types import *
 from common.constants import * 
 import jinja2
@@ -37,17 +38,9 @@ class HTMLRenderer:
     is_autowatered_img  : str = '✅'
     not_autowatered_img : str = '❌'
 
-    plant_list   : list[Plant]
-    species_list : list[PlantSpecies]
-    graveyard    : list[GraveyardPlant]
+    manager : PlantManager
 
-    plants_next_waterings    : list[tuple[Plant,datetime.datetime]]
-    plants_next_fertilizings : list[tuple[Plant,datetime.datetime]]
-    
-    def __init__(self,
-                 plants     : list[Plant],
-                 species    : list[PlantSpecies],
-                 graveyard  : list[GraveyardPlant]) -> None:
+    def __init__(self, manager:PlantManager) -> None:
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),autoescape=False)
 
         create_if_not_exists(out_dir)
@@ -55,14 +48,8 @@ class HTMLRenderer:
         create_if_not_exists(os.path.join(out_dir,plant_details_out))
 
         self.load_templates()
-        self.plant_list               : list [Plant]                         = plants
-        self.species_list             : list[PlantSpecies]                   = species
-        self.graveyard                : list[GraveyardPlant]                 = graveyard
-        self.plants_next_waterings    : list[tuple[Plant,datetime.datetime]] = []
-        self.plants_next_fertilizings : list[tuple[Plant,datetime.datetime]] = []
+        self.manager                  : PlantManager = manager
 
-        self.plant_list.sort(key = lambda x: x.info['plant_name'])
-        self.species_list.sort(key=lambda x: x.info['name'])
     
     def load_templates(self) -> None:
         self.species_overview_template  : jinja2.Template  = self.env.get_template(species_overview_template_name)
@@ -77,70 +64,12 @@ class HTMLRenderer:
         self.gallery_template           : jinja2.Template  = self.env.get_template(gallery_template_name) 
         self.image_viewer_template      : jinja2.Template  = self.env.get_template(image_view_template_name)
 
-    def get_plants_species(self,species:str) -> list[Plant]: 
-        species_li : list[Plant] = []
-        for plant in self.plant_list:
-            if plant.info['species_name'] == species:
-                species_li.append(plant)
-        return species_li
-
-    def get_plant_locations(self) -> list[str]:
-        locations : list[str] = []
-        for plant in self.plant_list:
-            plant_location = plant.info['current_location']
-            if plant_location not in locations:
-                locations.append(plant_location)
-        return locations 
-
-    def get_old_growth(self) -> list[Plant]:
-        plant_date_list : list[Plant] = [] 
-        two_weeks : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=2)
-
-        for plant in self.plant_list:
-            # skip dormant plants
-            if plant.info['plant_health'] == 0: 
-                continue
-            plant_growth : list[GrowthItem] = plant.info['plant_growth']
-            plant_growth.sort(key=lambda x: x['log_date'])
-            last_growth_update : GrowthItem = plant_growth[-1]
-            if last_growth_update['log_date'] < two_weeks: 
-                plant_date_list.append(plant)
-
-        return plant_date_list 
-
-    def get_recent_activities_growth(self) -> tuple[
-            list[tuple[str,GrowthItem]],
-            dict[tuple[datetime.datetime,str],list[tuple[Plant,str]]]
-            ]:
-        last_week : datetime.datetime = datetime.datetime.now() - datetime.timedelta(weeks=1)
-        recent_activities : dict[tuple[datetime.datetime,str],list[tuple[Plant,str]]] = {}
-        recent_growth     : list[tuple[str,GrowthItem]] = []
-        for plant in self.plant_list:
-            plant_activities : list[LogItem] = plant.info['plant_activities']
-            filter_fun : function = lambda x: x['log_date'] >= last_week
-            plant_activities = list(filter(filter_fun,plant_activities))
-            for plant_activity in plant_activities:
-                activity_key = (plant_activity['log_date'],plant_activity['log_activity'])
-                new_tuple : tuple[Plant,str] = (plant,plant_activity['log_note'])
-                if activity_key in recent_activities.keys():
-                    recent_activities[activity_key].append(new_tuple)
-                else:
-                    recent_activities[activity_key] = [new_tuple]
-
-            plant_growth     : list[GrowthItem] = plant.info['plant_growth']
-            plant_growth = list(filter(lambda x: x['log_date'] >= last_week,plant_growth))
-            map_fun : function = lambda x: (plant.info['plant_name'],x)
-            recent_plant_growth : list[tuple[str,GrowthItem]] = list(map(map_fun,plant_growth))
-            recent_growth.extend(recent_plant_growth)
-
-        recent_growth.sort(key=lambda x: x[1]['log_date'],reverse=True)
-        return (recent_growth,recent_activities)
 
     def create_species_li(self,plant:PlantSpecies) -> str:
         li_template :str = '<div id="plant_list_item"><a href="%s/%s">%s</a>%s</div>'
         details_file_name : str = get_html_name(plant.info['name'])
 
-        species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
+        species_plants : list[Plant] = self.manager.get_plants_species(plant.info['name'])
         img_str : str = ''
         if len(species_plants)>0:
             for species_plant in species_plants:
@@ -221,7 +150,7 @@ class HTMLRenderer:
         image_viewer_str : str = self.image_viewer_template.render()
         last_build_date_str : str = datetime.datetime.now().strftime(date_format)
         footer_dict : dict[str,str] = {
-                'num_plants':str(len(self.plant_list)),
+                'num_plants':str(len(self.manager.plants)),
                 'image_viewer':image_viewer_str,
                 'last_build_date':last_build_date_str
                 }
@@ -229,7 +158,7 @@ class HTMLRenderer:
 
     def render_species_overview(self) -> None:
         plant_lis :list[str] = []
-        for plant in self.species_list:
+        for plant in self.manager.species:
             plant_li : str = self.create_species_li(plant)
             plant_lis.append(plant_li)
         lis_str : str = '\n'.join(plant_lis)
@@ -239,14 +168,14 @@ class HTMLRenderer:
         write_html(species_overview_out,plant_li)
 
     def render_plant_overview(self) -> None:
-        plant_locations : list[str] = self.get_plant_locations()
+        plant_locations : list[str] = self.manager.get_plant_locations()
         location_divs : dict[str,str] = {} 
         plant_lis : dict[str,list[str]] = {}
         for location in plant_locations:
             plant_lis[location] = []
             location_divs[location] = '<div class="location_group"><h2>%s</h2>%s</div>'
 
-        for plant in self.plant_list: 
+        for plant in self.manager.plants: 
             plant_li : str = self.create_plant_li(plant)
             plant_location : str = plant.info['current_location']
             plant_lis[plant_location].append(plant_li)
@@ -270,7 +199,7 @@ class HTMLRenderer:
 
         species_file_name : str = get_html_name(plant.info['name']) 
 
-        species_plants : list[Plant] = self.get_plants_species(plant.info['name'])
+        species_plants : list[Plant] = self.manager.get_plants_species(plant.info['name'])
         gallery_str : str = ''
         species_plants_str : str = ''
         for species_plant in species_plants:
@@ -304,45 +233,11 @@ class HTMLRenderer:
         info_dict['plant_autowater'] = self.is_autowatered_img if info_dict['plant_autowater'] else self.not_autowatered_img
  
         log_trs : list[tuple[datetime.datetime,str]] = []
-        watering_activities    : list[LogItem] = []
-        fertilizing_activities : list[LogItem] = []
-        for log_item in plant.info['plant_activities']:
-            if log_item['log_activity'].strip() == 'Watering':
-                watering_activities.append(log_item)
-            elif log_item['log_activity'].strip() == 'Fertilizing':
-                fertilizing_activities.append(log_item)
-            else:
-                log_tr : str = self.create_activity_tr(log_item,plant_name,False)
-                log_trs.append((log_item['log_date'],log_tr))
-        if len(watering_activities) > 0:
-            watering_activities.sort(key=lambda x:x['log_date'],reverse=True)
-            last_watering : LogItem = watering_activities[0]
-            watering_note : str = last_watering['log_note']
-            if len(watering_activities) > 1: 
-                watering_note += ', ' if watering_note.strip() != '' else ''
-            date_str : str = last_watering['log_date'].strftime(date_format)
-            info_dict['last_watering_date'] = date_str
-            last_watering['log_note'] = watering_note
-        else:
-            info_dict['last_watering_date'] = 'N/A'
-            print('Never watered plant %s' % plant.info['plant_name'])
-
-        if len(fertilizing_activities) > 0:
-            fertilizing_activities.sort(key=lambda x:x['log_date'],reverse=True)
-            last_fertilizing : LogItem = fertilizing_activities[0]
-            fertilizing_note : str = last_fertilizing['log_note']
-            if len(fertilizing_activities) > 1: 
-                fertilizing_note += ', ' if fertilizing_note.strip() != '' else ''
-            date_str : str = last_fertilizing['log_date'].strftime(date_format)
-            info_dict['last_fertilizing_date'] = date_str
-
-            last_fertilizing['log_note'] = fertilizing_note
-        else: 
-            info_dict['last_fertilizing_date'] = 'N/A' 
-            print('Never fertilized plant %s' % plant.info['plant_name'])
-
-
-
+        for log_item in plant.activities:
+            if log_item['log_activity'].strip() in ['Watering','Fertilizing']:
+                continue
+            log_tr : str = self.create_activity_tr(log_item,plant_name,False)
+            log_trs.append((log_item['log_date'],log_tr))
         log_trs.sort(key=lambda x:x[0],reverse=True)
 
         map_fun : function = lambda x : x[1]
@@ -354,29 +249,14 @@ class HTMLRenderer:
             a_template = '<a href="../%s/%s">%s</a>'
             species_link_tuple :tuple[str,str,str] = (species_details_out,get_html_name(plant_species),plant_species)
             info_dict['plant_species_name'] = a_template % species_link_tuple
-            (next_watering_date,next_fertilizing_date) = plant.get_next_dates()
-            if next_watering_date is not None and plant.info['plant_health'] != 0:
-                 info_dict['next_watering_date'] = next_watering_date.strftime(date_format)
-                 self.plants_next_waterings.append((plant,next_watering_date))
-            else:
-                info_dict['next_watering_date'] = 'N/A'
-    
-            if next_fertilizing_date is not None and plant.info['plant_health'] != 0: 
-                info_dict['next_fertilizing_date'] = next_fertilizing_date.strftime(date_format)
-                self.plants_next_fertilizings.append((plant,next_fertilizing_date))
-            else: 
-                info_dict['next_fertilizing_date'] = 'N/A' 
 
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
-            info_dict['next_watering_date'] = ''
-            info_dict['next_fertilizing_date'] = ''
-        
 
         growth_dates   : list[str] = []
         growth_widths  : list[str] = []
         growth_heights : list[str] = []
-        for log_item in plant.info['plant_growth']:
+        for log_item in plant.growth:
             growth_dates.append('"%s"' % log_item['log_date'].strftime(date_format))
             growth_widths.append(str(log_item['log_width_cm']))
             growth_heights.append(str(log_item['log_height_cm']))
@@ -398,8 +278,8 @@ class HTMLRenderer:
     def render_activity_log(self) -> None: 
         tr_list : list[str] = []
         all_activities : list[tuple[LogItem,list[str]]] = []
-        for plant in self.plant_list:
-            new_activities : list[LogItem] = plant.info['plant_activities']
+        for plant in self.manager.plants:
+            new_activities : list[LogItem] = plant.activities
             for new_activity in new_activities:
                 same_activity : list[tuple[LogItem,list[str]]] = list(filter(lambda x: x[0]==new_activity,all_activities))
                 if len(same_activity) > 0:
@@ -430,7 +310,7 @@ class HTMLRenderer:
         header_str : str = self.render_header(False)
         footer_str : str = self.render_footer()
         rows_trs : list[str] = []
-        for graveyard_plant in self.graveyard:
+        for graveyard_plant in self.manager.graveyard:
             new_tr : str = '<tr>'
             new_tr += '<td>%s</td>' % graveyard_plant['graveyard_plant']
             species : str = graveyard_plant['graveyard_species']
@@ -488,7 +368,7 @@ class HTMLRenderer:
     def render_gallery(self) -> None:
         
         plant_divs : list[str] = [] 
-        for plant in self.plant_list:
+        for plant in self.manager.plants:
             current_plant_div = self.get_plant_gallery(plant)
             plant_divs.append(current_plant_div)
 
@@ -544,13 +424,10 @@ class HTMLRenderer:
 
     def get_next_activities_str(self) -> str:
         current_date : datetime.datetime = datetime.datetime.now()
-        next_week    : datetime.datetime = current_date + datetime.timedelta(weeks=1)
-        filter_fun   : function = lambda x:x[1] <= next_week
 
-
-        next_waterings      : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_waterings))
-        next_fertilizings   : list[tuple[Plant,datetime.datetime]] = list(filter(filter_fun,self.plants_next_fertilizings))
-        next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.get_old_growth()))
+        next_waterings      : list[tuple[Plant,datetime.datetime]] = self.manager.get_next_watering_dates() 
+        next_fertilizings   : list[tuple[Plant,datetime.datetime]] = self.manager.get_next_fertilizing_dates()
+        next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.manager.get_old_growth()))
         next_activities_list : list[tuple[Plant,datetime.datetime,str]] = []
 
         map_fun : function = lambda x: lambda y: (y[0],y[1],x)
@@ -602,7 +479,7 @@ class HTMLRenderer:
             plant_link : str = plant_details_out + '/' + get_html_name(plant_name)
             return plant_link_template % (winner_str,plant_link,plant_name,winning_stat) 
 
-        plants_by_height : list[Plant] = self.plant_list.copy()
+        plants_by_height : list[Plant] = self.manager.plants.copy()
         plants_by_height.sort(key=lambda x:x.current_height)
 
         tallest_plant  : Plant = plants_by_height[-1]
@@ -613,7 +490,7 @@ class HTMLRenderer:
         shortest_height_str : str = str(shortest_plant.current_width) + 'cm'
         shortest_plant_str : str = get_plant_str(shortest_plant,'Shortest Plant',shortest_height_str) 
 
-        plants_by_width : list[Plant] = self.plant_list.copy()
+        plants_by_width : list[Plant] = self.manager.plants.copy()
         plants_by_width.sort(key=lambda x:x.current_width)
 
         widest_plant : Plant = plants_by_width[-1]
@@ -623,13 +500,13 @@ class HTMLRenderer:
         thinnest_width_str : str = str(thinnest_plant.current_width) + 'cm'
         thinnest_plant_str : str = get_plant_str(thinnest_plant,'Thinnest Plant',thinnest_width_str)
 
-        plants_by_growth : list[Plant] = self.plant_list.copy()
-        plants_by_growth = list(filter(lambda x: len(x.info['plant_growth'])>2,plants_by_growth))
+        plants_by_growth : list[Plant] = self.manager.plants.copy()
+        plants_by_growth = list(filter(lambda x: len(x.growth)>2,plants_by_growth))
 
         def get_growth_diff(plant:Plant):
-            plant.info['plant_growth'].sort(key=lambda x:x['log_date'])
-            x : GrowthItem = plant.info['plant_growth'][0]
-            y : GrowthItem = plant.info['plant_growth'][-1]
+            plant.growth.sort(key=lambda x:x['log_date'])
+            x : GrowthItem = plant.growth[0]
+            y : GrowthItem = plant.growth[-1]
             height_diff : float = x['log_height_cm'] - y['log_height_cm']
             width_diff : float = x['log_width_cm'] - y['log_width_cm']
             growth_diff : float = height_diff + width_diff
@@ -658,12 +535,9 @@ class HTMLRenderer:
         header_str : str = self.render_header(False)
         footer_str : str = self.render_footer()
 
-        (recent_growth,recent_activities) = self.get_recent_activities_growth()
-        recent_growth_str : str = self.get_recent_growth_str(recent_growth)
-        recent_activities_str : str = self.get_recent_activities_str(recent_activities)
         next_activities_str : str = self.get_next_activities_str()
         
-        autowatered_plants : list[Plant] = list(filter(lambda x:x.info['auto_water'],self.plant_list))
+        autowatered_plants : list[Plant] = list(filter(lambda x:x.info['auto_water'],self.manager.plants))
         autowater_str : str = ''
         autowater_div : str = '<div class="autowater_item"><a href="%s">%s</a></div>'
         for auto_plant in autowatered_plants:
@@ -676,8 +550,6 @@ class HTMLRenderer:
         index_dict : dict[str,str] = {
                 'header': header_str,
                 'footer':footer_str,
-                'recent_growth_rows':recent_growth_str,
-                'recent_activities_rows':recent_activities_str,
                 'autowatered_plants':autowater_str,
                 'next_activities':next_activities_str,
                 }
@@ -688,12 +560,12 @@ class HTMLRenderer:
 
     def render_all_species(self) -> None:
         self.render_species_overview()
-        for plant in self.species_list:
+        for plant in self.manager.species:
             self.render_species_details(plant)
 
     def render_all_plants(self) -> None:
         self.render_plant_overview()
-        for plant in self.plant_list:
+        for plant in self.manager.plants:
             self.render_plant_details(plant)
 
     def render_all(self) -> None:

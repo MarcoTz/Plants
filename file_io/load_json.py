@@ -1,6 +1,5 @@
 from common.types import * 
 from common.constants import * 
-from common.Plant import Plant
 from common.PlantSpecies import PlantSpecies
 
 import os 
@@ -20,7 +19,7 @@ def load_species_file(file_name:str) -> SpeciesInformation:
     species_info = coalesce_species(file_json)
     return species_info 
 
-def load_all_plant_files() -> list[PlantInformation]:
+def load_plants() -> list[PlantInformation]:
     dir_list = []
     for file_name in os.listdir(plants_dir):
         full_name = os.path.join(plants_dir,file_name)
@@ -40,14 +39,6 @@ def load_all_species_files() -> list[SpeciesInformation]:
         dir_list.append(json_dir)
     return dir_list 
 
-def load_plants(species_list:list[PlantSpecies]) -> list[Plant]:
-    plant_infos : list[PlantInformation] = load_all_plant_files()
-    plant_list  : list[Plant] = []
-    for plant_info in plant_infos:
-        new_plant = Plant(plant_info,species_list)
-        plant_list.append(new_plant)
-    return plant_list
-
 def load_species() -> list[PlantSpecies]:
     species_infos : list[SpeciesInformation] = load_all_species_files()
     species_list  : list[PlantSpecies] = []
@@ -56,11 +47,6 @@ def load_species() -> list[PlantSpecies]:
         new_species= PlantSpecies(species_info)
         species_list.append(new_species)
     return species_list
-
-def load_plants_species() -> tuple[list[Plant],list[PlantSpecies]]:
-    species : list[PlantSpecies] = load_species()
-    plants  : list[Plant]        = load_plants(species)
-    return (plants,species)
 
 def load_bot_config() -> tuple[str,list[int]]:
     config_file_path = os.path.join(bot_dir,bot_config_name)
