@@ -204,9 +204,9 @@ class HTMLRenderer:
         species_plants_str : str = ''
         for species_plant in species_plants:
             gallery_str += self.get_plant_gallery(species_plant,True)
-
-            plant_name = species_plant.info['plant_name']
-            species_plants_str += '<a href="../%s/%s">%s</a>&nbsp;' % (plant_details_out,get_html_name(plant_name),plant_name)
+            plant_name : str = species_plant.info['plant_name']
+            plant_html_name : str = get_html_name(plant_name)
+            species_plants_str += '<a href="../%s/%s">%s</a>&nbsp;' % (plant_details_out,plant_html_name,plant_name)
 
          
         info_dict['plant_images'] = gallery_str 
@@ -249,7 +249,6 @@ class HTMLRenderer:
             a_template = '<a href="../%s/%s">%s</a>'
             species_link_tuple :tuple[str,str,str] = (species_details_out,get_html_name(plant_species),plant_species)
             info_dict['plant_species_name'] = a_template % species_link_tuple
-
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
 

@@ -42,7 +42,6 @@ class Plant:
         last_watering_str    : str = 'N/A'
         last_fertilizing_str : str = 'N/A'
         
-        print(self.info['plant_name'])
         if self.next_watering is not None:
             next_watering_date_str      : str = self.next_watering.strftime(date_format)
         if self.next_fertilizing is not None:
