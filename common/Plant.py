@@ -19,6 +19,8 @@ class Plant:
     growth           : list[GrowthItem]
     next_watering    : datetime.datetime | None
     next_fertilizing : datetime.datetime | None
+    watering_frequency : float
+    fertilizing_frequency : float
     
     def __init__(self,
                  json_dict:PlantInformation,
@@ -32,9 +34,19 @@ class Plant:
         self.images         : list[tuple[datetime.datetime,str]] = []
         self.species        : PlantSpecies | None = species
         self.activities     : list[LogItem] = activities
-        self.update_next_watering()
-        self.update_next_fertilizing()
+        self.update_next_dates()
+        self.update_frequencies()
         self.growth         : list[GrowthItem] = growth
+
+    def get_watering_activities(self) -> list[LogItem]:
+        filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
+        water_filter        : function = filter_fun('Watering')
+        return list(filter(water_filter,self.activities))
+
+    def get_fertilizing_activities(self) -> list[LogItem]:
+        filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
+        fertilizing_filter      : function = filter_fun('Fertilizing')
+        return list(filter(fertilizing_filter,self.activities))
         
     def get_info_dict(self):
         next_watering_date_str    : str = 'N/A'
@@ -47,17 +59,13 @@ class Plant:
         if self.next_fertilizing is not None:
             next_fertilizing_date_str   : str = self.next_fertilizing.strftime(date_format)
 
-        filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
-
-        water_filter        : function = filter_fun('Watering')
-        watering_activities : list[LogItem] = list(filter(water_filter,self.activities))
+        watering_activities : list[LogItem] = self.get_watering_activities() 
         if len(watering_activities) != 0: 
             last_watering_str : str = watering_activities[0]['log_date'].strftime(date_format)
         else:
             print('Never watered plant %s' % self.info['plant_name'])
 
-        fertilizing_filter      : function = filter_fun('Fertilizing')
-        fertilizing_activities  : list[LogItem] = list(filter(fertilizing_filter,self.activities))
+        fertilizing_activities  : list[LogItem] = self.get_fertilizing_activities() 
         if len(fertilizing_activities) != 0:
             last_fertilizing_str : str = fertilizing_activities[0]['log_date'].strftime(date_format)
         else:
@@ -77,7 +85,9 @@ class Plant:
                 'next_watering_date'    : next_watering_date_str,
                 'next_fertilizing_date' : next_fertilizing_date_str,
                 'last_watering_date'    : last_watering_str,
-                'last_fertilizing_date' : last_fertilizing_str
+                'last_fertilizing_date' : last_fertilizing_str,
+                'watering_frequency'    : round(self.watering_frequency,2),
+                'fertilizing_frequency' : round(self.fertilizing_frequency,2)
                 }
         return info_dict
 
@@ -113,10 +123,42 @@ class Plant:
         self.update_next_watering()
         self.update_next_fertilizing()
 
+    def update_watering_frequency(self) -> None:
+        watering_activities : list[LogItem] = self.get_watering_activities()
+        if len(watering_activities) < 2: 
+            self.watering_frequency = 0
+            return
+        first_watering : datetime.datetime = watering_activities[0]['log_date']
+        last_watering  : datetime.datetime = watering_activities[-1]['log_date']
+
+        day_diff : float = float(abs((first_watering-last_watering).days))
+        num_waterings : float = float(len(watering_activities))
+        self.watering_frequency : float = day_diff/num_waterings
+
+
+    def update_fertilizing_frequency(self) -> None:
+        fertilizing_activities : list[LogItem] = self.get_fertilizing_activities()
+        if len(fertilizing_activities) < 2:
+            self.fertilizing_frequency = 0
+            return
+
+        first_fertilizing : datetime.datetime = fertilizing_activities[0]['log_date']
+        last_fertilizing  : datetime.datetime = fertilizing_activities[-1]['log_date']
+
+        day_diff : float = float(abs((first_fertilizing-last_fertilizing).days))
+        num_fertilizings : float = float(len(fertilizing_activities))
+        self.fertilizing_frequency : float = day_diff / num_fertilizings
+
+
+    def update_frequencies(self) -> None:
+        self.update_watering_frequency()
+        self.update_fertilizing_frequency()
+
     def add_activity(self,new_log:LogItem) -> None:
         self.activities.append(new_log)
         self.activities.sort(key=lambda x: x['log_date'],reverse=True)
         self.update_next_dates()
+        self.update_frequencies()
 
     def add_growth(self,new_growth:GrowthItem)->None:
         self.growth.append(new_growth)

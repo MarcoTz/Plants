@@ -217,9 +217,21 @@ class HTMLRenderer:
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 
+    def get_plant_activities_str(self,plant:Plant) -> str:
+        plant_name : str = plant.info['plant_name']
+        log_trs : list[tuple[datetime.datetime,str]] = []
+        for log_item in plant.activities:
+            if log_item['log_activity'].strip() in ['Watering','Fertilizing']:
+                continue
+            log_tr : str = self.create_activity_tr(log_item,plant_name,False)
+            log_trs.append((log_item['log_date'],log_tr))
+        log_trs.sort(key=lambda x:x[0],reverse=True)
+
+        map_fun : function = lambda x : x[1]
+        return '\n'.join(list(map(map_fun,log_trs)))
+
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
-        plant_name : str = plant.info['plant_name'] 
 
         header_str : str = self.render_header(True)
         footer_str : str = self.render_footer()
@@ -232,16 +244,7 @@ class HTMLRenderer:
         info_dict['plant_health'] =  plant_health_div % (health_str,health_str)
         info_dict['plant_autowater'] = self.is_autowatered_img if info_dict['plant_autowater'] else self.not_autowatered_img
  
-        log_trs : list[tuple[datetime.datetime,str]] = []
-        for log_item in plant.activities:
-            if log_item['log_activity'].strip() in ['Watering','Fertilizing']:
-                continue
-            log_tr : str = self.create_activity_tr(log_item,plant_name,False)
-            log_trs.append((log_item['log_date'],log_tr))
-        log_trs.sort(key=lambda x:x[0],reverse=True)
-
-        map_fun : function = lambda x : x[1]
-        info_dict['plant_activities'] = '\n'.join(list(map(map_fun,log_trs)))
+        info_dict['plant_activities'] = self.get_plant_activities_str(plant)
         
         plant_species : str = info_dict['plant_species_name']
         species : PlantSpecies | None = plant.species 
@@ -429,20 +432,10 @@ class HTMLRenderer:
         next_activity_list : list[tuple[Plant,str,datetime.datetime]] = self.manager.get_next_activity_dates()
 
         next_growth_updates : list[tuple[Plant,datetime.datetime]] = list(map(lambda x: (x,current_date),self.manager.get_old_growth()))
-        
-
-#        watering_fun = map_fun('%s Watering %s' % (self.water_img,self.water_img))
-#        next_waterings_list = list(map(watering_fun,next_waterings))
-#        next_activities_list.extend(next_waterings_list)
-
-#        fertilizing_fun = map_fun('%s Fertilizing %s' % (self.fertilize_img,self.fertilize_img))
-#        next_fertilizings_list = list(map(fertilizing_fun,next_fertilizings))
-#        next_activities_list.extend(next_fertilizings_list)
 
         growth_fun : function = lambda x: (x[0],'Growth',x[1])
         next_growth_list = list(map(growth_fun,next_growth_updates))
         next_activity_list.extend(next_growth_list)
-
 
         next_activities : dict[tuple[datetime.date,str],list[Plant]] = {}
 
