@@ -61,13 +61,13 @@ class Plant:
 
         watering_activities : list[LogItem] = self.get_watering_activities() 
         if len(watering_activities) != 0: 
-            last_watering_str : str = watering_activities[0]['log_date'].strftime(date_format)
+            last_watering_str : str = watering_activities[-1]['log_date'].strftime(date_format)
         else:
             print('Never watered plant %s' % self.info['plant_name'])
 
         fertilizing_activities  : list[LogItem] = self.get_fertilizing_activities() 
         if len(fertilizing_activities) != 0:
-            last_fertilizing_str : str = fertilizing_activities[0]['log_date'].strftime(date_format)
+            last_fertilizing_str : str = fertilizing_activities[-1]['log_date'].strftime(date_format)
         else:
             print('Never fertilized plant %s' % self.info['plant_name'])
 
