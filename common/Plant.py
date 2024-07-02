@@ -107,7 +107,7 @@ class Plant:
         self.next_watering : datetime.datetime | None = self.get_future_activity(watering_interval,activity_str)
 
     def update_next_fertilizing(self) -> None:
-        if self.species is None:
+        if self.species is None or self.info['plant_health'] == 0:
             self.next_fertilizing : datetime.datetime | None = None
             return
         
