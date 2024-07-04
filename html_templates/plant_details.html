@@ -35,6 +35,12 @@
   	      <div class="status_item">Last fertilizing date<br/> {{-last_fertilizing_date-}}</div>
           <div class="status_item">Average watering days<br/>{{-watering_frequency-}}</div>
           <div class="status_item">Average fertilziing days<br/>{{-fertilizing_frequency-}}</div>
+          <div class="status_item">Current Height<br/>{{- plant_height -}}cm</div>
+          <div class="status_item">Current Width<br/>{{- plant_width -}}cm</div>
+          <div class="status_item">Autowatered<br/>{{- plant_autowater -}}</div>
+          <div class="status_item">Current Location<br/>{{- plant_location -}}</div>
+          <div class="status_item">Place of origin<br/>{{- plant_origin -}}</div>
+          <div class="status_item">Date obtained<br/>{{- plant_obtained -}}</div>
   	    </div>
  		    <div id="plant_growth_log_container">
 	        <h2>Growth Log</h2>
@@ -44,12 +50,6 @@
   	    <div id="plant_details_container">
           <h2>Other Information</h2>
   	      <table id="plant_details">
-  	        <tr> <td>Current Height</td>    <td id="hspace"></td> <td>{{- plant_height -}}cm    </td></tr>
-  	        <tr> <td>Current Width</td>     <td id="hspace"></td> <td>{{- plant_width -}}cm     </td></tr>
-            <tr> <td>Autowatered</td>       <td id="hspace"></td> <td>{{- plant_autowater -}}   </td></tr>
-  	        <tr> <td>Current Location</td>  <td id="hspace"></td> <td>{{- plant_location -}}    </td></tr>
-  	        <tr> <td>Place of origin</td>   <td id="hspace"></td> <td>{{- plant_origin -}}      </td></tr>
-  	        <tr> <td>Date obtained</td>     <td id="hspace"></td> <td>{{- plant_obtained -}}    </td></tr>
   	        <tr> <td>Notes</td>             <td id="hspace"></td> <td>{{- plant_notes -}}       </td></tr>
   	      </table>
           <h2>Activities</h2>

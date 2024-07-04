@@ -173,7 +173,7 @@ class HTMLRenderer:
         plant_lis : dict[str,list[str]] = {}
         for location in plant_locations:
             plant_lis[location] = []
-            location_divs[location] = '<div class="location_group"><h2>%s</h2>%s</div>'
+            location_divs[location] = '<div class="location_group"><h2 id="%s">%s</h2>%s</div>'
 
         for plant in self.manager.plants: 
             plant_li : str = self.create_plant_li(plant)
@@ -182,7 +182,7 @@ class HTMLRenderer:
         
         for location in plant_locations: 
             location_lis = '\n'.join(plant_lis[location])
-            location_divs[location] = location_divs[location] % (location,location_lis)
+            location_divs[location] = location_divs[location] % (location,location,location_lis)
 
         items_str : str = '\n'.join(list(location_divs.values()))
         header_str : str = self.render_header(False)
@@ -260,6 +260,9 @@ class HTMLRenderer:
 
         info_dict['plant_health'] =  plant_health_div % (health_str,health_str)
         info_dict['plant_autowater'] = self.is_autowatered_img if info_dict['plant_autowater'] else self.not_autowatered_img
+        location_link : str = '<a href="../%s#%s">%s</a>'
+        current_location : str = info_dict['plant_location']
+        info_dict['plant_location'] = location_link % (plant_overview_out,current_location,current_location)
  
         info_dict['plant_activities'] = self.get_plant_activities_str(plant)
         
