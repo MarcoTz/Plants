@@ -30,13 +30,14 @@ class Plant:
 
         self.info           : PlantInformation = json_dict
         self.current_height : float  = float('nan')
-        self.current_width  : float = float('nan') 
+        self.current_width  : float  = float('nan') 
         self.images         : list[tuple[datetime.datetime,str]] = []
         self.species        : PlantSpecies | None = species
         self.activities     : list[LogItem] = activities
         self.update_next_dates()
         self.update_frequencies()
         self.growth         : list[GrowthItem] = growth
+        self.update_height_width()
 
     def get_watering_activities(self) -> list[LogItem]:
         filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
@@ -117,7 +118,12 @@ class Plant:
             return
         activity_str : str = 'Fertilizing'
         self.next_fertilizing : datetime.datetime | None = self.get_future_activity(fertilizing_interval,activity_str)
-
+    
+    def update_height_width(self) -> None:
+        self.growth.sort(key=lambda x:x['log_date'])
+        last_growth : GrowthItem = self.growth[-1]
+        self.current_height = last_growth['log_height_cm']
+        self.current_width = last_growth['log_width_cm']
 
     def update_next_dates(self) -> None:
         self.update_next_watering()
@@ -163,15 +169,11 @@ class Plant:
     def add_growth(self,new_growth:GrowthItem)->None:
         self.growth.append(new_growth)
         self.growth.sort(key=lambda x:x['log_date'],reverse=True)
-        self.update_size()
+        self.update_height_width()
 
     def add_images(self,images:list[tuple[datetime.datetime,str]]) -> None:
         self.images.extend(images)
         self.images.sort(key=lambda x:x[0],reverse=True)
-
-    def update_size(self) -> None:
-        self.current_height : float = self.growth[0]['log_height_cm']
-        self.current_width  : float = self.growth[0]['log_width_cm']
 
     def get_future_activity(self,activity_interval:int,activity_str:str) -> datetime.datetime | None:
         next_activity_delta : datetime.timedelta = datetime.timedelta(days=activity_interval)
