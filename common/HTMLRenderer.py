@@ -230,6 +230,23 @@ class HTMLRenderer:
         map_fun : function = lambda x : x[1]
         return '\n'.join(list(map(map_fun,log_trs)))
 
+    def get_growth_log_graph(self,plant:Plant) -> dict[str,str]: 
+        info_dict : dict[str,str] = {} 
+
+        growth_dates   : list[str] = []
+        growth_widths  : list[str] = []
+        growth_heights : list[str] = []
+        for log_item in plant.growth:
+            growth_dates.append('"%s"' % log_item['log_date'].strftime(date_format))
+            growth_widths.append(str(log_item['log_width_cm']))
+            growth_heights.append(str(log_item['log_height_cm']))
+
+        info_dict['plant_growth_dates'] = '[%s]' % (', '.join(growth_dates))
+        info_dict['plant_growth_heights'] = '[%s]' % (', '.join(growth_heights))
+        info_dict['plant_growth_widths'] = '[%s]' % (', '.join(growth_widths))
+
+        return info_dict
+
     def render_plant_details(self,plant:Plant) -> None:
         info_dict:dict[str,str]= plant.get_info_dict()
 
@@ -255,21 +272,7 @@ class HTMLRenderer:
         else: 
             print('Cannot find species %s for plant %s' % (plant_species,info_dict['plant_name']))
 
-        growth_dates   : list[str] = []
-        growth_widths  : list[str] = []
-        growth_heights : list[str] = []
-        for log_item in plant.growth:
-            growth_dates.append('"%s"' % log_item['log_date'].strftime(date_format))
-            growth_widths.append(str(log_item['log_width_cm']))
-            growth_heights.append(str(log_item['log_height_cm']))
-
-        growth_dates.reverse()
-        growth_heights.reverse()
-        growth_widths.reverse()
-        info_dict['plant_growth_dates'] = '[%s]' % (', '.join(growth_dates))
-        info_dict['plant_growth_heights'] = '[%s]' % (', '.join(growth_heights))
-        info_dict['plant_growth_widths'] = '[%s]' % (', '.join(growth_widths))
-            
+        info_dict = info_dict | self.get_growth_log_graph(plant) 
         info_dict['plant_images'] = self.get_plant_gallery(plant,True)
 
         plant_html:str = self.plant_details_template.render(info_dict)
