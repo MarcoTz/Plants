@@ -17,7 +17,14 @@ img {
 }
 
 #plant_growth_log_container{ 
-  width:50%;
+  width:45%;
+}
+
+#plant_activities_container{
+  width:45%;
+}
+#watering_table,#fertilizing_table,#activity_table{
+  width:30%;
 }
 #plant_info{ 
   display:flex;

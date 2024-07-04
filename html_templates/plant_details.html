@@ -37,26 +37,39 @@
           <div class="status_item">Average fertilziing days<br/>{{-fertilizing_frequency-}}</div>
           <div class="status_item">Current Height<br/>{{- plant_height -}}cm</div>
           <div class="status_item">Current Width<br/>{{- plant_width -}}cm</div>
+          <div class="status_item">Growth Speed<br/>{{-plant_speed-}}cm/day</div>
           <div class="status_item">Autowatered<br/>{{- plant_autowater -}}</div>
           <div class="status_item">Current Location<br/>{{- plant_location -}}</div>
           <div class="status_item">Place of origin<br/>{{- plant_origin -}}</div>
-          <div class="status_item">Date obtained<br/>{{- plant_obtained -}}</div>
+          <div class="status_item">Age<br/>{{- plant_age -}}</div>
   	    </div>
  		    <div id="plant_growth_log_container">
 	        <h2>Growth Log</h2>
 	        <canvas id="growth_chart"></canvas>
 	      </div> 
  	
-  	    <div id="plant_details_container">
+  	    <div id="plant_activities_container">
+          <h2>Watering</h2>
+          <table id="plant_watering_table">
+	          <tr id="header_row"> <td>Date</td><td> Note </td> </tr>
+            {{-watering_table-}}
+          </table>
+          <h2>Fertilizing</h2>
+          <table id="plant_fertilizing_table">
+            <tr id="header_row"><td>Date</td><td>Note</td></tr>
+            {{-fertilizing_table-}}
+          </table>
+          <h2>Other Activities</h2>
+  	      <table id="plant_activity_table">
+ 	          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
+ 	          {{-activity_table-}}
+  	      </table>
+
           <h2>Other Information</h2>
   	      <table id="plant_details">
   	        <tr> <td>Notes</td>             <td id="hspace"></td> <td>{{- plant_notes -}}       </td></tr>
   	      </table>
           <h2>Activities</h2>
-  	      <table id="plant_activity_log">
-  	          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr>
-  	          {{- plant_activities -}}
-  	      </table>
   	    </div>
       </div>
     </div>

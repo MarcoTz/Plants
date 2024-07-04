@@ -8,6 +8,31 @@ def find_species(species_name:str,species_list:list[PlantSpecies]) -> PlantSpeci
             return species
     return None
 
+def format_age(age:datetime.timedelta) -> str:
+    plant_days : int = age.days
+    plant_years : int = 0
+    while plant_days > 365:
+        plant_years += 1
+        plant_days -= 365
+
+    plant_months : int = 0
+    while plant_days > 30:
+        plant_months += 1
+        plant_days -= 30
+
+    age_str : str = ''
+    if plant_years > 1:
+        age_str += '%s Years, ' % str(plant_years)
+    elif plant_years == 1:
+        age_str += '%s Year, ' % str(plant_years)
+    if plant_months > 1: 
+        age_str += '%s Months, ' % str(plant_months)
+    elif plant_months == 1:
+        age_str += '%s Month, ' % str(plant_months)
+    age_str += '%s Days' % str(plant_days)
+
+    return age_str
+
 class Plant: 
 
     info             : PlantInformation
@@ -72,6 +97,8 @@ class Plant:
         else:
             print('Never fertilized plant %s' % self.info['plant_name'])
 
+        age : datetime.timedelta = datetime.datetime.now()-self.info['obtained']
+
         info_dict = {
                 'plant_name'            : self.info['plant_name'],
                 'plant_species_name'    : self.info['species_name'],
@@ -79,8 +106,9 @@ class Plant:
                 'plant_location'        : self.info['current_location'],
                 'plant_height'          : self.current_height,
                 'plant_width'           : self.current_width,
+                'plant_speed'           : self.get_growth_diff(),
                 'plant_origin'          : self.info['origin'],
-                'plant_obtained'        : self.info['obtained'].strftime(date_format),
+                'plant_age'             : format_age(age),
                 'plant_autowater'       : self.info['auto_water'],
                 'plant_notes'           : '\n'.join(self.info['plant_notes']),
                 'next_watering_date'    : next_watering_date_str,
@@ -194,3 +222,15 @@ class Plant:
             next_activity_date = current_date
 
         return next_activity_date
+
+    
+    def get_growth_diff(self):
+        x : GrowthItem = self.growth[0]
+        y : GrowthItem = self.growth[-1]
+        height_diff : float = x['log_height_cm'] - y['log_height_cm']
+        width_diff : float = x['log_width_cm'] - y['log_width_cm']
+        growth_diff : float = height_diff + width_diff
+        time_diff : float = float((x['log_date'] - y['log_date']).days)
+        if time_diff == 0.0:
+            return 0
+        return round(growth_diff/time_diff,2)

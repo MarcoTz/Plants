@@ -123,14 +123,16 @@ class HTMLRenderer:
                 )
         return li_template % info_tuple 
 
-    def create_activity_tr(self,log_item:LogItem,plant_name:str,include_plant:bool) -> str: 
+    def create_activity_tr(self,log_item:LogItem,plant_name:str,include_plant:bool,include_activity:bool=True) -> str: 
         td_template : str = '<td>%s</td>'
         tr : str = '<tr>'
         tr += td_template % log_item['log_date'].strftime(date_format)
-        tr += td_template % log_item['log_activity']
-        plant_link_template : str = '<td><a href="%s/%s">%s</a></td>'
-        plant_link_tuple : tuple[str,str,str] = (plant_details_out,get_html_name(plant_name),plant_name)
-        tr += plant_link_template % plant_link_tuple if include_plant else ''
+        if include_activity:
+            tr += td_template % log_item['log_activity']
+        if include_plant:
+            plant_link_template : str = '<td><a href="%s/%s">%s</a></td>'
+            plant_link_tuple : tuple[str,str,str] = (plant_details_out,get_html_name(plant_name),plant_name)
+            tr += plant_link_template % plant_link_tuple 
         tr += td_template % log_item['log_note']
         tr += '</tr>'
         return tr 
@@ -217,18 +219,32 @@ class HTMLRenderer:
         species_full_name = os.path.join(species_details_out,species_file_name)
         write_html(species_full_name,species_html)
 
-    def get_plant_activities_str(self,plant:Plant) -> str:
+    def get_plant_activities(self,plant:Plant) -> dict[str,str]:
         plant_name : str = plant.info['plant_name']
-        log_trs : list[tuple[datetime.datetime,str]] = []
-        for log_item in plant.activities:
-            if log_item['log_activity'].strip() in ['Watering','Fertilizing']:
-                continue
-            log_tr : str = self.create_activity_tr(log_item,plant_name,False)
-            log_trs.append((log_item['log_date'],log_tr))
-        log_trs.sort(key=lambda x:x[0],reverse=True)
 
-        map_fun : function = lambda x : x[1]
-        return '\n'.join(list(map(map_fun,log_trs)))
+        activities_list : list[LogItem] = plant.activities.copy()
+        activities_list.sort(key=lambda x:x['log_date'],reverse=True)
+
+        water_trs : list[str] = []
+        fertilize_trs : list[str] = []
+        activity_trs : list[str] = []
+        for log_item in plant.activities:
+            match log_item['log_activity']:
+                case 'Watering':
+                    log_tr : str = self.create_activity_tr(log_item,plant_name,False,False)
+                    water_trs.append(log_tr)
+                case 'Fertilizing':
+                    log_tr : str = self.create_activity_tr(log_item,plant_name,False,False)
+                    fertilize_trs.append(log_tr)
+                case _:
+                    log_tr : str = self.create_activity_tr(log_item,plant_name,False,True)
+                    activity_trs.append(log_tr)
+
+        return { 
+                'watering_table':'\n'.join(water_trs),
+                'fertilizing_table':'\n'.join(fertilize_trs),
+                'activity_table':'\n'.join(activity_trs)
+                }
 
     def get_growth_log_graph(self,plant:Plant) -> dict[str,str]: 
         info_dict : dict[str,str] = {} 
@@ -263,8 +279,8 @@ class HTMLRenderer:
         location_link : str = '<a href="../%s#%s">%s</a>'
         current_location : str = info_dict['plant_location']
         info_dict['plant_location'] = location_link % (plant_overview_out,current_location,current_location)
- 
-        info_dict['plant_activities'] = self.get_plant_activities_str(plant)
+
+        info_dict = info_dict | self.get_plant_activities(plant)
         
         plant_species : str = info_dict['plant_species_name']
         species : PlantSpecies | None = plant.species 
@@ -517,23 +533,12 @@ class HTMLRenderer:
         plants_by_growth : list[Plant] = self.manager.plants.copy()
         plants_by_growth = list(filter(lambda x: len(x.growth)>2,plants_by_growth))
 
-        def get_growth_diff(plant:Plant):
-            plant.growth.sort(key=lambda x:x['log_date'])
-            x : GrowthItem = plant.growth[0]
-            y : GrowthItem = plant.growth[-1]
-            height_diff : float = x['log_height_cm'] - y['log_height_cm']
-            width_diff : float = x['log_width_cm'] - y['log_width_cm']
-            growth_diff : float = height_diff + width_diff
-            time_diff : float = float((x['log_date'] - y['log_date']).days)
-            if time_diff == 0.0:
-                return 0
-            return growth_diff/time_diff
-        plants_by_growth.sort(key=get_growth_diff)
+        plants_by_growth.sort(key=lambda x: x.get_growth_diff())
         fastest_plant : Plant = plants_by_growth[-1]
-        fastest_growth_diff : str = '{:.2f}'.format(get_growth_diff(fastest_plant)) + 'cm/day'
+        fastest_growth_diff : str = '{:.2f}'.format(fastest_plant.get_growth_diff()) + 'cm/day'
         fastest_plant_str : str = get_plant_str(fastest_plant,'Fastest Growing Plant',fastest_growth_diff)
         slowest_plant : Plant = plants_by_growth[0]
-        slowest_growth_diff : str = '{:.2f}'.format(get_growth_diff(slowest_plant)) + 'cm/day'
+        slowest_growth_diff : str = '{:.2f}'.format(slowest_plant.get_growth_diff()) + 'cm/day'
         slowest_plant_str : str = get_plant_str(slowest_plant,'Slowest Growing Plant',slowest_growth_diff)
 
         return {
