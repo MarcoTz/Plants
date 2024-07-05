@@ -21,11 +21,17 @@ img {
 }
 
 #plant_activities_container{
-  width:45%;
+  width:95%;
+  display:flex;
+  flex-wrap:wrap;
+  justify-self:center;
+  justify-content:space-around;
+  align-items:stretch;
+  gap:1em;
+  margin:auto;
+  padding-left:5%;
 }
-#watering_table,#fertilizing_table,#activity_table{
-  width:30%;
-}
+
 #plant_info{ 
   display:flex;
   flex-wrap:wrap;

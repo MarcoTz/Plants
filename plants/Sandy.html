@@ -129,16 +129,19 @@
           <div class="status_item">Current Location<br/><a href="../plant_overview.html#Balcony">Balcony</a></div>
           <div class="status_item">Place of origin<br/>from Susan</div>
           <div class="status_item">Age<br/>2 Months, 29 Days</div>
+          <div class="status_item">Notes<br/>Still needs to go inside when it's particularly cold</div>
   	    </div>
  		    <div id="plant_growth_log_container">
 	        <h2>Growth Log</h2>
 	        <canvas id="growth_chart"></canvas>
 	      </div> 
- 	
-  	    <div id="plant_activities_container">
+      </div>	
+  	  <div id="plant_activities_container">
+        <div id="plant_watering_table">
           <h2>Watering</h2>
-          <table id="plant_watering_table">
-	          <tr id="header_row"> <td>Date</td><td> Note </td> </tr><tr><td>22.04.2024</td><td></td></tr>
+            <table>
+              <tr id="header_row"> <td>Date</td><td> Note </td> </tr>
+              <tr><td>22.04.2024</td><td></td></tr>
 <tr><td>24.04.2024</td><td></td></tr>
 <tr><td>07.05.2024</td><td></td></tr>
 <tr><td>07.05.2024</td><td></td></tr>
@@ -178,25 +181,45 @@
 <tr><td>28.06.2024</td><td></td></tr>
 <tr><td>29.06.2024</td><td></td></tr>
 <tr><td>01.07.2024</td><td></td></tr>
-<tr><td>05.07.2024</td><td></td></tr></table>
+<tr><td>05.07.2024</td><td></td></tr>
+            </table>
+          </div>
+        <div id="plant_fertilizing_table">
           <h2>Fertilizing</h2>
-          <table id="plant_fertilizing_table">
-            <tr id="header_row"><td>Date</td><td>Note</td></tr><tr><td>18.05.2024</td><td></td></tr>
+            <table>
+              <tr id="header_row"><td>Date</td><td>Note</td></tr>
+              <tr><td>18.05.2024</td><td></td></tr>
 <tr><td>04.06.2024</td><td></td></tr>
 <tr><td>15.06.2024</td><td></td></tr>
 <tr><td>25.06.2024</td><td></td></tr>
-<tr><td>05.07.2024</td><td></td></tr></table>
+<tr><td>05.07.2024</td><td></td></tr>
+            </table>
+          </div>
+        <div id="plant_activity_table">
           <h2>Other Activities</h2>
-  	      <table id="plant_activity_table">
- 	          <tr id="header_row"> <td>Date</td> <td>Activity</td> <td> Note </td> </tr><tr><td>22.04.2024</td><td>Repot</td><td></td></tr></table>
-
-          <h2>Other Information</h2>
-  	      <table id="plant_details">
-  	        <tr> <td>Notes</td>             <td id="hspace"></td> <td>Still needs to go inside when it's particularly cold</td></tr>
-  	      </table>
-          <h2>Activities</h2>
-  	    </div>
-      </div>
+            <table>
+              <tr id="header_row"><td>Date</td><td>Activity</td><td>Note</td></tr>
+              <tr><td>22.04.2024</td><td>Repot</td><td></td></tr>
+            </table>
+          </div>
+        <div id="plant_growth_table">
+          <h2>Growth</h2>
+            <table>
+              <tr id="header_row"> <td>Date</td><td>Height</td><td>Width</td><td> Note </td> </tr>
+              <tr><td>07.04.2024</td><td>7.0 cm</td><td>4.0 cm</td><td></td></tr>
+<tr><td>14.04.2024</td><td>9.0 cm</td><td>4.0 cm</td><td></td></tr>
+<tr><td>24.04.2024</td><td>9.0 cm</td><td>8.0 cm</td><td></td></tr>
+<tr><td>08.05.2024</td><td>9.0 cm</td><td>8.0 cm</td><td></td></tr>
+<tr><td>13.05.2024</td><td>11.5 cm</td><td>10.5 cm</td><td></td></tr>
+<tr><td>20.05.2024</td><td>14.0 cm</td><td>13.0 cm</td><td></td></tr>
+<tr><td>24.05.2024</td><td>15.0 cm</td><td>14.0 cm</td><td></td></tr>
+<tr><td>03.06.2024</td><td>20.0 cm</td><td>22.0 cm</td><td></td></tr>
+<tr><td>10.06.2024</td><td>30.0 cm</td><td>25.0 cm</td><td></td></tr>
+<tr><td>14.06.2024</td><td>26.0 cm</td><td>26.0 cm</td><td></td></tr>
+<tr><td>25.06.2024</td><td>34.0 cm</td><td>30.0 cm</td><td></td></tr>
+<tr><td>03.07.2024</td><td>38.0 cm</td><td>35.0 cm</td><td></td></tr>
+            </table>
+          </div></div>
     </div>
 
     <div id="vspace"></div><div id="footer">
