@@ -47,3 +47,23 @@ weekday_strs : list[str] = [
         'Fri',
         'Sat',
         'Sun']
+
+water_img           : str = '🌊'
+fertilize_img       : str = '💩'
+growth_img          : str = '📏'
+is_autowatered_img  : str = '✅'
+not_autowatered_img : str = '❌'
+
+def get_activity_header_str(activity_type:str) -> str:
+    match activity_type:
+        case 'Watering':
+            ty_imgs : tuple[str,str] = (water_img,water_img)
+        case 'Fertilizing':
+            ty_imgs : tuple[str,str] = (fertilize_img,fertilize_img)
+        case 'Watering + Fertilizing':
+            ty_imgs : tuple[str,str] = (water_img,fertilize_img)
+        case _:
+            ty_imgs : tuple[str,str] = ('','')
+
+    return '%s %s %s' % (ty_imgs[0],activity_type,ty_imgs[1])
+

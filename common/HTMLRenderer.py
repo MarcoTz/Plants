@@ -32,12 +32,6 @@ class HTMLRenderer:
     gallery_template          : jinja2.Template
     image_viewer_template     : jinja2.Template
 
-    water_img           : str = '🌊'
-    fertilize_img       : str = '💩'
-    growth_img          : str = '📏'
-    is_autowatered_img  : str = '✅'
-    not_autowatered_img : str = '❌'
-
     manager : PlantManager
 
     def __init__(self, manager:PlantManager) -> None:
@@ -275,7 +269,7 @@ class HTMLRenderer:
         health_str : str = str(info_dict['plant_health'])
 
         info_dict['plant_health'] =  plant_health_div % (health_str,health_str)
-        info_dict['plant_autowater'] = self.is_autowatered_img if info_dict['plant_autowater'] else self.not_autowatered_img
+        info_dict['plant_autowater'] = is_autowatered_img if info_dict['plant_autowater'] else not_autowatered_img
         location_link : str = '<a href="../%s#%s">%s</a>'
         current_location : str = info_dict['plant_location']
         info_dict['plant_location'] = location_link % (plant_overview_out,current_location,current_location)
@@ -459,48 +453,60 @@ class HTMLRenderer:
         next_growth_list = list(map(growth_fun,next_growth_updates))
         next_activity_list.extend(next_growth_list)
 
-        next_activities : dict[tuple[datetime.date,str],list[Plant]] = {}
+        next_activities : dict[datetime.date,dict[str,list[Plant]]] = {}
 
         for (plant,next_type,next_date,) in next_activity_list:
-            ty_imgs : tuple[str,str] = ('','')
-            match next_type:
-                case 'Watering':
-                    ty_imgs = (self.water_img,self.water_img)
-                case 'Fertilizing':
-                    ty_imgs = (self.fertilize_img,self.fertilize_img)
-                case 'Growth':
-                    ty_imgs  = (self.growth_img,self.growth_img)
-                case 'Watering + Fertilizing':
-                    ty_imgs = (self.water_img,self.fertilize_img)
-
-            next_type : str = '%s %s %s' % (ty_imgs[0],next_type,ty_imgs[1])
-            key_tuple : tuple[datetime.date,str] = (next_date.date(),next_type)
-            if key_tuple in next_activities.keys():
-                next_activities[key_tuple].append(plant)
+            next_key : datetime.date = next_date.date()
+            if next_key in next_activities.keys(): 
+                if next_type in next_activities[next_key].keys():
+                    next_activities[next_key][next_type].append(plant)
+                else:
+                    next_activities[next_key][next_type]=[plant]
             else:
-                next_activities[key_tuple] = [plant]
+                next_activities[next_key] = {}
+                next_activities[next_key][next_type] = [plant]
 
-
-        next_activity_template : str = '<div class="next_activity_item"><div class="activity_header">%s<br/>%s</div>%s</div>'
+        next_dates : list[datetime.date] = list(next_activities.keys())
+        next_dates.sort()
+        
+        next_activity_template : str = '<div class="next_activity_item">%s<br/>%s</div>'
+        next_activity_type_template : str = '<div class="activity_header">%s<br/>%s</div>'
         plant_link_template = '<a href="%s/%s">%s</a>'
-        next_activity_strs : list[str] = [] 
-        next_activity_keys : list[tuple[datetime.date,str]] = list(next_activities.keys())
-        next_activity_keys.sort(key = lambda x: x[0])
-        for activity_key in next_activity_keys:
-            next_date = activity_key[0]
+        next_activities_strs : list[str] = []
+
+        for next_date in next_dates:
+            date_activities : list[str] = []
+            next_types : list[str] = list(next_activities[next_date].keys())
+            def sort_types(ty:str) -> int:
+                match ty: 
+                    case 'Watering':
+                        return 0
+                    case 'Fertilizing':
+                        return 1
+                    case _:
+                        return 2
+            next_types.sort(key=sort_types)
+
+            for next_type in next_types:
+                header_str : str = get_activity_header_str(next_type)
+                activity_plants : list[Plant] = next_activities[next_date][next_type]
+                plant_links : list[str] = []
+                for plant in activity_plants: 
+                    plant_name = plant.info['plant_name']
+                    plant_link : str = plant_link_template % (plant_details_out,get_html_name(plant_name),plant_name)
+                    plant_links.append(plant_link)
+                plant_links_str : str = ', '.join(plant_links)
+
+                next_header : str = next_activity_type_template % (header_str,plant_links_str)
+                date_activities.append(next_header)
+
             weekday_str : str = weekday_strs[next_date.weekday()]
             date_str : str = weekday_str + ', ' + next_date.strftime(date_format)
 
-            plant_links : list[str] = [] 
-            for plant in next_activities[activity_key]:
-                plant_name : str = plant.info['plant_name']
-                new_plant_link : str = plant_link_template % (plant_details_out,get_html_name(plant_name),plant_name)
-                plant_links.append(new_plant_link)
-            
-            next_activity : str = next_activity_template % (date_str,activity_key[1], '\n'.join(plant_links))
-            next_activity_strs.append(next_activity)
+            next_activity_div : str = next_activity_template % (date_str, '<br/>'.join(date_activities))
+            next_activities_strs.append(next_activity_div)
 
-        return '\n'.join(next_activity_strs)
+        return '\n'.join(next_activities_strs)
 
     def get_hall_of_fame(self) -> dict[str,str]:
         plant_link_template : str = '<div class="hall_of_fame_item">%s<br/><a href="%s">%s</a><br/>%s</div>'
