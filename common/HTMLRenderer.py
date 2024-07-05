@@ -233,11 +233,56 @@ class HTMLRenderer:
                 case _:
                     log_tr : str = self.create_activity_tr(log_item,plant_name,False,True)
                     activity_trs.append(log_tr)
+        
+        growth_tr_template : str = '<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
+        growth_trs : list[str] = []
+        for growth_item in plant.growth:
+            growth_date_str : str = growth_item['log_date'].strftime(date_format)
+            growth_width : str = str(growth_item['log_width_cm']) + ' cm'
+            growth_height : str = str(growth_item['log_height_cm']) + ' cm'
+            growth_note : str = growth_item['log_note']
+            log_tr : str = growth_tr_template % (growth_date_str,growth_height,growth_width,growth_note) 
+            growth_trs.append(log_tr)
+
+
+        activity_table_template : str = '''
+        <div id="%s">
+          <h2>%s</h2>
+            <table>
+              %s
+              %s
+            </table>
+          </div>'''
+        
+        watering_header_row : str = '<tr id="header_row"> <td>Date</td><td> Note </td> </tr>'
+        watering_table_rows : str = '\n'.join(water_trs)
+        watering_table : str = activity_table_template % ('plant_watering_table','Watering',watering_header_row,watering_table_rows)
+        if len(water_trs) == 0:
+            watering_table = ''
+
+        fertilizing_header_row : str = '<tr id="header_row"><td>Date</td><td>Note</td></tr>'
+        fertilizing_table_rows : str = '\n'.join(fertilize_trs)
+        fertilizing_table : str = activity_table_template % ('plant_fertilizing_table','Fertilizing',fertilizing_header_row,fertilizing_table_rows)
+        if len(fertilize_trs) == 0:
+            fertilizing_table =''
+
+        other_header_row : str = '<tr id="header_row"><td>Date</td><td>Activity</td><td>Note</td></tr>'
+        other_table_rows : str = '\n'.join(activity_trs)
+        other_table : str = activity_table_template % ('plant_activity_table','Other Activities',other_header_row,other_table_rows)
+        if len(activity_trs) == 0:
+            other_table = ''
+
+        growth_header_row : str = '<tr id="header_row"> <td>Date</td><td>Height</td><td>Width</td><td> Note </td> </tr>'
+        growth_table_rows : str = '\n'.join(growth_trs)
+        growth_table : str = activity_table_template % ('plant_growth_table','Growth',growth_header_row,growth_table_rows)
+        if len(growth_trs) == 0:
+            growth_table = ''
 
         return { 
-                'watering_table':'\n'.join(water_trs),
-                'fertilizing_table':'\n'.join(fertilize_trs),
-                'activity_table':'\n'.join(activity_trs)
+                'watering_table':watering_table,
+                'fertilizing_table':fertilizing_table,
+                'activity_table':other_table,
+                'growth_table':growth_table
                 }
 
     def get_growth_log_graph(self,plant:Plant) -> dict[str,str]: 

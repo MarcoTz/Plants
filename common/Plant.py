@@ -102,6 +102,10 @@ class Plant:
 
         age : datetime.timedelta = self.get_age() 
 
+        notes_str : str = '\n'.join(self.info['plant_notes'])
+        if notes_str.strip() == '':
+            notes_str = 'N/A'
+
         info_dict = {
                 'plant_name'            : self.info['plant_name'],
                 'plant_species_name'    : self.info['species_name'],
@@ -113,7 +117,7 @@ class Plant:
                 'plant_origin'          : self.info['origin'],
                 'plant_age'             : format_age(age),
                 'plant_autowater'       : self.info['auto_water'],
-                'plant_notes'           : '\n'.join(self.info['plant_notes']),
+                'plant_notes'           : notes_str,
                 'next_watering_date'    : next_watering_date_str,
                 'next_fertilizing_date' : next_fertilizing_date_str,
                 'last_watering_date'    : last_watering_str,
