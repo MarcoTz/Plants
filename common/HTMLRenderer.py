@@ -509,52 +509,26 @@ class HTMLRenderer:
         return '\n'.join(next_activities_strs)
 
     def get_hall_of_fame(self) -> dict[str,str]:
-        plant_link_template : str = '<div class="hall_of_fame_item">%s<br/><a href="%s">%s</a><br/>%s</div>'
-        def get_plant_str(plant:Plant,winner_str:str,winning_stat:str):
-            plant_name : str = plant.info['plant_name']
-            plant_link : str = plant_details_out + '/' + get_html_name(plant_name)
-            return plant_link_template % (winner_str,plant_link,plant_name,winning_stat) 
-
-        plants_by_height : list[Plant] = self.manager.plants.copy()
-        plants_by_height.sort(key=lambda x:x.current_height)
-
-        tallest_plant  : Plant = plants_by_height[-1]
-        tallest_height_str : str = str(tallest_plant.current_height) + 'cm'
-        tallest_plant_str : str = get_plant_str(tallest_plant,'Tallest Plant',tallest_height_str)
-
-        shortest_plant : Plant = plants_by_height[0]
-        shortest_height_str : str = str(shortest_plant.current_width) + 'cm'
-        shortest_plant_str : str = get_plant_str(shortest_plant,'Shortest Plant',shortest_height_str) 
-
-        plants_by_width : list[Plant] = self.manager.plants.copy()
-        plants_by_width.sort(key=lambda x:x.current_width)
-
-        widest_plant : Plant = plants_by_width[-1]
-        widest_width_str : str = str(widest_plant.current_width) + 'cm'
-        widest_plant_str : str = get_plant_str(widest_plant,'Widest Plant',widest_width_str)
-        thinnest_plant : Plant = plants_by_width[0]
-        thinnest_width_str : str = str(thinnest_plant.current_width) + 'cm'
-        thinnest_plant_str : str = get_plant_str(thinnest_plant,'Thinnest Plant',thinnest_width_str)
-
-        plants_by_growth : list[Plant] = self.manager.plants.copy()
-        plants_by_growth = list(filter(lambda x: len(x.growth)>2,plants_by_growth))
-
-        plants_by_growth.sort(key=lambda x: x.get_growth_diff())
-        fastest_plant : Plant = plants_by_growth[-1]
-        fastest_growth_diff : str = '{:.2f}'.format(fastest_plant.get_growth_diff()) + 'cm/day'
-        fastest_plant_str : str = get_plant_str(fastest_plant,'Fastest Growing Plant',fastest_growth_diff)
-        slowest_plant : Plant = plants_by_growth[0]
-        slowest_growth_diff : str = '{:.2f}'.format(slowest_plant.get_growth_diff()) + 'cm/day'
-        slowest_plant_str : str = get_plant_str(slowest_plant,'Slowest Growing Plant',slowest_growth_diff)
-
-        return {
-                'tallest_plant':tallest_plant_str,
-                'shortest_plant':shortest_plant_str,
-                'widest_plant':widest_plant_str,
-                'thinnest_plant':thinnest_plant_str,
-                'fastest_plant':fastest_plant_str,
-                'slowest_plant':slowest_plant_str
-                }
+        fame_dict : dict[str,str] = {}
+        hall_of_fame_plants : dict[str,list[tuple[Plant,str]]] = self.manager.get_hall_of_fame_plants()
+        
+        plant_link_template : str = '<tr><td>%s.</td><td><a href="%s">%s</a></td><td>%s</td></tr>'
+        fame_item_template : str = '<div class="hall_of_fame_item"><h3>%s</h3><table>%s</table></div>'
+        for hall_of_fame_key in hall_of_fame_plants.keys():
+            fame_plants : list[tuple[Plant,str]] = hall_of_fame_plants[hall_of_fame_key]
+            plant_links : list[str] = []
+            plant_ind : int = 1 
+            for (plant,fame_value) in fame_plants:
+                plant_name : str = plant.info['plant_name']
+                plant_href : str = plant_details_out+'/'+get_html_name(plant_name)
+                plant_link : str = plant_link_template % (str(plant_ind),plant_href,plant_name,fame_value)
+                plant_ind += 1
+                plant_links.append(plant_link)
+            
+            fame_item_header : str = hall_of_fame_key.replace('_',' ').title() + ' Plants'
+            fame_item_str : str = fame_item_template % (fame_item_header,'\n'.join(plant_links))
+            fame_dict[hall_of_fame_key] = fame_item_str
+        return fame_dict
 
     def render_index(self) -> None:
         header_str : str = self.render_header(False)

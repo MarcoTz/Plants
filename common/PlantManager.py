@@ -192,3 +192,49 @@ class PlantManager:
             
 
         return activities_list
+
+    def get_hall_of_fame_plants(self) -> dict[str,list[tuple[Plant,str]]]: 
+        hall_of_fame_keys : list[tuple[str,str]] = [
+                ('tallest','shortest'),
+                ('widest','thinnest'),
+                ('fastest_growing','slowest_growing'),
+                ('oldest','youngest')]
+        hall_of_fame_maps  = {
+                'tallest'         : lambda x: x.current_height,
+                'shortest'        : lambda x: x.current_height,
+                'widest'          : lambda x: x.current_width,
+                'thinnest'        : lambda x: x.current_width,
+                'fastest_growing' : lambda x: x.get_growth_diff(),
+                'slowest_growing' : lambda x: x.get_growth_diff(),
+                'oldest'          : lambda x: x.get_age().days,
+                'youngest'        : lambda x: x.get_age().days
+                }
+        hall_of_fame_suffix : dict[str,str] = {
+                'tallest':'cm',
+                'shortest':'cm',
+                'widest':'cm',
+                'thinnest':'cm',
+                'fastest_growing':'cm/day',
+                'slowest_growing':'cm/day',
+                'oldest':'days',
+                'youngest':'days'
+                }
+
+        hall_of_fame_dict : dict[str,list[tuple[Plant,str]]] = {} 
+        plants_copy : list[Plant] = self.plants.copy()
+        for (fame_key_max,fame_key_min) in hall_of_fame_keys:
+            fame_map = hall_of_fame_maps[fame_key_max]
+            fame_values = list(map(fame_map,plants_copy))
+            fame_value_max  = max(fame_values)
+            fame_value_min  = min(fame_values)
+            plants_copy.sort(key = fame_map)
+            max_plants : list[Plant] = plants_copy[-10:]
+            max_plants.reverse()
+            min_plants : list[Plant] = plants_copy[:10] 
+            max_str : str = lambda x: str(x) + ' ' + hall_of_fame_suffix[fame_key_max]
+            min_str : str = lambda x: str(x) + ' ' + hall_of_fame_suffix[fame_key_min]
+            plants_values_max : list[tuple[Plant,str]] = list(map(lambda x: (x,max_str(fame_map(x))),max_plants))
+            plants_values_min : list[tuple[Plant,str]] = list(map(lambda x: (x,min_str(fame_map(x))),min_plants))
+            hall_of_fame_dict[fame_key_max] = plants_values_max 
+            hall_of_fame_dict[fame_key_min] = plants_values_min 
+        return hall_of_fame_dict

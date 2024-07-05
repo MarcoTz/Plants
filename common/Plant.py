@@ -73,6 +73,9 @@ class Plant:
         filter_fun : function = lambda y: lambda x: x['log_activity'] == y 
         fertilizing_filter      : function = filter_fun('Fertilizing')
         return list(filter(fertilizing_filter,self.activities))
+
+    def get_age(self) -> datetime.timedelta:
+        return datetime.datetime.now()-self.info['obtained']
         
     def get_info_dict(self):
         next_watering_date_str    : str = 'N/A'
@@ -97,7 +100,7 @@ class Plant:
         else:
             print('Never fertilized plant %s' % self.info['plant_name'])
 
-        age : datetime.timedelta = datetime.datetime.now()-self.info['obtained']
+        age : datetime.timedelta = self.get_age() 
 
         info_dict = {
                 'plant_name'            : self.info['plant_name'],

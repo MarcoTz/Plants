@@ -83,11 +83,12 @@
 .hall_of_fame_item{
   border-radius:1em;
   padding: 0.5em;
+  padding-bottom:1em;
   text-align:center;
 }
 .hall_of_fame_item:nth-child(odd){
   background:var(--bg-color-odd);
 }
-.hall_of_fame:nth-child(even){
+.hall_of_fame_item:nth-child(even){
   background:var(--bg-color-even);
 }
