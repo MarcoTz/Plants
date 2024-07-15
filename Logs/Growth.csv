@@ -87,13 +87,6 @@ Date;Plant;Height;Width;Note
 14.06.2024;Jerry;31.0;32.0;
 25.06.2024;Jerry;40.0;36.0;
 03.07.2024;Jerry;42.0;35.0;A bit sideways
-14.04.2024;Jose;20.0;10.0;
-03.05.2024;Jose;24.0;25.0;
-20.05.2024;Jose;35.0;15.0;
-04.06.2024;Jose;21.0;9.0;
-10.06.2024;Jose;10.0;1.0;After repotting and burying further down
-25.06.2024;Jose;7.0;1.0;still no new leaves, looking bad
-03.07.2024;Jose;7.0;0.5;
 14.04.2024;Kelly;0.0;0.0;Planted Seeds
 18.04.2024;Kelly;0.1;0.1;First Sprouts
 22.04.2024;Kelly;10.0;1.0;Repotted
@@ -387,16 +380,6 @@ Date;Plant;Height;Width;Note
 14.06.2024;Hitchcock;17.0;23.0;
 25.06.2024;Hitchcock;48.0;50.0;
 03.07.2024;Hitchcock;71.0;54.0;
-26.05.2024;Joan;4.0;7.5;Added during plant creation
-04.06.2024;Joan;4.0;5.0;
-10.06.2024;Joan;2.0;6.0;
-25.06.2024;Joan;3.0;4.0;
-03.07.2024;Joan;1.0;5.0;Still no improvements
-26.05.2024;Hadewijch;5.5;13.0;Added during plant creation
-04.06.2024;Hadewijch;5.0;12.0;
-10.06.2024;Hadewijch;6.0;13.0;
-25.06.2024;Hadewijch;2.0;4.0;Not sure what's wrong
-03.07.2024;Hadewijch;2.0;4.5;No improvements
 04.06.2024;Rob;16.0;13.0;Added during plant creation
 10.06.2024;Rob;24.0;15.0;
 14.06.2024;Rob;22.0;20.0;
