@@ -478,6 +478,7 @@ Date;Activity;Plants;Note
 16.06.2024;Watering;Cerberus;
 06.07.2024;Watering;Cerberus;
 06.07.2024;Fertilizing;Cerberus;
+16.07.2024;Repot;Cerberus;
 22.04.2024;Watering;Pepe;
 06.05.2024;Watering;Pepe;
 17.05.2024;Fertilizing;Pepe;Root Growth
@@ -486,6 +487,7 @@ Date;Activity;Plants;Note
 04.06.2024;Watering;Pepe;
 18.06.2024;Watering;Pepe;
 03.07.2024;Watering;Pepe;
+16.07.2024;Repot;Pepe;
 22.04.2024;Watering;Brock;
 22.04.2024;Repot;Brock;
 08.05.2024;Watering;Brock;
@@ -880,15 +882,6 @@ Date;Activity;Plants;Note
 01.07.2024;Watering;Hella;Rain Water
 06.07.2024;Watering;Hella;Rain water
 11.07.2024;Watering;Hella;
-05.05.2024;Repot;Harvey;
-05.05.2024;Watering;Harvey;
-17.05.2024;Fertilizing;Harvey;Root Growth
-20.05.2024;Watering;Harvey;
-20.05.2024;Repot;Harvey;Combined Sam, Pepe and Harvey into a single pot
-20.05.2024;Watering;Harvey;
-04.06.2024;Watering;Harvey;
-18.06.2024;Watering;Harvey;
-03.07.2024;Watering;Harvey;
 05.05.2024;Repot;Howard;
 05.05.2024;Watering;Howard;
 08.05.2024;Watering;Howard;
@@ -1045,6 +1038,7 @@ Date;Activity;Plants;Note
 16.06.2024;Watering;Valentina;
 18.06.2024;Watering;Valentina;
 03.07.2024;Watering;Valentina;
+16.07.2024;Repot;Valentina;
 07.05.2024;Watering;Ivan;
 17.05.2024;Fertilizing;Ivan;Root Growth
 26.05.2024;Watering;Ivan;
@@ -1052,6 +1046,7 @@ Date;Activity;Plants;Note
 18.06.2024;Watering;Ivan;
 03.07.2024;Watering;Ivan;
 03.07.2024;Repot;Ivan;
+16.07.2024;Repot;Ivan;
 08.05.2024;Watering;Dirk;
 14.05.2024;Watering;Dirk;
 18.05.2024;Watering;Dirk;
@@ -1101,6 +1096,7 @@ Date;Activity;Plants;Note
 04.06.2024;Watering;Sam;
 18.06.2024;Watering;Sam;
 03.07.2024;Watering;Sam;
+16.07.2024;Repot;Sam;
 19.05.2024;Watering;Tony;
 20.05.2024;Watering;Tony;
 21.05.2024;Watering;Tony;
@@ -1663,12 +1659,14 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Jack;
 06.07.2024;Watering;Jack;
 15.07.2024;Watering;Jack;
+16.07.2024;Repot;Jack;
 26.06.2024;Watering;Jane;
 01.06.2024;Fertilizing;Jane;Root Growth
 28.06.2024;Watering;Jane;
 05.07.2024;Watering;Jane;
 06.07.2024;Watering;Jane;
 15.07.2024;Watering;Jane;
+16.07.2024;Repot;Jane;
 26.06.2024;Watering;Jenn;
 01.06.2024;Fertilizing;Jenn;Root Growth
 01.07.2024;Watering;Jenn;
@@ -1701,6 +1699,7 @@ Date;Activity;Plants;Note
 16.07.2024;Watering;Leela;
 16.07.2024;Repot;Anya;
 16.07.2024;Watering;Anya;
-16.07.2024;Repot;Cerberus, Pepe, Tito;
-16.07.2024;Repot;Sam, Valentina, Ivan, Jack, Jane;
+16.07.2024;Repot;Tito;
 16.07.2024;Repot;Tigger;
+16.07.2024;Repot;Howard;
+16.07.2024;Watering;Howard;
