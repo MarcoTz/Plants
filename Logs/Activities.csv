@@ -51,6 +51,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Nadja;
 05.07.2024;Fertilizing;Nadja;
 15.07.2024;Watering;Nadja;
+19.07.2024;Watering;Nadja;
+21.07.2024;Watering;Nadja;
+22.07.2024;Watering;Nadja;
 11.04.2024;Watering;Elvis;
 16.04.2024;Fertilizing;Elvis;
 22.04.2024;Watering;Elvis;
@@ -80,6 +83,9 @@ Date;Activity;Plants;Note
 01.07.2024;Watering;Elvis;
 06.07.2024;Watering;Elvis;
 15.07.2024;Watering;Elvis;
+21.07.2024;Watering;Elvis;
+21.07.2024;Fertilizing;Elvis;
+22.07.2024;Watering;Elvis;
 12.04.2024;Watering;Bob;
 13.04.2024;Pruning;Bob;
 22.04.2024;Watering;Bob;
@@ -138,6 +144,11 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Kevin;
 15.07.2024;Watering;Kevin;
 16.07.2024;Watering;Kevin;
+18.07.2024;Watering;Kevin;
+18.07.2024;Fertilizing;Kevin;
+19.07.2024;Watering;Kevin;
+21.07.2024;Watering;Kevin;
+22.07.2024;Watering;Kevin;
 12.04.2024;Watering;Beehome;
 13.04.2024;Watering;Beehome;
 14.04.2024;Watering;Beehome;
@@ -183,6 +194,11 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Beehome;
 15.07.2024;Pruning;Beehome;
 16.07.2024;Watering;Beehome;
+17.07.2024;Watering;Beehome;
+19.07.2024;Watering;Beehome;
+21.07.2024;Watering;Beehome;
+22.07.2024;Watering;Beehome;
+23.07.2024;Watering;Beehome;
 12.04.2024;Watering;Peppa;
 14.04.2024;Watering;Peppa;
 18.04.2024;Watering;Peppa;
@@ -194,6 +210,8 @@ Date;Activity;Plants;Note
 15.06.2024;Watering;Peppa;
 19.06.2024;Watering;Peppa;
 01.07.2024;Watering;Peppa;
+23.07.2024;Fertilizing;Peppa;
+23.07.2024;Watering;Peppa;
 12.04.2024;Watering;Eva Longoria;
 14.04.2024;Watering;Eva Longoria;
 18.04.2024;Watering;Eva Longoria;
@@ -214,6 +232,8 @@ Date;Activity;Plants;Note
 25.06.2024;Watering;Eva Longoria;
 04.07.2024;Watering;Eva Longoria;
 11.07.2024;Watering;Eva Longoria;
+21.07.2024;Watering;Eva Longoria;
+21.07.2024;Fertilizing;Eva Longoria;
 12.04.2024;Watering;Maria;
 16.04.2024;Watering;Maria;
 17.04.2024;Fertilizing;Maria;
@@ -238,6 +258,8 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Maria;
 03.07.2024;Repot;Maria;
 11.07.2024;Watering;Maria;
+18.07.2024;Watering;Maria;
+18.07.2024;Fertilizing;Maria;
 13.04.2024;Watering;Liliana;
 18.04.2024;Watering;Liliana;
 22.04.2024;Watering;Liliana;
@@ -257,6 +279,7 @@ Date;Activity;Plants;Note
 28.06.2024;Watering;Liliana;
 03.07.2024;Watering;Liliana;
 11.07.2024;Watering;Liliana;
+19.07.2024;Watering;Liliana;
 13.04.2024;Watering;Rosy;
 14.04.2024;Watering;Rosy;
 17.04.2024;Watering;Rosy;Rainy day, outside plants are all wet
@@ -280,6 +303,8 @@ Date;Activity;Plants;Note
 28.06.2024;Repot;Rosy;
 04.07.2024;Watering;Rosy;
 11.07.2024;Watering;Rosy;
+23.07.2024;Fertilizing;Rosy;
+23.07.2024;Watering;Rosy;
 13.04.2024;Watering;Martha;
 18.04.2024;Watering;Martha;
 19.04.2024;Watering;Martha;
@@ -297,6 +322,8 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Martha;
 03.07.2024;Fertilizing;Martha;
 11.07.2024;Watering;Martha;
+21.07.2024;Watering;Martha;
+21.07.2024;Fertilizing;Martha;
 13.04.2024;Watering;Perry;
 14.04.2024;Watering;Perry;
 16.04.2024;Watering;Perry;
@@ -338,6 +365,11 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Perry;
 15.07.2024;Pruning;Perry;
 16.07.2024;Watering;Perry;
+19.07.2024;Watering;Perry;
+21.07.2024;Watering;Perry;
+22.07.2024;Watering;Perry;
+23.07.2024;Watering;Perry;
+23.07.2024;Watering;Perry;
 14.04.2024;Watering;Lucy;
 22.04.2024;Watering;Lucy;
 22.04.2024;Repot;Lucy;
@@ -386,6 +418,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Lucy;
 05.07.2024;Fertilizing;Lucy;
 15.07.2024;Watering;Lucy;
+19.07.2024;Watering;Lucy;
+21.07.2024;Watering;Lucy;
+22.07.2024;Watering;Lucy;
 14.04.2024;Watering;Stefan;
 22.04.2024;Watering;Stefan;
 22.04.2024;Repot;Stefan;
@@ -436,6 +471,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Stefan;
 16.07.2024;Fertilizing;Stefan;
 16.07.2024;Watering;Stefan;
+21.07.2024;Watering;Stefan;
+22.07.2024;Watering;Stefan;
 15.04.2024;Watering;Findus;
 18.04.2024;Fertilizing;Findus;
 22.04.2024;Watering;Findus;
@@ -456,6 +493,7 @@ Date;Activity;Plants;Note
 02.07.2024;Repot;Findus;
 11.07.2024;Watering;Findus;
 15.07.2024;Watering;Findus;
+23.07.2024;Watering;Findus;
 16.04.2024;Watering;Bruno;
 22.04.2024;Watering;Bruno;
 24.04.2024;Watering;Bruno;
@@ -514,6 +552,11 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Brock;
 15.07.2024;Watering;Brock;
 16.07.2024;Watering;Brock;
+18.07.2024;Watering;Brock;
+18.07.2024;Fertilizing;Brock;
+19.07.2024;Watering;Brock;
+21.07.2024;Watering;Brock;
+22.07.2024;Watering;Brock;
 22.04.2024;Watering;Kelly;
 22.04.2024;Repot;Kelly;
 02.05.2024;Repot;Kelly;
@@ -550,6 +593,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Kelly;
 16.07.2024;Fertilizing;Kelly;
 16.07.2024;Watering;Kelly;
+19.07.2024;Watering;Kelly;
+21.07.2024;Watering;Kelly;
 22.04.2024;Watering;Sandy;
 22.04.2024;Repot;Sandy;
 24.04.2024;Watering;Sandy;
@@ -598,6 +643,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Sandy;
 05.07.2024;Fertilizing;Sandy;
 15.07.2024;Watering;Sandy;
+19.07.2024;Watering;Sandy;
+21.07.2024;Watering;Sandy;
+22.07.2024;Watering;Sandy;
 22.04.2024;Repot;Zoey;
 02.05.2024;Repot;Zoey;
 07.05.2024;Watering;Zoey;
@@ -641,6 +689,10 @@ Date;Activity;Plants;Note
 02.07.2024;Watering;Zoey;
 15.07.2024;Watering;Zoey;
 15.07.2024;Pruning;Zoey;
+18.07.2024;Watering;Zoey;
+18.07.2024;Fertilizing;Zoey;
+21.07.2024;Watering;Zoey;
+22.07.2024;Watering;Zoey;
 24.04.2024;Watering;Tom;
 07.05.2024;Watering;Tom;
 09.05.2024;Watering;Tom;
@@ -696,6 +748,12 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Tom;
 15.07.2024;Watering;Tom;
 16.07.2024;Watering;Tom;
+18.07.2024;Watering;Tom;
+18.07.2024;Fertilizing;Tom;
+19.07.2024;Watering;Tom;
+21.07.2024;Watering;Tom;
+22.07.2024;Watering;Tom;
+22.07.2024;Watering;Tom;
 24.04.2024;Watering;Jerry;
 07.05.2024;Watering;Jerry;
 09.05.2024;Watering;Jerry;
@@ -750,6 +808,12 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Jerry;
 15.07.2024;Watering;Jerry;
 16.07.2024;Watering;Jerry;
+18.07.2024;Watering;Jerry;
+18.07.2024;Fertilizing;Jerry;
+19.07.2024;Watering;Jerry;
+21.07.2024;Watering;Jerry;
+22.07.2024;Watering;Jerry;
+23.07.2024;Watering;Jerry;
 02.05.2024;Repot;Zane;
 07.05.2024;Watering;Zane;
 10.05.2024;Watering;Zane;
@@ -791,6 +855,10 @@ Date;Activity;Plants;Note
 02.07.2024;Watering;Zane;
 15.07.2024;Watering;Zane;
 15.07.2024;Pruning;Zane;
+18.07.2024;Watering;Zane;
+18.07.2024;Fertilizing;Zane;
+21.07.2024;Watering;Zane;
+22.07.2024;Watering;Zane;
 02.05.2024;Repot;Klaus;
 07.05.2024;Watering;Klaus;
 10.05.2024;Watering;Klaus;
@@ -824,6 +892,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Klaus;
 16.07.2024;Fertilizing;Klaus;
 16.07.2024;Watering;Klaus;
+19.07.2024;Watering;Klaus;
+21.07.2024;Watering;Klaus;
 02.05.2024;Repot;Chrom;
 07.05.2024;Watering;Chrom;
 10.05.2024;Watering;Chrom;
@@ -858,6 +928,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Chrom;
 16.07.2024;Fertilizing;Chrom;
 16.07.2024;Watering;Chrom;
+19.07.2024;Watering;Chrom;
+21.07.2024;Watering;Chrom;
 04.05.2024;Repot;Hella;
 05.05.2024;Watering;Hella;
 08.05.2024;Watering;Hella;
@@ -882,17 +954,7 @@ Date;Activity;Plants;Note
 01.07.2024;Watering;Hella;Rain Water
 06.07.2024;Watering;Hella;Rain water
 11.07.2024;Watering;Hella;
-05.05.2024;Repot;Howard;
-05.05.2024;Watering;Howard;
-08.05.2024;Watering;Howard;
-17.05.2024;Fertilizing;Howard;Root Growth
-24.05.2024;Watering;Howard;
-29.05.2024;Watering;Howard;
-11.06.2024;Watering;Howard;
-16.06.2024;Watering;Howard;
-18.06.2024;Watering;Howard;
-03.07.2024;Watering;Howard;
-03.07.2024;Repot;Howard;
+21.07.2024;Watering;Hella;
 05.05.2024;Repot;Darryl;
 05.05.2024;Watering;Darryl;
 17.05.2024;Fertilizing;Darryl;Root Growth
@@ -936,6 +998,13 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Mike;
 15.07.2024;Watering;Mike;
 16.07.2024;Watering;Mike;
+17.07.2024;Watering;Mike;
+18.07.2024;Watering;Mike;
+18.07.2024;Fertilizing;Mike;
+19.07.2024;Watering;Mike;
+21.07.2024;Watering;Mike;
+22.07.2024;Watering;Mike;
+23.07.2024;Watering;Mike;
 05.05.2024;Repot;Biggie;
 05.05.2024;Watering;Biggie;
 09.05.2024;Watering;Biggie;
@@ -958,6 +1027,8 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Biggie;
 05.07.2024;Watering;Biggie;
 15.07.2024;Watering;Biggie;
+19.07.2024;Watering;Biggie;
+21.07.2024;Watering;Biggie;
 06.05.2024;Repot;Harry;
 06.05.2024;Watering;Harry;
 08.05.2024;Watering;Harry;
@@ -989,6 +1060,8 @@ Date;Activity;Plants;Note
 02.07.2024;Watering;Harry;
 06.07.2024;Watering;Harry;
 15.07.2024;Watering;Harry;
+19.07.2024;Watering;Harry;
+22.07.2024;Watering;Harry;
 07.05.2024;Watering;Terry;
 08.05.2024;Watering;Terry;
 10.05.2024;Watering;Terry;
@@ -1030,15 +1103,6 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Terry;
 16.07.2024;Fertilizing;Terry;
 16.07.2024;Watering;Terry;
-07.05.2024;Watering;Valentina;
-08.05.2024;Watering;Valentina;
-17.05.2024;Fertilizing;Valentina;Root Growth
-26.05.2024;Watering;Valentina;
-11.06.2024;Watering;Valentina;
-16.06.2024;Watering;Valentina;
-18.06.2024;Watering;Valentina;
-03.07.2024;Watering;Valentina;
-16.07.2024;Repot;Valentina;
 07.05.2024;Watering;Ivan;
 17.05.2024;Fertilizing;Ivan;Root Growth
 26.05.2024;Watering;Ivan;
@@ -1047,6 +1111,7 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Ivan;
 03.07.2024;Repot;Ivan;
 16.07.2024;Repot;Ivan;
+24.07.2024;Watering;Ivan;
 08.05.2024;Watering;Dirk;
 14.05.2024;Watering;Dirk;
 18.05.2024;Watering;Dirk;
@@ -1062,6 +1127,8 @@ Date;Activity;Plants;Note
 02.07.2024;Watering;Dirk;
 07.07.2024;Watering;Dirk;
 15.07.2024;Watering;Dirk;
+19.07.2024;Watering;Dirk;
+23.07.2024;Watering;Dirk;
 24.04.2024;Watering;Nosferatu;
 05.05.2024;Watering;Nosferatu;
 10.05.2024;Watering;Nosferatu;
@@ -1089,6 +1156,8 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Nosferatu;
 15.07.2024;Watering;Nosferatu;
 16.07.2024;Watering;Nosferatu;
+21.07.2024;Watering;Nosferatu;
+22.07.2024;Watering;Nosferatu;
 09.05.2024;Watering;Sam;
 17.05.2024;Fertilizing;Sam;Root Growth
 20.05.2024;Repot;Sam;Combined Sam, Pepe and Harvey into a single pot
@@ -1097,6 +1166,7 @@ Date;Activity;Plants;Note
 18.06.2024;Watering;Sam;
 03.07.2024;Watering;Sam;
 16.07.2024;Repot;Sam;
+24.07.2024;Watering;Sam;
 19.05.2024;Watering;Tony;
 20.05.2024;Watering;Tony;
 21.05.2024;Watering;Tony;
@@ -1423,6 +1493,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Lucas;
 05.07.2024;Fertilizing;Lucas;
 15.07.2024;Watering;Lucas;
+19.07.2024;Watering;Lucas;
+21.07.2024;Watering;Lucas;
+22.07.2024;Watering;Lucas;
 04.06.2024;Watering;Tim;
 04.06.2024;Fertilizing;Tim;
 04.06.2024;Watering;Tim;
@@ -1453,6 +1526,11 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Tim;
 15.07.2024;Watering;Tim;
 16.07.2024;Watering;Tim;
+18.07.2024;Watering;Tim;
+18.07.2024;Fertilizing;Tim;
+19.07.2024;Watering;Tim;
+21.07.2024;Watering;Tim;
+22.07.2024;Watering;Tim;
 04.06.2024;Watering;Jim;
 04.06.2024;Fertilizing;Jim;
 04.06.2024;Watering;Jim;
@@ -1481,6 +1559,12 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Jim;
 15.07.2024;Watering;Jim;
 16.07.2024;Watering;Jim;
+18.07.2024;Watering;Jim;
+18.07.2024;Fertilizing;Jim;
+19.07.2024;Watering;Jim;
+21.07.2024;Watering;Jim;
+22.07.2024;Watering;Jim;
+23.07.2024;Watering;Jim;
 04.06.2024;Watering;Bart;
 06.06.2024;Watering;Bart;
 06.06.2024;Repot;Bart;
@@ -1529,6 +1613,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Chris;
 16.07.2024;Fertilizing;Chris;
 16.07.2024;Watering;Chris;
+19.07.2024;Watering;Chris;
+21.07.2024;Watering;Chris;
 04.06.2024;Watering;Nate;
 04.06.2024;Fertilizing;Nate;
 04.06.2024;Watering;Nate;
@@ -1555,6 +1641,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Nate;
 05.07.2024;Fertilizing;Nate;
 15.07.2024;Watering;Nate;
+19.07.2024;Watering;Nate;
+21.07.2024;Watering;Nate;
+22.07.2024;Watering;Nate;
 04.06.2024;Watering;Sandra;
 04.06.2024;Fertilizing;Sandra;
 04.06.2024;Watering;Sandra;
@@ -1581,6 +1670,9 @@ Date;Activity;Plants;Note
 05.07.2024;Watering;Sandra;
 05.07.2024;Fertilizing;Sandra;
 15.07.2024;Watering;Sandra;
+19.07.2024;Watering;Sandra;
+21.07.2024;Watering;Sandra;
+22.07.2024;Watering;Sandra;
 04.06.2024;Watering;Bond;
 06.06.2024;Watering;Bond;
 08.06.2024;Watering;Bond;
@@ -1602,6 +1694,11 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Bond;
 15.07.2024;Watering;Bond;
 16.07.2024;Watering;Bond;
+18.07.2024;Watering;Bond;
+18.07.2024;Fertilizing;Bond;
+19.07.2024;Watering;Bond;
+21.07.2024;Watering;Bond;
+22.07.2024;Watering;Bond;
 10.06.2024;Watering;Mrs Sprout;
 17.06.2024;Fertilizing;Mrs Sprout;
 17.06.2024;Watering;Mrs Sprout;
@@ -1612,6 +1709,9 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Mrs Sprout;
 11.07.2024;Watering;Mrs Sprout;
 15.07.2024;Watering;Mrs Sprout;
+19.07.2024;Watering;Mrs Sprout;
+23.07.2024;Fertilizing;Mrs Sprout;
+23.07.2024;Watering;Mrs Sprout;
 10.06.2024;Watering;Fuchur;
 10.06.2024;Repot;Fuchur;
 17.06.2024;Fertilizing;Fuchur;
@@ -1620,6 +1720,8 @@ Date;Activity;Plants;Note
 27.06.2024;Watering;Fuchur;
 04.07.2024;Watering;Fuchur;
 11.07.2024;Watering;Fuchur;
+23.07.2024;Fertilizing;Fuchur;
+23.07.2024;Watering;Fuchur;
 10.06.2024;Watering;Timon;
 10.06.2024;Repot;Timon;
 19.06.2024;Watering;Timon;
@@ -1628,6 +1730,8 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Timon;
 03.07.2024;Fertilizing;Timon;
 11.07.2024;Watering;Timon;
+21.07.2024;Watering;Timon;
+21.07.2024;Fertilizing;Timon;
 10.06.2024;Watering;Pumbaa;
 10.06.2024;Repot;Pumbaa;
 19.06.2024;Watering;Pumbaa;
@@ -1636,6 +1740,8 @@ Date;Activity;Plants;Note
 03.07.2024;Watering;Pumbaa;
 03.07.2024;Fertilizing;Pumbaa;
 11.07.2024;Watering;Pumbaa;
+21.07.2024;Repot;Pumbaa;
+21.07.2024;Watering;Pumbaa;
 25.06.2024;Fertilizing;Rihanna;Root growth into water
 25.06.2024;Fertilizing;Jay;Added root growth to water
 25.06.2024;Fertilizing;Avi;Added root growth to water
@@ -1644,6 +1750,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Avi;
 16.07.2024;Repot;Avi;
 16.07.2024;Fertilizing;Avi;Root Growth
+19.07.2024;Watering;Avi;
+23.07.2024;Watering;Avi;
 25.05.2024;Fertilizing;Albus;Added Root growth to water
 28.06.2024;Repot;Albus;Moved to actual pot
 28.06.2024;Watering;Albus;
@@ -1652,6 +1760,8 @@ Date;Activity;Plants;Note
 15.07.2024;Watering;Albus;
 16.07.2024;Repot;Albus;
 16.07.2024;Fertilizing;Albus;Root Growth
+19.07.2024;Watering;Albus;
+23.07.2024;Watering;Albus;
 26.06.2024;Watering;Jack;
 01.06.2024;Fertilizing;Jack;Root Growth
 28.06.2024;Watering;Jack;
@@ -1660,6 +1770,7 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Jack;
 15.07.2024;Watering;Jack;
 16.07.2024;Repot;Jack;
+24.07.2024;Watering;Jack;
 26.06.2024;Watering;Jane;
 01.06.2024;Fertilizing;Jane;Root Growth
 28.06.2024;Watering;Jane;
@@ -1667,73 +1778,54 @@ Date;Activity;Plants;Note
 06.07.2024;Watering;Jane;
 15.07.2024;Watering;Jane;
 16.07.2024;Repot;Jane;
+24.07.2024;Watering;Jane;
 26.06.2024;Watering;Jenn;
 01.06.2024;Fertilizing;Jenn;Root Growth
 01.07.2024;Watering;Jenn;
 05.07.2024;Watering;Jenn;
 06.07.2024;Watering;Jenn;
 15.07.2024;Watering;Jenn;
+19.07.2024;Watering;Jenn;
+23.07.2024;Watering;Jenn;
 26.06.2024;Watering;Joe;
 01.06.2024;Fertilizing;Joe;Root Growth
 01.07.2024;Watering;Joe;
 05.07.2024;Watering;Joe;
 06.07.2024;Watering;Joe;
 15.07.2024;Watering;Joe;
+19.07.2024;Watering;Joe;
+23.07.2024;Watering;Joe;
 23.06.2024;Watering;Bubba;
 03.07.2024;Watering;Bubba;
 11.07.2024;Watering;Bubba;
+18.07.2024;Watering;Bubba;
+18.07.2024;Fertilizing;Bubba;
 28.06.2024;Watering;Tupac;
 05.07.2024;Watering;Tupac;
 06.07.2024;Watering;Tupac;
 15.07.2024;Watering;Tupac;
+19.07.2024;Watering;Tupac;
 28.06.2024;Watering;Smaug;
 06.07.2024;Watering;Smaug;
 11.07.2024;Watering;Smaug;
 01.07.2024;Watering;Jill;
 06.07.2024;Watering;Jill;
 15.07.2024;Watering;Jill;
+19.07.2024;Watering;Jill;
+23.07.2024;Watering;Jill;
 02.07.2024;Fertilizing;Gabrielle;Added Root Growth
 06.07.2024;Watering;Cyrus;
 15.07.2024;Watering;Cyrus;
+19.07.2024;Watering;Cyrus;
+21.07.2024;Watering;Cyrus;
+23.07.2024;Pruning;Cyrus;
 16.07.2024;Repot;Leela;
 16.07.2024;Watering;Leela;
+23.07.2024;Fertilizing;Leela;
+23.07.2024;Watering;Leela;
 16.07.2024;Repot;Anya;
 16.07.2024;Watering;Anya;
+24.07.2024;Watering;Anya;
 16.07.2024;Repot;Tito;
 16.07.2024;Repot;Tigger;
-16.07.2024;Repot;Howard;
-16.07.2024;Watering;Howard;
-17.07.2024;Watering;Mike, Beehome;
-18.07.2024;Watering;Tom, Jerry, Tim, Jim, Bond, Brock, Kevin, Mike, Zane, Zoey;
-18.07.2024;Fertilizing;Tom, Jerry, Tim, Jim, Bond, Brock, Kevin, Mike, Zane, Zoey;
-18.07.2024;Watering;Bubba;
-18.07.2024;Fertilizing;Bubba;
-18.07.2024;Watering;Maria;
-18.07.2024;Fertilizing;Maria;
-19.07.2024;Watering;Tom, Jerry, Tim, Jim, Brock, Bond, Mike, Harry;
-19.07.2024;Watering;Klaus, Kelly, Chrom, Chris, Lucy, Lucas, Nadja, Nate, Sandy, Sandra;
-19.07.2024;Watering;Biggie, Tupac, Cyrus, Kevin, Beehome, Perry;
-19.07.2024;Watering;Mrs Sprout, Jenn, Jill, Joe, Dirk, Avi, Albus;
-19.07.2024;Watering;Liliana;
-21.07.2024;Watering;Klaus, Chrom, Kelly, Chris, Stefan, Nadja, Lucy, Sandy, Nate, Lucas, Sandra, Zane, Zoey;
-21.07.2024;Repot;Pumbaa;
-21.07.2024;Watering;Biggie, Cyrus, Nosferatu, Perry, Mike, Beehome, Kevin;
-21.07.2024;Watering;Tom, Jerry, Tim, Jim, Brock, Bond, Hella;
-21.07.2024;Watering;Martha, Timon, Eva Longoria;
-21.07.2024;Fertilizing;Martha, Timon, Eva Longoria;
-21.07.2024;Watering;Elvis;
-21.07.2024;Fertilizing;Elvis;
-22.07.2024;Watering;Stefan, Lucy, Lucas, Nadja, Nate, Sandy, Sandra, Zoey, Zane, Nosferatu;
-22.07.2024;Watering;Mike, Perry, Beehome, Kevin, Jerry, Jim, Harry;
-22.07.2024;Watering;Tom, Elvis, Tom, Tim, Brock, Bond;
-21.07.2024;Watering;Pumbaa;
-23.07.2024;Fertilizing;Rosy;
-23.07.2024;Fertilizing;Fuchur;
-23.07.2024;Fertilizing;Mrs Sprout;
-23.07.2024;Fertilizing;Peppa;
-23.07.2024;Fertilizing;Leela;
-23.07.2024;Watering;Findus;
-23.07.2024;Watering;Rosy, Fuchur, Mrs Sprout, Peppa, Leela;
-23.07.2024;Watering;Beehome, Perry;
-23.07.2024;Pruning;Cyrus;
-23.07.2024;Watering;Albus, Avi, Dirk, Joe, Jenn, Jill;
+24.07.2024;Watering;Tigger;

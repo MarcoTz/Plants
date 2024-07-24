@@ -261,12 +261,6 @@ Date;Plant;Height;Width;Note
 25.06.2024;Tom;40.0;35.0;
 03.07.2024;Tom;38.0;55.0;
 16.07.2024;Tom;38.0;47.0;Almost died from heat
-05.05.2024;Howard;8.0;4.0;
-20.05.2024;Howard;6.0;4.0;
-04.06.2024;Howard;8.0;4.5;Not sure how he's doing, roots seem fine, but the leaves are still dead
-10.06.2024;Howard;7.5;4.5;
-25.06.2024;Howard;6.0;4.0;
-03.07.2024;Howard;7.0;3.0;Might be dead but maybe the new soil will fix it
 05.05.2024;Hella;32.0;28.0;
 20.05.2024;Hella;13.0;36.0;
 04.06.2024;Hella;20.0;42.0;
@@ -289,13 +283,6 @@ Date;Plant;Height;Width;Note
 25.06.2024;Martha;20.0;25.0;
 03.07.2024;Martha;38.0;17.0;
 16.07.2024;Martha;19.0;32.0;
-03.05.2024;Valentina;2.0;1.0;
-20.05.2024;Valentina;2.0;1.0;
-04.06.2024;Valentina;4.0;2.5;
-10.06.2024;Valentina;4.0;3.0;
-25.06.2024;Valentina;4.0;2.0;
-03.07.2024;Valentina;3.0;2.0;Np longer looks underwatered
-16.07.2024;Valentina;4.5;1.0;No visible roots during repotting
 05.05.2024;Dirk;3.0;1.0;
 20.05.2024;Dirk;5.0;2.0;
 04.06.2024;Dirk;4.0;3.0;
@@ -488,8 +475,10 @@ Date;Plant;Height;Width;Note
 26.06.2024;Avi;0.1;0.1;Added during plant creation
 03.07.2024;Avi;1.0;0.5;
 16.07.2024;Avi;6.0;1.0;
+23.07.2024;Avi;11.5;1.0;
 26.06.2024;Albus;0.1;0.1;Added during plant creation
 03.07.2024;Albus;1.2;0.5;
+23.07.2024;Albus;11.0;1.0;
 26.06.2024;Jenn;3.5;3.5;Added during plant creation
 26.06.2024;Jenn;2.5;6.0;Added during plant creation
 03.07.2024;Jenn;3.0;5.0;
@@ -521,5 +510,3 @@ Date;Plant;Height;Width;Note
 16.07.2024;Anya;7.5;10.0;Added during plant creation
 16.07.2024;Tito;3.0;3.0;Added during plant creation
 16.07.2024;Tigger;4.0;5.0;Added during plant creation
-23.07.2024;Albus;11;1;
-23.07.2024;Avi;11.5;1;
