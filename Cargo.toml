@@ -1,0 +1,7 @@
+[workspace]
+members = [
+  "lib/plants",
+  "render_static"
+]
+resolver = "2"
+default-members = ["render_static"]
