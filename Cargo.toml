@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "lib/plants",
+  "lib/database",
   "render_static"
 ]
 resolver = "2"
