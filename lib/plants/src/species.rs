@@ -1,0 +1,26 @@
+pub enum SunlightRequirement {
+    Direct,
+    Indirect,
+    Shade,
+}
+pub struct Species {
+    name: String,
+    scientific_name: String,
+    genus: String,
+    familiy: String,
+    sunlight: SunlightRequirement,
+    temp_min: i32,
+    temp_max: i32,
+    opt_temp_min: i32,
+    opt_temp_max: i32,
+    planting_distance: Option<f32>,
+    ph_min: i32,
+    ph_max: i32,
+    watering_notes: Vec<String>,
+    avg_watering_days: Option<i32>,
+    fertilizing_notes: Vec<String>,
+    avg_fertilizing_days: Option<i32>,
+    pruning_notes: Vec<String>,
+    companions: Vec<String>,
+    additional_notes: Vec<String>,
+}

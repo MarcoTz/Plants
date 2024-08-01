@@ -1,5 +1,3 @@
-use plants::plant::test;
-
 fn main() {
-    println!("{test } world")
+    println!("Hello world")
 }
