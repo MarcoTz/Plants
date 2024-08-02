@@ -1,1 +1,1 @@
-{"plant_name": "Jill", "species_name": "Jade Plant", "current_height": "3", "current_width": "4", "plant_health": "0", "current_location": "Nursery", "origin": "Hallway Jade Plant", "obtained": "25.05.2024", "auto_watering": "n", "plant_notes": [""]}
+{"plant_name": "Jill", "species_name": "Jade Plant", "plant_health": "0", "current_location": "Nursery", "origin": "Hallway Jade Plant", "obtained": "25.05.2024", "auto_watering": "False", "plant_notes": [""]}
