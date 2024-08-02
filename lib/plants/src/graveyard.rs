@@ -1,9 +1,9 @@
-use datetime::LocalDate;
+use chrono::NaiveDate;
 
 pub struct GraveyardPlant {
     name: String,
     species: String,
-    planted: LocalDate,
-    died: LocalDate,
+    planted: NaiveDate,
+    died: NaiveDate,
     reason: String,
 }

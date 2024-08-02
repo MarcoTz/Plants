@@ -1,7 +1,7 @@
-use datetime::LocalDate;
+use chrono::NaiveDate;
 
 pub struct LogItem {
     activity: String,
-    date: LocalDate,
+    date: NaiveDate,
     note: String,
 }
