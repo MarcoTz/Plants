@@ -1,6 +1,8 @@
 use super::errors::DBError;
-use super::json_to_plant::PlantJSONOld;
-use super::json_to_species::SpeciesJSONOld;
+use super::json_to_plant::PlantJSON;
+use super::json_to_species::SpeciesJSON;
+use plants::plant::Plant;
+use plants::species::Species;
 use serde::de::DeserializeOwned;
 use std::fs;
 
@@ -8,7 +10,6 @@ const PLANTS_DIR: &str = "data/Plants";
 const SPECIES_DIR: &str = "data/PlantSpecies";
 
 fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, DBError> {
-    println!("Reading file {}", file_name);
     let file_contents = fs::read_to_string(file_name)?;
     let res = serde_json::from_str(&file_contents)?;
     Ok(res)
@@ -28,12 +29,22 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, DBError> 
     }
     Ok(struct_list)
 }
-pub fn load_plants() -> Result<Vec<PlantJSONOld>, DBError> {
-    println!("reading plants");
-    load_dir(PLANTS_DIR)
+pub fn load_plants() -> Result<Vec<Plant>, DBError> {
+    let plants_old: Vec<PlantJSON> = load_dir(PLANTS_DIR)?;
+    let plants_new = plants_old
+        .iter()
+        .cloned()
+        .map(|pl| <PlantJSON as TryInto<Plant>>::try_into(pl))
+        .collect::<Result<Vec<Plant>, DBError>>()?;
+    Ok(plants_new)
 }
 
-pub fn load_species() -> Result<Vec<SpeciesJSONOld>, DBError> {
-    println!("reading species");
-    load_dir(SPECIES_DIR)
+pub fn load_species() -> Result<Vec<Species>, DBError> {
+    let species_old: Vec<SpeciesJSON> = load_dir(SPECIES_DIR)?;
+    let species_new = species_old
+        .iter()
+        .cloned()
+        .map(|sp| <SpeciesJSON as TryInto<Species>>::try_into(sp))
+        .collect::<Result<Vec<Species>, DBError>>()?;
+    Ok(species_new)
 }

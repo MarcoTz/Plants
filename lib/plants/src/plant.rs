@@ -1,24 +1,20 @@
 use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
-use super::species::Species;
-use datetime::convenience::Today;
-use datetime::LocalDate;
+use chrono::{Local, NaiveDate};
 
-type PlantImage = (LocalDate, String);
+type PlantImage = (NaiveDate, String);
 
 pub struct Plant {
-    name: String,
-    species: Species,
-    location: String,
-    origin: String,
-    obtained: LocalDate,
-    auto_water: bool,
-    notes: Vec<String>,
-    images: Vec<PlantImage>,
-    activities: Vec<LogItem>,
-    growth: Vec<GrowthItem>,
-    next_watering: Option<LocalDate>,
-    next_fertilizing: Option<LocalDate>,
+    pub name: String,
+    pub species_name: String,
+    pub location: String,
+    pub origin: String,
+    pub obtained: NaiveDate,
+    pub auto_water: bool,
+    pub notes: Vec<String>,
+    pub images: Vec<PlantImage>,
+    pub activities: Vec<LogItem>,
+    pub growth: Vec<GrowthItem>,
 }
 
 impl Plant {
@@ -34,12 +30,12 @@ impl Plant {
         1
     }
 
-    fn get_next_watering(&self) -> Option<LocalDate> {
-        Some(LocalDate::today())
+    fn get_next_watering(&self) -> Option<NaiveDate> {
+        Some(Local::now().date_naive())
     }
 
-    fn get_next_fertilizing(&self) -> Option<LocalDate> {
-        Some(LocalDate::today())
+    fn get_next_fertilizing(&self) -> Option<NaiveDate> {
+        Some(Local::now().date_naive())
     }
 
     fn get_height(&self) -> f32 {

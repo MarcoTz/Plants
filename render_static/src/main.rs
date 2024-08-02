@@ -1,9 +1,9 @@
 use database::errors::DBError;
 use database::json_db::{load_plants, load_species};
-use database::json_to_plant::PlantJSONOld;
-use database::json_to_species::SpeciesJSONOld;
+use plants::plant::Plant;
+use plants::species::Species;
 
-fn load_json() -> Result<(Vec<PlantJSONOld>, Vec<SpeciesJSONOld>), DBError> {
+fn load_json() -> Result<(Vec<Plant>, Vec<Species>), DBError> {
     let plant_list = load_plants()?;
     let species_list = load_species()?;
     Ok((plant_list, species_list))
