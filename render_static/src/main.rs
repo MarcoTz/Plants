@@ -1,9 +1,9 @@
-use database::errors::DBError;
-use database::json_db::{load_plants, load_species};
+use database::file_backend::errors::Error;
+use database::file_backend::load_json::{load_plants, load_species};
 use plants::plant::Plant;
 use plants::species::Species;
 
-fn load_json() -> Result<(Vec<Plant>, Vec<Species>), DBError> {
+fn load_json() -> Result<(Vec<Plant>, Vec<Species>), Error> {
     let plant_list = load_plants()?;
     let species_list = load_species()?;
     Ok((plant_list, species_list))

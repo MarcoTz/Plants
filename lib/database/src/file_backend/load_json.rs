@@ -1,4 +1,4 @@
-use super::errors::DBError;
+use super::errors::Error;
 use super::json_to_plant::PlantJSON;
 use super::json_to_species::SpeciesJSON;
 use plants::plant::Plant;
@@ -9,13 +9,13 @@ use std::fs;
 const PLANTS_DIR: &str = "data/Plants";
 const SPECIES_DIR: &str = "data/PlantSpecies";
 
-fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, DBError> {
+fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, Error> {
     let file_contents = fs::read_to_string(file_name)?;
     let res = serde_json::from_str(&file_contents)?;
     Ok(res)
 }
 
-pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, DBError> {
+pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     let mut struct_list = vec![];
     for dir_entry in fs::read_dir(dir_path)? {
         let entry = dir_entry?;
@@ -23,28 +23,28 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, DBError> 
         let path_str = m_path
             .to_str()
             .to_owned()
-            .ok_or(DBError::PathError("no clue".to_owned()))?;
+            .ok_or(Error::PathError("no clue".to_owned()))?;
         let json_contents: T = load_json(path_str)?;
         struct_list.push(json_contents);
     }
     Ok(struct_list)
 }
-pub fn load_plants() -> Result<Vec<Plant>, DBError> {
+pub fn load_plants() -> Result<Vec<Plant>, Error> {
     let plants_old: Vec<PlantJSON> = load_dir(PLANTS_DIR)?;
     let plants_new = plants_old
         .iter()
         .cloned()
         .map(|pl| <PlantJSON as TryInto<Plant>>::try_into(pl))
-        .collect::<Result<Vec<Plant>, DBError>>()?;
+        .collect::<Result<Vec<Plant>, Error>>()?;
     Ok(plants_new)
 }
 
-pub fn load_species() -> Result<Vec<Species>, DBError> {
+pub fn load_species() -> Result<Vec<Species>, Error> {
     let species_old: Vec<SpeciesJSON> = load_dir(SPECIES_DIR)?;
     let species_new = species_old
         .iter()
         .cloned()
         .map(|sp| <SpeciesJSON as TryInto<Species>>::try_into(sp))
-        .collect::<Result<Vec<Species>, DBError>>()?;
+        .collect::<Result<Vec<Species>, Error>>()?;
     Ok(species_new)
 }
