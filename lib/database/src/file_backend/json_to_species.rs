@@ -1,4 +1,4 @@
-use super::errors::DBError;
+use super::errors::Error;
 use plants::species::Species;
 use serde::Deserialize;
 use std::str::FromStr;
@@ -12,7 +12,7 @@ pub enum FloatOrIntOrString {
 }
 
 impl TryInto<i32> for FloatOrIntOrString {
-    type Error = DBError;
+    type Error = Error;
     fn try_into(self) -> Result<i32, Self::Error> {
         let new_int = match self {
             FloatOrIntOrString::Int(i) => Ok(i),
@@ -23,7 +23,7 @@ impl TryInto<i32> for FloatOrIntOrString {
     }
 }
 impl TryInto<f32> for FloatOrIntOrString {
-    type Error = DBError;
+    type Error = Error;
     fn try_into(self) -> Result<f32, Self::Error> {
         let new_fl = match self {
             FloatOrIntOrString::Int(i) => Ok(i as f32),
@@ -67,7 +67,7 @@ pub struct SpeciesJSON {
 }
 
 impl TryInto<Species> for SpeciesJSON {
-    type Error = DBError;
+    type Error = Error;
 
     fn try_into(self) -> Result<Species, Self::Error> {
         let new_temp_min = self.temperature_min.try_into()?;

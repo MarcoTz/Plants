@@ -18,7 +18,7 @@ pub struct ConversionError {
     pub to_ty: ConversionType,
     pub msg: String,
 }
-pub enum DBError {
+pub enum Error {
     FilesError(io::Error),
     JSONError(serde_json::Error),
     PathError(String),
@@ -26,26 +26,26 @@ pub enum DBError {
     PlantErr(plant_err::PlantError),
 }
 
-impl Into<DBError> for ConversionError {
-    fn into(self) -> DBError {
-        DBError::ConversionError(self)
+impl Into<Error> for ConversionError {
+    fn into(self) -> Error {
+        Error::ConversionError(self)
     }
 }
 
-impl From<io::Error> for DBError {
-    fn from(err: io::Error) -> DBError {
-        DBError::FilesError(err)
+impl From<io::Error> for Error {
+    fn from(err: io::Error) -> Error {
+        Error::FilesError(err)
     }
 }
 
-impl From<serde_json::Error> for DBError {
-    fn from(err: serde_json::Error) -> DBError {
-        DBError::JSONError(err)
+impl From<serde_json::Error> for Error {
+    fn from(err: serde_json::Error) -> Error {
+        Error::JSONError(err)
     }
 }
 
-impl From<num::ParseIntError> for DBError {
-    fn from(err: num::ParseIntError) -> DBError {
+impl From<num::ParseIntError> for Error {
+    fn from(err: num::ParseIntError) -> Error {
         ConversionError {
             from_ty: ConversionType::Str,
             to_ty: ConversionType::Int,
@@ -55,14 +55,14 @@ impl From<num::ParseIntError> for DBError {
     }
 }
 
-impl From<plant_err::PlantError> for DBError {
-    fn from(err: plant_err::PlantError) -> DBError {
-        DBError::PlantErr(err)
+impl From<plant_err::PlantError> for Error {
+    fn from(err: plant_err::PlantError) -> Error {
+        Error::PlantErr(err)
     }
 }
 
-impl From<num::ParseFloatError> for DBError {
-    fn from(err: num::ParseFloatError) -> DBError {
+impl From<num::ParseFloatError> for Error {
+    fn from(err: num::ParseFloatError) -> Error {
         ConversionError {
             from_ty: ConversionType::Str,
             to_ty: ConversionType::Int,
@@ -72,8 +72,8 @@ impl From<num::ParseFloatError> for DBError {
     }
 }
 
-impl From<str::ParseBoolError> for DBError {
-    fn from(err: str::ParseBoolError) -> DBError {
+impl From<str::ParseBoolError> for Error {
+    fn from(err: str::ParseBoolError) -> Error {
         ConversionError {
             from_ty: ConversionType::Str,
             to_ty: ConversionType::Bool,
@@ -83,8 +83,8 @@ impl From<str::ParseBoolError> for DBError {
     }
 }
 
-impl From<chrono::ParseError> for DBError {
-    fn from(err: chrono::ParseError) -> DBError {
+impl From<chrono::ParseError> for Error {
+    fn from(err: chrono::ParseError) -> Error {
         ConversionError {
             from_ty: ConversionType::Str,
             to_ty: ConversionType::Date,
@@ -94,17 +94,17 @@ impl From<chrono::ParseError> for DBError {
     }
 }
 
-impl fmt::Debug for DBError {
+impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            DBError::FilesError(err) => fmt::Debug::fmt(err, frmt),
-            DBError::JSONError(err) => fmt::Debug::fmt(err, frmt),
-            DBError::PathError(err) => frmt.write_str(err),
-            DBError::ConversionError(err) => frmt.write_str(&format!(
+            Error::FilesError(err) => fmt::Debug::fmt(err, frmt),
+            Error::JSONError(err) => fmt::Debug::fmt(err, frmt),
+            Error::PathError(err) => frmt.write_str(err),
+            Error::ConversionError(err) => frmt.write_str(&format!(
                 "Could not convert from {:?} to {:?}, message: {}",
                 err.from_ty, err.to_ty, err.msg,
             )),
-            DBError::PlantErr(err) => fmt::Debug::fmt(err, frmt),
+            Error::PlantErr(err) => fmt::Debug::fmt(err, frmt),
         }
     }
 }

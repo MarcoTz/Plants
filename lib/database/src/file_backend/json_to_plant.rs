@@ -1,4 +1,4 @@
-use super::errors::{ConversionError, ConversionType, DBError};
+use super::errors::Error;
 use chrono::NaiveDate;
 use plants::plant::Plant;
 use serde::Deserialize;
@@ -11,7 +11,7 @@ pub enum BoolOrString {
 }
 
 impl TryInto<bool> for BoolOrString {
-    type Error = DBError;
+    type Error = Error;
     fn try_into(self) -> Result<bool, Self::Error> {
         let new_b = match self {
             BoolOrString::Bool(b) => Ok(b),
@@ -42,7 +42,7 @@ pub struct PlantJSON {
 }
 
 impl TryInto<Plant> for PlantJSON {
-    type Error = DBError;
+    type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
         let new_obtained = NaiveDate::parse_from_str(&self.obtained, "%d.%m.%Y")?;
         let new_autowater = self.auto_watering.try_into()?;
