@@ -1,10 +1,34 @@
+use super::constants::{PLANT_JSON_OUT, SPECIES_JSON_OUT};
 use super::errors::Error;
+use plants::named::Named;
+use plants::plant::Plant;
+use plants::species::Species;
+use serde::Serialize;
+use std::fs::File;
+use std::io::Write;
 
 pub fn write_json<T: Serialize>(item: T, out_path: &str) -> Result<(), Error> {
-    let serialized = serde_json::to_string(&item);
-    let out_file = File::create(out_path);
-    out_file.write_all(&serialized);
+    let serialized = serde_json::to_string(&item)?;
+    let mut out_file = File::create(out_path)?;
+    out_file.write_all(&serialized.as_bytes());
     Ok(())
 }
 
-pub fn write_vec<T: Serialize>(items: Vec<T>, out_path_base: &str) -> Result<(), Error> {}
+pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path_base: &str) -> Result<(), Error> {
+    for item in items.iter() {
+        let mut out_path = out_path_base.to_owned();
+        out_path.push_str("/");
+        out_path.push_str(&item.get_name());
+        out_path.push_str(".json");
+        write_json(item, &out_path)?;
+    }
+    Ok(())
+}
+
+pub fn write_plants(plants: Vec<Plant>) -> Result<(), Error> {
+    write_vec(plants, PLANT_JSON_OUT)
+}
+
+pub fn write_species(species: Vec<Species>) -> Result<(), Error> {
+    write_vec(species, SPECIES_JSON_OUT)
+}
