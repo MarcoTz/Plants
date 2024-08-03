@@ -1,3 +1,4 @@
+use super::constants::DATE_FORMAT;
 use super::errors::Error;
 use chrono::NaiveDate;
 use plants::plant::Plant;
@@ -44,7 +45,7 @@ pub struct PlantJSON {
 impl TryInto<Plant> for PlantJSON {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
-        let new_obtained = NaiveDate::parse_from_str(&self.obtained, "%d.%m.%Y")?;
+        let new_obtained = NaiveDate::parse_from_str(&self.obtained, DATE_FORMAT)?;
         let new_autowater = self.auto_watering.try_into()?;
         Ok(Plant {
             name: self.plant_name,
