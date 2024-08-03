@@ -55,9 +55,6 @@ impl TryInto<Plant> for PlantJSON {
             obtained: new_obtained.into(),
             auto_water: new_autowater,
             notes: self.plant_notes,
-            images: vec![],
-            activities: vec![],
-            growth: vec![],
         })
     }
 }

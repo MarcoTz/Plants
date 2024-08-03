@@ -6,3 +6,4 @@ pub mod json_to_plant;
 pub mod json_to_species;
 pub mod load_csv;
 pub mod load_json;
+pub mod write_json;

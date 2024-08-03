@@ -1,6 +1,8 @@
 use super::errors::PlantError;
+use serde::Serialize;
 use std::str::FromStr;
 
+#[derive(Serialize)]
 pub enum SunlightRequirement {
     Direct,
     Indirect,
@@ -18,6 +20,8 @@ impl FromStr for SunlightRequirement {
         }
     }
 }
+
+#[derive(Serialize)]
 pub struct Species {
     pub name: String,
     pub scientific_name: String,
