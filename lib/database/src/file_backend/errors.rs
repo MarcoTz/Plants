@@ -24,6 +24,7 @@ pub enum Error {
     PathError(String),
     ConversionError(ConversionError),
     PlantErr(plant_err::PlantError),
+    OtherErr(String),
 }
 
 impl Into<Error> for ConversionError {
@@ -94,6 +95,12 @@ impl From<chrono::ParseError> for Error {
     }
 }
 
+impl From<String> for Error {
+    fn from(msg: String) -> Error {
+        Error::OtherErr(msg)
+    }
+}
+
 impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -105,6 +112,7 @@ impl fmt::Debug for Error {
                 err.from_ty, err.to_ty, err.msg,
             )),
             Error::PlantErr(err) => fmt::Debug::fmt(err, frmt),
+            Error::OtherErr(msg) => frmt.write_str(msg),
         }
     }
 }

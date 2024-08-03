@@ -1,3 +1,4 @@
+use super::constants::{PLANTS_DIR, SPECIES_DIR};
 use super::errors::Error;
 use super::json_to_plant::PlantJSON;
 use super::json_to_species::SpeciesJSON;
@@ -5,9 +6,6 @@ use plants::plant::Plant;
 use plants::species::Species;
 use serde::de::DeserializeOwned;
 use std::fs;
-
-const PLANTS_DIR: &str = "data/Plants";
-const SPECIES_DIR: &str = "data/PlantSpecies";
 
 fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, Error> {
     let file_contents = fs::read_to_string(file_name)?;
