@@ -1,5 +1,5 @@
 use super::date::date_serializer;
-use super::errors::PlantError;
+use super::errors::Error;
 use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
 use super::species::Species;
@@ -76,7 +76,7 @@ impl Plant {
         self.get_next_activity_date("fertilizing", activities, species)
     }
 
-    fn get_last_growth(&self, growth: Vec<GrowthItem>) -> Result<GrowthItem, PlantError> {
+    fn get_last_growth(&self, growth: Vec<GrowthItem>) -> Result<GrowthItem, Error> {
         let mut self_growth = vec![];
         for growth_item in growth.iter() {
             if growth_item.plant == self.name {
@@ -86,20 +86,20 @@ impl Plant {
         let last_growth = self_growth
             .iter()
             .max()
-            .ok_or(PlantError::GrowthError(self.name.clone()))?;
+            .ok_or(Error::GrowthError(self.name.clone()))?;
         Ok(last_growth.clone())
     }
-    fn get_height(&self, growth: Vec<GrowthItem>) -> Result<f32, PlantError> {
+    fn get_height(&self, growth: Vec<GrowthItem>) -> Result<f32, Error> {
         let last_growth = self.get_last_growth(growth)?;
         Ok(last_growth.height_cm)
     }
 
-    fn get_width(&self, growth: Vec<GrowthItem>) -> Result<f32, PlantError> {
+    fn get_width(&self, growth: Vec<GrowthItem>) -> Result<f32, Error> {
         let last_growth = self.get_last_growth(growth)?;
         Ok(last_growth.width_cm)
     }
 
-    fn get_health(&self, growth: Vec<GrowthItem>) -> Result<i32, PlantError> {
+    fn get_health(&self, growth: Vec<GrowthItem>) -> Result<i32, Error> {
         let last_growth = self.get_last_growth(growth)?;
         Ok(last_growth.health)
     }

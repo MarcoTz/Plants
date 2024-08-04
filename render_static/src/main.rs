@@ -24,9 +24,9 @@ fn load(
 > {
     let plants = load_plants(&db_man.plants_dir)?;
     let species = load_species(&db_man.species_dir)?;
-    let logs = load_activities(&db_man.get_activities_filepath())?;
-    let growth = load_growth(&db_man.get_growth_filepath())?;
-    let graveyard = load_graveyard(&db_man.get_graveyard_filepath())?;
+    let logs = load_activities(&db_man.get_activities_filepath()?)?;
+    let growth = load_growth(&db_man.get_growth_filepath()?)?;
+    let graveyard = load_graveyard(&db_man.get_graveyard_filepath()?)?;
     Ok((plants, species, logs, growth, graveyard))
 }
 fn save(

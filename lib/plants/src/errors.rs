@@ -1,15 +1,15 @@
 use std::fmt;
 
-pub enum PlantError {
+pub enum Error {
     SunlightError(String),
     GrowthError(String),
 }
 
-impl fmt::Debug for PlantError {
+impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            PlantError::SunlightError(msg) => frmt.write_str(msg),
-            PlantError::GrowthError(plant_name) => {
+            Error::SunlightError(msg) => frmt.write_str(msg),
+            Error::GrowthError(plant_name) => {
                 frmt.write_str(&format!("Could not find growth for plant {}", plant_name))
             }
         }

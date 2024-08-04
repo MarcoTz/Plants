@@ -1,7 +1,7 @@
 use chrono;
+use csv;
 use plants::errors as plant_err;
 use std::fmt;
-use std::io;
 use std::num;
 use std::str;
 
@@ -13,18 +13,40 @@ pub enum ConversionType {
     Date,
 }
 
+pub enum AccessType {
+    Write,
+    Read,
+}
+
+pub enum Error {
+    ConversionError(ConversionError),
+    CSVError(CSVError),
+    SerializeError(SerializeError),
+    FSError(FSError),
+    PlantError(plant_err::Error),
+}
+
 pub struct ConversionError {
     pub from_ty: ConversionType,
     pub to_ty: ConversionType,
     pub msg: String,
 }
-pub enum Error {
-    FilesError(io::Error),
-    JSONError(serde_json::Error),
-    PathError(String),
-    ConversionError(ConversionError),
-    PlantErr(plant_err::PlantError),
-    OtherErr(String),
+
+pub struct CSVError {
+    pub csv_file: String,
+    pub err_msg: String,
+}
+
+pub struct SerializeError {
+    pub out_path: String,
+    pub err_msg: String,
+    pub access: AccessType,
+}
+
+pub struct FSError {
+    pub file_name: String,
+    pub err_msg: String,
+    pub access: AccessType,
 }
 
 impl Into<Error> for ConversionError {
@@ -33,32 +55,21 @@ impl Into<Error> for ConversionError {
     }
 }
 
-impl From<io::Error> for Error {
-    fn from(err: io::Error) -> Error {
-        Error::FilesError(err)
+impl Into<Error> for CSVError {
+    fn into(self) -> Error {
+        Error::CSVError(self)
     }
 }
 
-impl From<serde_json::Error> for Error {
-    fn from(err: serde_json::Error) -> Error {
-        Error::JSONError(err)
+impl Into<Error> for SerializeError {
+    fn into(self) -> Error {
+        Error::SerializeError(self)
     }
 }
 
-impl From<num::ParseIntError> for Error {
-    fn from(err: num::ParseIntError) -> Error {
-        ConversionError {
-            from_ty: ConversionType::Str,
-            to_ty: ConversionType::Int,
-            msg: err.to_string(),
-        }
-        .into()
-    }
-}
-
-impl From<plant_err::PlantError> for Error {
-    fn from(err: plant_err::PlantError) -> Error {
-        Error::PlantErr(err)
+impl Into<Error> for FSError {
+    fn into(self) -> Error {
+        Error::FSError(self)
     }
 }
 
@@ -84,6 +95,17 @@ impl From<str::ParseBoolError> for Error {
     }
 }
 
+impl From<num::ParseIntError> for Error {
+    fn from(err: num::ParseIntError) -> Error {
+        ConversionError {
+            from_ty: ConversionType::Str,
+            to_ty: ConversionType::Int,
+            msg: err.to_string(),
+        }
+        .into()
+    }
+}
+
 impl From<chrono::ParseError> for Error {
     fn from(err: chrono::ParseError) -> Error {
         ConversionError {
@@ -95,24 +117,54 @@ impl From<chrono::ParseError> for Error {
     }
 }
 
-impl From<String> for Error {
-    fn from(msg: String) -> Error {
-        Error::OtherErr(msg)
+impl From<plant_err::Error> for Error {
+    fn from(err: plant_err::Error) -> Error {
+        Error::PlantError(err)
     }
 }
 
 impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::FilesError(err) => fmt::Debug::fmt(err, frmt),
-            Error::JSONError(err) => fmt::Debug::fmt(err, frmt),
-            Error::PathError(err) => frmt.write_str(err),
-            Error::ConversionError(err) => frmt.write_str(&format!(
-                "Could not convert from {:?} to {:?}, message: {}",
-                err.from_ty, err.to_ty, err.msg,
+            Error::CSVError(CSVError {
+                csv_file: file_name,
+                err_msg: msg,
+            }) => frmt.write_str(&format!(
+                "Could not load csv file {file_name:?}, message: {msg}"
             )),
-            Error::PlantErr(err) => fmt::Debug::fmt(err, frmt),
-            Error::OtherErr(msg) => frmt.write_str(msg),
+            Error::ConversionError(ConversionError {
+                from_ty: frty,
+                to_ty: toty,
+                msg: err,
+            }) => frmt.write_str(&format!(
+                "Could not convert from {frty:?} to {toty:?}, message: {err}",
+            )),
+            Error::SerializeError(SerializeError {
+                out_path: path,
+                err_msg: msg,
+                access: acc_ty,
+            }) => {
+                let acc_msg = match acc_ty {
+                    AccessType::Write => "serialize",
+                    AccessType::Read => "deserialize",
+                };
+
+                frmt.write_str(&format!(
+                    "Could not {acc_msg} for file {path}, message: {msg}"
+                ))
+            }
+            Error::FSError(FSError {
+                file_name: file,
+                err_msg: msg,
+                access: acc_ty,
+            }) => {
+                let acc_msg = match acc_ty {
+                    AccessType::Write => "write to",
+                    AccessType::Read => "read from",
+                };
+                frmt.write_str(&format!("Could not {acc_msg} file {file}, message: {msg}"))
+            }
+            Error::PlantError(err) => fmt::Debug::fmt(err, frmt),
         }
     }
 }
