@@ -1,4 +1,4 @@
-use super::errors::Error;
+use super::errors::{AccessType, Error, FSError, SerializeError};
 use plants::named::Named;
 use plants::plant::Plant;
 use plants::species::Species;
@@ -6,10 +6,28 @@ use serde::Serialize;
 use std::fs::File;
 use std::io::Write;
 
-pub fn write_json<T: Serialize>(item: T, out_path: &str) -> Result<(), Error> {
-    let serialized = serde_json::to_string(&item)?;
-    let mut out_file = File::create(out_path)?;
-    let _ = out_file.write_all(&serialized.as_bytes())?;
+pub fn write_json<T: Serialize>(item: T, out_filepath: &str) -> Result<(), Error> {
+    let serialized = serde_json::to_string(&item).map_err(|err| {
+        <SerializeError as Into<Error>>::into(SerializeError {
+            out_path: out_filepath.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Write,
+        })
+    })?;
+    let mut out_file = File::create(out_filepath).map_err(|err| {
+        <FSError as Into<Error>>::into(FSError {
+            file_name: out_filepath.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Write,
+        })
+    })?;
+    let _ = out_file.write_all(&serialized.as_bytes()).map_err(|err| {
+        <FSError as Into<Error>>::into(FSError {
+            file_name: out_filepath.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Write,
+        })
+    })?;
     Ok(())
 }
 

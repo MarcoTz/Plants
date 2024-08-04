@@ -1,4 +1,4 @@
-use super::errors::PlantError;
+use super::errors::Error;
 use chrono::TimeDelta;
 use serde::Serialize;
 use std::str::FromStr;
@@ -11,13 +11,13 @@ pub enum SunlightRequirement {
 }
 
 impl FromStr for SunlightRequirement {
-    type Err = PlantError;
-    fn from_str(s: &str) -> Result<SunlightRequirement, PlantError> {
+    type Err = Error;
+    fn from_str(s: &str) -> Result<SunlightRequirement, Error> {
         match s.trim().to_lowercase().as_str() {
             "direct" => Ok(SunlightRequirement::Direct),
             "indirect" => Ok(SunlightRequirement::Indirect),
             "shade" => Ok(SunlightRequirement::Shade),
-            _ => Err(PlantError::SunlightError(s.to_owned())),
+            _ => Err(Error::SunlightError(s.to_owned())),
         }
     }
 }

@@ -1,4 +1,4 @@
-use super::errors::Error;
+use super::errors::{AccessType, Error, FSError, SerializeError};
 use super::json_to_plant::PlantJSON;
 use super::json_to_species::SpeciesJSON;
 use plants::plant::Plant;
@@ -7,20 +7,45 @@ use serde::de::DeserializeOwned;
 use std::fs;
 
 fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, Error> {
-    let file_contents = fs::read_to_string(file_name)?;
-    let res = serde_json::from_str(&file_contents)?;
+    let file_contents = fs::read_to_string(file_name).map_err(|err| {
+        <FSError as Into<Error>>::into(FSError {
+            file_name: file_name.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Read,
+        })
+    })?;
+    let res = serde_json::from_str(&file_contents).map_err(|err| {
+        <SerializeError as Into<Error>>::into(SerializeError {
+            out_path: file_name.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Write,
+        })
+    })?;
     Ok(res)
 }
 
 pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     let mut struct_list = vec![];
-    for dir_entry in fs::read_dir(dir_path)? {
-        let entry = dir_entry?;
+    for dir_entry in fs::read_dir(dir_path).map_err(|err| {
+        <FSError as Into<Error>>::into(FSError {
+            file_name: dir_path.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Read,
+        })
+    })? {
+        let entry = dir_entry.map_err(|err| {
+            <FSError as Into<Error>>::into(FSError {
+                file_name: dir_path.to_owned(),
+                err_msg: err.to_string(),
+                access: AccessType::Read,
+            })
+        })?;
         let m_path = entry.path();
-        let path_str = m_path
-            .to_str()
-            .to_owned()
-            .ok_or(Error::PathError("no clue".to_owned()))?;
+        let path_str = m_path.to_str().to_owned().ok_or(Error::FSError(FSError {
+            file_name: dir_path.to_owned(),
+            err_msg: "Could not find path".to_owned(),
+            access: AccessType::Read,
+        }))?;
         let json_contents: T = load_json(path_str)?;
         struct_list.push(json_contents);
     }
