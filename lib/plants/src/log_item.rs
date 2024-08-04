@@ -1,12 +1,12 @@
 use super::date::date_serializer;
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct LogItem {
     pub activity: String,
     #[serde(with = "date_serializer")]
     pub date: NaiveDate,
-    pub plants: Vec<String>,
+    pub plant: String,
     pub note: Option<String>,
 }

@@ -1,4 +1,3 @@
-use super::errors::Error;
 use chrono::NaiveDate;
 use plants::date::date_serializer;
 use plants::log_item::LogItem;
@@ -13,19 +12,24 @@ pub struct LogCSV {
     note: Option<String>,
 }
 
-impl Into<LogItem> for LogCSV {
-    fn into(self) -> LogItem {
-        let new_plants = self
+impl Into<Vec<LogItem>> for LogCSV {
+    fn into(self) -> Vec<LogItem> {
+        let new_plants: Vec<String> = self
             .plants
             .split(",")
             .into_iter()
             .map(|st| st.trim().to_owned())
             .collect();
-        LogItem {
-            date: self.date,
-            activity: self.activity,
-            plants: new_plants,
-            note: self.note,
+        let mut items = vec![];
+        for item in new_plants.iter() {
+            let new_log = LogItem {
+                date: self.date,
+                activity: self.activity.clone(),
+                plant: item.clone(),
+                note: self.note.clone(),
+            };
+            items.push(new_log);
         }
+        items
     }
 }

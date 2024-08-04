@@ -1,8 +1,8 @@
 use super::date::date_serializer;
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GrowthItem {
     #[serde(with = "date_serializer")]
     pub date: NaiveDate,
