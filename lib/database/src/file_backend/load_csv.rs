@@ -26,23 +26,29 @@ fn load_csv<T: DeserializeOwned>(file_path: &str) -> Result<Vec<T>, Error> {
 }
 
 pub fn load_graveyard() -> Result<Vec<GraveyardPlant>, Error> {
-    load_csv(GRAVEYARD_FILE)
+    let mut graveyard = load_csv(GRAVEYARD_FILE)?;
+    graveyard.sort();
+    Ok(graveyard)
 }
 
 pub fn load_activities() -> Result<Vec<LogItem>, Error> {
     let activities_csv: Vec<LogCSV> = load_csv(ACTIVITY_FILE)?;
-    Ok(activities_csv
+    let mut activities_conv = activities_csv
         .iter()
         .cloned()
         .flat_map(|x| <LogCSV as Into<Vec<LogItem>>>::into(x))
-        .collect())
+        .collect::<Vec<LogItem>>();
+    activities_conv.sort();
+    Ok(activities_conv)
 }
 
 pub fn load_growth() -> Result<Vec<GrowthItem>, Error> {
     let growth_csv: Vec<GrowthCSV> = load_csv(GROWTH_FILE)?;
-    Ok(growth_csv
+    let mut growth_conv = growth_csv
         .iter()
         .cloned()
         .map(|x| <GrowthCSV as Into<GrowthItem>>::into(x))
-        .collect())
+        .collect::<Vec<GrowthItem>>();
+    growth_conv.sort();
+    Ok(growth_conv)
 }
