@@ -2,6 +2,7 @@
 members = [
   "lib/plants",
   "lib/database",
+  "lib/html_renderer",
   "render_static"
 ]
 resolver = "2"

@@ -1,4 +1,3 @@
-use super::errors::Error;
 use chrono::NaiveDate;
 use plants::date::date_serializer;
 use plants::growth_item::GrowthItem;
