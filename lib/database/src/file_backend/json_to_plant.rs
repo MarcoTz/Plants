@@ -1,5 +1,6 @@
-use super::constants::DATE_FORMAT;
+//REMOVE later
 use super::errors::Error;
+use super::file_db;
 use chrono::NaiveDate;
 use plants::plant::Plant;
 use serde::Deserialize;
@@ -45,7 +46,8 @@ pub struct PlantJSON {
 impl TryInto<Plant> for PlantJSON {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
-        let new_obtained = NaiveDate::parse_from_str(&self.obtained, DATE_FORMAT)?;
+        let db_man = file_db::get_default();
+        let new_obtained = NaiveDate::parse_from_str(&self.obtained, &db_man.date_format)?;
         let new_autowater = self.auto_watering.try_into()?;
         Ok(Plant {
             name: self.plant_name,

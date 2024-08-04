@@ -1,4 +1,3 @@
-use super::constants::{PLANTS_DIR, SPECIES_DIR};
 use super::errors::Error;
 use super::json_to_plant::PlantJSON;
 use super::json_to_species::SpeciesJSON;
@@ -27,8 +26,8 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     }
     Ok(struct_list)
 }
-pub fn load_plants() -> Result<Vec<Plant>, Error> {
-    let plants_old: Vec<PlantJSON> = load_dir(PLANTS_DIR)?;
+pub fn load_plants(plants_dir: &str) -> Result<Vec<Plant>, Error> {
+    let plants_old: Vec<PlantJSON> = load_dir(plants_dir)?;
     let plants_new = plants_old
         .iter()
         .cloned()
@@ -37,8 +36,8 @@ pub fn load_plants() -> Result<Vec<Plant>, Error> {
     Ok(plants_new)
 }
 
-pub fn load_species() -> Result<Vec<Species>, Error> {
-    let species_old: Vec<SpeciesJSON> = load_dir(SPECIES_DIR)?;
+pub fn load_species(species_dir: &str) -> Result<Vec<Species>, Error> {
+    let species_old: Vec<SpeciesJSON> = load_dir(species_dir)?;
     let species_new = species_old
         .iter()
         .cloned()

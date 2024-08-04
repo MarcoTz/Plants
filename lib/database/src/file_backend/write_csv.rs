@@ -1,4 +1,3 @@
-use super::constants::{ACTIVITIES_OUT, GRAVEYARD_OUT, GROWTH_OUT};
 use super::errors::Error;
 use csv::WriterBuilder;
 use plants::graveyard::GraveyardPlant;
@@ -21,12 +20,12 @@ fn write_csv<T: Serialize + std::fmt::Debug>(items: Vec<T>, file_path: &str) -> 
     Ok(())
 }
 
-pub fn write_activities(activities: Vec<LogItem>) -> Result<(), Error> {
-    write_csv(activities, ACTIVITIES_OUT)
+pub fn write_activities(activities: Vec<LogItem>, activities_out: &str) -> Result<(), Error> {
+    write_csv(activities, activities_out)
 }
-pub fn write_growth(growth: Vec<GrowthItem>) -> Result<(), Error> {
-    write_csv(growth, GROWTH_OUT)
+pub fn write_growth(growth: Vec<GrowthItem>, growth_out: &str) -> Result<(), Error> {
+    write_csv(growth, growth_out)
 }
-pub fn write_graveyard(graveyard: Vec<GraveyardPlant>) -> Result<(), Error> {
-    write_csv(graveyard, GRAVEYARD_OUT)
+pub fn write_graveyard(graveyard: Vec<GraveyardPlant>, graveyard_out: &str) -> Result<(), Error> {
+    write_csv(graveyard, graveyard_out)
 }
