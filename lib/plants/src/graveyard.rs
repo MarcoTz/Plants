@@ -1,8 +1,8 @@
 use super::date::date_serializer;
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GraveyardPlant {
     name: String,
     species: String,

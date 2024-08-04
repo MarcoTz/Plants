@@ -9,7 +9,6 @@ use plants::log_item::LogItem;
 use serde::de::DeserializeOwned;
 
 fn load_csv<T: DeserializeOwned>(file_path: &str) -> Result<Vec<T>, Error> {
-    println!("loading path {file_path}");
     let mut csv_rows = vec![];
     let mut csv_reader = ReaderBuilder::new()
         .delimiter(b';')
@@ -35,7 +34,7 @@ pub fn load_activities() -> Result<Vec<LogItem>, Error> {
     Ok(activities_csv
         .iter()
         .cloned()
-        .map(|x| <LogCSV as Into<LogItem>>::into(x))
+        .flat_map(|x| <LogCSV as Into<Vec<LogItem>>>::into(x))
         .collect())
 }
 
