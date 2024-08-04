@@ -17,6 +17,7 @@ pub struct GrowthCSV {
 impl Into<GrowthItem> for GrowthCSV {
     fn into(self) -> GrowthItem {
         GrowthItem {
+            plant: self.plant,
             date: self.date,
             height_cm: self.height,
             width_cm: self.width,

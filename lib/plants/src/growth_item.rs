@@ -3,8 +3,9 @@ use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
 pub struct GrowthItem {
+    pub plant: String,
     #[serde(with = "date_serializer")]
     pub date: NaiveDate,
     pub height_cm: f32,

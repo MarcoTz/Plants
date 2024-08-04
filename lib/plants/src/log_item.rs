@@ -3,7 +3,7 @@ use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 pub struct LogItem {
     pub activity: String,
     #[serde(with = "date_serializer")]
