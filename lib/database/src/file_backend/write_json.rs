@@ -1,4 +1,3 @@
-use super::constants::{PLANT_JSON_OUT, SPECIES_JSON_OUT};
 use super::errors::Error;
 use plants::named::Named;
 use plants::plant::Plant;
@@ -25,10 +24,10 @@ pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path_base: &str) -> Re
     Ok(())
 }
 
-pub fn write_plants(plants: Vec<Plant>) -> Result<(), Error> {
-    write_vec(plants, PLANT_JSON_OUT)
+pub fn write_plants(plants: Vec<Plant>, plant_dir: &str) -> Result<(), Error> {
+    write_vec(plants, plant_dir)
 }
 
-pub fn write_species(species: Vec<Species>) -> Result<(), Error> {
-    write_vec(species, SPECIES_JSON_OUT)
+pub fn write_species(species: Vec<Species>, species_dir: &str) -> Result<(), Error> {
+    write_vec(species, species_dir)
 }
