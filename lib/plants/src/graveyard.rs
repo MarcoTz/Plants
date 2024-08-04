@@ -1,8 +1,9 @@
 use super::date::date_serializer;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, PartialEq, Eq)]
 pub struct GraveyardPlant {
     name: String,
     species: String,
@@ -11,4 +12,21 @@ pub struct GraveyardPlant {
     #[serde(with = "date_serializer")]
     died: NaiveDate,
     reason: String,
+}
+
+impl PartialOrd for GraveyardPlant {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(&other))
+    }
+}
+
+impl Ord for GraveyardPlant {
+    fn cmp(&self, other: &Self) -> Ordering {
+        let died_ord = self.died.cmp(&other.died);
+        if died_ord == Ordering::Equal {
+            self.planted.cmp(&other.planted)
+        } else {
+            died_ord
+        }
+    }
 }
