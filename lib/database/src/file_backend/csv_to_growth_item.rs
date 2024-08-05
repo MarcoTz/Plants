@@ -13,14 +13,14 @@ pub struct GrowthCSV {
     note: Option<String>,
 }
 
-impl Into<GrowthItem> for GrowthCSV {
-    fn into(self) -> GrowthItem {
+impl From<GrowthCSV> for GrowthItem {
+    fn from(growth_csv: GrowthCSV) -> GrowthItem {
         GrowthItem {
-            plant: self.plant,
-            date: self.date,
-            height_cm: self.height,
-            width_cm: self.width,
-            note: self.note,
+            plant: growth_csv.plant,
+            date: growth_csv.date,
+            height_cm: growth_csv.height,
+            width_cm: growth_csv.width,
+            note: growth_csv.note,
             health: 3,
         }
     }

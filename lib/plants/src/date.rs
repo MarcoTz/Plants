@@ -2,7 +2,7 @@ pub mod date_serializer {
     use chrono::NaiveDate;
     use serde::{Deserialize, Deserializer, Serializer};
 
-    const FORMAT: &'static str = "%d.%m.%Y";
+    const FORMAT: &str = "%d.%m.%Y";
 
     pub fn serialize<S: Serializer>(date: &NaiveDate, serializer: S) -> Result<S::Ok, S::Error> {
         let s = format!("{}", date.format(FORMAT));

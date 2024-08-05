@@ -51,7 +51,7 @@ pub fn load_activities(activity_file: &str) -> Result<Vec<LogItem>, Error> {
     let mut activities_conv = activities_csv
         .iter()
         .cloned()
-        .flat_map(|x| <LogCSV as Into<Vec<LogItem>>>::into(x))
+        .flat_map(<LogCSV as Into<Vec<LogItem>>>::into)
         .collect::<Vec<LogItem>>();
     activities_conv.sort();
     Ok(activities_conv)
@@ -62,7 +62,7 @@ pub fn load_growth(growth_file: &str) -> Result<Vec<GrowthItem>, Error> {
     let mut growth_conv = growth_csv
         .iter()
         .cloned()
-        .map(|x| <GrowthCSV as Into<GrowthItem>>::into(x))
+        .map(<GrowthCSV as Into<GrowthItem>>::into)
         .collect::<Vec<GrowthItem>>();
     growth_conv.sort();
     Ok(growth_conv)

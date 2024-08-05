@@ -54,7 +54,7 @@ impl TryInto<Plant> for PlantJSON {
             species_name: self.species_name,
             location: self.current_location,
             origin: self.origin,
-            obtained: new_obtained.into(),
+            obtained: new_obtained,
             auto_water: new_autowater,
             notes: self.plant_notes,
         })
