@@ -1,4 +1,4 @@
-use super::component::{HtmlComponent, Render};
+use super::html_element::{HtmlElement, Render};
 pub struct Literal {
     content: String,
 }
@@ -8,9 +8,9 @@ impl Render for Literal {
         self.content.clone()
     }
 }
-impl From<Literal> for HtmlComponent {
-    fn from(lit: Literal) -> HtmlComponent {
-        HtmlComponent::Literal(lit)
+impl From<Literal> for HtmlElement {
+    fn from(lit: Literal) -> HtmlElement {
+        HtmlElement::Literal(lit)
     }
 }
 impl From<String> for Literal {

@@ -1,11 +1,11 @@
 pub mod attribute;
 pub mod body;
 pub mod canvas;
-pub mod component;
 pub mod div;
 pub mod figure;
 pub mod head;
 pub mod headline;
+pub mod html_element;
 pub mod img;
 pub mod input;
 pub mod link;

@@ -1,10 +1,10 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
         canvas::Canvas,
-        component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
+        html_element::HtmlElement,
     },
     page::PageComponent,
 };
@@ -13,7 +13,7 @@ use std::rc::Rc;
 pub struct PlantGrowth {}
 
 impl PageComponent for PlantGrowth {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let div_content = vec![
             Headline {
                 size: HeaderSize::H2,

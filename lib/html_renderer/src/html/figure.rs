@@ -1,12 +1,12 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 use std::rc::Rc;
 pub struct Figure {
     pub attributes: Vec<Attribute>,
-    pub content: Rc<HtmlComponent>,
-    pub caption: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
+    pub caption: Rc<HtmlElement>,
 }
 
 impl Render for Figure {
@@ -18,8 +18,8 @@ impl Render for Figure {
     }
 }
 
-impl From<Figure> for HtmlComponent {
-    fn from(fig: Figure) -> HtmlComponent {
-        HtmlComponent::Figure(fig)
+impl From<Figure> for HtmlElement {
+    fn from(fig: Figure) -> HtmlElement {
+        HtmlElement::Figure(fig)
     }
 }

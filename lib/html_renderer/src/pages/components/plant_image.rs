@@ -1,6 +1,6 @@
 use super::super::{
-    super::html_components::{
-        attribute::Attribute, component::HtmlComponent, div::Div, figure::Figure, img::Img,
+    super::html::{
+        attribute::Attribute, div::Div, figure::Figure, html_element::HtmlElement, img::Img,
     },
     page::PageComponent,
 };
@@ -16,7 +16,7 @@ pub struct PlantImage {
 }
 
 impl PageComponent for PlantImage {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let caption = vec![
             Div {
                 attributes: vec![Attribute::Class("img_date".to_owned())],

@@ -1,5 +1,5 @@
 use super::{
-    super::html_components::{body::Body, component::Html, head::Head},
+    super::html::{body::Body, head::Head, html_element::Html},
     components::{
         autowatered::AutoWatered, footer::Footer, hall_of_fame::HallOfFame, header::Header,
         next_activity::NextActivity,

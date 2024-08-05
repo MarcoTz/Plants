@@ -1,5 +1,5 @@
 use super::super::{
-    super::html_components::{attribute::Attribute, component::HtmlComponent, div::Div},
+    super::html::{attribute::Attribute, div::Div, html_element::HtmlElement},
     page::PageComponent,
 };
 use std::rc::Rc;
@@ -28,7 +28,7 @@ pub struct PlantStatus {
 }
 
 impl PageComponent for PlantStatus {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let status_items = vec![
             self.health.render(),
             self.next_watering.render(),
@@ -55,13 +55,13 @@ impl PageComponent for PlantStatus {
 }
 
 impl PageComponent for StatusItem {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         Div {
             attributes: vec![Attribute::Class("status_item".to_owned())],
             content: {
                 let name_str = self.name.clone();
                 let content_str = self.content.clone();
-                let div_content = vec![name_str.into(), HtmlComponent::Br, content_str.into()];
+                let div_content = vec![name_str.into(), HtmlElement::Br, content_str.into()];
                 Rc::new(div_content.into())
             },
         }

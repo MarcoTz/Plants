@@ -1,12 +1,12 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 use std::rc::Rc;
 
 pub struct Link {
     pub attributes: Vec<Attribute>,
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 
 impl Render for Link {
@@ -18,8 +18,8 @@ impl Render for Link {
     }
 }
 
-impl From<Link> for HtmlComponent {
-    fn from(lnk: Link) -> HtmlComponent {
-        HtmlComponent::Link(lnk)
+impl From<Link> for HtmlElement {
+    fn from(lnk: Link) -> HtmlElement {
+        HtmlElement::Link(lnk)
     }
 }

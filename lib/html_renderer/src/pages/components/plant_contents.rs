@@ -1,6 +1,6 @@
 use super::{
     super::{
-        super::html_components::{attribute::Attribute, component::HtmlComponent, div::Div},
+        super::html::{attribute::Attribute, div::Div, html_element::HtmlElement},
         page::PageComponent,
     },
     footer::Footer,
@@ -22,7 +22,7 @@ pub struct PlantContents {
 }
 
 impl PageComponent for PlantContents {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let details_content = vec![
             self.header.render(),
             self.gallery.render(),

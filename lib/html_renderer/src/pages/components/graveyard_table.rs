@@ -1,7 +1,7 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
+        html_element::HtmlElement,
         table::{Table, Td, Tr},
     },
     page::PageComponent,
@@ -15,7 +15,7 @@ pub struct GraveyardTable {
 }
 
 impl PageComponent for GraveyardTable {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut table_rows = vec![Tr {
             attributes: vec![Attribute::Class("header_row".to_owned())],
             cols: vec![

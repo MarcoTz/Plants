@@ -1,11 +1,11 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 use std::rc::Rc;
 
 pub struct Td {
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 pub struct Tr {
     pub attributes: Vec<Attribute>,
@@ -43,8 +43,8 @@ impl Render for Td {
     }
 }
 
-impl From<Table> for HtmlComponent {
-    fn from(tb: Table) -> HtmlComponent {
-        HtmlComponent::Table(tb)
+impl From<Table> for HtmlElement {
+    fn from(tb: Table) -> HtmlElement {
+        HtmlElement::Table(tb)
     }
 }

@@ -1,6 +1,6 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 pub struct Input {
     pub attributes: Vec<Attribute>,
@@ -12,8 +12,8 @@ impl Render for Input {
         format!("<input {attr_str}/>")
     }
 }
-impl From<Input> for HtmlComponent {
-    fn from(input: Input) -> HtmlComponent {
-        HtmlComponent::Input(input)
+impl From<Input> for HtmlElement {
+    fn from(input: Input) -> HtmlElement {
+        HtmlElement::Input(input)
     }
 }

@@ -1,8 +1,8 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
         div::Div,
+        html_element::HtmlElement,
         input::Input,
         select::{Select, SelectOption},
     },
@@ -31,7 +31,7 @@ pub struct PlantSearch {
 }
 
 impl PageComponent for PlantSearch {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let search_components = vec![
             Div {
                 attributes: vec![Attribute::Class("search_header".to_owned())],
@@ -52,7 +52,7 @@ impl PageComponent for PlantSearch {
 }
 
 impl PageComponent for PlantSearchField {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         Div {
             attributes: vec![],
             content: Rc::new(
@@ -84,7 +84,7 @@ impl PageComponent for PlantSearchField {
 }
 
 impl PageComponent for PlantNumberSearch {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         Div {
             attributes: vec![],
             content: Rc::new(

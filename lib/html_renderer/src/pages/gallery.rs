@@ -1,10 +1,10 @@
 use super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
         body::Body,
-        component::{Html, HtmlComponent},
         div::Div,
         head::Head,
+        html_element::{Html, HtmlElement},
     },
     components::{footer::Footer, header::Header, plant_gallery::PlantGallery},
     page::{Page, PageComponent},
@@ -23,7 +23,7 @@ impl Page for Gallery {
             title: "Gallery".to_owned(),
         };
 
-        let galleries_rendered: Vec<HtmlComponent> =
+        let galleries_rendered: Vec<HtmlElement> =
             self.plant_galleries.iter().map(|x| x.render()).collect();
         let body_content = vec![
             self.header.render(),

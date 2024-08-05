@@ -1,9 +1,9 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
+        html_element::HtmlElement,
     },
     page::PageComponent,
 };
@@ -14,7 +14,7 @@ pub struct AutoWatered {
 }
 
 impl PageComponent for AutoWatered {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let auto_water_header = Headline {
             size: HeaderSize::H1,
             content: Rc::new("Autowatered Plants".to_owned().into()),
@@ -22,7 +22,7 @@ impl PageComponent for AutoWatered {
         .into();
         let mut plant_items = vec![];
         for auto_water_plant in self.auto_watered_plants.iter() {
-            let new_div: HtmlComponent = Div {
+            let new_div: HtmlElement = Div {
                 attributes: vec![Attribute::Class("auto_watered_plants".to_owned())],
                 content: Rc::new(auto_water_plant.clone().into()),
             }

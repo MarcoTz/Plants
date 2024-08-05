@@ -1,12 +1,12 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 use std::rc::Rc;
 
 pub struct SelectOption {
     pub value: String,
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 pub struct Select {
     pub attributes: Vec<Attribute>,
@@ -31,8 +31,8 @@ impl Render for SelectOption {
     }
 }
 
-impl From<Select> for HtmlComponent {
-    fn from(select: Select) -> HtmlComponent {
-        HtmlComponent::Select(select)
+impl From<Select> for HtmlElement {
+    fn from(select: Select) -> HtmlElement {
+        HtmlElement::Select(select)
     }
 }

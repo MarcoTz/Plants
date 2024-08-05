@@ -1,9 +1,9 @@
-use super::super::html_components::component::{Html, HtmlComponent};
+use super::super::html::html_element::{Html, HtmlElement};
 
 pub trait Page {
     fn render(&self) -> Html;
 }
 
 pub trait PageComponent {
-    fn render(&self) -> HtmlComponent;
+    fn render(&self) -> HtmlElement;
 }
