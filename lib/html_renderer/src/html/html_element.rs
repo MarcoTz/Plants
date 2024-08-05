@@ -3,7 +3,7 @@ use super::{
     input::Input, link::Link, literal::Literal, select::Select, table::Table,
 };
 
-pub enum HtmlComponent {
+pub enum HtmlElement {
     Head(Head),
     Body(Body),
     Div(Div),
@@ -17,7 +17,7 @@ pub enum HtmlComponent {
     Canvas(Canvas),
     Input(Input),
     Select(Select),
-    ComponentList(Vec<HtmlComponent>),
+    ComponentList(Vec<HtmlElement>),
 }
 
 pub struct Html {
@@ -29,23 +29,23 @@ pub trait Render {
     fn render(&self) -> String;
 }
 
-impl Render for HtmlComponent {
+impl Render for HtmlElement {
     fn render(&self) -> String {
         match self {
-            HtmlComponent::Head(hd) => hd.render(),
-            HtmlComponent::Body(bd) => bd.render(),
-            HtmlComponent::Div(dv) => dv.render(),
-            HtmlComponent::Link(lnk) => lnk.render(),
-            HtmlComponent::Literal(lit) => lit.render(),
-            HtmlComponent::Table(tb) => tb.render(),
-            HtmlComponent::Headline(hd) => hd.render(),
-            HtmlComponent::Br => "<br/>".to_owned(),
-            HtmlComponent::Figure(fig) => fig.render(),
-            HtmlComponent::Img(img) => img.render(),
-            HtmlComponent::Canvas(canvas) => canvas.render(),
-            HtmlComponent::Input(input) => input.render(),
-            HtmlComponent::Select(select) => select.render(),
-            HtmlComponent::ComponentList(ls) => {
+            HtmlElement::Head(hd) => hd.render(),
+            HtmlElement::Body(bd) => bd.render(),
+            HtmlElement::Div(dv) => dv.render(),
+            HtmlElement::Link(lnk) => lnk.render(),
+            HtmlElement::Literal(lit) => lit.render(),
+            HtmlElement::Table(tb) => tb.render(),
+            HtmlElement::Headline(hd) => hd.render(),
+            HtmlElement::Br => "<br/>".to_owned(),
+            HtmlElement::Figure(fig) => fig.render(),
+            HtmlElement::Img(img) => img.render(),
+            HtmlElement::Canvas(canvas) => canvas.render(),
+            HtmlElement::Input(input) => input.render(),
+            HtmlElement::Select(select) => select.render(),
+            HtmlElement::ComponentList(ls) => {
                 let mut out_str = "".to_owned();
                 for comp in ls.iter() {
                     out_str.push_str(&comp.render());
@@ -66,15 +66,15 @@ impl<T: Render> Render for Vec<T> {
     }
 }
 
-impl From<String> for HtmlComponent {
-    fn from(s: String) -> HtmlComponent {
-        HtmlComponent::Literal(s.into())
+impl From<String> for HtmlElement {
+    fn from(s: String) -> HtmlElement {
+        HtmlElement::Literal(s.into())
     }
 }
 
-impl From<Vec<HtmlComponent>> for HtmlComponent {
-    fn from(ls: Vec<HtmlComponent>) -> HtmlComponent {
-        HtmlComponent::ComponentList(ls)
+impl From<Vec<HtmlElement>> for HtmlElement {
+    fn from(ls: Vec<HtmlElement>) -> HtmlElement {
+        HtmlElement::ComponentList(ls)
     }
 }
 

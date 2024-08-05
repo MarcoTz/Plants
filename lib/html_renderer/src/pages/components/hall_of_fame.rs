@@ -1,9 +1,9 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
+        html_element::HtmlElement,
         table::{Table, Td, Tr},
     },
     page::PageComponent,
@@ -26,7 +26,7 @@ pub struct HallOfFame {
 }
 
 impl PageComponent for HallOfFame {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let hall_of_fame_header = Headline {
             size: HeaderSize::H1,
             content: Rc::new("Hall Of Fame".to_owned().into()),
@@ -56,7 +56,7 @@ impl PageComponent for HallOfFame {
 }
 
 impl PageComponent for HallOfFameItem {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let header = Headline {
             size: HeaderSize::H3,
             content: Rc::new(self.title.clone().into()),

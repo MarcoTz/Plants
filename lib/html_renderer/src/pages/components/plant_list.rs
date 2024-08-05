@@ -1,9 +1,9 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
+        html_element::HtmlElement,
         img::Img,
         link::Link,
     },
@@ -28,7 +28,7 @@ pub struct PlantList {
     locations: Vec<LocationGroup>,
 }
 impl PageComponent for PlantList {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut location_divs = vec![];
         for location in self.locations.iter() {
             location_divs.push(location.render());
@@ -41,7 +41,7 @@ impl PageComponent for PlantList {
     }
 }
 impl PageComponent for LocationGroup {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut plant_divs = vec![Headline {
             size: HeaderSize::H2,
             content: Rc::new(self.location.clone().into()),
@@ -59,7 +59,7 @@ impl PageComponent for LocationGroup {
 }
 
 impl PageComponent for PlantListItem {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         Div {
             attributes: vec![Attribute::Class("plant_list_item".to_owned())],
             content: Rc::new(
@@ -72,7 +72,7 @@ impl PageComponent for PlantListItem {
                         content: Rc::new(self.plant_name.clone().into()),
                     }
                     .into(),
-                    HtmlComponent::Br,
+                    HtmlElement::Br,
                     Div {
                         attributes: vec![Attribute::Class("species_link".to_owned())],
                         content: Rc::new(
@@ -84,7 +84,7 @@ impl PageComponent for PlantListItem {
                         ),
                     }
                     .into(),
-                    HtmlComponent::Br,
+                    HtmlElement::Br,
                     Img {
                         attributes: vec![
                             Attribute::Style("cursor:default;".to_owned()),

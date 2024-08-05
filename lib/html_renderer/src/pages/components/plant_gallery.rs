@@ -1,10 +1,10 @@
 use super::{
     super::{
-        super::html_components::{
+        super::html::{
             attribute::Attribute,
-            component::HtmlComponent,
             div::Div,
             headline::{HeaderSize, Headline},
+            html_element::HtmlElement,
             link::Link,
         },
         page::PageComponent,
@@ -21,8 +21,8 @@ pub struct PlantGallery {
 }
 
 impl PageComponent for PlantGallery {
-    fn render(&self) -> HtmlComponent {
-        let images_rendered: Vec<HtmlComponent> =
+    fn render(&self) -> HtmlElement {
+        let images_rendered: Vec<HtmlElement> =
             self.plant_images.iter().map(|x| x.render()).collect();
         let controls_div = Div {
             attributes: vec![Attribute::Class("img_controls".to_owned())],

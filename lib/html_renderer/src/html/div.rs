@@ -1,17 +1,17 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 use std::rc::Rc;
 
 pub struct Div {
     pub attributes: Vec<Attribute>,
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 
-impl From<Div> for HtmlComponent {
-    fn from(dv: Div) -> HtmlComponent {
-        HtmlComponent::Div(dv)
+impl From<Div> for HtmlElement {
+    fn from(dv: Div) -> HtmlElement {
+        HtmlElement::Div(dv)
     }
 }
 

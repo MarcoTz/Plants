@@ -1,13 +1,13 @@
-use super::component::{HtmlComponent, Render};
+use super::html_element::{HtmlElement, Render};
 use std::rc::Rc;
 
 pub struct Body {
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 
-impl From<Body> for HtmlComponent {
-    fn from(bd: Body) -> HtmlComponent {
-        HtmlComponent::Body(bd)
+impl From<Body> for HtmlElement {
+    fn from(bd: Body) -> HtmlElement {
+        HtmlElement::Body(bd)
     }
 }
 impl Render for Body {

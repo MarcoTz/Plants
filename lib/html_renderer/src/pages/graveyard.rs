@@ -1,5 +1,5 @@
 use super::{
-    super::html_components::{body::Body, component::Html, head::Head},
+    super::html::{body::Body, head::Head, html_element::Html},
     components::{footer::Footer, graveyard_table::GraveyardTable, header::Header},
     page::{Page, PageComponent},
 };

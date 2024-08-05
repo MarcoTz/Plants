@@ -1,7 +1,5 @@
 use super::super::{
-    super::html_components::{
-        attribute::Attribute, component::HtmlComponent, div::Div, link::Link,
-    },
+    super::html::{attribute::Attribute, div::Div, html_element::HtmlElement, link::Link},
     page::PageComponent,
 };
 use chrono::{Datelike, NaiveDate};
@@ -19,7 +17,7 @@ pub struct NextActivityItem {
 }
 
 impl PageComponent for NextActivity {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut next_activities_comp = vec![];
         for next_activity in self.next_activities.iter() {
             next_activities_comp.push(next_activity.render());
@@ -34,13 +32,13 @@ impl PageComponent for NextActivity {
 }
 
 impl PageComponent for NextActivityItem {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut div_content = vec![];
 
         let mut date_str = self.date.weekday().to_string();
         date_str.push_str(&self.date.format(&self.date_format).to_string());
         div_content.push(date_str.into());
-        div_content.push(HtmlComponent::Br);
+        div_content.push(HtmlElement::Br);
 
         let activity_header = Div {
             attributes: vec![Attribute::Class("activity_header".to_owned())],

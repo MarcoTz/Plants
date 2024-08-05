@@ -1,3 +1,3 @@
 pub mod errors;
-pub mod html_components;
+pub mod html;
 pub mod pages;

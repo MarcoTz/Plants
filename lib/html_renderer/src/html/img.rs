@@ -1,6 +1,6 @@
 use super::{
     attribute::Attribute,
-    component::{HtmlComponent, Render},
+    html_element::{HtmlElement, Render},
 };
 pub struct Img {
     pub attributes: Vec<Attribute>,
@@ -13,8 +13,8 @@ impl Render for Img {
     }
 }
 
-impl From<Img> for HtmlComponent {
-    fn from(img: Img) -> HtmlComponent {
-        HtmlComponent::Img(img)
+impl From<Img> for HtmlElement {
+    fn from(img: Img) -> HtmlElement {
+        HtmlElement::Img(img)
     }
 }

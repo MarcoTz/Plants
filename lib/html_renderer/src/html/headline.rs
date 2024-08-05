@@ -1,4 +1,4 @@
-use super::component::{HtmlComponent, Render};
+use super::html_element::{HtmlElement, Render};
 use std::rc::Rc;
 
 pub enum HeaderSize {
@@ -12,12 +12,12 @@ pub enum HeaderSize {
 
 pub struct Headline {
     pub size: HeaderSize,
-    pub content: Rc<HtmlComponent>,
+    pub content: Rc<HtmlElement>,
 }
 
-impl From<Headline> for HtmlComponent {
-    fn from(hd: Headline) -> HtmlComponent {
-        HtmlComponent::Headline(hd)
+impl From<Headline> for HtmlElement {
+    fn from(hd: Headline) -> HtmlElement {
+        HtmlElement::Headline(hd)
     }
 }
 impl Render for Headline {

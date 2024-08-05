@@ -1,7 +1,5 @@
 use super::super::{
-    super::html_components::{
-        attribute::Attribute, component::HtmlComponent, div::Div, link::Link,
-    },
+    super::html::{attribute::Attribute, div::Div, html_element::HtmlElement, link::Link},
     page::PageComponent,
 };
 use std::rc::Rc;
@@ -16,8 +14,8 @@ pub struct Header {
 }
 
 impl PageComponent for Header {
-    fn render(&self) -> HtmlComponent {
-        let links: Vec<HtmlComponent> = vec![
+    fn render(&self) -> HtmlElement {
+        let links: Vec<HtmlElement> = vec![
             Link {
                 attributes: vec![Attribute::Href(self.dashboard_url.clone())],
                 content: Rc::new("Dashboard".to_owned().into()),

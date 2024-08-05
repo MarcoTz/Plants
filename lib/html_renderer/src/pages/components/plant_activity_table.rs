@@ -1,7 +1,7 @@
 use super::super::{
-    super::html_components::{
+    super::html::{
         attribute::Attribute,
-        component::HtmlComponent,
+        html_element::HtmlElement,
         table::{Table, Td, Tr},
     },
     page::PageComponent,
@@ -19,7 +19,7 @@ pub struct PlantActivityTable {
 }
 
 impl PageComponent for PlantActivityTable {
-    fn render(&self) -> HtmlComponent {
+    fn render(&self) -> HtmlElement {
         let mut header_row = Tr {
             attributes: vec![Attribute::Id("header_row".to_owned())],
             cols: vec![Td {

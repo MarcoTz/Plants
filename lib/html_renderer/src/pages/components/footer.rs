@@ -1,7 +1,5 @@
 use super::super::{
-    super::html_components::{
-        attribute::Attribute, component::HtmlComponent, div::Div, link::Link,
-    },
+    super::html::{attribute::Attribute, div::Div, html_element::HtmlElement, link::Link},
     page::PageComponent,
 };
 use chrono::NaiveDate;
@@ -14,8 +12,8 @@ pub struct Footer {
 }
 
 impl PageComponent for Footer {
-    fn render(&self) -> HtmlComponent {
-        let mut footer_content: Vec<HtmlComponent> = vec![];
+    fn render(&self) -> HtmlElement {
+        let mut footer_content: Vec<HtmlElement> = vec![];
         let github_link = Div {
             attributes: vec![Attribute::Id("github_link".to_owned())],
             content: Rc::new(
