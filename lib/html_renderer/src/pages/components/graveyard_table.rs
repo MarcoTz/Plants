@@ -16,6 +16,7 @@ pub struct GraveyardTable {
 impl PageComponent for GraveyardTable {
     fn render(&self) -> HtmlComponent {
         let mut table_rows = vec![Tr {
+            id: None,
             class: Some("header_row".to_owned()),
             cols: vec![
                 Td {
@@ -37,6 +38,7 @@ impl PageComponent for GraveyardTable {
         }];
         for plant in self.plants.iter() {
             let new_row = Tr {
+                id: None,
                 class: None,
                 cols: vec![
                     Td {
