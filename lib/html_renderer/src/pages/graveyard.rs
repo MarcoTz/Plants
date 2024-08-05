@@ -1,5 +1,5 @@
 use super::{
-    super::html::{body::Body, head::Head, html_element::Html},
+    super::html::{body::Body, head::Head, html_document::HtmlDocument},
     components::{footer::Footer, graveyard_table::GraveyardTable, header::Header},
     page::{Page, PageComponent},
 };
@@ -11,7 +11,7 @@ pub struct Graveyard {
 }
 
 impl Page for Graveyard {
-    fn render(&self) -> Html {
+    fn render(&self) -> HtmlDocument {
         let head = Head {
             title: "Graveyard".to_owned(),
         };
@@ -23,6 +23,6 @@ impl Page for Graveyard {
         let body = Body {
             content: Rc::new(body_contents.into()),
         };
-        Html { head, body }
+        HtmlDocument { head, body }
     }
 }

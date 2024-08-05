@@ -1,5 +1,5 @@
 use super::{
-    super::html::{body::Body, head::Head, html_element::Html},
+    super::html::{body::Body, head::Head, html_document::HtmlDocument},
     components::{
         footer::Footer, header::Header, plant_list::PlantList, plant_search::PlantSearch,
     },
@@ -14,7 +14,7 @@ pub struct PlantOverview {
 }
 
 impl Page for PlantOverview {
-    fn render(&self) -> Html {
+    fn render(&self) -> HtmlDocument {
         let head = Head {
             title: "All Plants".to_owned(),
         };
@@ -27,6 +27,6 @@ impl Page for PlantOverview {
         let body = Body {
             content: Rc::new(body_content.into()),
         };
-        Html { head, body }
+        HtmlDocument { head, body }
     }
 }

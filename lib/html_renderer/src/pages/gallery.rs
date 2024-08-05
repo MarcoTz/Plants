@@ -1,10 +1,7 @@
 use super::{
     super::html::{
-        attribute::Attribute,
-        body::Body,
-        div::Div,
-        head::Head,
-        html_element::{Html, HtmlElement},
+        attribute::Attribute, body::Body, div::Div, head::Head, html_document::HtmlDocument,
+        html_element::HtmlElement,
     },
     components::{footer::Footer, header::Header, plant_gallery::PlantGallery},
     page::{Page, PageComponent},
@@ -18,7 +15,7 @@ pub struct Gallery {
 }
 
 impl Page for Gallery {
-    fn render(&self) -> Html {
+    fn render(&self) -> HtmlDocument {
         let head = Head {
             title: "Gallery".to_owned(),
         };
@@ -37,6 +34,6 @@ impl Page for Gallery {
         let body = Body {
             content: Rc::new(body_content.into()),
         };
-        Html { head, body }
+        HtmlDocument { head, body }
     }
 }

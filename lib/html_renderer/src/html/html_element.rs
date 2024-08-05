@@ -1,6 +1,6 @@
 use super::{
     body::Body, canvas::Canvas, div::Div, figure::Figure, head::Head, headline::Headline, img::Img,
-    input::Input, link::Link, literal::Literal, select::Select, table::Table,
+    input::Input, link::Link, literal::Literal, render::Render, select::Select, table::Table,
 };
 
 pub enum HtmlElement {
@@ -18,15 +18,6 @@ pub enum HtmlElement {
     Input(Input),
     Select(Select),
     ComponentList(Vec<HtmlElement>),
-}
-
-pub struct Html {
-    pub head: Head,
-    pub body: Body,
-}
-
-pub trait Render {
-    fn render(&self) -> String;
 }
 
 impl Render for HtmlElement {
@@ -75,13 +66,5 @@ impl From<String> for HtmlElement {
 impl From<Vec<HtmlElement>> for HtmlElement {
     fn from(ls: Vec<HtmlElement>) -> HtmlElement {
         HtmlElement::ComponentList(ls)
-    }
-}
-
-impl Render for Html {
-    fn render(&self) -> String {
-        let head_str = self.head.render();
-        let body_str = self.body.render();
-        format!("<!doctype html>{head_str}{body_str}")
     }
 }

@@ -3,7 +3,7 @@ use super::{
         body::Body,
         head::Head,
         headline::{HeaderSize, Headline},
-        html_element::Html,
+        html_document::HtmlDocument,
     },
     components::{footer::Footer, header::Header, plant_contents::PlantContents},
     page::{Page, PageComponent},
@@ -19,7 +19,7 @@ pub struct PlantDetails {
 }
 
 impl Page for PlantDetails {
-    fn render(&self) -> Html {
+    fn render(&self) -> HtmlDocument {
         let head = Head {
             title: self.plant_name.clone(),
         };
@@ -43,6 +43,6 @@ impl Page for PlantDetails {
         let body = Body {
             content: Rc::new(body_content),
         };
-        Html { head, body }
+        HtmlDocument { head, body }
     }
 }
