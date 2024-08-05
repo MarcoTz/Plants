@@ -1,3 +1,4 @@
+pub mod attribute;
 pub mod body;
 pub mod canvas;
 pub mod component;

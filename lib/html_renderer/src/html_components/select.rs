@@ -1,4 +1,7 @@
-use super::component::{HtmlComponent, Render};
+use super::{
+    attribute::Attribute,
+    component::{HtmlComponent, Render},
+};
 use std::rc::Rc;
 
 pub struct SelectOption {
@@ -6,26 +9,18 @@ pub struct SelectOption {
     pub content: Rc<HtmlComponent>,
 }
 pub struct Select {
-    pub id: Option<String>,
-    pub on_change: Option<String>,
+    pub attributes: Vec<Attribute>,
     pub options: Vec<SelectOption>,
 }
 
 impl Render for Select {
     fn render(&self) -> String {
-        let id_str = match self.id.clone() {
-            None => "".to_owned(),
-            Some(id) => format!("id=\"{id}\""),
-        };
-        let change_str = match self.on_change.clone() {
-            None => "".to_owned(),
-            Some(change) => format!("onChange=\"{change}\""),
-        };
+        let attr_str = self.attributes.render();
         let mut options_str = "".to_owned();
         for option in self.options.iter() {
             options_str.push_str(&option.render());
         }
-        format!("<select {id_str} {change_str}>{options_str}</select>")
+        format!("<select {attr_str}>{options_str}</select>")
     }
 }
 impl Render for SelectOption {

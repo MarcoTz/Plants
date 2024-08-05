@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         component::HtmlComponent,
         table::{Table, Td, Tr},
     },
@@ -20,8 +21,7 @@ pub struct PlantGrowthTable {
 impl PageComponent for PlantGrowthTable {
     fn render(&self) -> HtmlComponent {
         let header_row = Tr {
-            id: Some("header_row".to_owned()),
-            class: None,
+            attributes: vec![Attribute::Id("header_row".to_owned())],
             cols: vec![
                 Td {
                     content: Rc::new("Date".to_owned().into()),
@@ -70,8 +70,7 @@ impl PlantGrowthRow {
         ];
 
         Tr {
-            id: None,
-            class: None,
+            attributes: vec![],
             cols,
         }
     }

@@ -1,6 +1,6 @@
 use super::{
     super::{
-        super::html_components::{component::HtmlComponent, div::Div},
+        super::html_components::{attribute::Attribute, component::HtmlComponent, div::Div},
         page::PageComponent,
     },
     plant_activity_table::PlantActivityTable,
@@ -18,8 +18,7 @@ pub struct PlantActivities {
 impl PageComponent for PlantActivities {
     fn render(&self) -> HtmlComponent {
         Div {
-            id: Some("plant_activitites_container".to_owned()),
-            class: None,
+            attributes: vec![Attribute::Id("plant_activities_container".to_owned())],
             content: Rc::new(
                 vec![
                     self.watering_table.render(),

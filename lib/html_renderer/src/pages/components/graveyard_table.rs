@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         component::HtmlComponent,
         table::{Table, Td, Tr},
     },
@@ -16,8 +17,7 @@ pub struct GraveyardTable {
 impl PageComponent for GraveyardTable {
     fn render(&self) -> HtmlComponent {
         let mut table_rows = vec![Tr {
-            id: None,
-            class: Some("header_row".to_owned()),
+            attributes: vec![Attribute::Class("header_row".to_owned())],
             cols: vec![
                 Td {
                     content: Rc::new("Name".to_owned().into()),
@@ -38,8 +38,7 @@ impl PageComponent for GraveyardTable {
         }];
         for plant in self.plants.iter() {
             let new_row = Tr {
-                id: None,
-                class: None,
+                attributes: vec![],
                 cols: vec![
                     Td {
                         content: Rc::new(plant.name.clone().into()),

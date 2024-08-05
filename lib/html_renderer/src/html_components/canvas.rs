@@ -1,13 +1,14 @@
+use super::attribute::Attribute;
 use super::component::{HtmlComponent, Render};
 
 pub struct Canvas {
-    pub id: String,
+    pub attributes: Vec<Attribute>,
 }
 
 impl Render for Canvas {
     fn render(&self) -> String {
-        let id_str = self.id.clone();
-        format!("<canvas id=\"{id_str}\"></canvas>")
+        let attr_str = self.attributes.render();
+        format!("<canvas {attr_str}></canvas>")
     }
 }
 

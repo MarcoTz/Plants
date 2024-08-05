@@ -1,12 +1,14 @@
-use super::component::{HtmlComponent, Render};
+use super::{
+    attribute::Attribute,
+    component::{HtmlComponent, Render},
+};
 use std::rc::Rc;
 
 pub struct Td {
     pub content: Rc<HtmlComponent>,
 }
 pub struct Tr {
-    pub class: Option<String>,
-    pub id: Option<String>,
+    pub attributes: Vec<Attribute>,
     pub cols: Vec<Td>,
 }
 pub struct Table {
@@ -25,19 +27,12 @@ impl Table {
 
 impl Render for Tr {
     fn render(&self) -> String {
-        let class_str = match self.class.clone() {
-            None => "".to_owned(),
-            Some(cl) => format!("class=\"{cl}\""),
-        };
-        let id_str = match self.id.clone() {
-            None => "".to_owned(),
-            Some(id) => format!("id=\"{id}\""),
-        };
+        let attr_str = self.attributes.render();
         let mut td_str = "".to_owned();
         for td in self.cols.iter() {
             td_str.push_str(&td.render());
         }
-        format!("<tr {class_str} {id_str} >{td_str}</tr>")
+        format!("<tr {attr_str} >{td_str}</tr>")
     }
 }
 

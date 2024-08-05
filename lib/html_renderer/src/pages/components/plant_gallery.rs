@@ -1,6 +1,7 @@
 use super::{
     super::{
         super::html_components::{
+            attribute::Attribute,
             component::HtmlComponent,
             div::Div,
             headline::{HeaderSize, Headline},
@@ -24,19 +25,16 @@ impl PageComponent for PlantGallery {
         let images_rendered: Vec<HtmlComponent> =
             self.plant_images.iter().map(|x| x.render()).collect();
         let controls_div = Div {
-            class: Some("img_controls".to_owned()),
-            id: None,
+            attributes: vec![Attribute::Class("img_controls".to_owned())],
             content: Rc::new(
                 vec![
                     Div {
-                        id: None,
-                        class: Some("left_arrow".to_owned()),
+                        attributes: vec![Attribute::Class("left_arrow".to_owned())],
                         content: Rc::new("&#9754;".to_owned().into()),
                     }
                     .into(),
                     Div {
-                        id: None,
-                        class: Some("right_arrow".to_owned()),
+                        attributes: vec![Attribute::Class("right_arrow".to_owned())],
                         content: Rc::new("&#9755".to_owned().into()),
                     }
                     .into(),
@@ -49,8 +47,7 @@ impl PageComponent for PlantGallery {
                 size: HeaderSize::H2,
                 content: Rc::new(
                     Link {
-                        class: None,
-                        href: self.plant_url.clone(),
+                        attributes: vec![Attribute::Href(self.plant_url.clone())],
                         content: Rc::new(self.plant_name.clone().into()),
                     }
                     .into(),
@@ -58,16 +55,14 @@ impl PageComponent for PlantGallery {
             }
             .into(),
             Div {
-                class: Some("images_plant".to_owned()),
-                id: None,
+                attributes: vec![Attribute::Class("images_plant".to_owned())],
                 content: Rc::new(images_rendered.into()),
             }
             .into(),
             controls_div.into(),
         ];
         Div {
-            id: None,
-            class: Some("images_plant_container".to_owned()),
+            attributes: vec![Attribute::Class("images_plant_container".to_owned())],
             content: Rc::new(container_content.into()),
         }
         .into()

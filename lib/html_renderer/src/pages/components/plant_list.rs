@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
@@ -33,8 +34,7 @@ impl PageComponent for PlantList {
             location_divs.push(location.render());
         }
         Div {
-            class: None,
-            id: Some("plant_list".to_owned()),
+            attributes: vec![Attribute::Id("plant_list".to_owned())],
             content: Rc::new(location_divs.into()),
         }
         .into()
@@ -51,8 +51,7 @@ impl PageComponent for LocationGroup {
             plant_divs.push(plant_item.render());
         }
         Div {
-            class: Some("location_group".to_owned()),
-            id: None,
+            attributes: vec![Attribute::Class("location_group".to_owned())],
             content: Rc::new(plant_divs.into()),
         }
         .into()
@@ -62,24 +61,23 @@ impl PageComponent for LocationGroup {
 impl PageComponent for PlantListItem {
     fn render(&self) -> HtmlComponent {
         Div {
-            class: Some("plant_list_item".to_owned()),
-            id: None,
+            attributes: vec![Attribute::Class("plant_list_item".to_owned())],
             content: Rc::new(
                 vec![
                     Link {
-                        href: self.plant_url.clone(),
-                        class: Some("plant_link".to_owned()),
+                        attributes: vec![
+                            Attribute::Href(self.plant_url.clone()),
+                            Attribute::Class("plant_link".to_owned()),
+                        ],
                         content: Rc::new(self.plant_name.clone().into()),
                     }
                     .into(),
                     HtmlComponent::Br,
                     Div {
-                        class: Some("species_link".to_owned()),
-                        id: None,
+                        attributes: vec![Attribute::Class("species_link".to_owned())],
                         content: Rc::new(
                             Link {
-                                href: self.species_url.clone(),
-                                class: None,
+                                attributes: vec![Attribute::Href(self.species_url.clone())],
                                 content: Rc::new(self.species_name.clone().into()),
                             }
                             .into(),
@@ -88,20 +86,20 @@ impl PageComponent for PlantListItem {
                     .into(),
                     HtmlComponent::Br,
                     Img {
-                        style: Some("cursor:default;".to_owned()),
-                        id: Some("plant_overview".to_owned()),
-                        src: self.plant_preview_url.clone(),
+                        attributes: vec![
+                            Attribute::Style("cursor:default;".to_owned()),
+                            Attribute::Id("plant_overview".to_owned()),
+                            Attribute::Src(self.plant_preview_url.clone()),
+                        ],
                     }
                     .into(),
                     Div {
-                        class: Some("temp_max".to_owned()),
-                        id: None,
+                        attributes: vec![Attribute::Class("temp_max".to_owned())],
                         content: Rc::new(self.temp_max.to_string().into()),
                     }
                     .into(),
                     Div {
-                        class: Some("temp_min".to_owned()),
-                        id: None,
+                        attributes: vec![Attribute::Class("temp_min".to_owned())],
                         content: Rc::new(self.temp_min.to_string().into()),
                     }
                     .into(),

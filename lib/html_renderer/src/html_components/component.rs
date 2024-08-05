@@ -56,6 +56,16 @@ impl Render for HtmlComponent {
     }
 }
 
+impl<T: Render> Render for Vec<T> {
+    fn render(&self) -> String {
+        let mut out_str = "".to_owned();
+        for elem in self.iter() {
+            out_str.push_str(&elem.render());
+        }
+        out_str
+    }
+}
+
 impl From<String> for HtmlComponent {
     fn from(s: String) -> HtmlComponent {
         HtmlComponent::Literal(s.into())

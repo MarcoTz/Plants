@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         component::HtmlComponent,
         div::Div,
         input::Input,
@@ -33,8 +34,7 @@ impl PageComponent for PlantSearch {
     fn render(&self) -> HtmlComponent {
         let search_components = vec![
             Div {
-                class: Some("search_header".to_owned()),
-                id: None,
+                attributes: vec![Attribute::Class("search_header".to_owned())],
                 content: Rc::new("Filter".to_owned().into()),
             }
             .into(),
@@ -44,8 +44,7 @@ impl PageComponent for PlantSearch {
             self.temp_max_search.render(),
         ];
         Div {
-            class: None,
-            id: Some("plant_search".to_owned()),
+            attributes: vec![Attribute::Id("plant_search".to_owned())],
             content: Rc::new(search_components.into()),
         }
         .into()
@@ -55,24 +54,22 @@ impl PageComponent for PlantSearch {
 impl PageComponent for PlantSearchField {
     fn render(&self) -> HtmlComponent {
         Div {
-            class: None,
-            id: None,
+            attributes: vec![],
             content: Rc::new(
                 vec![
                     Div {
-                        id: None,
-                        class: None,
+                        attributes: vec![],
                         content: Rc::new(self.name.clone().into()),
                     }
                     .into(),
                     Div {
-                        id: None,
-                        class: None,
+                        attributes: vec![],
                         content: Rc::new(
                             Input {
-                                ty: None,
-                                id: Some(self.id.clone()),
-                                keyup: Some(self.keyup.clone()),
+                                attributes: vec![
+                                    Attribute::Id(self.id.clone()),
+                                    Attribute::OnKeyUp(self.keyup.clone()),
+                                ],
                             }
                             .into(),
                         ),
@@ -89,19 +86,19 @@ impl PageComponent for PlantSearchField {
 impl PageComponent for PlantNumberSearch {
     fn render(&self) -> HtmlComponent {
         Div {
-            id: None,
-            class: None,
+            attributes: vec![],
             content: Rc::new(
                 vec![
                     Div {
-                        id: None,
-                        class: None,
+                        attributes: vec![],
                         content: Rc::new(self.name.clone().into()),
                     }
                     .into(),
                     Select {
-                        id: Some(self.select_id.clone()),
-                        on_change: Some(self.select_on_change.clone()),
+                        attributes: vec![
+                            Attribute::Id(self.select_id.clone()),
+                            Attribute::OnChange(self.select_on_change.clone()),
+                        ],
                         options: vec![
                             SelectOption {
                                 value: "+".to_owned(),
@@ -115,9 +112,11 @@ impl PageComponent for PlantNumberSearch {
                     }
                     .into(),
                     Input {
-                        id: Some(self.input_id.clone()),
-                        keyup: Some(self.input_on_keyup.clone()),
-                        ty: Some("number".to_owned()),
+                        attributes: vec![
+                            Attribute::Id(self.input_id.clone()),
+                            Attribute::OnKeyUp(self.input_on_keyup.clone()),
+                            Attribute::Type("number".to_owned()),
+                        ],
                     }
                     .into(),
                 ]

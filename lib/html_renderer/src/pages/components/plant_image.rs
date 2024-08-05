@@ -1,5 +1,7 @@
 use super::super::{
-    super::html_components::{component::HtmlComponent, div::Div, figure::Figure, img::Img},
+    super::html_components::{
+        attribute::Attribute, component::HtmlComponent, div::Div, figure::Figure, img::Img,
+    },
     page::PageComponent,
 };
 use chrono::NaiveDate;
@@ -17,14 +19,12 @@ impl PageComponent for PlantImage {
     fn render(&self) -> HtmlComponent {
         let caption = vec![
             Div {
-                class: Some("img_date".to_owned()),
-                id: None,
+                attributes: vec![Attribute::Class("img_date".to_owned())],
                 content: Rc::new(self.date.format(&self.date_format).to_string().into()),
             }
             .into(),
             Div {
-                class: Some("img_nr".to_owned()),
-                id: None,
+                attributes: vec![Attribute::Class("img_nr".to_owned())],
                 content: {
                     let num_total_str = self.num_images.to_string();
                     let num_self_str = self.num_self.to_string();
@@ -34,12 +34,10 @@ impl PageComponent for PlantImage {
             .into(),
         ];
         Figure {
-            class: Some("plant_image".to_owned()),
+            attributes: vec![Attribute::Class("plant_image".to_owned())],
             content: Rc::new(
                 Img {
-                    id: None,
-                    style: None,
-                    src: self.img_url.clone(),
+                    attributes: vec![Attribute::Src(self.img_url.clone())],
                 }
                 .into(),
             ),

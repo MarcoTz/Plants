@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         canvas::Canvas,
         component::HtmlComponent,
         div::Div,
@@ -20,14 +21,13 @@ impl PageComponent for PlantGrowth {
             }
             .into(),
             Canvas {
-                id: "growth_chart".to_owned(),
+                attributes: vec![Attribute::Id("growth_chart".to_owned())],
             }
             .into(),
         ]
         .into();
         Div {
-            id: Some("plant_growth_log_container".to_owned()),
-            class: None,
+            attributes: vec![Attribute::Id("plant_growth_log_container".to_owned())],
             content: Rc::new(div_content),
         }
         .into()

@@ -1,5 +1,7 @@
 use super::super::{
-    super::html_components::{component::HtmlComponent, div::Div, link::Link},
+    super::html_components::{
+        attribute::Attribute, component::HtmlComponent, div::Div, link::Link,
+    },
     page::PageComponent,
 };
 use chrono::{Datelike, NaiveDate};
@@ -24,8 +26,7 @@ impl PageComponent for NextActivity {
         }
 
         Div {
-            id: Some("upcoming_tasks.container".to_owned()),
-            class: None,
+            attributes: vec![Attribute::Id("upcoming_tasks_container".to_owned())],
             content: Rc::new(next_activities_comp.into()),
         }
         .into()
@@ -42,8 +43,7 @@ impl PageComponent for NextActivityItem {
         div_content.push(HtmlComponent::Br);
 
         let activity_header = Div {
-            id: None,
-            class: Some("activity_header".to_owned()),
+            attributes: vec![Attribute::Class("activity_header".to_owned())],
             content: Rc::new(self.activity.clone().into()),
         }
         .into();
@@ -52,8 +52,7 @@ impl PageComponent for NextActivityItem {
         for (plant_name, plant_url) in self.plants.iter() {
             div_content.push(
                 Link {
-                    class: None,
-                    href: plant_url.clone(),
+                    attributes: vec![Attribute::Href(plant_url.clone())],
                     content: Rc::new(plant_name.clone().into()),
                 }
                 .into(),
@@ -62,8 +61,7 @@ impl PageComponent for NextActivityItem {
         }
 
         Div {
-            class: Some("next_activity_item".to_owned()),
-            id: None,
+            attributes: vec![Attribute::Class("next_activity_item".to_owned())],
             content: Rc::new(div_content.into()),
         }
         .into()

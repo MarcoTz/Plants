@@ -1,6 +1,6 @@
 use super::{
     super::{
-        super::html_components::{component::HtmlComponent, div::Div},
+        super::html_components::{attribute::Attribute, component::HtmlComponent, div::Div},
         page::PageComponent,
     },
     footer::Footer,
@@ -27,8 +27,7 @@ impl PageComponent for PlantContents {
             self.header.render(),
             self.gallery.render(),
             Div {
-                class: None,
-                id: Some("plant_info".to_owned()),
+                attributes: vec![Attribute::Id("plant_info".to_owned())],
                 content: Rc::new(vec![self.status.render(), self.growth.render()].into()),
             }
             .into(),
@@ -36,8 +35,7 @@ impl PageComponent for PlantContents {
             self.footer.render(),
         ];
         Div {
-            class: None,
-            id: Some("plant_content".to_owned()),
+            attributes: vec![Attribute::Id("plant_content".to_owned())],
             content: Rc::new(details_content.into()),
         }
         .into()

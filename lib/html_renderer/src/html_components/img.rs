@@ -1,22 +1,15 @@
-use super::component::{HtmlComponent, Render};
+use super::{
+    attribute::Attribute,
+    component::{HtmlComponent, Render},
+};
 pub struct Img {
-    pub src: String,
-    pub id: Option<String>,
-    pub style: Option<String>,
+    pub attributes: Vec<Attribute>,
 }
 
 impl Render for Img {
     fn render(&self) -> String {
-        let src_str = self.src.clone();
-        let id_str = match self.id.clone() {
-            None => "".to_owned(),
-            Some(id) => format!("id=\"{id}\""),
-        };
-        let style_str = match self.style.clone() {
-            None => "".to_owned(),
-            Some(style) => format!("style=\"{style}\""),
-        };
-        format!("<img {id_str} {style_str} src=\"{src_str}\"/>")
+        let attr_str = self.attributes.render();
+        format!("<img {attr_str} />")
     }
 }
 
