@@ -18,7 +18,7 @@ impl Eq for GrowthItem {}
 
 impl PartialOrd for GrowthItem {
     fn partial_cmp(&self, other: &GrowthItem) -> Option<Ordering> {
-        Some(self.cmp(&other))
+        Some(self.cmp(other))
     }
 }
 

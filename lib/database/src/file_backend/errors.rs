@@ -1,5 +1,4 @@
 use chrono;
-use csv;
 use plants::errors as plant_err;
 use std::fmt;
 use std::num;
@@ -49,27 +48,27 @@ pub struct FSError {
     pub access: AccessType,
 }
 
-impl Into<Error> for ConversionError {
-    fn into(self) -> Error {
-        Error::ConversionError(self)
+impl From<ConversionError> for Error {
+    fn from(err: ConversionError) -> Error {
+        Error::ConversionError(err)
     }
 }
 
-impl Into<Error> for CSVError {
-    fn into(self) -> Error {
-        Error::CSVError(self)
+impl From<CSVError> for Error {
+    fn from(err: CSVError) -> Error {
+        Error::CSVError(err)
     }
 }
 
-impl Into<Error> for SerializeError {
-    fn into(self) -> Error {
-        Error::SerializeError(self)
+impl From<SerializeError> for Error {
+    fn from(err: SerializeError) -> Error {
+        Error::SerializeError(err)
     }
 }
 
-impl Into<Error> for FSError {
-    fn into(self) -> Error {
-        Error::FSError(self)
+impl From<FSError> for Error {
+    fn from(err: FSError) -> Error {
+        Error::FSError(err)
     }
 }
 

@@ -56,7 +56,7 @@ pub fn load_plants(plants_dir: &str) -> Result<Vec<Plant>, Error> {
     let plants_new = plants_old
         .iter()
         .cloned()
-        .map(|pl| <PlantJSON as TryInto<Plant>>::try_into(pl))
+        .map(<PlantJSON as TryInto<Plant>>::try_into)
         .collect::<Result<Vec<Plant>, Error>>()?;
     Ok(plants_new)
 }
@@ -66,7 +66,7 @@ pub fn load_species(species_dir: &str) -> Result<Vec<Species>, Error> {
     let species_new = species_old
         .iter()
         .cloned()
-        .map(|sp| <SpeciesJSON as TryInto<Species>>::try_into(sp))
+        .map(<SpeciesJSON as TryInto<Species>>::try_into)
         .collect::<Result<Vec<Species>, Error>>()?;
     Ok(species_new)
 }

@@ -14,7 +14,7 @@ pub struct LogItem {
 
 impl PartialOrd for LogItem {
     fn partial_cmp(&self, other: &LogItem) -> Option<Ordering> {
-        Some(self.cmp(&other))
+        Some(self.cmp(other))
     }
 }
 

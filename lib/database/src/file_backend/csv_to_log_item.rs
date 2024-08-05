@@ -12,21 +12,20 @@ pub struct LogCSV {
     note: Option<String>,
 }
 
-impl Into<Vec<LogItem>> for LogCSV {
-    fn into(self) -> Vec<LogItem> {
-        let new_plants: Vec<String> = self
+impl From<LogCSV> for Vec<LogItem> {
+    fn from(log_csv: LogCSV) -> Vec<LogItem> {
+        let new_plants: Vec<String> = log_csv
             .plants
-            .split(",")
-            .into_iter()
+            .split(',')
             .map(|st| st.trim().to_owned())
             .collect();
         let mut items = vec![];
         for item in new_plants.iter() {
             let new_log = LogItem {
-                date: self.date,
-                activity: self.activity.clone(),
+                date: log_csv.date,
+                activity: log_csv.activity.clone(),
                 plant: item.clone(),
-                note: self.note.clone(),
+                note: log_csv.note.clone(),
             };
             items.push(new_log);
         }

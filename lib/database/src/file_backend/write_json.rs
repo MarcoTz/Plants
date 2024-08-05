@@ -21,7 +21,7 @@ pub fn write_json<T: Serialize>(item: T, out_filepath: &str) -> Result<(), Error
             access: AccessType::Write,
         })
     })?;
-    let _ = out_file.write_all(&serialized.as_bytes()).map_err(|err| {
+    out_file.write_all(serialized.as_bytes()).map_err(|err| {
         <FSError as Into<Error>>::into(FSError {
             file_name: out_filepath.to_owned(),
             err_msg: err.to_string(),
@@ -34,7 +34,7 @@ pub fn write_json<T: Serialize>(item: T, out_filepath: &str) -> Result<(), Error
 pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path_base: &str) -> Result<(), Error> {
     for item in items.iter() {
         let mut out_path = out_path_base.to_owned();
-        out_path.push_str("/");
+        out_path.push('/');
         out_path.push_str(&item.get_name());
         out_path.push_str(".json");
         write_json(item, &out_path)?;
