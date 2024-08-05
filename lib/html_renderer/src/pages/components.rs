@@ -14,4 +14,6 @@ pub mod plant_image;
 pub mod plant_list;
 pub mod plant_search;
 pub mod plant_status;
+pub mod species_gallery;
+pub mod species_info;
 pub mod species_list;
