@@ -19,13 +19,13 @@ impl PageComponent for PlantImage {
             Div {
                 class: Some("img_date".to_owned()),
                 id: None,
-                contents: Rc::new(self.date.format(&self.date_format).to_string().into()),
+                content: Rc::new(self.date.format(&self.date_format).to_string().into()),
             }
             .into(),
             Div {
                 class: Some("img_nr".to_owned()),
                 id: None,
-                contents: {
+                content: {
                     let num_total_str = self.num_images.to_string();
                     let num_self_str = self.num_self.to_string();
                     Rc::new(format!("{num_self_str}/{num_total_str}").into())
@@ -35,8 +35,10 @@ impl PageComponent for PlantImage {
         ];
         Figure {
             class: Some("plant_image".to_owned()),
-            contents: Rc::new(
+            content: Rc::new(
                 Img {
+                    id: None,
+                    style: None,
                     src: self.img_url.clone(),
                 }
                 .into(),

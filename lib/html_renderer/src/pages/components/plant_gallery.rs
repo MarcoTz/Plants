@@ -26,31 +26,32 @@ impl PageComponent for PlantGallery {
         let controls_div = Div {
             class: Some("img_controls".to_owned()),
             id: None,
-            contents: Rc::new(
+            content: Rc::new(
                 vec![
                     Div {
                         id: None,
                         class: Some("left_arrow".to_owned()),
-                        contents: Rc::new("&#9754;".to_owned().into()),
+                        content: Rc::new("&#9754;".to_owned().into()),
                     }
                     .into(),
                     Div {
                         id: None,
                         class: Some("right_arrow".to_owned()),
-                        contents: Rc::new("&#9755".to_owned().into()),
+                        content: Rc::new("&#9755".to_owned().into()),
                     }
                     .into(),
                 ]
                 .into(),
             ),
         };
-        let container_contents = vec![
+        let container_content = vec![
             Headline {
                 size: HeaderSize::H2,
-                contents: Rc::new(
+                content: Rc::new(
                     Link {
+                        class: None,
                         href: self.plant_url.clone(),
-                        contents: Rc::new(self.plant_name.clone().into()),
+                        content: Rc::new(self.plant_name.clone().into()),
                     }
                     .into(),
                 ),
@@ -59,7 +60,7 @@ impl PageComponent for PlantGallery {
             Div {
                 class: Some("images_plant".to_owned()),
                 id: None,
-                contents: Rc::new(images_rendered.into()),
+                content: Rc::new(images_rendered.into()),
             }
             .into(),
             controls_div.into(),
@@ -67,7 +68,7 @@ impl PageComponent for PlantGallery {
         Div {
             id: None,
             class: Some("images_plant_container".to_owned()),
-            contents: Rc::new(container_contents.into()),
+            content: Rc::new(container_content.into()),
         }
         .into()
     }

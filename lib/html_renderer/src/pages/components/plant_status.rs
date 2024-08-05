@@ -6,7 +6,7 @@ use std::rc::Rc;
 
 struct StatusItem {
     name: String,
-    contents: String,
+    content: String,
 }
 
 pub struct PlantStatus {
@@ -49,7 +49,7 @@ impl PageComponent for PlantStatus {
         Div {
             id: Some("plant_status".to_owned()),
             class: None,
-            contents: Rc::new(status_items.into()),
+            content: Rc::new(status_items.into()),
         }
         .into()
     }
@@ -60,11 +60,11 @@ impl PageComponent for StatusItem {
         Div {
             class: Some("status_item".to_owned()),
             id: None,
-            contents: {
+            content: {
                 let name_str = self.name.clone();
-                let content_str = self.contents.clone();
-                let div_contents = vec![name_str.into(), HtmlComponent::Br, content_str.into()];
-                Rc::new(div_contents.into())
+                let content_str = self.content.clone();
+                let div_content = vec![name_str.into(), HtmlComponent::Br, content_str.into()];
+                Rc::new(div_content.into())
             },
         }
         .into()

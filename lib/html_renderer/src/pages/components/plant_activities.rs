@@ -20,7 +20,7 @@ impl PageComponent for PlantActivities {
         Div {
             id: Some("plant_activitites_container".to_owned()),
             class: None,
-            contents: Rc::new(
+            content: Rc::new(
                 vec![
                     self.watering_table.render(),
                     self.fertilizing_table.render(),

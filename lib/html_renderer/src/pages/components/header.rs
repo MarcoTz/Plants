@@ -17,40 +17,46 @@ impl PageComponent for Header {
     fn render(&self) -> HtmlComponent {
         let links: Vec<HtmlComponent> = vec![
             Link {
+                class: None,
                 href: self.dashboard_link.clone(),
-                contents: Rc::new("Dashboard".to_owned().into()),
+                content: Rc::new("Dashboard".to_owned().into()),
             }
             .into(),
             Link {
+                class: None,
                 href: self.plants_link.clone(),
-                contents: Rc::new("Plants".to_owned().into()),
+                content: Rc::new("Plants".to_owned().into()),
             }
             .into(),
             Link {
+                class: None,
                 href: self.species_link.clone(),
-                contents: Rc::new("Species".to_owned().into()),
+                content: Rc::new("Species".to_owned().into()),
             }
             .into(),
             Link {
+                class: None,
                 href: self.gallery_link.clone(),
-                contents: Rc::new("Gallery".to_owned().into()),
+                content: Rc::new("Gallery".to_owned().into()),
             }
             .into(),
             Link {
+                class: None,
                 href: self.activities_link.clone(),
-                contents: Rc::new("Activities".to_owned().into()),
+                content: Rc::new("Activities".to_owned().into()),
             }
             .into(),
             Link {
+                class: None,
                 href: self.graveyard_link.clone(),
-                contents: Rc::new("Graveyard".to_owned().into()),
+                content: Rc::new("Graveyard".to_owned().into()),
             }
             .into(),
         ];
         Div {
             class: None,
             id: Some("header".to_owned()),
-            contents: Rc::new(links.into()),
+            content: Rc::new(links.into()),
         }
         .into()
     }

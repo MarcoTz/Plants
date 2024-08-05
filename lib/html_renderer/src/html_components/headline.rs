@@ -12,7 +12,7 @@ pub enum HeaderSize {
 
 pub struct Headline {
     pub size: HeaderSize,
-    pub contents: Rc<HtmlComponent>,
+    pub content: Rc<HtmlComponent>,
 }
 
 impl From<Headline> for HtmlComponent {
@@ -23,7 +23,7 @@ impl From<Headline> for HtmlComponent {
 impl Render for Headline {
     fn render(&self) -> String {
         let size_tag = self.size.render();
-        let content_str = self.contents.render();
+        let content_str = self.content.render();
         format!("<{size_tag}>{content_str}</{size_tag}>")
     }
 }

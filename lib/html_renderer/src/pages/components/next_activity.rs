@@ -26,7 +26,7 @@ impl PageComponent for NextActivity {
         Div {
             id: Some("upcoming_tasks.container".to_owned()),
             class: None,
-            contents: Rc::new(next_activities_comp.into()),
+            content: Rc::new(next_activities_comp.into()),
         }
         .into()
     }
@@ -34,36 +34,37 @@ impl PageComponent for NextActivity {
 
 impl PageComponent for NextActivityItem {
     fn render(&self) -> HtmlComponent {
-        let mut div_contents = vec![];
+        let mut div_content = vec![];
 
         let mut date_str = self.date.weekday().to_string();
         date_str.push_str(&self.date.format(&self.date_format).to_string());
-        div_contents.push(date_str.into());
-        div_contents.push(HtmlComponent::Br);
+        div_content.push(date_str.into());
+        div_content.push(HtmlComponent::Br);
 
         let activity_header = Div {
             id: None,
             class: Some("activity_header".to_owned()),
-            contents: Rc::new(self.activity.clone().into()),
+            content: Rc::new(self.activity.clone().into()),
         }
         .into();
-        div_contents.push(activity_header);
+        div_content.push(activity_header);
 
         for (plant_name, plant_url) in self.plants.iter() {
-            div_contents.push(
+            div_content.push(
                 Link {
+                    class: None,
                     href: plant_url.clone(),
-                    contents: Rc::new(plant_name.clone().into()),
+                    content: Rc::new(plant_name.clone().into()),
                 }
                 .into(),
             );
-            div_contents.push(", ".to_owned().into())
+            div_content.push(", ".to_owned().into())
         }
 
         Div {
             class: Some("next_activity_item".to_owned()),
             id: None,
-            contents: Rc::new(div_contents.into()),
+            content: Rc::new(div_content.into()),
         }
         .into()
     }

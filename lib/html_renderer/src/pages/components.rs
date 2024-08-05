@@ -11,4 +11,6 @@ pub mod plant_gallery;
 pub mod plant_growth;
 pub mod plant_growth_table;
 pub mod plant_image;
+pub mod plant_list;
+pub mod plant_search;
 pub mod plant_status;

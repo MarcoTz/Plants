@@ -24,18 +24,18 @@ impl Page for Gallery {
 
         let galleries_rendered: Vec<HtmlComponent> =
             self.plant_galleries.iter().map(|x| x.render()).collect();
-        let body_contents = vec![
+        let body_content = vec![
             self.header.render(),
             Div {
                 id: Some("plant_gallery".to_owned()),
                 class: None,
-                contents: Rc::new(galleries_rendered.into()),
+                content: Rc::new(galleries_rendered.into()),
             }
             .into(),
             self.footer.render(),
         ];
         let body = Body {
-            content: Rc::new(body_contents.into()),
+            content: Rc::new(body_content.into()),
         };
         Html { head, body }
     }
