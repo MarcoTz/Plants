@@ -6,7 +6,7 @@ use super::species::Species;
 use chrono::{Local, NaiveDate};
 use serde::Serialize;
 
-type PlantImage = (NaiveDate, String);
+pub type PlantImage = (NaiveDate, String);
 
 #[derive(Serialize)]
 pub struct Plant {
