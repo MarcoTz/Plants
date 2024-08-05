@@ -1,5 +1,6 @@
 use super::super::{
     super::html_components::{
+        attribute::Attribute,
         component::HtmlComponent,
         div::Div,
         headline::{HeaderSize, Headline},
@@ -45,8 +46,7 @@ impl PageComponent for HallOfFame {
         vec![
             hall_of_fame_header,
             Div {
-                id: Some("hall_of_fame".to_owned()),
-                class: None,
+                attributes: vec![Attribute::Id("hall_of_fame".to_owned())],
                 content: Rc::new(hall_of_fame_items.into()),
             }
             .into(),
@@ -74,16 +74,14 @@ impl PageComponent for HallOfFameItem {
                 content: Rc::new(plant_value.clone().into()),
             };
             let new_row = Tr {
-                id: None,
-                class: None,
+                attributes: vec![],
                 cols: vec![ind_col, name_col, value_col],
             };
             fame_table.rows.push(new_row)
         }
         let div_content = Rc::new(vec![header, fame_table.into()].into());
         Div {
-            id: None,
-            class: Some("hall_of_fame_item".to_owned()),
+            attributes: vec![Attribute::Class("hall_of_fame_item".to_owned())],
             content: div_content,
         }
         .into()

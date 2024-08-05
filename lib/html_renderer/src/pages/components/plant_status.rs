@@ -1,5 +1,5 @@
 use super::super::{
-    super::html_components::{component::HtmlComponent, div::Div},
+    super::html_components::{attribute::Attribute, component::HtmlComponent, div::Div},
     page::PageComponent,
 };
 use std::rc::Rc;
@@ -47,8 +47,7 @@ impl PageComponent for PlantStatus {
             self.notes.render(),
         ];
         Div {
-            id: Some("plant_status".to_owned()),
-            class: None,
+            attributes: vec![Attribute::Id("plant_status".to_owned())],
             content: Rc::new(status_items.into()),
         }
         .into()
@@ -58,8 +57,7 @@ impl PageComponent for PlantStatus {
 impl PageComponent for StatusItem {
     fn render(&self) -> HtmlComponent {
         Div {
-            class: Some("status_item".to_owned()),
-            id: None,
+            attributes: vec![Attribute::Class("status_item".to_owned())],
             content: {
                 let name_str = self.name.clone();
                 let content_str = self.content.clone();

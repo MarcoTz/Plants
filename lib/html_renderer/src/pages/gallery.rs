@@ -1,5 +1,6 @@
 use super::{
     super::html_components::{
+        attribute::Attribute,
         body::Body,
         component::{Html, HtmlComponent},
         div::Div,
@@ -27,8 +28,7 @@ impl Page for Gallery {
         let body_content = vec![
             self.header.render(),
             Div {
-                id: Some("plant_gallery".to_owned()),
-                class: None,
+                attributes: vec![Attribute::Id("plant_gallery".to_owned())],
                 content: Rc::new(galleries_rendered.into()),
             }
             .into(),

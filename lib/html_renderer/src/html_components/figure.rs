@@ -1,20 +1,20 @@
-use super::component::{HtmlComponent, Render};
+use super::{
+    attribute::Attribute,
+    component::{HtmlComponent, Render},
+};
 use std::rc::Rc;
 pub struct Figure {
-    pub class: Option<String>,
+    pub attributes: Vec<Attribute>,
     pub content: Rc<HtmlComponent>,
     pub caption: Rc<HtmlComponent>,
 }
 
 impl Render for Figure {
     fn render(&self) -> String {
-        let class_str = match self.class.clone() {
-            None => "".to_owned(),
-            Some(cl) => format!("class=\"{cl}\""),
-        };
+        let attr_str = self.attributes.render();
         let contents_str = self.content.render();
         let caption_str = self.caption.render();
-        format!("<figure class=\"{class_str}\">{contents_str}<figcaption>{caption_str}</figcaption></figure>")
+        format!("<figure {attr_str}>{contents_str}<figcaption>{caption_str}</figcaption></figure>")
     }
 }
 
