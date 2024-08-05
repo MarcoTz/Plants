@@ -10,4 +10,5 @@ path="src/main.rs"
 [dependencies]
 plants = { path = "../lib/plants" }
 database = { path = "../lib/database" }
-html_renderer = { path="../lib/html_renderer"}
+html = {path="../lib/html"}
+pages = {path="../lib/pages"}

@@ -1,0 +1,9 @@
+[package]
+name="pages"
+version="0.0.1"
+edition="2021"
+
+[dependencies]
+chrono = "0.4.38"
+html = {path="../html"}
+plants = {path="../plants"}
