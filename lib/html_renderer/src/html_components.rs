@@ -1,4 +1,5 @@
 pub mod body;
+pub mod canvas;
 pub mod component;
 pub mod div;
 pub mod figure;
