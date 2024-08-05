@@ -52,7 +52,7 @@ fn main() {
         //Ok((plants, species)) => match save(plants, species) {
         Ok((plants, species, logs, growth, graveyard)) => {
             match save(&db_man, plants, species, logs, growth, graveyard) {
-                Ok(()) => return,
+                Ok(()) => (),
                 Err(err) => println!("{err:?}"),
             }
         }
