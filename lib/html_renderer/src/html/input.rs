@@ -1,7 +1,4 @@
-use super::{
-    attribute::Attribute,
-    html_element::{HtmlElement, Render},
-};
+use super::{attribute::Attribute, html_element::HtmlElement, render::Render};
 pub struct Input {
     pub attributes: Vec<Attribute>,
 }

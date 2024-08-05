@@ -1,5 +1,5 @@
 use super::{
-    super::html::{body::Body, head::Head, html_element::Html},
+    super::html::{body::Body, head::Head, html_document::HtmlDocument},
     components::{
         autowatered::AutoWatered, footer::Footer, hall_of_fame::HallOfFame, header::Header,
         next_activity::NextActivity,
@@ -17,7 +17,7 @@ pub struct Index {
 }
 
 impl Page for Index {
-    fn render(&self) -> Html {
+    fn render(&self) -> HtmlDocument {
         let mut body_contents = vec![];
 
         let head = Head {
@@ -33,6 +33,6 @@ impl Page for Index {
         let body = Body {
             content: Rc::new(body_contents.into()),
         };
-        Html { head, body }
+        HtmlDocument { head, body }
     }
 }

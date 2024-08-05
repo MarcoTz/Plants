@@ -1,4 +1,4 @@
-use super::html_element::Render;
+use super::render::Render;
 
 pub struct Head {
     pub title: String,

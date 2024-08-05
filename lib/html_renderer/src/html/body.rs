@@ -1,4 +1,4 @@
-use super::html_element::{HtmlElement, Render};
+use super::{html_element::HtmlElement, render::Render};
 use std::rc::Rc;
 
 pub struct Body {

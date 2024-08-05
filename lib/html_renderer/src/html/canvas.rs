@@ -1,5 +1,4 @@
-use super::attribute::Attribute;
-use super::html_element::{HtmlElement, Render};
+use super::{attribute::Attribute, html_element::HtmlElement, render::Render};
 
 pub struct Canvas {
     pub attributes: Vec<Attribute>,
