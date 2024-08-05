@@ -74,6 +74,7 @@ impl PageComponent for HallOfFameItem {
                 contents: Rc::new(plant_value.clone().into()),
             };
             let new_row = Tr {
+                class: None,
                 cols: vec![ind_col, name_col, value_col],
             };
             fame_table.rows.push(new_row)

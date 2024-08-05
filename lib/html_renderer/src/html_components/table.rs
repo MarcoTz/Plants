@@ -5,6 +5,7 @@ pub struct Td {
     pub contents: Rc<HtmlComponent>,
 }
 pub struct Tr {
+    pub class: Option<String>,
     pub cols: Vec<Td>,
 }
 pub struct Table {
@@ -23,11 +24,15 @@ impl Table {
 
 impl Render for Tr {
     fn render(&self) -> String {
+        let class_str = match self.class.clone() {
+            None => "".to_owned(),
+            Some(cl) => format!("class=\"{cl}\""),
+        };
         let mut td_str = "".to_owned();
         for td in self.cols.iter() {
             td_str.push_str(&td.render());
         }
-        format!("<tr>{td_str}</tr>")
+        format!("<tr {class_str}>{td_str}</tr>")
     }
 }
 
