@@ -5,13 +5,13 @@ use std::cmp::Ordering;
 
 #[derive(Deserialize, Serialize, Debug, PartialEq, Eq)]
 pub struct GraveyardPlant {
-    name: String,
-    species: String,
+    pub name: String,
+    pub species: String,
     #[serde(with = "date_serializer")]
-    planted: NaiveDate,
+    pub planted: NaiveDate,
     #[serde(with = "date_serializer")]
-    died: NaiveDate,
-    reason: String,
+    pub died: NaiveDate,
+    pub reason: String,
 }
 
 impl PartialOrd for GraveyardPlant {
