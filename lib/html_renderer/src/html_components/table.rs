@@ -2,7 +2,7 @@ use super::component::{HtmlComponent, Render};
 use std::rc::Rc;
 
 pub struct Td {
-    pub contents: Rc<HtmlComponent>,
+    pub content: Rc<HtmlComponent>,
 }
 pub struct Tr {
     pub class: Option<String>,
@@ -43,7 +43,7 @@ impl Render for Tr {
 
 impl Render for Td {
     fn render(&self) -> String {
-        let content_str = self.contents.render();
+        let content_str = self.content.render();
         format!("<td>{content_str}</td>")
     }
 }

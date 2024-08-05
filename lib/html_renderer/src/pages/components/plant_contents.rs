@@ -29,7 +29,7 @@ impl PageComponent for PlantContents {
             Div {
                 class: None,
                 id: Some("plant_info".to_owned()),
-                contents: Rc::new(vec![self.status.render(), self.growth.render()].into()),
+                content: Rc::new(vec![self.status.render(), self.growth.render()].into()),
             }
             .into(),
             self.activities.render(),
@@ -38,7 +38,7 @@ impl PageComponent for PlantContents {
         Div {
             class: None,
             id: Some("plant_content".to_owned()),
-            contents: Rc::new(details_content.into()),
+            content: Rc::new(details_content.into()),
         }
         .into()
     }

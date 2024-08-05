@@ -13,10 +13,10 @@ pub struct PlantGrowth {}
 
 impl PageComponent for PlantGrowth {
     fn render(&self) -> HtmlComponent {
-        let div_contents = vec![
+        let div_content = vec![
             Headline {
                 size: HeaderSize::H2,
-                contents: Rc::new("Growth Log".to_owned().into()),
+                content: Rc::new("Growth Log".to_owned().into()),
             }
             .into(),
             Canvas {
@@ -28,7 +28,7 @@ impl PageComponent for PlantGrowth {
         Div {
             id: Some("plant_growth_log_container".to_owned()),
             class: None,
-            contents: Rc::new(div_contents),
+            content: Rc::new(div_content),
         }
         .into()
     }

@@ -4,7 +4,7 @@ use std::rc::Rc;
 pub struct Div {
     pub class: Option<String>,
     pub id: Option<String>,
-    pub contents: Rc<HtmlComponent>,
+    pub content: Rc<HtmlComponent>,
 }
 
 impl From<Div> for HtmlComponent {
@@ -15,7 +15,7 @@ impl From<Div> for HtmlComponent {
 
 impl Render for Div {
     fn render(&self) -> String {
-        let content_str = self.contents.render();
+        let content_str = self.content.render();
         let class_str = match self.class.clone() {
             None => "".to_owned(),
             Some(cl) => format!("class=\"{cl}\""),

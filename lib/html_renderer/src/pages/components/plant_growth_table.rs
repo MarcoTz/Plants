@@ -24,16 +24,16 @@ impl PageComponent for PlantGrowthTable {
             class: None,
             cols: vec![
                 Td {
-                    contents: Rc::new("Date".to_owned().into()),
+                    content: Rc::new("Date".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Height".to_owned().into()),
+                    content: Rc::new("Height".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Width".to_owned().into()),
+                    content: Rc::new("Width".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Note".to_owned().into()),
+                    content: Rc::new("Note".to_owned().into()),
                 },
             ],
         };
@@ -50,7 +50,7 @@ impl PlantGrowthRow {
     fn render(&self) -> Tr {
         let cols = vec![
             Td {
-                contents: Rc::new(
+                content: Rc::new(
                     self.growth
                         .date
                         .format(&self.date_format)
@@ -59,13 +59,13 @@ impl PlantGrowthRow {
                 ),
             },
             Td {
-                contents: Rc::new(self.growth.height_cm.to_string().into()),
+                content: Rc::new(self.growth.height_cm.to_string().into()),
             },
             Td {
-                contents: Rc::new(self.growth.width_cm.to_string().into()),
+                content: Rc::new(self.growth.width_cm.to_string().into()),
             },
             Td {
-                contents: Rc::new(self.growth.note.clone().unwrap_or("".to_owned()).into()),
+                content: Rc::new(self.growth.note.clone().unwrap_or("".to_owned()).into()),
             },
         ];
 

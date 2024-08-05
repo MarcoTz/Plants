@@ -28,7 +28,7 @@ impl PageComponent for HallOfFame {
     fn render(&self) -> HtmlComponent {
         let hall_of_fame_header = Headline {
             size: HeaderSize::H1,
-            contents: Rc::new("Hall Of Fame".to_owned().into()),
+            content: Rc::new("Hall Of Fame".to_owned().into()),
         }
         .into();
         let hall_of_fame_items = vec![
@@ -47,7 +47,7 @@ impl PageComponent for HallOfFame {
             Div {
                 id: Some("hall_of_fame".to_owned()),
                 class: None,
-                contents: Rc::new(hall_of_fame_items.into()),
+                content: Rc::new(hall_of_fame_items.into()),
             }
             .into(),
         ]
@@ -59,19 +59,19 @@ impl PageComponent for HallOfFameItem {
     fn render(&self) -> HtmlComponent {
         let header = Headline {
             size: HeaderSize::H3,
-            contents: Rc::new(self.title.clone().into()),
+            content: Rc::new(self.title.clone().into()),
         }
         .into();
         let mut fame_table = Table { rows: vec![] };
         for (i, (plant_name, plant_value)) in self.plants.iter().enumerate() {
             let ind_col = Td {
-                contents: Rc::new(i.to_string().into()),
+                content: Rc::new(i.to_string().into()),
             };
             let name_col = Td {
-                contents: Rc::new(plant_name.clone().into()),
+                content: Rc::new(plant_name.clone().into()),
             };
             let value_col = Td {
-                contents: Rc::new(plant_value.clone().into()),
+                content: Rc::new(plant_value.clone().into()),
             };
             let new_row = Tr {
                 id: None,
@@ -80,11 +80,11 @@ impl PageComponent for HallOfFameItem {
             };
             fame_table.rows.push(new_row)
         }
-        let div_contents = Rc::new(vec![header, fame_table.into()].into());
+        let div_content = Rc::new(vec![header, fame_table.into()].into());
         Div {
             id: None,
             class: Some("hall_of_fame_item".to_owned()),
-            contents: div_contents,
+            content: div_content,
         }
         .into()
     }

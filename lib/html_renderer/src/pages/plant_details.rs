@@ -25,7 +25,7 @@ impl Page for PlantDetails {
         };
         let plant_header = Headline {
             size: HeaderSize::H1,
-            contents: {
+            content: {
                 let plant_name_str = self.plant_name.clone();
                 let plant_species_str = self.plant_species.clone();
 
@@ -33,7 +33,7 @@ impl Page for PlantDetails {
             },
         }
         .into();
-        let body_contents = vec![
+        let body_content = vec![
             self.header.render(),
             plant_header,
             self.plant_content.render(),
@@ -41,7 +41,7 @@ impl Page for PlantDetails {
         ]
         .into();
         let body = Body {
-            content: Rc::new(body_contents),
+            content: Rc::new(body_content),
         };
         Html { head, body }
     }

@@ -20,19 +20,19 @@ impl PageComponent for GraveyardTable {
             class: Some("header_row".to_owned()),
             cols: vec![
                 Td {
-                    contents: Rc::new("Name".to_owned().into()),
+                    content: Rc::new("Name".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Species".to_owned().into()),
+                    content: Rc::new("Species".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Planted Date".to_owned().into()),
+                    content: Rc::new("Planted Date".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Died Date".to_owned().into()),
+                    content: Rc::new("Died Date".to_owned().into()),
                 },
                 Td {
-                    contents: Rc::new("Cause of Death".to_owned().into()),
+                    content: Rc::new("Cause of Death".to_owned().into()),
                 },
             ],
         }];
@@ -42,21 +42,21 @@ impl PageComponent for GraveyardTable {
                 class: None,
                 cols: vec![
                     Td {
-                        contents: Rc::new(plant.name.clone().into()),
+                        content: Rc::new(plant.name.clone().into()),
                     },
                     Td {
-                        contents: Rc::new(plant.species.clone().into()),
+                        content: Rc::new(plant.species.clone().into()),
                     },
                     Td {
-                        contents: Rc::new(
+                        content: Rc::new(
                             plant.planted.format(&self.date_format).to_string().into(),
                         ),
                     },
                     Td {
-                        contents: Rc::new(plant.died.format(&self.date_format).to_string().into()),
+                        content: Rc::new(plant.died.format(&self.date_format).to_string().into()),
                     },
                     Td {
-                        contents: Rc::new(plant.reason.clone().into()),
+                        content: Rc::new(plant.reason.clone().into()),
                     },
                 ],
             };

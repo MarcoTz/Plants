@@ -3,14 +3,19 @@ use std::rc::Rc;
 
 pub struct Link {
     pub href: String,
-    pub contents: Rc<HtmlComponent>,
+    pub content: Rc<HtmlComponent>,
+    pub class: Option<String>,
 }
 
 impl Render for Link {
     fn render(&self) -> String {
         let href_str = self.href.clone();
-        let cont_str = self.contents.render();
-        format!("<a href=\"{href_str}\">{cont_str}</a>")
+        let cont_str = self.content.render();
+        let class_str = match self.class.clone() {
+            None => "".to_owned(),
+            Some(cl) => format!("class=\"{cl}\""),
+        };
+        format!("<a {class_str} href=\"{href_str}\">{cont_str}</a>")
     }
 }
 

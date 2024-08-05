@@ -1,6 +1,6 @@
 use super::{
     body::Body, canvas::Canvas, div::Div, figure::Figure, head::Head, headline::Headline, img::Img,
-    link::Link, literal::Literal, table::Table,
+    input::Input, link::Link, literal::Literal, select::Select, table::Table,
 };
 
 pub enum HtmlComponent {
@@ -15,6 +15,8 @@ pub enum HtmlComponent {
     Figure(Figure),
     Img(Img),
     Canvas(Canvas),
+    Input(Input),
+    Select(Select),
     ComponentList(Vec<HtmlComponent>),
 }
 
@@ -41,6 +43,8 @@ impl Render for HtmlComponent {
             HtmlComponent::Figure(fig) => fig.render(),
             HtmlComponent::Img(img) => img.render(),
             HtmlComponent::Canvas(canvas) => canvas.render(),
+            HtmlComponent::Input(input) => input.render(),
+            HtmlComponent::Select(select) => select.render(),
             HtmlComponent::ComponentList(ls) => {
                 let mut out_str = "".to_owned();
                 for comp in ls.iter() {

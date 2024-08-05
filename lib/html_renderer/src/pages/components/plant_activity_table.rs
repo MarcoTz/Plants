@@ -23,18 +23,18 @@ impl PageComponent for PlantActivityTable {
             id: Some("header_row".to_owned()),
             class: None,
             cols: vec![Td {
-                contents: Rc::new("Date".to_owned().into()),
+                content: Rc::new("Date".to_owned().into()),
             }],
         };
 
         if self.include_activity {
             header_row.cols.push(Td {
-                contents: Rc::new("Activity".to_owned().into()),
+                content: Rc::new("Activity".to_owned().into()),
             });
         }
 
         header_row.cols.push(Td {
-            contents: Rc::new("Note".to_owned().into()),
+            content: Rc::new("Note".to_owned().into()),
         });
 
         let mut table_rows = vec![header_row];
@@ -49,7 +49,7 @@ impl PageComponent for PlantActivityTable {
 impl PlantActivityRow {
     pub fn render(&self, include_activity: bool) -> Tr {
         let mut cols = vec![Td {
-            contents: Rc::new(
+            content: Rc::new(
                 self.activity
                     .date
                     .format(&self.date_format)
@@ -59,12 +59,12 @@ impl PlantActivityRow {
         }];
         if include_activity {
             cols.push(Td {
-                contents: Rc::new(self.activity.activity.clone().into()),
+                content: Rc::new(self.activity.activity.clone().into()),
             });
         }
 
         cols.push(Td {
-            contents: Rc::new(self.activity.note.clone().unwrap_or("".to_owned()).into()),
+            content: Rc::new(self.activity.note.clone().unwrap_or("".to_owned()).into()),
         });
         Tr {
             id: None,

@@ -6,6 +6,8 @@ pub mod figure;
 pub mod head;
 pub mod headline;
 pub mod img;
+pub mod input;
 pub mod link;
 pub mod literal;
+pub mod select;
 pub mod table;
