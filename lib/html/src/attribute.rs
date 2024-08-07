@@ -9,6 +9,7 @@ pub enum Attribute {
     Href(String),
     Type(String),
     OnChange(String),
+    Rel(String),
 }
 
 impl Render for Attribute {
@@ -22,6 +23,7 @@ impl Render for Attribute {
             Attribute::Href(href) => format!("href=\"{href}\""),
             Attribute::Type(ty) => format!("type=\"{ty}\""),
             Attribute::OnChange(onchange) => format!("onChange=\"{onchange}\""),
+            Attribute::Rel(rel) => format!("rel=\"{rel}\""),
         }
     }
 }

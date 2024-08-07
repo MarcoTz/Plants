@@ -1,6 +1,7 @@
 use super::{
     components::{
-        footer::Footer, header::Header, page_component::PageComponent, plant_gallery::PlantGallery,
+        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
+        plant_gallery::PlantGallery,
     },
     page::Page,
 };
@@ -11,6 +12,7 @@ use html::{
 use std::rc::Rc;
 
 pub struct Gallery {
+    head: HtmlHead,
     header: Header,
     footer: Footer,
     plant_galleries: Vec<PlantGallery>,
@@ -18,10 +20,6 @@ pub struct Gallery {
 
 impl Page for Gallery {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let head = Head {
-            title: "Gallery".to_owned(),
-        };
-
         let galleries_rendered: Vec<HtmlElement> = self
             .plant_galleries
             .iter()
@@ -39,6 +37,9 @@ impl Page for Gallery {
         let body = Body {
             content: Rc::new(body_content.into()),
         };
-        HtmlDocument { head, body }
+        HtmlDocument {
+            head: Head::from(&self.head),
+            body,
+        }
     }
 }

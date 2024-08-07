@@ -1,6 +1,7 @@
 use super::{
-    body::Body, canvas::Canvas, div::Div, figure::Figure, head::Head, headline::Headline, img::Img,
-    input::Input, link::Link, literal::Literal, render::Render, select::Select, table::Table,
+    a::A, body::Body, canvas::Canvas, div::Div, figure::Figure, head::Head, headline::Headline,
+    img::Img, input::Input, link::Link, literal::Literal, render::Render, select::Select,
+    table::Table,
 };
 
 pub enum HtmlElement {
@@ -8,6 +9,7 @@ pub enum HtmlElement {
     Body(Body),
     Div(Div),
     Link(Link),
+    A(A),
     Literal(Literal),
     Table(Table),
     Headline(Headline),
@@ -26,6 +28,7 @@ impl Render for HtmlElement {
             HtmlElement::Head(hd) => hd.render(),
             HtmlElement::Body(bd) => bd.render(),
             HtmlElement::Div(dv) => dv.render(),
+            HtmlElement::A(a) => a.render(),
             HtmlElement::Link(lnk) => lnk.render(),
             HtmlElement::Literal(lit) => lit.render(),
             HtmlElement::Table(tb) => tb.render(),

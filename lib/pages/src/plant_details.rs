@@ -1,6 +1,6 @@
 use super::{
     components::{
-        footer::Footer, header::Header, page_component::PageComponent,
+        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
         plant_contents::PlantContents,
     },
     page::Page,
@@ -14,6 +14,7 @@ use html::{
 use std::rc::Rc;
 
 pub struct PlantDetails {
+    head: HtmlHead,
     plant_name: String,
     plant_species: String,
     header: Header,
@@ -23,9 +24,6 @@ pub struct PlantDetails {
 
 impl Page for PlantDetails {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let head = Head {
-            title: self.plant_name.clone(),
-        };
         let plant_header = Headline {
             size: HeaderSize::H1,
             content: {
@@ -46,6 +44,9 @@ impl Page for PlantDetails {
         let body = Body {
             content: Rc::new(body_content),
         };
-        HtmlDocument { head, body }
+        HtmlDocument {
+            head: Head::from(&self.head),
+            body,
+        }
     }
 }

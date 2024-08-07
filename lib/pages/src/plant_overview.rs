@@ -1,13 +1,14 @@
 use super::{
     components::{
-        footer::Footer, header::Header, page_component::PageComponent, plant_list::PlantList,
-        plant_search::PlantSearch,
+        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
+        plant_list::PlantList, plant_search::PlantSearch,
     },
     page::Page,
 };
 use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 pub struct PlantOverview {
+    head: HtmlHead,
     header: Header,
     search: PlantSearch,
     plant_list: PlantList,
@@ -16,9 +17,6 @@ pub struct PlantOverview {
 
 impl Page for PlantOverview {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let head = Head {
-            title: "All Plants".to_owned(),
-        };
         let body_content = vec![
             self.header.render(date_format),
             self.search.render(date_format),
@@ -28,6 +26,9 @@ impl Page for PlantOverview {
         let body = Body {
             content: Rc::new(body_content.into()),
         };
-        HtmlDocument { head, body }
+        HtmlDocument {
+            head: Head::from(&self.head),
+            body,
+        }
     }
 }

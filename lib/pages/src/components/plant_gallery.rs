@@ -1,10 +1,10 @@
 use super::{page_component::PageComponent, plant_image::PlantImage};
 use html::{
+    a::A,
     attribute::Attribute,
     div::Div,
     headline::{HeaderSize, Headline},
     html_element::HtmlElement,
-    link::Link,
 };
 
 use std::rc::Rc;
@@ -44,7 +44,7 @@ impl PageComponent for PlantGallery {
             Headline {
                 size: HeaderSize::H2,
                 content: Rc::new(
-                    Link {
+                    A {
                         attributes: vec![Attribute::Href(self.plant_url.clone())],
                         content: Rc::new(self.plant_name.clone().into()),
                     }

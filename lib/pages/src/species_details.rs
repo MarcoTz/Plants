@@ -1,6 +1,6 @@
 use super::{
     components::{
-        footer::Footer, header::Header, page_component::PageComponent,
+        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
         species_gallery::SpeciesGallery, species_info::SpeciesInfo,
     },
     page::Page,
@@ -14,7 +14,9 @@ use html::{
     html_document::HtmlDocument,
 };
 use std::rc::Rc;
+
 pub struct SpeciesDetails {
+    head: HtmlHead,
     species_name: String,
     species_info: SpeciesInfo,
     species_gallery: SpeciesGallery,
@@ -24,9 +26,6 @@ pub struct SpeciesDetails {
 
 impl Page for SpeciesDetails {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let head = Head {
-            title: self.species_name.clone(),
-        };
         let body_contents = vec![
             self.header.render(date_format),
             Headline {
@@ -45,6 +44,9 @@ impl Page for SpeciesDetails {
         let body = Body {
             content: Rc::new(body_contents.into()),
         };
-        HtmlDocument { head, body }
+        HtmlDocument {
+            head: Head::from(&self.head),
+            body,
+        }
     }
 }

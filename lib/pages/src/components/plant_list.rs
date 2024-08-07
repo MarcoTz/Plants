@@ -1,12 +1,12 @@
 use super::super::errors::Error;
 use super::page_component::PageComponent;
 use html::{
+    a::A,
     attribute::Attribute,
     div::Div,
     headline::{HeaderSize, Headline},
     html_element::HtmlElement,
     img::Img,
-    link::Link,
 };
 use plants::plant::Plant;
 use std::collections::HashSet;
@@ -62,7 +62,7 @@ impl PageComponent for LocationGroup {
 impl PageComponent for PlantListItem {
     fn render(&self, _: &str) -> HtmlElement {
         let mut div_content = vec![
-            Link {
+            A {
                 attributes: vec![
                     Attribute::Href(self.plant_url.clone()),
                     Attribute::Class("plant_link".to_owned()),
@@ -79,7 +79,7 @@ impl PageComponent for PlantListItem {
                 Div {
                     attributes: vec![Attribute::Class("species_link".to_owned())],
                     content: Rc::new(
-                        Link {
+                        A {
                             attributes: vec![Attribute::Href(url.clone())],
                             content: Rc::new(name.clone().into()),
                         }
