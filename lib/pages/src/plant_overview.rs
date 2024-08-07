@@ -15,15 +15,15 @@ pub struct PlantOverview {
 }
 
 impl Page for PlantOverview {
-    fn render(&self) -> HtmlDocument {
+    fn render(&self, date_format: &str) -> HtmlDocument {
         let head = Head {
             title: "All Plants".to_owned(),
         };
         let body_content = vec![
-            self.header.render(),
-            self.search.render(),
-            self.plant_list.render(),
-            self.footer.render(),
+            self.header.render(date_format),
+            self.search.render(date_format),
+            self.plant_list.render(date_format),
+            self.footer.render(date_format),
         ];
         let body = Body {
             content: Rc::new(body_content.into()),

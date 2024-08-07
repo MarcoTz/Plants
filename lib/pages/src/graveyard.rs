@@ -15,14 +15,14 @@ pub struct Graveyard {
 }
 
 impl Page for Graveyard {
-    fn render(&self) -> HtmlDocument {
+    fn render(&self, date_format: &str) -> HtmlDocument {
         let head = Head {
             title: "Graveyard".to_owned(),
         };
         let body_contents = vec![
-            self.header.render(),
-            self.graveyard_table.render(),
-            self.footer.render(),
+            self.header.render(date_format),
+            self.graveyard_table.render(date_format),
+            self.footer.render(date_format),
         ];
         let body = Body {
             content: Rc::new(body_contents.into()),

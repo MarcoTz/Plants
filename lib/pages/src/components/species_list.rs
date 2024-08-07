@@ -12,10 +12,10 @@ pub struct SpeciesList {
 }
 
 impl PageComponent for SpeciesList {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut items = vec![];
         for species_item in self.species_items.iter() {
-            items.push(species_item.render());
+            items.push(species_item.render(date_format));
         }
         Div {
             attributes: vec![Attribute::Id("plant_list".to_owned())],
@@ -26,7 +26,7 @@ impl PageComponent for SpeciesList {
 }
 
 impl PageComponent for SpeciesListItem {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         let species_img: HtmlElement = match self.species_preview_url.clone() {
             None => "".to_owned().into(),
             Some(url) => Img {

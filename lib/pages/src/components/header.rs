@@ -12,7 +12,7 @@ pub struct Header {
 }
 
 impl PageComponent for Header {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         let links: Vec<HtmlElement> = vec![
             Link {
                 attributes: vec![Attribute::Href(self.dashboard_url.clone())],
@@ -50,5 +50,27 @@ impl PageComponent for Header {
             content: Rc::new(links.into()),
         }
         .into()
+    }
+}
+
+impl From<(String, String, String, String, String, String)> for Header {
+    fn from(
+        (dashboard_url, plants_url, species_url, gallery_url, activities_url, graveyard_url): (
+            String,
+            String,
+            String,
+            String,
+            String,
+            String,
+        ),
+    ) -> Header {
+        Header {
+            dashboard_url,
+            plants_url,
+            species_url,
+            gallery_url,
+            activities_url,
+            graveyard_url,
+        }
     }
 }

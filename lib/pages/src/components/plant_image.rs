@@ -12,7 +12,7 @@ pub struct PlantImage {
 }
 
 impl PageComponent for PlantImage {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         let caption = vec![
             Div {
                 attributes: vec![Attribute::Class("img_date".to_owned())],

@@ -1,8 +1,9 @@
 //REMOVE later
 use super::errors::Error;
 use super::file_db;
+use super::json_to_species::SpeciesJSON;
 use chrono::NaiveDate;
-use plants::plant::Plant;
+use plants::{plant::Plant, species::Species};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
@@ -43,20 +44,28 @@ pub struct PlantJSON {
     species_name: String,
 }
 
-impl TryInto<Plant> for PlantJSON {
+struct PlantPlusSpeciesJSON {
+    plant: PlantJSON,
+    species: SpeciesJSON,
+}
+
+impl TryInto<Plant> for PlantPlusSpeciesJSON {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
         let db_man = file_db::get_default();
-        let new_obtained = NaiveDate::parse_from_str(&self.obtained, &db_man.date_format)?;
-        let new_autowater = self.auto_watering.try_into()?;
+        let new_obtained = NaiveDate::parse_from_str(&self.plant.obtained, &db_man.date_format)?;
+        let new_autowater = self.plant.auto_watering.try_into()?;
+        let species = self.species.try_into()?;
         Ok(Plant {
-            name: self.plant_name,
-            species_name: self.species_name,
-            location: self.current_location,
-            origin: self.origin,
+            name: self.plant.plant_name,
+            species: Some(species),
+            location: self.plant.current_location,
+            origin: self.plant.origin,
             obtained: new_obtained,
             auto_water: new_autowater,
-            notes: self.plant_notes,
+            notes: self.plant.plant_notes,
+            growth: vec![],
+            activities: vec![],
         })
     }
 }

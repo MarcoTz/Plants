@@ -26,23 +26,23 @@ pub struct PlantStatus {
 }
 
 impl PageComponent for PlantStatus {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let status_items = vec![
-            self.health.render(),
-            self.next_watering.render(),
-            self.next_fertilizing.render(),
-            self.last_watering.render(),
-            self.last_fertilizing.render(),
-            self.watering_frequency.render(),
-            self.fertilizing_frequency.render(),
-            self.current_height.render(),
-            self.current_width.render(),
-            self.growth_speed.render(),
-            self.is_autowatered.render(),
-            self.current_location.render(),
-            self.origin.render(),
-            self.age.render(),
-            self.notes.render(),
+            self.health.render(date_format),
+            self.next_watering.render(date_format),
+            self.next_fertilizing.render(date_format),
+            self.last_watering.render(date_format),
+            self.last_fertilizing.render(date_format),
+            self.watering_frequency.render(date_format),
+            self.fertilizing_frequency.render(date_format),
+            self.current_height.render(date_format),
+            self.current_width.render(date_format),
+            self.growth_speed.render(date_format),
+            self.is_autowatered.render(date_format),
+            self.current_location.render(date_format),
+            self.origin.render(date_format),
+            self.age.render(date_format),
+            self.notes.render(date_format),
         ];
         Div {
             attributes: vec![Attribute::Id("plant_status".to_owned())],
@@ -53,7 +53,7 @@ impl PageComponent for PlantStatus {
 }
 
 impl PageComponent for StatusItem {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         Div {
             attributes: vec![Attribute::Class("status_item".to_owned())],
             content: {

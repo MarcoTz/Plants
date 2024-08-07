@@ -9,7 +9,6 @@ use std::rc::Rc;
 
 struct PlantGrowthRow {
     growth: GrowthItem,
-    date_format: String,
 }
 
 pub struct PlantGrowthTable {
@@ -17,7 +16,7 @@ pub struct PlantGrowthTable {
 }
 
 impl PageComponent for PlantGrowthTable {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let header_row = Tr {
             attributes: vec![Attribute::Id("header_row".to_owned())],
             cols: vec![
@@ -38,23 +37,17 @@ impl PageComponent for PlantGrowthTable {
 
         let mut table_rows = vec![header_row];
         for growth_row in self.growth_rows.iter() {
-            table_rows.push(growth_row.render());
+            table_rows.push(growth_row.render(date_format));
         }
         Table { rows: table_rows }.into()
     }
 }
 
 impl PlantGrowthRow {
-    fn render(&self) -> Tr {
+    fn render(&self, date_format: &str) -> Tr {
         let cols = vec![
             Td {
-                content: Rc::new(
-                    self.growth
-                        .date
-                        .format(&self.date_format)
-                        .to_string()
-                        .into(),
-                ),
+                content: Rc::new(self.growth.date.format(date_format).to_string().into()),
             },
             Td {
                 content: Rc::new(self.growth.height_cm.to_string().into()),
@@ -70,6 +63,22 @@ impl PlantGrowthRow {
         Tr {
             attributes: vec![],
             cols,
+        }
+    }
+}
+
+impl From<&GrowthItem> for PlantGrowthRow {
+    fn from(growth: &GrowthItem) -> PlantGrowthRow {
+        PlantGrowthRow {
+            growth: growth.clone(),
+        }
+    }
+}
+
+impl From<&[GrowthItem]> for PlantGrowthTable {
+    fn from(growth: &[GrowthItem]) -> PlantGrowthTable {
+        PlantGrowthTable {
+            growth_rows: growth.iter().map(|x| x.into()).collect(),
         }
     }
 }

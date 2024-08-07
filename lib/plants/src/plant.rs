@@ -3,42 +3,42 @@ use super::errors::Error;
 use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
 use super::species::Species;
-use chrono::{Local, NaiveDate};
+use chrono::{Local, NaiveDate, TimeDelta};
 use serde::Serialize;
 
 pub type PlantImage = (NaiveDate, String);
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 pub struct Plant {
     pub name: String,
-    pub species_name: String,
+    pub species: Option<Species>,
     pub location: String,
     pub origin: String,
     #[serde(with = "date_serializer")]
     pub obtained: NaiveDate,
     pub auto_water: bool,
     pub notes: Vec<String>,
+    pub growth: Vec<GrowthItem>,
+    pub activities: Vec<LogItem>,
 }
 
 impl Plant {
-    fn get_activities(&self, activity_name: &str, activities: &[LogItem]) -> Vec<LogItem> {
+    fn get_activities(&self, activity_name: &str) -> Vec<LogItem> {
         let mut watering_activities = vec![];
-        for activity in activities.iter() {
-            if activity.activity.to_lowercase().trim() == activity_name.to_lowercase().trim()
-                && activity.plant == self.name
-            {
+        for activity in self.activities.iter() {
+            if activity.activity.to_lowercase().trim() == activity_name.to_lowercase().trim() {
                 watering_activities.push(activity.clone())
             }
         }
         watering_activities
     }
 
-    fn get_watering_activities(&self, activities: &[LogItem]) -> Vec<LogItem> {
-        self.get_activities("watering", activities)
+    fn get_watering_activities(&self) -> Vec<LogItem> {
+        self.get_activities("watering")
     }
 
-    fn get_fertilizing_activities(&self, activities: &[LogItem]) -> Vec<LogItem> {
-        self.get_activities("fertilizing", activities)
+    fn get_fertilizing_activities(&self) -> Vec<LogItem> {
+        self.get_activities("fertilizing")
     }
 
     fn get_age_days(&self) -> i64 {
@@ -47,61 +47,52 @@ impl Plant {
         time_diff.num_days()
     }
 
-    fn get_next_activity_date(
-        &self,
-        activity_name: &str,
-        activities: &[LogItem],
-        species: &Species,
-    ) -> Option<NaiveDate> {
-        let self_activities = self.get_activities(activity_name, activities);
+    fn get_next_activity_date(&self, activity_name: &str) -> Option<NaiveDate> {
+        let self_activities = self.get_activities(activity_name);
         let m_last_activity = self_activities.iter().max();
-        match m_last_activity {
-            None => Some(Local::now().date_naive()),
-            Some(last_activity) => {
+        match (m_last_activity, &self.species) {
+            (None, _) => Some(Local::now().date_naive()),
+            (_, None) => None,
+            (Some(last_activity), Some(species)) => {
                 let activity_delta = species.get_activity_delta(activity_name)?;
                 Some(last_activity.date + activity_delta)
             }
         }
     }
 
-    fn get_next_watering(&self, activities: &[LogItem], species: &Species) -> Option<NaiveDate> {
-        self.get_next_activity_date("watering", activities, species)
+    pub fn get_next_watering(&self) -> Option<NaiveDate> {
+        self.get_next_activity_date("watering")
     }
 
-    fn get_next_fertilizing(&self, activities: &[LogItem], species: &Species) -> Option<NaiveDate> {
-        self.get_next_activity_date("fertilizing", activities, species)
+    pub fn get_next_fertilizing(&self) -> Option<NaiveDate> {
+        self.get_next_activity_date("fertilizing")
     }
 
-    fn get_last_growth(&self, growth: &[GrowthItem]) -> Result<GrowthItem, Error> {
-        let mut self_growth = vec![];
-        for growth_item in growth.iter() {
-            if growth_item.plant == self.name {
-                self_growth.push(growth_item.clone());
-            }
-        }
-        let last_growth = self_growth
+    fn get_last_growth(&self) -> Result<GrowthItem, Error> {
+        let last_growth = self
+            .growth
             .iter()
             .max()
             .ok_or(Error::GrowthError(self.name.clone()))?;
         Ok(last_growth.clone())
     }
-    fn get_height(&self, growth: &[GrowthItem]) -> Result<f32, Error> {
-        let last_growth = self.get_last_growth(growth)?;
+    pub fn get_height(&self) -> Result<f32, Error> {
+        let last_growth = self.get_last_growth()?;
         Ok(last_growth.height_cm)
     }
 
-    fn get_width(&self, growth: &[GrowthItem]) -> Result<f32, Error> {
-        let last_growth = self.get_last_growth(growth)?;
+    fn get_width(&self) -> Result<f32, Error> {
+        let last_growth = self.get_last_growth()?;
         Ok(last_growth.width_cm)
     }
 
-    fn get_health(&self, growth: &[GrowthItem]) -> Result<i32, Error> {
-        let last_growth = self.get_last_growth(growth)?;
+    fn get_health(&self) -> Result<i32, Error> {
+        let last_growth = self.get_last_growth()?;
         Ok(last_growth.health)
     }
 
-    fn get_activity_frequency(&self, activity_name: &str, activities: &[LogItem]) -> Option<f32> {
-        let self_activities = self.get_activities(activity_name, activities);
+    fn get_activity_frequency(&self, activity_name: &str) -> Option<f32> {
+        let self_activities = self.get_activities(activity_name);
         let first_activity = self_activities.iter().min()?;
         let last_activity = self_activities.iter().max()?;
         let activity_diff = last_activity.date - first_activity.date;
@@ -111,25 +102,91 @@ impl Plant {
         }
     }
 
-    fn get_fertilizing_frequency(&self, activities: &[LogItem]) -> Option<f32> {
-        self.get_activity_frequency("fertilizing", activities)
+    fn get_fertilizing_frequency(&self) -> Option<f32> {
+        self.get_activity_frequency("fertilizing")
     }
 
-    fn get_watering_frequency(&self, activities: &[LogItem]) -> Option<f32> {
-        self.get_activity_frequency("watering", activities)
+    fn get_watering_frequency(&self) -> Option<f32> {
+        self.get_activity_frequency("watering")
     }
 
-    fn get_growth_speed(&self, growth: &[GrowthItem]) -> Option<(f32, f32)> {
-        let self_growth = growth.iter().filter(|it| it.plant == self.name).cloned();
-        let first_growth = self_growth.clone().min()?;
-        let last_growth = self_growth.max()?;
+    fn get_growth_speed(&self) -> Result<f32, Error> {
+        let self_growth = self
+            .growth
+            .iter()
+            .filter(|it| it.plant == self.name)
+            .cloned();
+        let first_growth = self_growth
+            .clone()
+            .min()
+            .ok_or(Error::GrowthError(self.name.clone()))?;
+        let last_growth = self_growth
+            .max()
+            .ok_or(Error::GrowthError(self.name.clone()))?;
         let height_diff = last_growth.height_cm - first_growth.height_cm;
         let width_diff = last_growth.width_cm - first_growth.width_cm;
         let time_diff = (last_growth.date - first_growth.date).num_days() as f32;
         if time_diff == 0.0 {
-            None
+            Ok(0.0)
         } else {
-            Some((height_diff / time_diff, width_diff / time_diff))
+            let height_speed = height_diff / time_diff;
+            let width_speed = width_diff / time_diff;
+            let avg = (height_speed + width_speed) / 2.0;
+            Ok(avg)
         }
     }
+
+    pub fn get_url(&self, base: &str) -> String {
+        let mut url = base.to_owned();
+        url.push_str(&self.name.replace(" ", ""));
+        url.push_str(".html");
+        url
+    }
+
+    pub fn get_next_growth(&self) -> NaiveDate {
+        match self.get_last_growth() {
+            Err(_) => Local::now().date_naive(),
+            Ok(last_growth) => last_growth.date + TimeDelta::days(14),
+        }
+    }
+}
+
+#[derive(Debug)]
+enum CmpOptions {
+    Height,
+    Width,
+    GrowthSpeed,
+    Age,
+}
+
+fn sort_plants(plants: &[Plant], cmp: CmpOptions) -> Result<Vec<(f32, &Plant)>, Error> {
+    let cmp_fun = match cmp {
+        CmpOptions::Height => |p: &Plant| p.get_height(),
+        CmpOptions::Width => |p: &Plant| p.get_width(),
+        CmpOptions::GrowthSpeed => |p: &Plant| p.get_growth_speed(),
+        CmpOptions::Age => |p: &Plant| Ok(p.get_age_days() as f32),
+    };
+
+    let mut plants_with_vals: Vec<(f32, &Plant)> = plants
+        .iter()
+        .map(|p| cmp_fun(p).map(|val| (val, p)))
+        .collect::<Result<Vec<(f32, &Plant)>, Error>>()?;
+    plants_with_vals.sort_by(|(val1, _), (val2, _)| val1.partial_cmp(val2).unwrap());
+    Ok(plants_with_vals)
+}
+
+pub fn sort_height(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
+    sort_plants(plants, CmpOptions::Height)
+}
+
+pub fn sort_width(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
+    sort_plants(plants, CmpOptions::Width)
+}
+
+pub fn sort_speed(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
+    sort_plants(plants, CmpOptions::GrowthSpeed)
+}
+
+pub fn sort_age(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
+    sort_plants(plants, CmpOptions::Age)
 }

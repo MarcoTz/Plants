@@ -11,7 +11,7 @@ use std::rc::Rc;
 pub struct PlantGrowth {}
 
 impl PageComponent for PlantGrowth {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         let div_content = vec![
             Headline {
                 size: HeaderSize::H2,
@@ -29,5 +29,11 @@ impl PageComponent for PlantGrowth {
             content: Rc::new(div_content),
         }
         .into()
+    }
+}
+
+impl From<()> for PlantGrowth {
+    fn from(_: ()) -> PlantGrowth {
+        PlantGrowth {}
     }
 }
