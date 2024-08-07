@@ -1,0 +1,8 @@
+[package]
+name="render_html"
+version="0.0.1"
+edition="2021"
+
+[dependencies]
+plants = { path="../plants"}
+database = {path="../database"}

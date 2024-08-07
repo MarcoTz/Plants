@@ -4,6 +4,7 @@ members = [
   "lib/database",
   "lib/html",
   "lib/pages",
+  "lib/render_html",
   "render_static"
 ]
 resolver = "2"
