@@ -1,5 +1,8 @@
-use super::super::database_manager::DatabaseManager;
-use super::errors::{AccessType, Error, FSError};
+use super::{
+    super::database_manager::DatabaseManager,
+    errors::{AccessType, Error, FSError},
+    json_to_plant::load_plants,
+};
 use plants::plant::Plant;
 use std::path;
 
@@ -32,6 +35,22 @@ fn get_path_from_buf(logs_dir: &str, file_name: &str) -> Result<String, Error> {
     }
 }
 impl FileDB {
+    pub fn get_default() -> FileDB {
+        FileDB {
+            plants_dir: "data/Plants".to_owned(),
+            species_dir: "data/PlantSpecies".to_owned(),
+            logs_dir: "data/Logs".to_owned(),
+            graveyard_csv: "Graveyard.csv".to_owned(),
+            growth_csv: "Growth.csv".to_owned(),
+            activities_csv: "Activities.csv".to_owned(),
+            date_format: "%d.%m.%Y".to_owned(),
+            plants_out_dir: "data_new/Plants".to_owned(),
+            species_out_dir: "data_new/Species".to_owned(),
+            graveyard_out: "data_new/Logs/Graveyard.csv".to_owned(),
+            activities_out: "data_new/Logs/Activities.csv".to_owned(),
+            growth_out: "data_new/Logs/Growth.csv".to_owned(),
+        }
+    }
     pub fn get_activities_filepath(&self) -> Result<String, Error> {
         get_path_from_buf(&self.logs_dir, &self.activities_csv)
     }
@@ -45,25 +64,17 @@ impl FileDB {
     }
 }
 
-pub fn get_default() -> FileDB {
-    FileDB {
-        plants_dir: "data/Plants".to_owned(),
-        species_dir: "data/PlantSpecies".to_owned(),
-        logs_dir: "data/Logs".to_owned(),
-        graveyard_csv: "Graveyard.csv".to_owned(),
-        growth_csv: "Growth.csv".to_owned(),
-        activities_csv: "Activities.csv".to_owned(),
-        date_format: "%d.%m.%Y".to_owned(),
-        plants_out_dir: "data_new/Plants".to_owned(),
-        species_out_dir: "data_new/Species".to_owned(),
-        graveyard_out: "data_new/Logs/Graveyard.csv".to_owned(),
-        activities_out: "data_new/Logs/Activities.csv".to_owned(),
-        growth_out: "data_new/Logs/Growth.csv".to_owned(),
-    }
-}
-
 impl DatabaseManager for FileDB {
-    fn get_all_plants(&self) -> Vec<Plant> {
-        panic!("")
+    fn get_all_plants(&self) -> Result<Vec<Plant>, super::super::errors::Error> {
+        let activity_file = self.get_activities_filepath()?;
+        let growth_file = self.get_growth_filepath()?;
+        load_plants(
+            &self.plants_dir,
+            &self.species_dir,
+            &activity_file,
+            &growth_file,
+            &self.date_format,
+        )
+        .map_err(|err| err.into())
     }
 }

@@ -1,7 +1,9 @@
-use super::errors::{AccessType, Error, FSError, SerializeError};
-use super::json_to_plant::PlantJSON;
-use super::json_to_species::SpeciesJSON;
-use plants::plant::Plant;
+use super::{
+    errors::{AccessType, Error, FSError, SerializeError},
+    json_to_plant::PlantJSON,
+    json_to_species::SpeciesJSON,
+};
+
 use plants::species::Species;
 use serde::de::DeserializeOwned;
 use std::fs;
@@ -51,9 +53,9 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     }
     Ok(struct_list)
 }
-pub fn load_plants(plants_dir: &str) -> Result<Vec<PlantJSON>, Error> {
-    let plants_old: Vec<PlantJSON> = load_dir(plants_dir)?;
-    Ok(plants_old)
+
+pub fn load_plant_jsons(plants_dir: &str) -> Result<Vec<PlantJSON>, Error> {
+    load_dir(plants_dir)
 }
 
 pub fn load_species(species_dir: &str) -> Result<Vec<Species>, Error> {
