@@ -4,5 +4,7 @@ version="0.0.1"
 edition="2021"
 
 [dependencies]
-plants = { path="../plants"}
-database = {path="../database"}
+plants = { path="../plants" }
+database = {path="../database" }
+pages = { path="../pages" } 
+html = { path="../html"} 

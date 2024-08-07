@@ -1,4 +1,6 @@
+use super::super::database_manager::DatabaseManager;
 use super::errors::{AccessType, Error, FSError};
+use plants::plant::Plant;
 use std::path;
 
 pub struct FileDB {
@@ -57,5 +59,11 @@ pub fn get_default() -> FileDB {
         graveyard_out: "data_new/Logs/Graveyard.csv".to_owned(),
         activities_out: "data_new/Logs/Activities.csv".to_owned(),
         growth_out: "data_new/Logs/Growth.csv".to_owned(),
+    }
+}
+
+impl DatabaseManager for FileDB {
+    fn get_all_plants(&self) -> Vec<Plant> {
+        panic!("")
     }
 }
