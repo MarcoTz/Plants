@@ -84,6 +84,10 @@ impl From<&[Plant]> for NextActivity {
                 }
             };
         for plant in plants.iter() {
+            if plant.auto_water {
+                continue;
+            }
+
             let next_watering = plant.get_next_watering();
             let next_fertilizing = plant.get_next_fertilizing();
             let plant_tuple = (plant.get_url("plants/"), plant.name.clone());
