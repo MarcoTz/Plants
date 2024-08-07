@@ -2,6 +2,7 @@ use std::fmt;
 
 pub enum Error {
     PageError(pages::errors::Error),
+    DatabaseError(database::errors::Error),
 }
 
 impl From<pages::errors::Error> for Error {
@@ -10,10 +11,17 @@ impl From<pages::errors::Error> for Error {
     }
 }
 
+impl From<database::errors::Error> for Error {
+    fn from(db_err: database::errors::Error) -> Error {
+        Error::DatabaseError(db_err)
+    }
+}
+
 impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::PageError(page_err) => page_err.fmt(frmt),
+            Error::DatabaseError(db_err) => db_err.fmt(frmt),
         }
     }
 }

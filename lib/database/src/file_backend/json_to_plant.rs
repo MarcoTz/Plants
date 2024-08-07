@@ -1,9 +1,10 @@
 use super::{
-    csv_to_growth_item::GrowthCSV, csv_to_log_item::LogCSV, errors::Error, file_db,
-    json_to_species::SpeciesJSON,
+    errors::Error,
+    load_csv::{load_activities, load_growth},
+    load_json::{load_plant_jsons, load_species},
 };
 use chrono::NaiveDate;
-use plants::{log_item::LogItem, plant::Plant};
+use plants::{growth_item::GrowthItem, log_item::LogItem, plant::Plant, species::Species};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
@@ -46,33 +47,77 @@ pub struct PlantJSON {
 
 struct PlantInfo {
     plant: PlantJSON,
-    species: SpeciesJSON,
-    logs: Vec<LogCSV>,
-    growth: Vec<GrowthCSV>,
+    species: Option<Species>,
+    logs: Vec<LogItem>,
+    growth: Vec<GrowthItem>,
+    date_format: String,
 }
 
 impl TryInto<Plant> for PlantInfo {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
-        let db_man = file_db::get_default();
-        let new_obtained = NaiveDate::parse_from_str(&self.plant.obtained, &db_man.date_format)?;
+        let new_obtained = NaiveDate::parse_from_str(&self.plant.obtained, &self.date_format)?;
         let new_autowater = self.plant.auto_watering.try_into()?;
-        let species = self.species.try_into()?;
+        let species = self.species;
         Ok(Plant {
             name: self.plant.plant_name,
-            species: Some(species),
+            species,
             location: self.plant.current_location,
             origin: self.plant.origin,
             obtained: new_obtained,
             auto_water: new_autowater,
             notes: self.plant.plant_notes,
-            activities: self
-                .logs
-                .iter()
-                .cloned()
-                .flat_map(|log| <LogCSV as Into<Vec<LogItem>>>::into(log))
-                .collect(),
-            growth: vec![],
+            activities: self.logs,
+            growth: self.growth,
         })
     }
+}
+
+pub fn load_plants(
+    plants_dir: &str,
+    species_dir: &str,
+    activity_file: &str,
+    growth_file: &str,
+    date_format: &str,
+) -> Result<Vec<Plant>, Error> {
+    let plant_jsons: Vec<PlantJSON> = load_plant_jsons(plants_dir)?;
+    let species = load_species(species_dir)?;
+    let logs = load_activities(activity_file)?;
+    let growth = load_growth(growth_file)?;
+    let mut plants = vec![];
+    for plant_json in plant_jsons.iter() {
+        let species_plant = species
+            .iter()
+            .find(|sp| sp.name == plant_json.plant_name)
+            .cloned();
+        let plant_logs: Vec<LogItem> = logs
+            .iter()
+            .filter(|log| log.plant == plant_json.plant_name)
+            .cloned()
+            .collect();
+        let mut plant_growth: Vec<GrowthItem> = growth
+            .iter()
+            .filter(|growth| growth.plant == plant_json.plant_name)
+            .cloned()
+            .collect();
+        let last_health = plant_json.plant_health.parse::<i32>()?;
+        let mut last_growth =
+            plant_growth
+                .pop()
+                .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
+                    plant_json.plant_name.clone(),
+                )))?;
+        last_growth.health = last_health;
+        plant_growth.push(last_growth);
+        let new_plant = PlantInfo {
+            plant: plant_json.clone(),
+            species: species_plant,
+            logs: plant_logs.clone(),
+            growth: plant_growth.clone(),
+            date_format: date_format.to_owned(),
+        }
+        .try_into()?;
+        plants.push(new_plant);
+    }
+    Ok(plants)
 }

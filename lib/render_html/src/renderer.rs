@@ -39,12 +39,11 @@ pub struct Renderer<T: DatabaseManager> {
 
 impl<T: DatabaseManager> Renderer<T> {
     fn get_header(&self, relative_up: bool) -> Header {
-        let prefix;
-        if relative_up {
-            prefix = "../".to_owned();
+        let prefix = if relative_up {
+            "../".to_owned()
         } else {
-            prefix = "./".to_owned();
-        }
+            "./".to_owned()
+        };
         Header::from((
             prefix.clone() + &self.urls.index_url,
             prefix.clone() + &self.urls.plant_overview_url,
@@ -56,7 +55,7 @@ impl<T: DatabaseManager> Renderer<T> {
     }
 
     pub fn render_index(&self) -> Result<String, Error> {
-        let plants = self.database_manager.get_all_plants();
+        let plants = self.database_manager.get_all_plants()?;
         let hall_of_fame = HallOfFame::try_from(plants.as_slice())?;
         Ok(Index {
             header: self.get_header(false),
