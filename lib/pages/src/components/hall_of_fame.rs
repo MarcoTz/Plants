@@ -10,19 +10,25 @@ use html::{
 use plants::{plant, plant::Plant};
 use std::rc::Rc;
 
+#[derive(Clone)]
 struct HallOfFameItem {
+    plant_name: String,
+    plant_value: f32,
+    plant_unit: String,
+}
+struct HallOfFameTable {
     title: String,
-    plants: Vec<(String, String)>,
+    plants: Vec<HallOfFameItem>,
 }
 pub struct HallOfFame {
-    tallest: HallOfFameItem,
-    shortest: HallOfFameItem,
-    widest: HallOfFameItem,
-    thinnest: HallOfFameItem,
-    fastest_growing: HallOfFameItem,
-    slowest_growing: HallOfFameItem,
-    oldest: HallOfFameItem,
-    youngest: HallOfFameItem,
+    tallest: HallOfFameTable,
+    shortest: HallOfFameTable,
+    widest: HallOfFameTable,
+    thinnest: HallOfFameTable,
+    fastest_growing: HallOfFameTable,
+    slowest_growing: HallOfFameTable,
+    oldest: HallOfFameTable,
+    youngest: HallOfFameTable,
 }
 
 impl PageComponent for HallOfFame {
@@ -59,31 +65,63 @@ impl TryFrom<&[Plant]> for HallOfFame {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<HallOfFame, Self::Error> {
         let by_height = plant::sort_height(plants)?;
-        let mut by_height_rev = by_height.clone();
-        by_height_rev.reverse();
+        let by_height_items: Vec<HallOfFameItem> = by_height
+            .iter()
+            .map(|(val, plant)| HallOfFameItem {
+                plant_name: plant.name.clone(),
+                plant_value: val.to_owned(),
+                plant_unit: "cm".to_owned(),
+            })
+            .collect();
+        let mut by_height_items_rev = by_height_items.clone();
+        by_height_items_rev.reverse();
         let by_width = plant::sort_width(plants)?;
-        let mut by_width_rev = by_width.clone();
-        by_width_rev.reverse();
+        let by_width_items: Vec<HallOfFameItem> = by_width
+            .iter()
+            .map(|(val, plant)| HallOfFameItem {
+                plant_name: plant.name.clone(),
+                plant_value: val.to_owned(),
+                plant_unit: "cm".to_owned(),
+            })
+            .collect();
+        let mut by_width_items_rev = by_width_items.clone();
+        by_width_items_rev.reverse();
         let by_speed = plant::sort_speed(plants)?;
-        let mut by_speed_rev = by_speed.clone();
-        by_speed_rev.reverse();
+        let by_speed_items: Vec<HallOfFameItem> = by_speed
+            .iter()
+            .map(|(val, plant)| HallOfFameItem {
+                plant_name: plant.name.clone(),
+                plant_value: val.to_owned(),
+                plant_unit: "cm/day".to_owned(),
+            })
+            .collect();
+        let mut by_speed_items_rev = by_speed_items.clone();
+        by_speed_items_rev.reverse();
         let by_age = plant::sort_age(plants)?;
-        let mut by_age_rev = by_age.clone();
-        by_age_rev.reverse();
+        let by_age_items: Vec<HallOfFameItem> = by_age
+            .iter()
+            .map(|(val, plant)| HallOfFameItem {
+                plant_name: plant.name.clone(),
+                plant_value: val.to_owned(),
+                plant_unit: "days".to_owned(),
+            })
+            .collect();
+        let mut by_age_items_rev = by_age_items.clone();
+        by_age_items_rev.reverse();
         Ok(HallOfFame {
-            tallest: ("Tallest".to_owned(), by_height).into(),
-            shortest: ("Shortest".to_owned(), by_height_rev).into(),
-            widest: ("Widest".to_owned(), by_width).into(),
-            thinnest: ("Thinnest".to_owned(), by_width_rev).into(),
-            fastest_growing: ("Fastest Growing".to_owned(), by_speed).into(),
-            slowest_growing: ("Slowest Growing".to_owned(), by_speed_rev).into(),
-            oldest: ("Oldest".to_owned(), by_age).into(),
-            youngest: ("Youngest".to_owned(), by_age_rev).into(),
+            tallest: ("Tallest".to_owned(), by_height_items).into(),
+            shortest: ("Shortest".to_owned(), by_height_items_rev).into(),
+            widest: ("Widest".to_owned(), by_width_items).into(),
+            thinnest: ("Thinnest".to_owned(), by_width_items_rev).into(),
+            fastest_growing: ("Fastest Growing".to_owned(), by_speed_items).into(),
+            slowest_growing: ("Slowest Growing".to_owned(), by_speed_items_rev).into(),
+            oldest: ("Oldest".to_owned(), by_age_items).into(),
+            youngest: ("Youngest".to_owned(), by_age_items_rev).into(),
         })
     }
 }
 
-impl PageComponent for HallOfFameItem {
+impl PageComponent for HallOfFameTable {
     fn render(&self, _: &str) -> HtmlElement {
         let header = Headline {
             size: HeaderSize::H3,
@@ -91,15 +129,20 @@ impl PageComponent for HallOfFameItem {
         }
         .into();
         let mut fame_table = Table { rows: vec![] };
-        for (i, (plant_name, plant_value)) in self.plants.iter().enumerate() {
+        for (i, fame_item) in self.plants.iter().enumerate() {
             let ind_col = Td {
-                content: Rc::new(i.to_string().into()),
+                content: Rc::new((i + 1).to_string().into()),
             };
             let name_col = Td {
-                content: Rc::new(plant_name.clone().into()),
+                content: Rc::new(fame_item.plant_name.clone().into()),
             };
             let value_col = Td {
-                content: Rc::new(plant_value.clone().into()),
+                content: Rc::new(
+                    (format!("{:.2}", fame_item.plant_value).replace(".00", "")
+                        + " "
+                        + &fame_item.plant_unit)
+                        .into(),
+                ),
             };
             let new_row = Tr {
                 attributes: vec![],
@@ -116,15 +159,11 @@ impl PageComponent for HallOfFameItem {
     }
 }
 
-impl From<(String, Vec<(f32, &Plant)>)> for HallOfFameItem {
-    fn from((s, plants): (String, Vec<(f32, &Plant)>)) -> HallOfFameItem {
-        HallOfFameItem {
+impl From<(String, Vec<HallOfFameItem>)> for HallOfFameTable {
+    fn from((s, plants): (String, Vec<HallOfFameItem>)) -> HallOfFameTable {
+        HallOfFameTable {
             title: s,
-            plants: plants
-                .iter()
-                .take(10)
-                .map(|(val, plant)| (val.to_string(), plant.name.clone()))
-                .collect(),
+            plants: plants.iter().take(10).cloned().collect(),
         }
     }
 }
