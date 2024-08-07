@@ -9,11 +9,11 @@ use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 
 pub struct Index {
-    header: Header,
-    next_activities: NextActivity,
-    autowatered: AutoWatered,
-    hall_of_fame: HallOfFame,
-    footer: Footer,
+    pub header: Header,
+    pub next_activities: NextActivity,
+    pub autowatered: AutoWatered,
+    pub hall_of_fame: HallOfFame,
+    pub footer: Footer,
 }
 
 impl Page for Index {

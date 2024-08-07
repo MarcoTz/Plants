@@ -12,3 +12,4 @@ plants = { path = "../lib/plants" }
 database = { path = "../lib/database" }
 html = {path="../lib/html"}
 pages = {path="../lib/pages"}
+render_html = {path="../lib/render_html"}
