@@ -7,10 +7,10 @@ pub struct SpeciesGallery {
 }
 
 impl PageComponent for SpeciesGallery {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut galleries = vec![];
         for plant_gallery in self.plant_galleries.iter() {
-            galleries.push(plant_gallery.render());
+            galleries.push(plant_gallery.render(date_format));
         }
         Div {
             attributes: vec![Attribute::Id("species_details_gallery".to_owned())],

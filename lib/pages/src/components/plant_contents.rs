@@ -16,17 +16,23 @@ pub struct PlantContents {
 }
 
 impl PageComponent for PlantContents {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let details_content = vec![
-            self.header.render(),
-            self.gallery.render(),
+            self.header.render(date_format),
+            self.gallery.render(date_format),
             Div {
                 attributes: vec![Attribute::Id("plant_info".to_owned())],
-                content: Rc::new(vec![self.status.render(), self.growth.render()].into()),
+                content: Rc::new(
+                    vec![
+                        self.status.render(date_format),
+                        self.growth.render(date_format),
+                    ]
+                    .into(),
+                ),
             }
             .into(),
-            self.activities.render(),
-            self.footer.render(),
+            self.activities.render(date_format),
+            self.footer.render(date_format),
         ];
         Div {
             attributes: vec![Attribute::Id("plant_content".to_owned())],

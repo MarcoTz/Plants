@@ -23,12 +23,12 @@ pub struct SpeciesDetails {
 }
 
 impl Page for SpeciesDetails {
-    fn render(&self) -> HtmlDocument {
+    fn render(&self, date_format: &str) -> HtmlDocument {
         let head = Head {
             title: self.species_name.clone(),
         };
         let body_contents = vec![
-            self.header.render(),
+            self.header.render(date_format),
             Headline {
                 size: HeaderSize::H1,
                 content: Rc::new(self.species_name.clone().into()),
@@ -36,11 +36,11 @@ impl Page for SpeciesDetails {
             .into(),
             Div {
                 attributes: vec![Attribute::Id("species_content".to_owned())],
-                content: Rc::new(self.species_info.render()),
+                content: Rc::new(self.species_info.render(date_format)),
             }
             .into(),
-            self.species_gallery.render(),
-            self.footer.render(),
+            self.species_gallery.render(date_format),
+            self.footer.render(date_format),
         ];
         let body = Body {
             content: Rc::new(body_contents.into()),

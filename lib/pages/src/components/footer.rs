@@ -1,16 +1,15 @@
 use super::page_component::PageComponent;
-use chrono::NaiveDate;
+use chrono::{Local, NaiveDate};
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement, link::Link};
 use std::rc::Rc;
 
 pub struct Footer {
     num_plants: i32,
     last_build: NaiveDate,
-    date_format: String,
 }
 
 impl PageComponent for Footer {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut footer_content: Vec<HtmlElement> = vec![];
         let github_link = Div {
             attributes: vec![Attribute::Id("github_link".to_owned())],
@@ -33,7 +32,7 @@ impl PageComponent for Footer {
         };
         footer_content.push(num_plants.into());
 
-        let last_build_str = self.last_build.format(&self.date_format);
+        let last_build_str = self.last_build.format(date_format);
         let last_build: Div = Div {
             attributes: vec![Attribute::Id("last_build".to_owned())],
             content: Rc::new(format!("Last build: {last_build_str}").into()),
@@ -45,5 +44,14 @@ impl PageComponent for Footer {
             content: Rc::new(footer_content.into()),
         }
         .into()
+    }
+}
+
+impl From<i32> for Footer {
+    fn from(num_plants: i32) -> Footer {
+        Footer {
+            num_plants,
+            last_build: Local::now().date_naive(),
+        }
     }
 }

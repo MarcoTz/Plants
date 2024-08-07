@@ -16,9 +16,12 @@ pub struct PlantGallery {
 }
 
 impl PageComponent for PlantGallery {
-    fn render(&self) -> HtmlElement {
-        let images_rendered: Vec<HtmlElement> =
-            self.plant_images.iter().map(|x| x.render()).collect();
+    fn render(&self, date_format: &str) -> HtmlElement {
+        let images_rendered: Vec<HtmlElement> = self
+            .plant_images
+            .iter()
+            .map(|x| x.render(date_format))
+            .collect();
         let controls_div = Div {
             attributes: vec![Attribute::Class("img_controls".to_owned())],
             content: Rc::new(

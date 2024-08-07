@@ -9,11 +9,10 @@ use std::rc::Rc;
 
 pub struct GraveyardTable {
     plants: Vec<GraveyardPlant>,
-    date_format: String,
 }
 
 impl PageComponent for GraveyardTable {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut table_rows = vec![Tr {
             attributes: vec![Attribute::Class("header_row".to_owned())],
             cols: vec![
@@ -45,12 +44,10 @@ impl PageComponent for GraveyardTable {
                         content: Rc::new(plant.species.clone().into()),
                     },
                     Td {
-                        content: Rc::new(
-                            plant.planted.format(&self.date_format).to_string().into(),
-                        ),
+                        content: Rc::new(plant.planted.format(date_format).to_string().into()),
                     },
                     Td {
-                        content: Rc::new(plant.died.format(&self.date_format).to_string().into()),
+                        content: Rc::new(plant.died.format(date_format).to_string().into()),
                     },
                     Td {
                         content: Rc::new(plant.reason.clone().into()),
@@ -60,5 +57,13 @@ impl PageComponent for GraveyardTable {
             table_rows.push(new_row);
         }
         Table { rows: table_rows }.into()
+    }
+}
+
+impl From<&[GraveyardPlant]> for GraveyardTable {
+    fn from(plants: &[GraveyardPlant]) -> GraveyardTable {
+        let mut gr_plants = vec![];
+        gr_plants.extend_from_slice(plants);
+        GraveyardTable { plants: gr_plants }
     }
 }

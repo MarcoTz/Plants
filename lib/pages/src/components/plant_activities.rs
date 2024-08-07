@@ -3,6 +3,7 @@ use super::{
     plant_growth_table::PlantGrowthTable,
 };
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
+use plants::{growth_item::GrowthItem, log_item::LogItem};
 use std::rc::Rc;
 
 pub struct PlantActivities {
@@ -13,19 +14,42 @@ pub struct PlantActivities {
 }
 
 impl PageComponent for PlantActivities {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         Div {
             attributes: vec![Attribute::Id("plant_activities_container".to_owned())],
             content: Rc::new(
                 vec![
-                    self.watering_table.render(),
-                    self.fertilizing_table.render(),
-                    self.activity_table.render(),
-                    self.growth_table.render(),
+                    self.watering_table.render(date_format),
+                    self.fertilizing_table.render(date_format),
+                    self.activity_table.render(date_format),
+                    self.growth_table.render(date_format),
                 ]
                 .into(),
             ),
         }
         .into()
+    }
+}
+
+impl From<(&[LogItem], &[GrowthItem])> for PlantActivities {
+    fn from((logs, growth): (&[LogItem], &[GrowthItem])) -> PlantActivities {
+        let watering_activities: Vec<&LogItem> = logs
+            .iter()
+            .filter(|log| log.activity.to_lowercase().trim() == "watering")
+            .collect();
+        let fertilizing_activities: Vec<&LogItem> = logs
+            .iter()
+            .filter(|log| log.activity.to_lowercase().trim() == "fertilizing")
+            .collect();
+        let other_activities: Vec<&LogItem> = logs
+            .iter()
+            .filter(|x| !(watering_activities.contains(x) || fertilizing_activities.contains(x)))
+            .collect();
+        PlantActivities {
+            watering_table: (watering_activities.as_slice(), false).into(),
+            fertilizing_table: (fertilizing_activities.as_slice(), false).into(),
+            activity_table: (other_activities.as_slice(), true).into(),
+            growth_table: growth.into(),
+        }
     }
 }

@@ -22,7 +22,7 @@ pub struct PlantDetails {
 }
 
 impl Page for PlantDetails {
-    fn render(&self) -> HtmlDocument {
+    fn render(&self, date_format: &str) -> HtmlDocument {
         let head = Head {
             title: self.plant_name.clone(),
         };
@@ -37,10 +37,10 @@ impl Page for PlantDetails {
         }
         .into();
         let body_content = vec![
-            self.header.render(),
+            self.header.render(date_format),
             plant_header,
-            self.plant_content.render(),
-            self.footer.render(),
+            self.plant_content.render(date_format),
+            self.footer.render(date_format),
         ]
         .into();
         let body = Body {

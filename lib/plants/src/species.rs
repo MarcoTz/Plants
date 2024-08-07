@@ -3,7 +3,7 @@ use chrono::TimeDelta;
 use serde::Serialize;
 use std::str::FromStr;
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 pub enum SunlightRequirement {
     Direct,
     Indirect,
@@ -22,7 +22,7 @@ impl FromStr for SunlightRequirement {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 pub struct Species {
     pub name: String,
     pub scientific_name: String,
@@ -52,5 +52,12 @@ impl Species {
             "fertilizing" => self.avg_fertilizing_days.map(|x| TimeDelta::days(x as i64)),
             _ => None,
         }
+    }
+
+    pub fn get_url(&self, base: &str) -> String {
+        let mut url = base.to_owned();
+        url.push_str(&self.name.replace(" ", ""));
+        url.push_str(".html");
+        url
     }
 }

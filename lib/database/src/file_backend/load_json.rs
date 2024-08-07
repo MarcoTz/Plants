@@ -51,14 +51,9 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     }
     Ok(struct_list)
 }
-pub fn load_plants(plants_dir: &str) -> Result<Vec<Plant>, Error> {
+pub fn load_plants(plants_dir: &str) -> Result<Vec<PlantJSON>, Error> {
     let plants_old: Vec<PlantJSON> = load_dir(plants_dir)?;
-    let plants_new = plants_old
-        .iter()
-        .cloned()
-        .map(<PlantJSON as TryInto<Plant>>::try_into)
-        .collect::<Result<Vec<Plant>, Error>>()?;
-    Ok(plants_new)
+    Ok(plants_old)
 }
 
 pub fn load_species(species_dir: &str) -> Result<Vec<Species>, Error> {

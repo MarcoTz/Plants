@@ -9,7 +9,6 @@ use std::rc::Rc;
 
 struct PlantActivityRow {
     activity: LogItem,
-    date_format: String,
 }
 pub struct PlantActivityTable {
     activity_rows: Vec<PlantActivityRow>,
@@ -17,7 +16,7 @@ pub struct PlantActivityTable {
 }
 
 impl PageComponent for PlantActivityTable {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut header_row = Tr {
             attributes: vec![Attribute::Id("header_row".to_owned())],
             cols: vec![Td {
@@ -37,7 +36,7 @@ impl PageComponent for PlantActivityTable {
 
         let mut table_rows = vec![header_row];
         for activity_row in self.activity_rows.iter() {
-            table_rows.push(activity_row.render(self.include_activity));
+            table_rows.push(activity_row.render(date_format, self.include_activity));
         }
 
         Table { rows: table_rows }.into()
@@ -45,15 +44,9 @@ impl PageComponent for PlantActivityTable {
 }
 
 impl PlantActivityRow {
-    pub fn render(&self, include_activity: bool) -> Tr {
+    pub fn render(&self, date_format: &str, include_activity: bool) -> Tr {
         let mut cols = vec![Td {
-            content: Rc::new(
-                self.activity
-                    .date
-                    .format(&self.date_format)
-                    .to_string()
-                    .into(),
-            ),
+            content: Rc::new(self.activity.date.format(date_format).to_string().into()),
         }];
         if include_activity {
             cols.push(Td {
@@ -67,6 +60,21 @@ impl PlantActivityRow {
         Tr {
             attributes: vec![],
             cols,
+        }
+    }
+}
+impl From<(&[&LogItem], bool)> for PlantActivityTable {
+    fn from((logs, include_activity): (&[&LogItem], bool)) -> PlantActivityTable {
+        PlantActivityTable {
+            activity_rows: logs.iter().cloned().map(|x| x.into()).collect(),
+            include_activity,
+        }
+    }
+}
+impl From<&LogItem> for PlantActivityRow {
+    fn from(log: &LogItem) -> PlantActivityRow {
+        PlantActivityRow {
+            activity: log.clone(),
         }
     }
 }

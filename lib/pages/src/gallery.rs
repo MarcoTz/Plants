@@ -17,21 +17,24 @@ pub struct Gallery {
 }
 
 impl Page for Gallery {
-    fn render(&self) -> HtmlDocument {
+    fn render(&self, date_format: &str) -> HtmlDocument {
         let head = Head {
             title: "Gallery".to_owned(),
         };
 
-        let galleries_rendered: Vec<HtmlElement> =
-            self.plant_galleries.iter().map(|x| x.render()).collect();
+        let galleries_rendered: Vec<HtmlElement> = self
+            .plant_galleries
+            .iter()
+            .map(|x| x.render(date_format))
+            .collect();
         let body_content = vec![
-            self.header.render(),
+            self.header.render(date_format),
             Div {
                 attributes: vec![Attribute::Id("plant_gallery".to_owned())],
                 content: Rc::new(galleries_rendered.into()),
             }
             .into(),
-            self.footer.render(),
+            self.footer.render(date_format),
         ];
         let body = Body {
             content: Rc::new(body_content.into()),

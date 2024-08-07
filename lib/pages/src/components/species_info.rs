@@ -31,7 +31,7 @@ pub struct SpeciesInfo {
 }
 
 impl PageComponent for SpeciesInfo {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         let mut rows = vec![
             self.scientific_name.render(),
             self.genus.render(),

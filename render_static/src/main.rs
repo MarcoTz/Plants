@@ -1,5 +1,6 @@
 use database::file_backend::errors::Error;
 use database::file_backend::file_db;
+use database::file_backend::json_to_plant::PlantJSON;
 use database::file_backend::load_csv::{load_activities, load_graveyard, load_growth};
 use database::file_backend::load_json::{load_plants, load_species};
 use database::file_backend::write_csv::{write_activities, write_graveyard, write_growth};
@@ -14,7 +15,7 @@ fn load(
     db_man: &file_db::FileDB,
 ) -> Result<
     (
-        Vec<Plant>,
+        Vec<PlantJSON>,
         Vec<Species>,
         Vec<LogItem>,
         Vec<GrowthItem>,
@@ -31,13 +32,13 @@ fn load(
 }
 fn save(
     db_man: &file_db::FileDB,
-    plants: Vec<Plant>,
+    plants: Vec<PlantJSON>,
     species: Vec<Species>,
     logs: Vec<LogItem>,
     growth: Vec<GrowthItem>,
     graveyard: Vec<GraveyardPlant>,
 ) -> Result<(), Error> {
-    write_plants(plants, &db_man.plants_out_dir)?;
+    //write_plants(plants, &db_man.plants_out_dir)?;
     write_species(species, &db_man.species_out_dir)?;
 
     write_activities(logs, &db_man.activities_out)?;

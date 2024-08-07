@@ -29,17 +29,17 @@ pub struct PlantSearch {
 }
 
 impl PageComponent for PlantSearch {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let search_components = vec![
             Div {
                 attributes: vec![Attribute::Class("search_header".to_owned())],
                 content: Rc::new("Filter".to_owned().into()),
             }
             .into(),
-            self.name_search.render(),
-            self.species_search.render(),
-            self.temp_min_search.render(),
-            self.temp_max_search.render(),
+            self.name_search.render(date_format),
+            self.species_search.render(date_format),
+            self.temp_min_search.render(date_format),
+            self.temp_max_search.render(date_format),
         ];
         Div {
             attributes: vec![Attribute::Id("plant_search".to_owned())],
@@ -50,7 +50,7 @@ impl PageComponent for PlantSearch {
 }
 
 impl PageComponent for PlantSearchField {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         Div {
             attributes: vec![],
             content: Rc::new(
@@ -82,7 +82,7 @@ impl PageComponent for PlantSearchField {
 }
 
 impl PageComponent for PlantNumberSearch {
-    fn render(&self) -> HtmlElement {
+    fn render(&self, _: &str) -> HtmlElement {
         Div {
             attributes: vec![],
             content: Rc::new(
