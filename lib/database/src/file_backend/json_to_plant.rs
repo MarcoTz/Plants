@@ -1,9 +1,9 @@
-//REMOVE later
-use super::errors::Error;
-use super::file_db;
-use super::json_to_species::SpeciesJSON;
+use super::{
+    csv_to_growth_item::GrowthCSV, csv_to_log_item::LogCSV, errors::Error, file_db,
+    json_to_species::SpeciesJSON,
+};
 use chrono::NaiveDate;
-use plants::{plant::Plant, species::Species};
+use plants::{log_item::LogItem, plant::Plant};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
@@ -44,12 +44,14 @@ pub struct PlantJSON {
     species_name: String,
 }
 
-struct PlantPlusSpeciesJSON {
+struct PlantInfo {
     plant: PlantJSON,
     species: SpeciesJSON,
+    logs: Vec<LogCSV>,
+    growth: Vec<GrowthCSV>,
 }
 
-impl TryInto<Plant> for PlantPlusSpeciesJSON {
+impl TryInto<Plant> for PlantInfo {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
         let db_man = file_db::get_default();
@@ -64,8 +66,13 @@ impl TryInto<Plant> for PlantPlusSpeciesJSON {
             obtained: new_obtained,
             auto_water: new_autowater,
             notes: self.plant.plant_notes,
+            activities: self
+                .logs
+                .iter()
+                .cloned()
+                .flat_map(|log| <LogCSV as Into<Vec<LogItem>>>::into(log))
+                .collect(),
             growth: vec![],
-            activities: vec![],
         })
     }
 }
