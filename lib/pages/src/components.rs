@@ -3,6 +3,7 @@ pub mod footer;
 pub mod graveyard_table;
 pub mod hall_of_fame;
 pub mod header;
+pub mod html_head;
 pub mod next_activity;
 pub mod page_component;
 pub mod plant_activities;

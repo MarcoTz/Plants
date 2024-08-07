@@ -1,6 +1,6 @@
 use super::page_component::PageComponent;
 use chrono::{Datelike, NaiveDate};
-use html::{attribute::Attribute, div::Div, html_element::HtmlElement, link::Link};
+use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -48,7 +48,7 @@ impl PageComponent for NextActivityItem {
 
         for (plant_name, plant_url) in self.plants.iter() {
             div_content.push(
-                Link {
+                A {
                     attributes: vec![Attribute::Href(plant_url.clone())],
                     content: Rc::new(plant_name.clone().into()),
                 }

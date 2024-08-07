@@ -1,5 +1,5 @@
 use super::page_component::PageComponent;
-use html::{attribute::Attribute, div::Div, html_element::HtmlElement, img::Img, link::Link};
+use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement, img::Img};
 use std::rc::Rc;
 
 struct SpeciesListItem {
@@ -38,7 +38,7 @@ impl PageComponent for SpeciesListItem {
             attributes: vec![Attribute::Id("species_list_item".to_owned())],
             content: Rc::new(
                 vec![
-                    Link {
+                    A {
                         attributes: vec![Attribute::Href(self.species_url.clone())],
                         content: Rc::new(self.species_name.clone().into()),
                     }

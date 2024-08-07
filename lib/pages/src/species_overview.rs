@@ -1,6 +1,7 @@
 use super::{
     components::{
-        footer::Footer, header::Header, page_component::PageComponent, species_list::SpeciesList,
+        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
+        species_list::SpeciesList,
     },
     page::Page,
 };
@@ -9,6 +10,7 @@ use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 
 pub struct SpeciesOverview {
+    head: HtmlHead,
     header: Header,
     footer: Footer,
     species_list: SpeciesList,
@@ -16,9 +18,6 @@ pub struct SpeciesOverview {
 
 impl Page for SpeciesOverview {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let head = Head {
-            title: "All Plant Species".to_owned(),
-        };
         let body_contents = vec![
             self.header.render(date_format),
             self.species_list.render(date_format),
@@ -27,6 +26,9 @@ impl Page for SpeciesOverview {
         let body = Body {
             content: Rc::new(body_contents.into()),
         };
-        HtmlDocument { head, body }
+        HtmlDocument {
+            head: Head::from(&self.head),
+            body,
+        }
     }
 }
