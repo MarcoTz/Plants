@@ -11,12 +11,12 @@ use pages::{
 };
 
 pub struct PageURLs {
-    index_url: String,
-    plant_overview_url: String,
-    species_overview_url: String,
-    gallery_url: String,
-    activities_url: String,
-    graveyard_url: String,
+    pub index_url: String,
+    pub plant_overview_url: String,
+    pub species_overview_url: String,
+    pub gallery_url: String,
+    pub activities_url: String,
+    pub graveyard_url: String,
 }
 impl PageURLs {
     pub fn get_default() -> PageURLs {
