@@ -9,10 +9,15 @@ pub struct NextActivity {
     next_activities: Vec<NextActivityItem>,
 }
 
+#[derive(Clone)]
+struct PlantLink {
+    plant_name: String,
+    plant_url: String,
+}
 pub struct NextActivityItem {
     date: NaiveDate,
     activity: String,
-    plants: Vec<(String, String)>,
+    plants: Vec<PlantLink>,
 }
 
 impl PageComponent for NextActivity {
@@ -46,11 +51,11 @@ impl PageComponent for NextActivityItem {
         .into();
         div_content.push(activity_header);
 
-        for (plant_name, plant_url) in self.plants.iter() {
+        for plant_link in self.plants.iter() {
             div_content.push(
                 A {
-                    attributes: vec![Attribute::Href(plant_url.clone())],
-                    content: Rc::new(plant_name.clone().into()),
+                    attributes: vec![Attribute::Href(plant_link.plant_url.clone())],
+                    content: Rc::new(plant_link.plant_name.clone().into()),
                 }
                 .into(),
             );
@@ -67,15 +72,13 @@ impl PageComponent for NextActivityItem {
 
 impl From<&[Plant]> for NextActivity {
     fn from(plants: &[Plant]) -> NextActivity {
-        let mut next_watering_dates: HashMap<NaiveDate, Vec<(String, String)>> = HashMap::new();
-        let mut next_fertilizing_dates: HashMap<NaiveDate, Vec<(String, String)>> = HashMap::new();
-        let mut next_both_dates: HashMap<NaiveDate, Vec<(String, String)>> = HashMap::new();
-        let mut next_growth_dates: HashMap<NaiveDate, Vec<(String, String)>> = HashMap::new();
+        let mut next_watering_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
+        let mut next_fertilizing_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
+        let mut next_both_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
+        let mut next_growth_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
 
         let map_update =
-            |key: NaiveDate,
-             value: (String, String),
-             map: &mut HashMap<NaiveDate, Vec<(String, String)>>| {
+            |key: NaiveDate, value: PlantLink, map: &mut HashMap<NaiveDate, Vec<PlantLink>>| {
                 match map.get_mut(&key) {
                     None => {
                         map.insert(key, vec![value]);
@@ -90,7 +93,10 @@ impl From<&[Plant]> for NextActivity {
 
             let next_watering = plant.get_next_watering();
             let next_fertilizing = plant.get_next_fertilizing();
-            let plant_tuple = (plant.get_url("plants/"), plant.name.clone());
+            let plant_tuple = PlantLink {
+                plant_url: plant.get_url("plants/"),
+                plant_name: plant.name.clone(),
+            };
             map_update(
                 plant.get_next_growth(),
                 plant_tuple.clone(),
@@ -115,28 +121,27 @@ impl From<&[Plant]> for NextActivity {
             }
         }
 
-        let mut next_dates_vec: Vec<(&str, &NaiveDate, &Vec<(String, String)>)> =
-            next_watering_dates
-                .iter()
-                .map(|(key, val)| ("Watering", key, val))
-                .collect();
+        let mut next_dates_vec: Vec<(&str, &NaiveDate, &Vec<PlantLink>)> = next_watering_dates
+            .iter()
+            .map(|(key, val)| ("Watering", key, val))
+            .collect();
         next_dates_vec.extend(
             next_fertilizing_dates
                 .iter()
                 .map(|(key, val)| ("Fertilizing", key, val))
-                .collect::<Vec<(&str, &NaiveDate, &Vec<(String, String)>)>>(),
+                .collect::<Vec<(&str, &NaiveDate, &Vec<PlantLink>)>>(),
         );
         next_dates_vec.extend(
             next_both_dates
                 .iter()
                 .map(|(key, val)| ("Watering+Fertilizing", key, val))
-                .collect::<Vec<(&str, &NaiveDate, &Vec<(String, String)>)>>(),
+                .collect::<Vec<(&str, &NaiveDate, &Vec<PlantLink>)>>(),
         );
         next_dates_vec.extend(
             next_growth_dates
                 .iter()
                 .map(|(key, val)| ("Growth", key, val))
-                .collect::<Vec<(&str, &NaiveDate, &Vec<(String, String)>)>>(),
+                .collect::<Vec<(&str, &NaiveDate, &Vec<PlantLink>)>>(),
         );
 
         let next_activities: Vec<NextActivityItem> = next_dates_vec
@@ -148,10 +153,8 @@ impl From<&[Plant]> for NextActivity {
     }
 }
 
-impl From<(&str, &NaiveDate, &Vec<(String, String)>)> for NextActivityItem {
-    fn from(
-        (activity_str, date, plants): (&str, &NaiveDate, &Vec<(String, String)>),
-    ) -> NextActivityItem {
+impl From<(&str, &NaiveDate, &Vec<PlantLink>)> for NextActivityItem {
+    fn from((activity_str, date, plants): (&str, &NaiveDate, &Vec<PlantLink>)) -> NextActivityItem {
         NextActivityItem {
             activity: activity_str.to_owned(),
             date: date.clone(),
