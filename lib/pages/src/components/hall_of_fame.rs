@@ -1,6 +1,7 @@
 use super::super::errors::Error;
 use super::page_component::PageComponent;
 use html::{
+    a::A,
     attribute::Attribute,
     div::Div,
     headline::{HeaderSize, Headline},
@@ -13,6 +14,7 @@ use std::rc::Rc;
 #[derive(Clone)]
 struct HallOfFameItem {
     plant_name: String,
+    plant_url: String,
     plant_value: f32,
     plant_unit: String,
 }
@@ -69,6 +71,7 @@ impl TryFrom<&[Plant]> for HallOfFame {
             .iter()
             .map(|(val, plant)| HallOfFameItem {
                 plant_name: plant.name.clone(),
+                plant_url: plant.get_url("plants/"),
                 plant_value: val.to_owned(),
                 plant_unit: "cm".to_owned(),
             })
@@ -80,6 +83,7 @@ impl TryFrom<&[Plant]> for HallOfFame {
             .iter()
             .map(|(val, plant)| HallOfFameItem {
                 plant_name: plant.name.clone(),
+                plant_url: plant.get_url("plants/"),
                 plant_value: val.to_owned(),
                 plant_unit: "cm".to_owned(),
             })
@@ -91,6 +95,7 @@ impl TryFrom<&[Plant]> for HallOfFame {
             .iter()
             .map(|(val, plant)| HallOfFameItem {
                 plant_name: plant.name.clone(),
+                plant_url: plant.get_url("plants/"),
                 plant_value: val.to_owned(),
                 plant_unit: "cm/day".to_owned(),
             })
@@ -102,6 +107,7 @@ impl TryFrom<&[Plant]> for HallOfFame {
             .iter()
             .map(|(val, plant)| HallOfFameItem {
                 plant_name: plant.name.clone(),
+                plant_url: plant.get_url("plants/"),
                 plant_value: val.to_owned(),
                 plant_unit: "days".to_owned(),
             })
@@ -134,7 +140,13 @@ impl PageComponent for HallOfFameTable {
                 content: Rc::new((i + 1).to_string().into()),
             };
             let name_col = Td {
-                content: Rc::new(fame_item.plant_name.clone().into()),
+                content: Rc::new(
+                    A {
+                        attributes: vec![Attribute::Href(fame_item.plant_url.clone())],
+                        content: Rc::new(fame_item.plant_name.clone().into()),
+                    }
+                    .into(),
+                ),
             };
             let value_col = Td {
                 content: Rc::new(
