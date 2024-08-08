@@ -9,7 +9,7 @@ use html::{
     img::Img,
 };
 use plants::plant::Plant;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
 pub struct PlantListItem {
@@ -178,5 +178,31 @@ impl TryFrom<&[&Plant]> for LocationGroup {
                 plant_items: plants.iter().cloned().map(|p| p.into()).collect(),
             })
         }
+    }
+}
+
+impl TryFrom<&[Plant]> for PlantList {
+    type Error = Error;
+    fn try_from(plants: &[Plant]) -> Result<PlantList, Self::Error> {
+        let mut by_location: HashMap<String, Vec<&Plant>> = HashMap::new();
+        for plant in plants.iter() {
+            match by_location.get_mut(&plant.location) {
+                None => {
+                    by_location.insert(plant.location.to_owned(), vec![plant]);
+                }
+                Some(location_vec) => {
+                    location_vec.push(plant);
+                }
+            };
+        }
+
+        let location_groups = by_location
+            .iter()
+            .map(|(_, plants)| plants.as_slice().try_into())
+            .collect::<Result<Vec<LocationGroup>, Error>>()?;
+
+        Ok(PlantList {
+            locations: location_groups,
+        })
     }
 }
