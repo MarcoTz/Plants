@@ -8,6 +8,7 @@ use pages::{
         hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
         plant_list::PlantList, plant_search::PlantSearch, species_list::SpeciesList,
     },
+    gallery::Gallery,
     graveyard::Graveyard,
     index::Index,
     page::Page,
@@ -147,8 +148,18 @@ impl<T: DatabaseManager> Renderer<T> {
         .render())
     }
 
-    pub fn render_gallery(&self) -> Result<String, Error> {
-        Ok("".to_owned())
+    pub fn render_gallery(&mut self) -> Result<String, Error> {
+        let plants = self.database_manager.get_all_plants()?;
+        let plant_galleries = plants.iter().map(|x| x.into()).collect();
+        let num_plants = plants.len() as i32;
+        Ok(Gallery {
+            head: self.get_head("Gallery", false, vec!["css/gallery.css".to_owned()]),
+            header: self.get_header(false),
+            plant_galleries,
+            footer: self.get_footer(num_plants),
+        }
+        .render(&self.date_format)
+        .render())
     }
 
     pub fn render_activities(&self) -> Result<String, Error> {
