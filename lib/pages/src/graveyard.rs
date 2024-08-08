@@ -9,10 +9,10 @@ use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 
 pub struct Graveyard {
-    head: HtmlHead,
-    header: Header,
-    footer: Footer,
-    graveyard_table: GraveyardTable,
+    pub head: HtmlHead,
+    pub header: Header,
+    pub footer: Footer,
+    pub graveyard_table: GraveyardTable,
 }
 
 impl Page for Graveyard {

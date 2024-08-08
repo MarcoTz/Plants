@@ -2,8 +2,9 @@ use super::{
     super::database_manager::DatabaseManager,
     errors::{AccessType, Error, FSError},
     json_to_plant::load_plants,
+    load_csv::load_graveyard,
 };
-use plants::plant::Plant;
+use plants::{graveyard::GraveyardPlant, plant::Plant};
 use std::path;
 
 pub struct FileDB {
@@ -20,6 +21,9 @@ pub struct FileDB {
     pub graveyard_out: String,
     pub activities_out: String,
     pub growth_out: String,
+
+    pub plants_cache: Vec<Plant>,
+    pub graveyard_cache: Vec<GraveyardPlant>,
 }
 
 fn get_path_from_buf(logs_dir: &str, file_name: &str) -> Result<String, Error> {
@@ -49,6 +53,8 @@ impl FileDB {
             graveyard_out: "data_new/Logs/Graveyard.csv".to_owned(),
             activities_out: "data_new/Logs/Activities.csv".to_owned(),
             growth_out: "data_new/Logs/Growth.csv".to_owned(),
+            plants_cache: vec![],
+            graveyard_cache: vec![],
         }
     }
     pub fn get_activities_filepath(&self) -> Result<String, Error> {
@@ -62,19 +68,48 @@ impl FileDB {
     pub fn get_growth_filepath(&self) -> Result<String, Error> {
         get_path_from_buf(&self.logs_dir, &self.growth_csv)
     }
-}
 
-impl DatabaseManager for FileDB {
-    fn get_all_plants(&self) -> Result<Vec<Plant>, super::super::errors::Error> {
+    fn load_plants(&mut self) -> Result<(), Error> {
         let activity_file = self.get_activities_filepath()?;
         let growth_file = self.get_growth_filepath()?;
-        load_plants(
+        let plants = load_plants(
             &self.plants_dir,
             &self.species_dir,
             &activity_file,
             &growth_file,
             &self.date_format,
-        )
-        .map_err(|err| err.into())
+        )?;
+        self.plants_cache = plants;
+        Ok(())
+    }
+
+    fn load_graveyard(&mut self) -> Result<(), Error> {
+        let graveyard_file = self.get_graveyard_filepath()?;
+        let graveyard = load_graveyard(&graveyard_file)?;
+        self.graveyard_cache = graveyard;
+        Ok(())
+    }
+}
+
+impl DatabaseManager for FileDB {
+    fn get_all_plants(&mut self) -> Result<Vec<Plant>, super::super::errors::Error> {
+        if self.plants_cache.len() == 0 {
+            self.load_plants()?;
+        }
+        Ok(self.plants_cache.clone())
+    }
+
+    fn get_num_plants(&mut self) -> Result<i32, super::super::errors::Error> {
+        if self.plants_cache.len() == 0 {
+            self.load_plants()?;
+        }
+        Ok(self.plants_cache.len() as i32)
+    }
+
+    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, super::super::errors::Error> {
+        if self.graveyard_cache.len() == 0 {
+            self.load_graveyard()?;
+        }
+        Ok(self.graveyard_cache.clone())
     }
 }
