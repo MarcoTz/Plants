@@ -14,12 +14,12 @@ use html::{
 use std::rc::Rc;
 
 pub struct PlantDetails {
-    head: HtmlHead,
-    plant_name: String,
-    plant_species: String,
-    header: Header,
-    footer: Footer,
-    plant_content: PlantContents,
+    pub head: HtmlHead,
+    pub plant_name: String,
+    pub plant_species: Option<String>,
+    pub header: Header,
+    pub footer: Footer,
+    pub plant_content: PlantContents,
 }
 
 impl Page for PlantDetails {
@@ -28,8 +28,7 @@ impl Page for PlantDetails {
             size: HeaderSize::H1,
             content: {
                 let plant_name_str = self.plant_name.clone();
-                let plant_species_str = self.plant_species.clone();
-
+                let plant_species_str = self.plant_species.clone().unwrap_or("".to_owned());
                 Rc::new(format!("{plant_name_str} {plant_species_str}").into())
             },
         }

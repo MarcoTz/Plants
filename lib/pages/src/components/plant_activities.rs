@@ -3,7 +3,7 @@ use super::{
     plant_growth_table::PlantGrowthTable,
 };
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
-use plants::{growth_item::GrowthItem, log_item::LogItem};
+use plants::{growth_item::GrowthItem, log_item::LogItem, plant::Plant};
 use std::rc::Rc;
 
 pub struct PlantActivities {
@@ -31,6 +31,11 @@ impl PageComponent for PlantActivities {
     }
 }
 
+impl From<&Plant> for PlantActivities {
+    fn from(plant: &Plant) -> PlantActivities {
+        PlantActivities::from((plant.activities.as_slice(), plant.growth.as_slice()))
+    }
+}
 impl From<(&[LogItem], &[GrowthItem])> for PlantActivities {
     fn from((logs, growth): (&[LogItem], &[GrowthItem])) -> PlantActivities {
         let watering_activities: Vec<&LogItem> = logs
