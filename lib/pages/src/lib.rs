@@ -1,3 +1,4 @@
+pub mod activities;
 pub mod components;
 pub mod errors;
 pub mod gallery;
