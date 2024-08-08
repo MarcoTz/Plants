@@ -11,6 +11,21 @@ use pages::{
     page::Page,
 };
 
+pub struct NamedPage {
+    pub page_name: String,
+    pub page_html: String,
+}
+pub struct PagesHtml {
+    pub index_html: String,
+    pub plants_overview_html: String,
+    pub species_overview_html: String,
+    pub gallery_html: String,
+    pub activities_html: String,
+    pub graveyard_html: String,
+    pub plant_htmls: Vec<NamedPage>,
+    pub species_htmls: Vec<NamedPage>,
+}
+
 pub struct PageURLs {
     pub index_url: String,
     pub plant_overview_url: String,
@@ -83,5 +98,55 @@ impl<T: DatabaseManager> Renderer<T> {
         }
         .render(&self.date_format)
         .render())
+    }
+
+    pub fn render_plant_overview(&self) -> Result<String, Error> {
+        Ok("".to_owned())
+    }
+
+    pub fn render_species_overview(&self) -> Result<String, Error> {
+        Ok("".to_owned())
+    }
+
+    pub fn render_gallery(&self) -> Result<String, Error> {
+        Ok("".to_owned())
+    }
+
+    pub fn render_activities(&self) -> Result<String, Error> {
+        Ok("".to_owned())
+    }
+
+    pub fn render_graveyard(&self) -> Result<String, Error> {
+        Ok("".to_owned())
+    }
+
+    pub fn render_all_plants(&self) -> Result<Vec<NamedPage>, Error> {
+        Ok(vec![])
+    }
+
+    pub fn render_all_species(&self) -> Result<Vec<NamedPage>, Error> {
+        Ok(vec![])
+    }
+
+    pub fn render_all(&self) -> Result<PagesHtml, Error> {
+        let index_html = self.render_index()?;
+        let plants_overview_html = self.render_plant_overview()?;
+        let species_overview_html = self.render_species_overview()?;
+        let gallery_html = self.render_gallery()?;
+        let activities_html = self.render_activities()?;
+        let graveyard_html = self.render_graveyard()?;
+        let plant_htmls = self.render_all_plants()?;
+        let species_htmls = self.render_all_species()?;
+
+        Ok(PagesHtml {
+            index_html,
+            plants_overview_html,
+            species_overview_html,
+            gallery_html,
+            activities_html,
+            graveyard_html,
+            plant_htmls,
+            species_htmls,
+        })
     }
 }
