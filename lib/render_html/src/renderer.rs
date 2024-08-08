@@ -4,9 +4,10 @@ use database::database_manager::DatabaseManager;
 use html::render::Render;
 use pages::{
     components::{
-        autowatered::AutoWatered, footer::Footer, hall_of_fame::HallOfFame, header::Header,
-        html_head::HtmlHead, next_activity::NextActivity,
+        autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
+        hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
     },
+    graveyard::Graveyard,
     index::Index,
     page::Page,
 };
@@ -74,6 +75,13 @@ impl<T: DatabaseManager> Renderer<T> {
         }
     }
 
+    fn get_footer(&self, num_plants: i32) -> Footer {
+        Footer {
+            num_plants,
+            last_build: Local::now().date_naive(),
+        }
+    }
+
     fn get_head(&self, title: &str, relative_up: bool) -> HtmlHead {
         let prefix = Renderer::<T>::get_prefix(relative_up);
         HtmlHead {
@@ -82,7 +90,7 @@ impl<T: DatabaseManager> Renderer<T> {
         }
     }
 
-    pub fn render_index(&self) -> Result<String, Error> {
+    pub fn render_index(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let hall_of_fame = HallOfFame::try_from(plants.as_slice())?;
         Ok(Index {
@@ -91,10 +99,7 @@ impl<T: DatabaseManager> Renderer<T> {
             next_activities: NextActivity::from(plants.as_slice()),
             autowatered: AutoWatered::from(plants.as_slice()),
             hall_of_fame,
-            footer: Footer {
-                num_plants: plants.len() as i32,
-                last_build: Local::now().date_naive(),
-            },
+            footer: self.get_footer(plants.len() as i32),
         }
         .render(&self.date_format)
         .render())
@@ -116,8 +121,17 @@ impl<T: DatabaseManager> Renderer<T> {
         Ok("".to_owned())
     }
 
-    pub fn render_graveyard(&self) -> Result<String, Error> {
-        Ok("".to_owned())
+    pub fn render_graveyard(&mut self) -> Result<String, Error> {
+        let graveyard = self.database_manager.get_graveyard()?;
+        let num_plants = self.database_manager.get_num_plants()?;
+        Ok(Graveyard {
+            head: self.get_head("Graveyard", false),
+            header: self.get_header(false),
+            footer: self.get_footer(num_plants),
+            graveyard_table: GraveyardTable::from(graveyard.as_slice()),
+        }
+        .render(&self.date_format)
+        .render())
     }
 
     pub fn render_all_plants(&self) -> Result<Vec<NamedPage>, Error> {
@@ -128,7 +142,7 @@ impl<T: DatabaseManager> Renderer<T> {
         Ok(vec![])
     }
 
-    pub fn render_all(&self) -> Result<PagesHtml, Error> {
+    pub fn render_all(&mut self) -> Result<PagesHtml, Error> {
         let index_html = self.render_index()?;
         let plants_overview_html = self.render_plant_overview()?;
         let species_overview_html = self.render_species_overview()?;
