@@ -7,13 +7,14 @@ use pages::{
     components::{
         autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
         hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
-        plant_activity_table::PlantActivityTable, plant_list::PlantList, plant_search::PlantSearch,
-        species_list::SpeciesList,
+        plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
+        plant_list::PlantList, plant_search::PlantSearch, species_list::SpeciesList,
     },
     gallery::Gallery,
     graveyard::Graveyard,
     index::Index,
     page::Page,
+    plant_details::PlantDetails,
     plant_overview::PlantOverview,
     species_overview::SpeciesOverview,
 };
@@ -88,7 +89,7 @@ impl<T: DatabaseManager> Renderer<T> {
         }
     }
 
-    fn get_head(&self, title: &str, relative_up: bool, additional_styles: Vec<String>) -> HtmlHead {
+    fn get_head(&self, title: &str, relative_up: bool, additional_styles: Vec<&str>) -> HtmlHead {
         let prefix = Renderer::<T>::get_prefix(relative_up);
         let mut styles = vec![prefix.clone() + "css/main.css"];
         for additional_style in additional_styles.iter() {
@@ -104,7 +105,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let plants = self.database_manager.get_all_plants()?;
         let hall_of_fame = HallOfFame::try_from(plants.as_slice())?;
         Ok(Index {
-            head: self.get_head("Dashboard", false, vec!["css/index.css".to_owned()]),
+            head: self.get_head("Dashboard", false, vec!["css/index.css"]),
             header: self.get_header(false),
             next_activities: NextActivity::from(plants.as_slice()),
             autowatered: AutoWatered::from(plants.as_slice()),
@@ -119,11 +120,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let plants = self.database_manager.get_all_plants()?;
         let plant_list = PlantList::try_from(plants.as_slice())?;
         Ok(PlantOverview {
-            head: self.get_head(
-                "All Plants",
-                false,
-                vec!["css/plant_overview.css".to_owned()],
-            ),
+            head: self.get_head("All Plants", false, vec!["css/plant_overview.css"]),
             header: self.get_header(false),
             search: PlantSearch {},
             plant_list,
@@ -137,11 +134,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let num_plants = self.database_manager.get_num_plants()?;
         let species = self.database_manager.get_all_species()?;
         Ok(SpeciesOverview {
-            head: self.get_head(
-                "All Species",
-                false,
-                vec!["css/species_overview.css".to_owned()],
-            ),
+            head: self.get_head("All Species", false, vec!["css/species_overview.css"]),
             species_list: SpeciesList::from(species.as_slice()),
             header: self.get_header(false),
             footer: self.get_footer(num_plants),
@@ -155,7 +148,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let plant_galleries = plants.iter().map(|x| x.into()).collect();
         let num_plants = plants.len() as i32;
         Ok(Gallery {
-            head: self.get_head("Gallery", false, vec!["css/gallery.css".to_owned()]),
+            head: self.get_head("Gallery", false, vec!["css/gallery.css"]),
             header: self.get_header(false),
             plant_galleries,
             footer: self.get_footer(num_plants),
@@ -190,8 +183,34 @@ impl<T: DatabaseManager> Renderer<T> {
         .render())
     }
 
-    pub fn render_all_plants(&self) -> Result<Vec<NamedPage>, Error> {
-        Ok(vec![])
+    pub fn render_all_plants(&mut self) -> Result<Vec<NamedPage>, Error> {
+        let plants = self.database_manager.get_all_plants()?;
+        let num_plants = plants.len() as i32;
+        let mut plant_htmls = vec![];
+        for plant in plants.iter() {
+            let plant_content = PlantContents::try_from(plant)?;
+            let plant_species = plant.species.clone().map(|sp| sp.name.clone());
+            let page_html = PlantDetails {
+                head: self.get_head(
+                    &plant.name,
+                    true,
+                    vec!["css/plant_details.css", "css/gallery.css"],
+                ),
+                header: self.get_header(true),
+                plant_name: plant.name.clone(),
+                plant_species,
+                plant_content,
+                footer: self.get_footer(num_plants),
+            }
+            .render(&self.date_format)
+            .render();
+            let page_name = plant.get_url("plants/");
+            plant_htmls.push(NamedPage {
+                page_name,
+                page_html,
+            })
+        }
+        Ok(plant_htmls)
     }
 
     pub fn render_all_species(&self) -> Result<Vec<NamedPage>, Error> {

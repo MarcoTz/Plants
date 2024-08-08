@@ -35,11 +35,23 @@ impl Plant {
         self.get_activities("watering")
     }
 
+    pub fn get_last_watering(&self) -> Option<LogItem> {
+        let mut watering_activities = self.get_watering_activities();
+        watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
+        watering_activities.last().map(|x| x.clone())
+    }
+
+    pub fn get_last_fertilizing(&self) -> Option<LogItem> {
+        let mut watering_activities = self.get_fertilizing_activities();
+        watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
+        watering_activities.last().map(|x| x.clone())
+    }
+
     fn get_fertilizing_activities(&self) -> Vec<LogItem> {
         self.get_activities("fertilizing")
     }
 
-    fn get_age_days(&self) -> i64 {
+    pub fn get_age_days(&self) -> i64 {
         let today = Local::now().date_naive();
         let time_diff = today - self.obtained;
         time_diff.num_days()
@@ -79,12 +91,12 @@ impl Plant {
         Ok(last_growth.height_cm)
     }
 
-    fn get_width(&self) -> Result<f32, Error> {
+    pub fn get_width(&self) -> Result<f32, Error> {
         let last_growth = self.get_last_growth()?;
         Ok(last_growth.width_cm)
     }
 
-    fn get_health(&self) -> Result<i32, Error> {
+    pub fn get_health(&self) -> Result<i32, Error> {
         let last_growth = self.get_last_growth()?;
         Ok(last_growth.health)
     }
@@ -100,15 +112,15 @@ impl Plant {
         }
     }
 
-    fn get_fertilizing_frequency(&self) -> Option<f32> {
+    pub fn get_fertilizing_frequency(&self) -> Option<f32> {
         self.get_activity_frequency("fertilizing")
     }
 
-    fn get_watering_frequency(&self) -> Option<f32> {
+    pub fn get_watering_frequency(&self) -> Option<f32> {
         self.get_activity_frequency("watering")
     }
 
-    fn get_growth_speed(&self) -> Result<f32, Error> {
+    pub fn get_growth_speed(&self) -> Result<f32, Error> {
         let self_growth = self
             .growth
             .iter()
