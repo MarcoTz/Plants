@@ -6,6 +6,7 @@ use html::{
     headline::{HeaderSize, Headline},
     html_element::HtmlElement,
 };
+use plants::plant::Plant;
 
 use std::rc::Rc;
 
@@ -64,5 +65,15 @@ impl PageComponent for PlantGallery {
             content: Rc::new(container_content.into()),
         }
         .into()
+    }
+}
+
+impl From<&Plant> for PlantGallery {
+    fn from(plant: &Plant) -> PlantGallery {
+        PlantGallery {
+            plant_name: plant.name.clone(),
+            plant_url: plant.get_url("plants/"),
+            plant_images: plant.images.iter().map(|x| x.into()).collect(),
+        }
     }
 }

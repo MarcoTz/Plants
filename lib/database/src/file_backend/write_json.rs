@@ -1,6 +1,8 @@
-use super::errors::{AccessType, Error, FSError, SerializeError};
+use super::{
+    errors::{AccessType, Error, FSError, SerializeError},
+    json_to_plant::PlantJSON,
+};
 use plants::named::Named;
-use plants::plant::Plant;
 use plants::species::Species;
 use serde::Serialize;
 use std::fs::File;
@@ -42,7 +44,7 @@ pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path_base: &str) -> Re
     Ok(())
 }
 
-pub fn write_plants(plants: Vec<Plant>, plant_dir: &str) -> Result<(), Error> {
+pub fn write_plants(plants: Vec<PlantJSON>, plant_dir: &str) -> Result<(), Error> {
     write_vec(plants, plant_dir)
 }
 

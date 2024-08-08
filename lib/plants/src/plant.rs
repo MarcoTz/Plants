@@ -1,25 +1,23 @@
-use super::date::date_serializer;
 use super::errors::Error;
 use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
 use super::species::Species;
 use chrono::{Local, NaiveDate, TimeDelta};
-use serde::Serialize;
 
 pub type PlantImage = (NaiveDate, String);
 
-#[derive(Serialize, Clone)]
+#[derive(Clone)]
 pub struct Plant {
     pub name: String,
     pub species: Option<Species>,
     pub location: String,
     pub origin: String,
-    #[serde(with = "date_serializer")]
     pub obtained: NaiveDate,
     pub auto_water: bool,
     pub notes: Vec<String>,
     pub growth: Vec<GrowthItem>,
     pub activities: Vec<LogItem>,
+    pub images: Vec<PlantImage>,
 }
 
 impl Plant {

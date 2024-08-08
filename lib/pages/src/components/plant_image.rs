@@ -1,22 +1,22 @@
 use super::page_component::PageComponent;
 use chrono::NaiveDate;
 use html::{attribute::Attribute, div::Div, figure::Figure, html_element::HtmlElement, img::Img};
+use plants::plant;
 use std::rc::Rc;
 
 pub struct PlantImage {
     img_url: String,
     date: NaiveDate,
-    date_format: String,
     num_images: i32,
     num_self: i32,
 }
 
 impl PageComponent for PlantImage {
-    fn render(&self, _: &str) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let caption = vec![
             Div {
                 attributes: vec![Attribute::Class("img_date".to_owned())],
-                content: Rc::new(self.date.format(&self.date_format).to_string().into()),
+                content: Rc::new(self.date.format(date_format).to_string().into()),
             }
             .into(),
             Div {
@@ -40,5 +40,16 @@ impl PageComponent for PlantImage {
             caption: Rc::new(caption.into()),
         }
         .into()
+    }
+}
+
+impl From<&plant::PlantImage> for PlantImage {
+    fn from(plant_img: &plant::PlantImage) -> PlantImage {
+        PlantImage {
+            img_url: plant_img.1.clone(),
+            date: plant_img.0.clone(),
+            num_images: 0,
+            num_self: 0,
+        }
     }
 }

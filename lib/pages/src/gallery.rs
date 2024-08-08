@@ -12,10 +12,10 @@ use html::{
 use std::rc::Rc;
 
 pub struct Gallery {
-    head: HtmlHead,
-    header: Header,
-    footer: Footer,
-    plant_galleries: Vec<PlantGallery>,
+    pub head: HtmlHead,
+    pub header: Header,
+    pub footer: Footer,
+    pub plant_galleries: Vec<PlantGallery>,
 }
 
 impl Page for Gallery {

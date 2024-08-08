@@ -1,13 +1,20 @@
 use super::{
-    errors::Error,
+    errors::{AccessType, Error, FSError},
     load_csv::{load_activities, load_growth},
     load_json::{load_plant_jsons, load_species},
 };
-use chrono::NaiveDate;
-use plants::{growth_item::GrowthItem, log_item::LogItem, plant::Plant, species::Species};
-use serde::Deserialize;
+use chrono::{DateTime, Local, NaiveDate};
+use plants::{
+    growth_item::GrowthItem,
+    log_item::LogItem,
+    named::Named,
+    plant::{Plant, PlantImage},
+    species::Species,
+};
+use serde::{Deserialize, Serialize};
+use std::fs;
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum BoolOrString {
     Bool(bool),
@@ -33,7 +40,7 @@ impl TryInto<bool> for BoolOrString {
     }
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct PlantJSON {
     auto_watering: BoolOrString,
     current_location: String,
@@ -51,6 +58,13 @@ struct PlantInfo {
     logs: Vec<LogItem>,
     growth: Vec<GrowthItem>,
     date_format: String,
+    images: Vec<PlantImage>,
+}
+
+impl Named for PlantJSON {
+    fn get_name(&self) -> String {
+        self.plant_name.clone()
+    }
 }
 
 impl TryInto<Plant> for PlantInfo {
@@ -69,6 +83,7 @@ impl TryInto<Plant> for PlantInfo {
             notes: self.plant.plant_notes,
             activities: self.logs,
             growth: self.growth,
+            images: self.images,
         })
     }
 }
@@ -107,6 +122,7 @@ pub fn load_plants(
                 .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
                     plant_json.plant_name.clone(),
                 )))?;
+        let images = load_images("html_out/img/plants", &plant_json.plant_name)?;
         last_growth.health = last_health;
         plant_growth.push(last_growth);
         let new_plant = PlantInfo {
@@ -115,9 +131,51 @@ pub fn load_plants(
             logs: plant_logs.clone(),
             growth: plant_growth.clone(),
             date_format: date_format.to_owned(),
+            images,
         }
         .try_into()?;
         plants.push(new_plant);
     }
     Ok(plants)
+}
+
+pub fn load_images(image_dir: &str, plant_name: &str) -> Result<Vec<PlantImage>, Error> {
+    let mut plant_images = vec![];
+    let dir_files = fs::read_dir(image_dir).map_err(|err| {
+        <FSError as Into<Error>>::into(FSError {
+            file_name: image_dir.to_owned(),
+            err_msg: err.to_string(),
+            access: AccessType::Read,
+        })
+    })?;
+    for dir_file in dir_files {
+        let dir_file = dir_file.map_err(|err| {
+            <FSError as Into<Error>>::into(FSError {
+                file_name: image_dir.to_owned(),
+                err_msg: err.to_string(),
+                access: AccessType::Read,
+            })
+        })?;
+        let path = dir_file.path();
+        let file_name = path.to_str().ok_or(Error::FSError(FSError {
+            file_name: image_dir.to_owned(),
+            err_msg: "Could not find path".to_owned(),
+            access: AccessType::Read,
+        }))?;
+        if file_name.contains(plant_name) {
+            let meta = dir_file.metadata().map_err(|err| FSError {
+                file_name: file_name.to_owned(),
+                err_msg: ("Could not get metadata,".to_owned() + &err.to_string()),
+                access: AccessType::Read,
+            })?;
+            let created = meta.created().map_err(|err| FSError {
+                file_name: file_name.to_owned(),
+                err_msg: ("Could not get created date".to_owned() + &err.to_string()),
+                access: AccessType::Read,
+            })?;
+            let created_chrono: DateTime<Local> = created.into();
+            plant_images.push((created_chrono.date_naive(), file_name.to_owned()))
+        }
+    }
+    Ok(plant_images)
 }
