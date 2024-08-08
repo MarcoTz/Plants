@@ -3,8 +3,9 @@ use super::{
     errors::{AccessType, Error, FSError},
     json_to_plant::load_plants,
     load_csv::load_graveyard,
+    load_json::load_species,
 };
-use plants::{graveyard::GraveyardPlant, plant::Plant};
+use plants::{graveyard::GraveyardPlant, plant::Plant, species::Species};
 use std::path;
 
 pub struct FileDB {
@@ -24,6 +25,7 @@ pub struct FileDB {
 
     pub plants_cache: Vec<Plant>,
     pub graveyard_cache: Vec<GraveyardPlant>,
+    pub species_cache: Vec<Species>,
 }
 
 fn get_path_from_buf(logs_dir: &str, file_name: &str) -> Result<String, Error> {
@@ -55,6 +57,7 @@ impl FileDB {
             growth_out: "data_new/Logs/Growth.csv".to_owned(),
             plants_cache: vec![],
             graveyard_cache: vec![],
+            species_cache: vec![],
         }
     }
     pub fn get_activities_filepath(&self) -> Result<String, Error> {
@@ -83,6 +86,12 @@ impl FileDB {
         Ok(())
     }
 
+    fn load_species(&mut self) -> Result<(), Error> {
+        let species = load_species(&self.species_dir)?;
+        self.species_cache = species;
+        Ok(())
+    }
+
     fn load_graveyard(&mut self) -> Result<(), Error> {
         let graveyard_file = self.get_graveyard_filepath()?;
         let graveyard = load_graveyard(&graveyard_file)?;
@@ -104,6 +113,13 @@ impl DatabaseManager for FileDB {
             self.load_plants()?;
         }
         Ok(self.plants_cache.len() as i32)
+    }
+
+    fn get_all_species(&mut self) -> Result<Vec<Species>, super::super::errors::Error> {
+        if self.species_cache.len() == 0 {
+            self.load_species()?;
+        }
+        Ok(self.species_cache.clone())
     }
 
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, super::super::errors::Error> {

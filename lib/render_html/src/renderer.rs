@@ -6,10 +6,13 @@ use pages::{
     components::{
         autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
         hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
+        plant_list::PlantList, plant_search::PlantSearch, species_list::SpeciesList,
     },
     graveyard::Graveyard,
     index::Index,
     page::Page,
+    plant_overview::PlantOverview,
+    species_overview::SpeciesOverview,
 };
 
 pub struct NamedPage {
@@ -82,11 +85,15 @@ impl<T: DatabaseManager> Renderer<T> {
         }
     }
 
-    fn get_head(&self, title: &str, relative_up: bool) -> HtmlHead {
+    fn get_head(&self, title: &str, relative_up: bool, additional_styles: Vec<String>) -> HtmlHead {
         let prefix = Renderer::<T>::get_prefix(relative_up);
+        let mut styles = vec![prefix.clone() + "css/main.css"];
+        for additional_style in additional_styles.iter() {
+            styles.push(prefix.clone() + additional_style);
+        }
         HtmlHead {
             title: title.to_owned(),
-            styles: vec![prefix.clone() + "css/main.css", prefix + "css/index.css"],
+            styles,
         }
     }
 
@@ -94,7 +101,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let plants = self.database_manager.get_all_plants()?;
         let hall_of_fame = HallOfFame::try_from(plants.as_slice())?;
         Ok(Index {
-            head: self.get_head("Dashboard", false),
+            head: self.get_head("Dashboard", false, vec!["css/index.css".to_owned()]),
             header: self.get_header(false),
             next_activities: NextActivity::from(plants.as_slice()),
             autowatered: AutoWatered::from(plants.as_slice()),
@@ -105,12 +112,39 @@ impl<T: DatabaseManager> Renderer<T> {
         .render())
     }
 
-    pub fn render_plant_overview(&self) -> Result<String, Error> {
-        Ok("".to_owned())
+    pub fn render_plant_overview(&mut self) -> Result<String, Error> {
+        let plants = self.database_manager.get_all_plants()?;
+        let plant_list = PlantList::try_from(plants.as_slice())?;
+        Ok(PlantOverview {
+            head: self.get_head(
+                "All Plants",
+                false,
+                vec!["css/plant_overview.css".to_owned()],
+            ),
+            header: self.get_header(false),
+            search: PlantSearch {},
+            plant_list,
+            footer: self.get_footer(plants.len() as i32),
+        }
+        .render(&self.date_format)
+        .render())
     }
 
-    pub fn render_species_overview(&self) -> Result<String, Error> {
-        Ok("".to_owned())
+    pub fn render_species_overview(&mut self) -> Result<String, Error> {
+        let num_plants = self.database_manager.get_num_plants()?;
+        let species = self.database_manager.get_all_species()?;
+        Ok(SpeciesOverview {
+            head: self.get_head(
+                "All Species",
+                false,
+                vec!["css/species_overview.css".to_owned()],
+            ),
+            species_list: SpeciesList::from(species.as_slice()),
+            header: self.get_header(false),
+            footer: self.get_footer(num_plants),
+        }
+        .render(&self.date_format)
+        .render())
     }
 
     pub fn render_gallery(&self) -> Result<String, Error> {
@@ -125,7 +159,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let graveyard = self.database_manager.get_graveyard()?;
         let num_plants = self.database_manager.get_num_plants()?;
         Ok(Graveyard {
-            head: self.get_head("Graveyard", false),
+            head: self.get_head("Graveyard", false, vec![]),
             header: self.get_header(false),
             footer: self.get_footer(num_plants),
             graveyard_table: GraveyardTable::from(graveyard.as_slice()),

@@ -10,10 +10,10 @@ use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 
 pub struct SpeciesOverview {
-    head: HtmlHead,
-    header: Header,
-    footer: Footer,
-    species_list: SpeciesList,
+    pub head: HtmlHead,
+    pub header: Header,
+    pub footer: Footer,
+    pub species_list: SpeciesList,
 }
 
 impl Page for SpeciesOverview {

@@ -21,25 +21,44 @@ struct PlantNumberSearch {
     input_id: String,
     input_on_keyup: String,
 }
-pub struct PlantSearch {
-    name_search: PlantSearchField,
-    species_search: PlantSearchField,
-    temp_min_search: PlantNumberSearch,
-    temp_max_search: PlantNumberSearch,
-}
+pub struct PlantSearch {}
 
 impl PageComponent for PlantSearch {
     fn render(&self, date_format: &str) -> HtmlElement {
+        let name_search = PlantSearchField {
+            name: "Name".to_owned(),
+            id: "plant_search_name".to_owned(),
+            keyup: "filter_plants()".to_owned(),
+        };
+        let species_search = PlantSearchField {
+            name: "Species".to_owned(),
+            id: "plant_search_species".to_owned(),
+            keyup: "filter_plants()".to_owned(),
+        };
+        let temp_min_search = PlantNumberSearch {
+            name: "Lowest Temperature".to_owned(),
+            select_id: "min_temp_updown".to_owned(),
+            select_on_change: "filter_plants()".to_owned(),
+            input_id: "plant_search_min_temp".to_owned(),
+            input_on_keyup: "filter_plants()".to_owned(),
+        };
+        let temp_max_search = PlantNumberSearch {
+            name: "Highest Temperature".to_owned(),
+            select_id: "max_temp_updown".to_owned(),
+            select_on_change: "filter_plants()".to_owned(),
+            input_id: "plant_search_max_temp".to_owned(),
+            input_on_keyup: "filter_plants()".to_owned(),
+        };
         let search_components = vec![
             Div {
                 attributes: vec![Attribute::Class("search_header".to_owned())],
                 content: Rc::new("Filter".to_owned().into()),
             }
             .into(),
-            self.name_search.render(date_format),
-            self.species_search.render(date_format),
-            self.temp_min_search.render(date_format),
-            self.temp_max_search.render(date_format),
+            name_search.render(date_format),
+            species_search.render(date_format),
+            temp_min_search.render(date_format),
+            temp_max_search.render(date_format),
         ];
         Div {
             attributes: vec![Attribute::Id("plant_search".to_owned())],

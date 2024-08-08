@@ -8,11 +8,11 @@ use super::{
 use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;
 pub struct PlantOverview {
-    head: HtmlHead,
-    header: Header,
-    search: PlantSearch,
-    plant_list: PlantList,
-    footer: Footer,
+    pub head: HtmlHead,
+    pub header: Header,
+    pub search: PlantSearch,
+    pub plant_list: PlantList,
+    pub footer: Footer,
 }
 
 impl Page for PlantOverview {
