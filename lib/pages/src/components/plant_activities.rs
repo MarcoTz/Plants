@@ -46,9 +46,9 @@ impl From<(&[LogItem], &[GrowthItem])> for PlantActivities {
             .filter(|x| !(watering_activities.contains(x) || fertilizing_activities.contains(x)))
             .collect();
         PlantActivities {
-            watering_table: (watering_activities.as_slice(), false).into(),
-            fertilizing_table: (fertilizing_activities.as_slice(), false).into(),
-            activity_table: (other_activities.as_slice(), true).into(),
+            watering_table: (watering_activities.as_slice(), false, false).into(),
+            fertilizing_table: (fertilizing_activities.as_slice(), false, false).into(),
+            activity_table: (other_activities.as_slice(), true, false).into(),
             growth_table: growth.into(),
         }
     }

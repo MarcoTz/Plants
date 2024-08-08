@@ -3,10 +3,12 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use html::render::Render;
 use pages::{
+    activities::Activities,
     components::{
         autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
         hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
-        plant_list::PlantList, plant_search::PlantSearch, species_list::SpeciesList,
+        plant_activity_table::PlantActivityTable, plant_list::PlantList, plant_search::PlantSearch,
+        species_list::SpeciesList,
     },
     gallery::Gallery,
     graveyard::Graveyard,
@@ -162,8 +164,17 @@ impl<T: DatabaseManager> Renderer<T> {
         .render())
     }
 
-    pub fn render_activities(&self) -> Result<String, Error> {
-        Ok("".to_owned())
+    pub fn render_activities(&mut self) -> Result<String, Error> {
+        let plants = self.database_manager.get_all_plants()?;
+        let num_plants = plants.len() as i32;
+        Ok(Activities {
+            head: self.get_head("Activities", false, vec![]),
+            header: self.get_header(false),
+            activity_table: PlantActivityTable::from((plants.as_slice(), true, true)),
+            footer: self.get_footer(num_plants),
+        }
+        .render(&self.date_format)
+        .render())
     }
 
     pub fn render_graveyard(&mut self) -> Result<String, Error> {
