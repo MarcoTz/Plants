@@ -12,7 +12,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 pub struct NextActivity {
-    next_activities: Vec<NextActivityItem>,
+    next_activities: Vec<NextActivityBlock>,
 }
 
 #[derive(Clone, Debug)]
@@ -20,8 +20,12 @@ struct PlantLink {
     plant_name: String,
     plant_url: String,
 }
-pub struct NextActivityItem {
+pub struct NextActivityBlock {
     date: NaiveDate,
+    items: Vec<NextActivityItem>,
+}
+#[derive(Clone, Debug)]
+pub struct NextActivityItem {
     activity: String,
     plants: Vec<PlantLink>,
 }
@@ -47,17 +51,8 @@ impl PageComponent for NextActivity {
         .into()
     }
 }
-
 impl PageComponent for NextActivityItem {
-    fn render(&self, date_format: &str) -> HtmlElement {
-        let mut div_content = vec![];
-
-        let mut date_str = self.date.weekday().to_string();
-        date_str.push_str(" ,");
-        date_str.push_str(&self.date.format(date_format).to_string());
-        div_content.push(date_str.into());
-        div_content.push(HtmlElement::Br);
-
+    fn render(&self, _: &str) -> HtmlElement {
         let mut header_content = vec![self.activity.clone().into(), HtmlElement::Br];
         for plant_link in self.plants.iter() {
             header_content.push(
@@ -70,12 +65,26 @@ impl PageComponent for NextActivityItem {
             header_content.push(", ".to_owned().into())
         }
 
-        let activity_header = Div {
+        Div {
             attributes: vec![Attribute::Class("activity_header".to_owned())],
             content: Rc::new(header_content.into()),
         }
-        .into();
-        div_content.push(activity_header);
+        .into()
+    }
+}
+impl PageComponent for NextActivityBlock {
+    fn render(&self, date_format: &str) -> HtmlElement {
+        let mut div_content = vec![];
+
+        let mut date_str = self.date.weekday().to_string();
+        date_str.push_str(" ,");
+        date_str.push_str(&self.date.format(date_format).to_string());
+        div_content.push(date_str.into());
+        div_content.push(HtmlElement::Br);
+
+        for activity_item in self.items.iter() {
+            div_content.push(activity_item.render(date_format));
+        }
 
         Div {
             attributes: vec![Attribute::Class("next_activity_item".to_owned())],
@@ -135,45 +144,83 @@ impl From<&[Plant]> for NextActivity {
                 }
             }
         }
-        let mut next_dates_collected: HashMap<(&str, NaiveDate), Vec<PlantLink>> =
-            next_watering_dates
+
+        let mut next_activities: HashMap<NaiveDate, Vec<NextActivityItem>> = HashMap::new();
+        let plant_update =
+            |activity_date: &NaiveDate,
+             activity_name: &str,
+             activity_plants: &[PlantLink],
+             activity_map: &mut HashMap<NaiveDate, Vec<NextActivityItem>>| {
+                let plants_item = (activity_name, activity_plants).into();
+                match activity_map.get_mut(activity_date) {
+                    None => {
+                        activity_map.insert(*activity_date, vec![plants_item]);
+                    }
+                    Some(activity_vec) => {
+                        activity_vec.push(plants_item);
+                    }
+                }
+            };
+        for (watering_date, watering_plants) in next_watering_dates.iter() {
+            plant_update(
+                watering_date,
+                "🌊 Watering 🌊",
+                watering_plants,
+                &mut next_activities,
+            )
+        }
+
+        for (fertilizing_date, fertilizing_plants) in next_fertilizing_dates.iter() {
+            plant_update(
+                fertilizing_date,
+                "💩 Fertilizing 💩",
+                fertilizing_plants,
+                &mut next_activities,
+            )
+        }
+
+        for (both_date, both_plants) in next_both_dates.iter() {
+            plant_update(
+                both_date,
+                "🌊 Watering+Fertilizing 💩",
+                both_plants,
+                &mut next_activities,
+            )
+        }
+
+        for (growth_date, growth_plants) in next_growth_dates.iter() {
+            plant_update(
+                growth_date,
+                "📏 Growth 📏",
+                growth_plants,
+                &mut next_activities,
+            )
+        }
+
+        println!("{next_activities:?}");
+
+        NextActivity {
+            next_activities: next_activities
                 .iter()
-                .map(|(key, val)| (("🌊 Watering 🌊", *key), val.clone()))
-                .collect();
-        next_dates_collected.extend(
-            next_fertilizing_dates
-                .iter()
-                .map(|(key, val)| (("💩 Fertilizing 💩", *key), val.clone()))
-                .collect::<HashMap<(&str, NaiveDate), Vec<PlantLink>>>(),
-        );
-        next_dates_collected.extend(
-            next_both_dates
-                .iter()
-                .map(|(key, val)| (("🌊 Watering+Fertilizing 💩", *key), val.clone()))
-                .collect::<HashMap<(&str, NaiveDate), Vec<PlantLink>>>(),
-        );
-        next_dates_collected.extend(
-            next_growth_dates
-                .iter()
-                .map(|(key, val)| (("📏 Growth 📏", *key), val.clone()))
-                .collect::<HashMap<(&str, NaiveDate), Vec<PlantLink>>>(),
-        );
-        let mut next_activities: Vec<NextActivityItem> = next_dates_collected
-            .iter()
-            .map(|((activity_name, activity_date), plants)| {
-                (activity_name.to_owned(), activity_date, plants.as_slice()).into()
-            })
-            .collect();
-        next_activities.sort_by(|item1, item2| item1.date.cmp(&item2.date));
-        NextActivity { next_activities }
+                .map(|(date, items)| (date, items.as_slice()).into())
+                .collect(),
+        }
     }
 }
 
-impl From<(&str, &NaiveDate, &[PlantLink])> for NextActivityItem {
-    fn from((activity_str, date, plants): (&str, &NaiveDate, &[PlantLink])) -> NextActivityItem {
+impl From<(&NaiveDate, &[NextActivityItem])> for NextActivityBlock {
+    fn from((date, items): (&NaiveDate, &[NextActivityItem])) -> NextActivityBlock {
+        NextActivityBlock {
+            date: *date,
+            items: items.iter().cloned().collect(),
+        }
+    }
+}
+
+impl From<(&str, &[PlantLink])> for NextActivityItem {
+    fn from((activity_str, plants): (&str, &[PlantLink])) -> NextActivityItem {
         NextActivityItem {
             activity: activity_str.to_owned(),
-            date: *date,
             plants: plants.to_vec(),
         }
     }
