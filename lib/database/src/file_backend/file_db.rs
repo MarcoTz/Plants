@@ -128,4 +128,20 @@ impl DatabaseManager for FileDB {
         }
         Ok(self.graveyard_cache.clone())
     }
+
+    fn get_plants_species(
+        &mut self,
+        species_name: &str,
+    ) -> Result<Vec<Plant>, super::super::errors::Error> {
+        if self.plants_cache.len() == 0 {
+            self.load_plants()?;
+        }
+        let species_plants = self
+            .plants_cache
+            .iter()
+            .filter(|plant| plant.name.to_lowercase().trim() == species_name.to_lowercase().trim())
+            .cloned()
+            .collect();
+        Ok(species_plants)
+    }
 }

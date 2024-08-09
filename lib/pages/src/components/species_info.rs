@@ -1,10 +1,13 @@
 use super::page_component::PageComponent;
 use html::{
+    a::A,
     attribute::Attribute,
     div::Div,
     html_element::HtmlElement,
+    render::Render,
     table::{Table, Td, Tr},
 };
+use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
 
 pub struct SpeciesInfoItem {
@@ -21,9 +24,9 @@ pub struct SpeciesInfo {
     plant_distance: Option<SpeciesInfoItem>,
     ph_range: SpeciesInfoItem,
     watering_notes: SpeciesInfoItem,
-    watering_days: SpeciesInfoItem,
+    watering_days: Option<SpeciesInfoItem>,
     fertilizing_notes: SpeciesInfoItem,
-    fertilizing_days: SpeciesInfoItem,
+    fertilizing_days: Option<SpeciesInfoItem>,
     pruning_notes: SpeciesInfoItem,
     companions: SpeciesInfoItem,
     notes: SpeciesInfoItem,
@@ -44,12 +47,17 @@ impl PageComponent for SpeciesInfo {
             None => (),
             Some(dist) => rows.push(dist.render()),
         };
+        rows.extend(vec![self.ph_range.render(), self.watering_notes.render()]);
+        match &self.watering_days {
+            None => (),
+            Some(days) => rows.push(days.render()),
+        };
+        rows.push(self.fertilizing_notes.render());
+        match &self.fertilizing_days {
+            None => (),
+            Some(days) => rows.push(days.render()),
+        }
         rows.extend(vec![
-            self.ph_range.render(),
-            self.watering_notes.render(),
-            self.watering_days.render(),
-            self.fertilizing_notes.render(),
-            self.fertilizing_days.render(),
             self.pruning_notes.render(),
             self.companions.render(),
             self.notes.render(),
@@ -75,6 +83,63 @@ impl SpeciesInfoItem {
                     content: Rc::new(self.value.clone().into()),
                 },
             ],
+        }
+    }
+}
+impl From<(&str, &str)> for SpeciesInfoItem {
+    fn from((name, value): (&str, &str)) -> SpeciesInfoItem {
+        SpeciesInfoItem {
+            name: name.to_owned(),
+            value: value.to_owned(),
+        }
+    }
+}
+impl From<(&Species, &[Plant])> for SpeciesInfo {
+    fn from((species, species_plants): (&Species, &[Plant])) -> SpeciesInfo {
+        let temp_range_str = format!("{}-{}", species.temp_min, species.temp_max);
+        let opt_temp_range_str = format!("{}-{}", species.opt_temp_min, species.opt_temp_max);
+        let ph_range_str = format!("{}-{}", species.ph_min, species.ph_max);
+        let mut plant_strs: Vec<String> = vec![];
+        for plant in species_plants.iter() {
+            plant_strs.push(
+                <A as Into<HtmlElement>>::into(A {
+                    attributes: vec![Attribute::Href(plant.get_url("../plants/"))],
+                    content: Rc::new(plant.name.to_owned().into()),
+                })
+                .render(),
+            )
+        }
+        SpeciesInfo {
+            scientific_name: ("Scientific Name", species.scientific_name.as_str()).into(),
+            genus: ("Genus", species.genus.as_str()).into(),
+            family: ("Family", species.family.as_str()).into(),
+            sunlight: (
+                "Sunglight Requirements",
+                species.sunlight.to_string().as_str(),
+            )
+                .into(),
+            temp_range: ("Temperature Range", temp_range_str.as_str()).into(),
+            opt_temp_range: ("Optimal Temperature Range", opt_temp_range_str.as_str()).into(),
+            plant_distance: species
+                .planting_distance
+                .map(|dist| ("Planting Distance", dist.to_string().as_str()).into()),
+            ph_range: ("pH Range", ph_range_str.as_str()).into(),
+            watering_notes: ("Watering Notes", species.watering_notes.join(", ").as_str()).into(),
+            watering_days: species
+                .avg_watering_days
+                .map(|days| ("Average Watering Days", days.to_string().as_str()).into()),
+            fertilizing_notes: (
+                "Fertilizing Notes",
+                species.fertilizing_notes.join(", ").as_str(),
+            )
+                .into(),
+            fertilizing_days: species
+                .avg_fertilizing_days
+                .map(|days| ("Average Fertilizing Days", days.to_string().as_str()).into()),
+            pruning_notes: ("Pruning Notes", species.pruning_notes.join(", ").as_str()).into(),
+            companions: ("Companions", species.companions.join(", ").as_str()).into(),
+            notes: ("Notes", species.additional_notes.join(", ").as_str()).into(),
+            species_plants: ("Plants of Species", plant_strs.join(", ").as_str()).into(),
         }
     }
 }

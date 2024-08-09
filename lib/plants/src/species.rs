@@ -1,7 +1,7 @@
 use super::errors::Error;
 use chrono::TimeDelta;
 use serde::Serialize;
-use std::str::FromStr;
+use std::{fmt, str::FromStr};
 
 #[derive(Serialize, Clone)]
 pub enum SunlightRequirement {
@@ -18,6 +18,16 @@ impl FromStr for SunlightRequirement {
             "indirect" => Ok(SunlightRequirement::Indirect),
             "shade" => Ok(SunlightRequirement::Shade),
             _ => Err(Error::SunlightError(s.to_owned())),
+        }
+    }
+}
+
+impl fmt::Display for SunlightRequirement {
+    fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            SunlightRequirement::Direct => frmt.write_str("Direct"),
+            SunlightRequirement::Indirect => frmt.write_str("Indirect"),
+            SunlightRequirement::Shade => frmt.write_str("Shade"),
         }
     }
 }

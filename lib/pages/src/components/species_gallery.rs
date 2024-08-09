@@ -1,5 +1,6 @@
 use super::{page_component::PageComponent, plant_gallery::PlantGallery};
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
+use plants::plant::Plant;
 use std::rc::Rc;
 
 pub struct SpeciesGallery {
@@ -17,5 +18,15 @@ impl PageComponent for SpeciesGallery {
             content: Rc::new(galleries.into()),
         }
         .into()
+    }
+}
+
+impl From<&[Plant]> for SpeciesGallery {
+    fn from(plants: &[Plant]) -> SpeciesGallery {
+        let mut plant_galleries = vec![];
+        for plant in plants.iter() {
+            plant_galleries.push(PlantGallery::from(plant))
+        }
+        SpeciesGallery { plant_galleries }
     }
 }
