@@ -103,7 +103,9 @@ pub fn load_plants(
     for plant_json in plant_jsons.iter() {
         let species_plant = species
             .iter()
-            .find(|sp| sp.name == plant_json.plant_name)
+            .find(|sp| {
+                sp.name.to_lowercase().trim() == plant_json.species_name.to_lowercase().trim()
+            })
             .cloned();
         let plant_logs: Vec<LogItem> = logs
             .iter()

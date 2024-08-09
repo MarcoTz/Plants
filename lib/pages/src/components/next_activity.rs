@@ -15,7 +15,7 @@ pub struct NextActivity {
     next_activities: Vec<NextActivityItem>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct PlantLink {
     plant_name: String,
     plant_url: String,
@@ -158,13 +158,13 @@ impl From<&[Plant]> for NextActivity {
                 .map(|(key, val)| (("📏 Growth 📏", *key), val.clone()))
                 .collect::<HashMap<(&str, NaiveDate), Vec<PlantLink>>>(),
         );
-
-        let next_activities: Vec<NextActivityItem> = next_dates_collected
+        let mut next_activities: Vec<NextActivityItem> = next_dates_collected
             .iter()
             .map(|((activity_name, activity_date), plants)| {
                 (activity_name.to_owned(), activity_date, plants.as_slice()).into()
             })
             .collect();
+        next_activities.sort_by(|item1, item2| item1.date.cmp(&item2.date));
         NextActivity { next_activities }
     }
 }
