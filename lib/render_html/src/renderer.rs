@@ -8,7 +8,8 @@ use pages::{
         autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
         hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
         plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
-        plant_list::PlantList, plant_search::PlantSearch, species_list::SpeciesList,
+        plant_list::PlantList, plant_search::PlantSearch, species_gallery::SpeciesGallery,
+        species_info::SpeciesInfo, species_list::SpeciesList,
     },
     gallery::Gallery,
     graveyard::Graveyard,
@@ -16,6 +17,7 @@ use pages::{
     page::Page,
     plant_details::PlantDetails,
     plant_overview::PlantOverview,
+    species_details::SpeciesDetails,
     species_overview::SpeciesOverview,
 };
 
@@ -213,8 +215,35 @@ impl<T: DatabaseManager> Renderer<T> {
         Ok(plant_htmls)
     }
 
-    pub fn render_all_species(&self) -> Result<Vec<NamedPage>, Error> {
-        Ok(vec![])
+    pub fn render_all_species(&mut self) -> Result<Vec<NamedPage>, Error> {
+        let mut species_htmls = vec![];
+        let num_plants = self.database_manager.get_num_plants()?;
+        let all_species = self.database_manager.get_all_species()?;
+        for species in all_species.iter() {
+            let species_plants = self
+                .database_manager
+                .get_plants_species(species.name.as_str())?;
+            let species_html = SpeciesDetails {
+                head: self.get_head(
+                    &species.name,
+                    true,
+                    vec!["css/species_details.css", "css/gallery.css"],
+                ),
+                header: self.get_header(true),
+                species_name: species.name.clone(),
+                species_info: SpeciesInfo::from((species, species_plants.as_slice())),
+                species_gallery: SpeciesGallery::from(species_plants.as_slice()),
+                footer: self.get_footer(num_plants),
+            }
+            .render(&self.date_format)
+            .render();
+            species_htmls.push(NamedPage {
+                page_name: species.get_url("species/"),
+                page_html: species_html,
+            })
+        }
+
+        Ok(species_htmls)
     }
 
     pub fn render_all(&mut self) -> Result<PagesHtml, Error> {

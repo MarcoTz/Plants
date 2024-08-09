@@ -16,12 +16,12 @@ use html::{
 use std::rc::Rc;
 
 pub struct SpeciesDetails {
-    head: HtmlHead,
-    species_name: String,
-    species_info: SpeciesInfo,
-    species_gallery: SpeciesGallery,
-    header: Header,
-    footer: Footer,
+    pub head: HtmlHead,
+    pub species_name: String,
+    pub species_info: SpeciesInfo,
+    pub species_gallery: SpeciesGallery,
+    pub header: Header,
+    pub footer: Footer,
 }
 
 impl Page for SpeciesDetails {

@@ -5,5 +5,6 @@ pub trait DatabaseManager {
     fn get_all_plants(&mut self) -> Result<Vec<Plant>, Error>;
     fn get_num_plants(&mut self) -> Result<i32, Error>;
     fn get_all_species(&mut self) -> Result<Vec<Species>, Error>;
+    fn get_plants_species(&mut self, species_name: &str) -> Result<Vec<Plant>, Error>;
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Error>;
 }
