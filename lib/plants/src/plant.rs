@@ -22,13 +22,13 @@ pub struct Plant {
 
 impl Plant {
     fn get_activities(&self, activity_name: &str) -> Vec<LogItem> {
-        let mut watering_activities = vec![];
+        let mut activities = vec![];
         for activity in self.activities.iter() {
             if activity.activity.to_lowercase().trim() == activity_name.to_lowercase().trim() {
-                watering_activities.push(activity.clone())
+                activities.push(activity.clone())
             }
         }
-        watering_activities
+        activities
     }
 
     fn get_watering_activities(&self) -> Vec<LogItem> {
