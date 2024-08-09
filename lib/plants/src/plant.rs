@@ -3,7 +3,7 @@ use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
 use super::species::Species;
 use chrono::{Local, NaiveDate, TimeDelta};
-
+use std::cmp::min;
 pub type PlantImage = (NaiveDate, String);
 
 #[derive(Clone)]
@@ -65,7 +65,10 @@ impl Plant {
             (_, None) => None,
             (Some(last_activity), Some(species)) => {
                 let activity_delta = species.get_activity_delta(activity_name)?;
-                Some(last_activity.date + activity_delta)
+                Some(min(
+                    last_activity.date + activity_delta,
+                    Local::now().date_naive(),
+                ))
             }
         }
     }
