@@ -47,7 +47,7 @@ impl From<&plant::PlantImage> for PlantImage {
     fn from(plant_img: &plant::PlantImage) -> PlantImage {
         PlantImage {
             img_url: plant_img.1.clone(),
-            date: plant_img.0.clone(),
+            date: plant_img.0,
             num_images: 0,
             num_self: 0,
         }

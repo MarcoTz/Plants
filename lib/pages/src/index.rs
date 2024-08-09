@@ -19,14 +19,13 @@ pub struct Index {
 
 impl Page for Index {
     fn render(&self, date_format: &str) -> HtmlDocument {
-        let mut body_contents = vec![];
-
-        body_contents.push(self.header.render(date_format));
-
-        body_contents.push(self.next_activities.render(date_format));
-        body_contents.push(self.autowatered.render(date_format));
-        body_contents.push(self.hall_of_fame.render(date_format));
-        body_contents.push(self.footer.render(date_format));
+        let body_contents = vec![
+            self.header.render(date_format),
+            self.next_activities.render(date_format),
+            self.autowatered.render(date_format),
+            self.hall_of_fame.render(date_format),
+            self.footer.render(date_format),
+        ];
 
         let body = Body {
             content: Rc::new(body_contents.into()),
