@@ -149,14 +149,14 @@ impl From<&Plant> for PlantListItem {
     }
 }
 
-impl TryFrom<&[&Plant]> for LocationGroup {
+impl TryFrom<&[Plant]> for LocationGroup {
     type Error = Error;
-    fn try_from(plants: &[&Plant]) -> Result<LocationGroup, Self::Error> {
+    fn try_from(plants: &[Plant]) -> Result<LocationGroup, Self::Error> {
         let mut locations = HashSet::new();
         for plant in plants.iter() {
             locations.insert(plant.location.clone());
         }
-        let locations_vec: Vec<&String> = locations.iter().collect();
+        let locations_vec: Vec<String> = locations.iter().cloned().collect();
         if locations_vec.len() != 1 {
             Err(Error::LocationError(
                 locations_vec
@@ -174,8 +174,8 @@ impl TryFrom<&[&Plant]> for LocationGroup {
                     .collect(),
             ))?;
             Ok(LocationGroup {
-                location: location.clone().clone(),
-                plant_items: plants.iter().cloned().map(|p| p.into()).collect(),
+                location: location.clone(),
+                plant_items: plants.iter().cloned().map(|p| (&p).into()).collect(),
             })
         }
     }
@@ -184,21 +184,21 @@ impl TryFrom<&[&Plant]> for LocationGroup {
 impl TryFrom<&[Plant]> for PlantList {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<PlantList, Self::Error> {
-        let mut by_location: HashMap<String, Vec<&Plant>> = HashMap::new();
+        let mut by_location: HashMap<String, Vec<Plant>> = HashMap::new();
         for plant in plants.iter() {
             match by_location.get_mut(&plant.location) {
                 None => {
-                    by_location.insert(plant.location.to_owned(), vec![plant]);
+                    by_location.insert(plant.location.to_owned(), vec![plant.clone()]);
                 }
                 Some(location_vec) => {
-                    location_vec.push(plant);
+                    location_vec.push(plant.clone());
                 }
             };
         }
 
         let location_groups = by_location
-            .iter()
-            .map(|(_, plants)| plants.as_slice().try_into())
+            .values()
+            .map(|plants| plants.as_slice().try_into())
             .collect::<Result<Vec<LocationGroup>, Error>>()?;
 
         Ok(PlantList {

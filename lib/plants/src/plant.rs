@@ -38,13 +38,13 @@ impl Plant {
     pub fn get_last_watering(&self) -> Option<LogItem> {
         let mut watering_activities = self.get_watering_activities();
         watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
-        watering_activities.last().map(|x| x.clone())
+        watering_activities.last().cloned()
     }
 
     pub fn get_last_fertilizing(&self) -> Option<LogItem> {
         let mut watering_activities = self.get_fertilizing_activities();
         watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
-        watering_activities.last().map(|x| x.clone())
+        watering_activities.last().cloned()
     }
 
     fn get_fertilizing_activities(&self) -> Vec<LogItem> {
@@ -148,7 +148,7 @@ impl Plant {
 
     pub fn get_url(&self, base: &str) -> String {
         let mut url = base.to_owned();
-        url.push_str(&self.name.replace(" ", ""));
+        url.push_str(&self.name.replace(' ', ""));
         url.push_str(".html");
         url
     }

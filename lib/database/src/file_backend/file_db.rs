@@ -102,28 +102,28 @@ impl FileDB {
 
 impl DatabaseManager for FileDB {
     fn get_all_plants(&mut self) -> Result<Vec<Plant>, super::super::errors::Error> {
-        if self.plants_cache.len() == 0 {
+        if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.clone())
     }
 
     fn get_num_plants(&mut self) -> Result<i32, super::super::errors::Error> {
-        if self.plants_cache.len() == 0 {
+        if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.len() as i32)
     }
 
     fn get_all_species(&mut self) -> Result<Vec<Species>, super::super::errors::Error> {
-        if self.species_cache.len() == 0 {
+        if self.species_cache.is_empty() {
             self.load_species()?;
         }
         Ok(self.species_cache.clone())
     }
 
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, super::super::errors::Error> {
-        if self.graveyard_cache.len() == 0 {
+        if self.graveyard_cache.is_empty() {
             self.load_graveyard()?;
         }
         Ok(self.graveyard_cache.clone())
@@ -133,7 +133,7 @@ impl DatabaseManager for FileDB {
         &mut self,
         species_name: &str,
     ) -> Result<Vec<Plant>, super::super::errors::Error> {
-        if self.plants_cache.len() == 0 {
+        if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         let species_plants = self
