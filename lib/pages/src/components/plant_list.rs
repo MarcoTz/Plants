@@ -8,14 +8,14 @@ use html::{
     html_element::HtmlElement,
     img::Img,
 };
-use plants::plant::{Plant, PlantImage};
+use plants::plant::Plant;
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
 pub struct PlantListItem {
     plant_url: String,
     plant_name: String,
-    plant_preview_url: Option<PlantImage>,
+    plant_preview_url: Option<String>,
     temp_max: Option<f32>,
     temp_min: Option<f32>,
     species_url: Option<String>,
@@ -92,7 +92,7 @@ impl PageComponent for PlantListItem {
 
         match self.plant_preview_url.clone() {
             None => (),
-            Some((_, url)) => {
+            Some(url) => {
                 div_content.push(
                     vec![
                         HtmlElement::Br,

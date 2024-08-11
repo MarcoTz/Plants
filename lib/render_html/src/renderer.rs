@@ -20,6 +20,7 @@ use pages::{
     species_details::SpeciesDetails,
     species_overview::SpeciesOverview,
 };
+use plants::{plant::Plant, species::Species};
 
 pub struct NamedPage {
     pub page_name: String,
@@ -135,9 +136,23 @@ impl<T: DatabaseManager> Renderer<T> {
     pub fn render_species_overview(&mut self) -> Result<String, Error> {
         let num_plants = self.database_manager.get_num_plants()?;
         let species = self.database_manager.get_all_species()?;
+        let species_w_plants: Vec<(Species, Option<Plant>)> = species
+            .iter()
+            .map(|sp| {
+                let species_plants = self.database_manager.get_plants_species(&sp.name).ok();
+                println!("{species_plants:?}");
+                match species_plants {
+                    None => (sp.clone(), None),
+                    Some(plants) => match plants.first() {
+                        None => (sp.clone(), None),
+                        Some(pl) => (sp.clone(), Some(pl.clone())),
+                    },
+                }
+            })
+            .collect();
         Ok(SpeciesOverview {
             head: self.get_head("All Species", false, vec!["css/species_overview.css"]),
-            species_list: SpeciesList::from(species.as_slice()),
+            species_list: SpeciesList::from(species_w_plants.as_slice()),
             header: self.get_header(false),
             footer: self.get_footer(num_plants),
         }

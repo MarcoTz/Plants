@@ -1,6 +1,6 @@
 use super::page_component::PageComponent;
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement, img::Img};
-use plants::species::Species;
+use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
 
 struct SpeciesListItem {
@@ -28,15 +28,16 @@ impl PageComponent for SpeciesList {
 
 impl PageComponent for SpeciesListItem {
     fn render(&self, _: &str) -> HtmlElement {
+        println!("{:?}", self.species_preview_url);
         let species_img: HtmlElement = match self.species_preview_url.clone() {
             None => "".to_owned().into(),
             Some(url) => Img {
-                attributes: vec![Attribute::Href(url)],
+                attributes: vec![Attribute::Src(url)],
             }
             .into(),
         };
         Div {
-            attributes: vec![Attribute::Id("species_list_item".to_owned())],
+            attributes: vec![Attribute::Id("plant_list_item".to_owned())],
             content: Rc::new(
                 vec![
                     A {
@@ -53,18 +54,26 @@ impl PageComponent for SpeciesListItem {
     }
 }
 
-impl From<&Species> for SpeciesListItem {
-    fn from(species: &Species) -> SpeciesListItem {
+impl From<&(Species, Option<Plant>)> for SpeciesListItem {
+    fn from((species, m_plant): &(Species, Option<Plant>)) -> SpeciesListItem {
+        let species_preview_url = match m_plant
+            .clone()
+            .map(|p| p.get_preview_image_url("img/plants"))
+        {
+            None => None,
+            Some(None) => None,
+            Some(Some(url)) => Some(url),
+        };
         SpeciesListItem {
             species_url: species.get_url("species/"),
             species_name: species.name.clone(),
-            species_preview_url: None,
+            species_preview_url,
         }
     }
 }
 
-impl From<&[Species]> for SpeciesList {
-    fn from(species: &[Species]) -> SpeciesList {
+impl From<&[(Species, Option<Plant>)]> for SpeciesList {
+    fn from(species: &[(Species, Option<Plant>)]) -> SpeciesList {
         SpeciesList {
             species_items: species.iter().map(|sp| sp.into()).collect(),
         }
