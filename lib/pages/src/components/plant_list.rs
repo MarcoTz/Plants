@@ -8,14 +8,14 @@ use html::{
     html_element::HtmlElement,
     img::Img,
 };
-use plants::plant::Plant;
+use plants::plant::{Plant, PlantImage};
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
 pub struct PlantListItem {
     plant_url: String,
     plant_name: String,
-    plant_preview_url: String,
+    plant_preview_url: Option<PlantImage>,
     temp_max: Option<f32>,
     temp_min: Option<f32>,
     species_url: Option<String>,
@@ -90,20 +90,25 @@ impl PageComponent for PlantListItem {
             ),
         }
 
-        div_content.push(
-            vec![
-                HtmlElement::Br,
-                Img {
-                    attributes: vec![
-                        Attribute::Style("cursor:default;".to_owned()),
-                        Attribute::Id("plant_overview".to_owned()),
-                        Attribute::Src(self.plant_preview_url.clone()),
-                    ],
-                }
-                .into(),
-            ]
-            .into(),
-        );
+        match self.plant_preview_url.clone() {
+            None => (),
+            Some((_, url)) => {
+                div_content.push(
+                    vec![
+                        HtmlElement::Br,
+                        Img {
+                            attributes: vec![
+                                Attribute::Style("cursor:default;".to_owned()),
+                                Attribute::Id("plant_overview".to_owned()),
+                                Attribute::Src(url),
+                            ],
+                        }
+                        .into(),
+                    ]
+                    .into(),
+                );
+            }
+        }
 
         match self.temp_max {
             None => (),
@@ -140,7 +145,7 @@ impl From<&Plant> for PlantListItem {
         PlantListItem {
             plant_url: plant.get_url("plants/"),
             plant_name: plant.name.clone(),
-            plant_preview_url: "".to_owned(),
+            plant_preview_url: plant.get_preview_image_url("img/plants"),
             temp_max: plant.species.as_ref().map(|x| x.temp_max),
             temp_min: plant.species.as_ref().map(|x| x.temp_min),
             species_url: plant.species.as_ref().map(|x| x.get_url("species/")),
@@ -173,9 +178,12 @@ impl TryFrom<&[Plant]> for LocationGroup {
                     .map(|s| s.to_owned())
                     .collect(),
             ))?;
+            let mut plant_items: Vec<PlantListItem> =
+                plants.iter().cloned().map(|p| (&p).into()).collect();
+            plant_items.sort_by(|it1, it2| it1.plant_name.cmp(&it2.plant_name));
             Ok(LocationGroup {
                 location: location.clone(),
-                plant_items: plants.iter().cloned().map(|p| (&p).into()).collect(),
+                plant_items,
             })
         }
     }

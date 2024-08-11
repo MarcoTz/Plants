@@ -159,9 +159,14 @@ pub fn load_images(image_dir: &str, plant_name: &str) -> Result<Vec<PlantImage>,
             })
         })?;
         let path = dir_file.path();
-        let file_name = path.to_str().ok_or(Error::FSError(FSError {
+        let file_base = path.file_name().ok_or(Error::FSError(FSError {
             file_name: image_dir.to_owned(),
             err_msg: "Could not find path".to_owned(),
+            access: AccessType::Read,
+        }))?;
+        let file_name = file_base.to_str().ok_or(Error::FSError(FSError {
+            file_name: image_dir.to_owned(),
+            err_msg: "Could not get name as string".to_owned(),
             access: AccessType::Read,
         }))?;
         if file_name.contains(plant_name) {
