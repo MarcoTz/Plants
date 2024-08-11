@@ -136,10 +136,15 @@ impl DatabaseManager for FileDB {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
+
         let species_plants = self
             .plants_cache
             .iter()
-            .filter(|plant| plant.name.to_lowercase().trim() == species_name.to_lowercase().trim())
+            .filter(|plant| {
+                plant.species.clone().is_some_and(|sp| {
+                    sp.name.to_lowercase().trim() == species_name.to_lowercase().trim()
+                })
+            })
             .cloned()
             .collect();
         Ok(species_plants)
