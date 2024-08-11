@@ -38,12 +38,12 @@ impl PageComponent for PlantContents {
     }
 }
 
-impl TryFrom<&Plant> for PlantContents {
+impl TryFrom<(&Plant, &str)> for PlantContents {
     type Error = Error;
-    fn try_from(plant: &Plant) -> Result<PlantContents, Error> {
+    fn try_from((plant, img_base): (&Plant, &str)) -> Result<PlantContents, Error> {
         let status = PlantStatus::try_from(plant)?;
         Ok(PlantContents {
-            gallery: PlantGallery::from(plant),
+            gallery: PlantGallery::from((plant, img_base)),
             status,
             growth: PlantGrowth::from(()),
             activities: PlantActivities::from(plant),

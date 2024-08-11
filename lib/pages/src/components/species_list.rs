@@ -28,7 +28,6 @@ impl PageComponent for SpeciesList {
 
 impl PageComponent for SpeciesListItem {
     fn render(&self, _: &str) -> HtmlElement {
-        println!("{:?}", self.species_preview_url);
         let species_img: HtmlElement = match self.species_preview_url.clone() {
             None => "".to_owned().into(),
             Some(url) => Img {

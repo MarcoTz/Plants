@@ -5,6 +5,7 @@ use plants::plant;
 use std::rc::Rc;
 
 pub struct PlantImage {
+    img_base: String,
     img_url: String,
     date: NaiveDate,
     num_images: i32,
@@ -29,11 +30,14 @@ impl PageComponent for PlantImage {
             }
             .into(),
         ];
+        let mut img_path = self.img_base.to_owned();
+        img_path.push_str("/");
+        img_path.push_str(&self.img_url);
         Figure {
             attributes: vec![Attribute::Class("plant_image".to_owned())],
             content: Rc::new(
                 Img {
-                    attributes: vec![Attribute::Src(self.img_url.clone())],
+                    attributes: vec![Attribute::Src(img_path)],
                 }
                 .into(),
             ),
@@ -43,13 +47,20 @@ impl PageComponent for PlantImage {
     }
 }
 
-impl From<&plant::PlantImage> for PlantImage {
-    fn from(plant_img: &plant::PlantImage) -> PlantImage {
+pub struct ImageInfo {
+    pub image: plant::PlantImage,
+    pub base_dir: String,
+    pub num_images: i32,
+    pub num_self: i32,
+}
+impl From<ImageInfo> for PlantImage {
+    fn from(info: ImageInfo) -> PlantImage {
         PlantImage {
-            img_url: plant_img.1.clone(),
-            date: plant_img.0,
-            num_images: 0,
-            num_self: 0,
+            img_url: info.image.1.clone(),
+            img_base: info.base_dir.clone(),
+            date: info.image.0,
+            num_images: info.num_images,
+            num_self: info.num_self,
         }
     }
 }
