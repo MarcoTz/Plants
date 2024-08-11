@@ -140,7 +140,6 @@ impl<T: DatabaseManager> Renderer<T> {
             .iter()
             .map(|sp| {
                 let species_plants = self.database_manager.get_plants_species(&sp.name).ok();
-                println!("{species_plants:?}");
                 match species_plants {
                     None => (sp.clone(), None),
                     Some(plants) => match plants.first() {
@@ -162,7 +161,8 @@ impl<T: DatabaseManager> Renderer<T> {
 
     pub fn render_gallery(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
-        let plant_galleries = plants.iter().map(|x| x.into()).collect();
+        let img_base = "img/plants";
+        let plant_galleries = plants.iter().map(|x| (x, img_base).into()).collect();
         let num_plants = plants.len() as i32;
         Ok(Gallery {
             head: self.get_head("Gallery", false, vec!["css/gallery.css"]),
@@ -203,9 +203,10 @@ impl<T: DatabaseManager> Renderer<T> {
     pub fn render_all_plants(&mut self) -> Result<Vec<NamedPage>, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let num_plants = plants.len() as i32;
+        let img_base = "../img/plants";
         let mut plant_htmls = vec![];
         for plant in plants.iter() {
-            let plant_content = PlantContents::try_from(plant)?;
+            let plant_content = PlantContents::try_from((plant, img_base))?;
             let plant_species = plant.species.clone().map(|sp| sp.name.clone());
             let page_html = PlantDetails {
                 head: self.get_head(
@@ -234,6 +235,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let mut species_htmls = vec![];
         let num_plants = self.database_manager.get_num_plants()?;
         let all_species = self.database_manager.get_all_species()?;
+        let img_base = "img/plants";
         for species in all_species.iter() {
             let species_plants = self
                 .database_manager
@@ -247,7 +249,7 @@ impl<T: DatabaseManager> Renderer<T> {
                 header: self.get_header(true),
                 species_name: species.name.clone(),
                 species_info: SpeciesInfo::from((species, species_plants.as_slice())),
-                species_gallery: SpeciesGallery::from(species_plants.as_slice()),
+                species_gallery: SpeciesGallery::from((species_plants.as_slice(), img_base)),
                 footer: self.get_footer(num_plants),
             }
             .render(&self.date_format)

@@ -21,11 +21,11 @@ impl PageComponent for SpeciesGallery {
     }
 }
 
-impl From<&[Plant]> for SpeciesGallery {
-    fn from(plants: &[Plant]) -> SpeciesGallery {
+impl From<(&[Plant], &str)> for SpeciesGallery {
+    fn from((plants, img_base): (&[Plant], &str)) -> SpeciesGallery {
         let mut plant_galleries = vec![];
         for plant in plants.iter() {
-            plant_galleries.push(PlantGallery::from(plant))
+            plant_galleries.push(PlantGallery::from((plant, img_base)))
         }
         SpeciesGallery { plant_galleries }
     }

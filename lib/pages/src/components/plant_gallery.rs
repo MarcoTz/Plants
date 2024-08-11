@@ -1,4 +1,7 @@
-use super::{page_component::PageComponent, plant_image::PlantImage};
+use super::{
+    page_component::PageComponent,
+    plant_image::{ImageInfo, PlantImage},
+};
 use html::{
     a::A,
     attribute::Attribute,
@@ -68,12 +71,23 @@ impl PageComponent for PlantGallery {
     }
 }
 
-impl From<&Plant> for PlantGallery {
-    fn from(plant: &Plant) -> PlantGallery {
+impl From<(&Plant, &str)> for PlantGallery {
+    fn from((plant, img_base): (&Plant, &str)) -> PlantGallery {
+        let get_info = |x: &plants::plant::PlantImage, i: i32| ImageInfo {
+            image: x.clone(),
+            base_dir: img_base.to_owned(),
+            num_images: plant.images.len() as i32,
+            num_self: i,
+        };
         PlantGallery {
             plant_name: plant.name.clone(),
             plant_url: plant.get_url("plants/"),
-            plant_images: plant.images.iter().map(|x| x.into()).collect(),
+            plant_images: plant
+                .images
+                .iter()
+                .enumerate()
+                .map(|(i, x)| get_info(x, i as i32).into())
+                .collect(),
         }
     }
 }
