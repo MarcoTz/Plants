@@ -197,8 +197,6 @@ impl From<&[Plant]> for NextActivity {
             )
         }
 
-        println!("{next_activities:?}");
-
         NextActivity {
             next_activities: next_activities
                 .iter()
