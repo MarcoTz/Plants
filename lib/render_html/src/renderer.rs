@@ -12,10 +12,8 @@ use pages::{
     },
     gallery::Gallery,
     graveyard::Graveyard,
-    index::{
-        autowatered::AutoWatered, hall_of_fame::HallOfFame, index::Index,
-        upcoming_tasks::UpcomingTasks,
-    },
+    index::Index,
+    index::{autowatered::AutoWatered, hall_of_fame::HallOfFame, upcoming_tasks::UpcomingTasks},
     page::Page,
     plant_details::PlantDetails,
     plant_overview::PlantOverview,
