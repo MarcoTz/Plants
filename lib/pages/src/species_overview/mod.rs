@@ -1,8 +1,10 @@
+pub mod species_list;
 use super::{
-    components::{html_head::HtmlHead, page_component::PageComponent, species_list::SpeciesList},
+    components::{html_head::HtmlHead, page_component::PageComponent},
     page::Page,
     shared::{footer::Footer, header::Header},
 };
+use species_list::SpeciesList;
 
 use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;

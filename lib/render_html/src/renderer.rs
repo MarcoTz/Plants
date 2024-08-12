@@ -7,7 +7,7 @@ use pages::{
     components::{
         graveyard_table::GraveyardTable, html_head::HtmlHead,
         plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
-        species_gallery::SpeciesGallery, species_info::SpeciesInfo, species_list::SpeciesList,
+        species_gallery::SpeciesGallery, species_info::SpeciesInfo,
     },
     gallery::Gallery,
     graveyard::Graveyard,
@@ -16,10 +16,10 @@ use pages::{
     page::Page,
     plant_details::PlantDetails,
     plant_overview::plant_search::PlantSearch,
-    plant_overview::PlantOverview,
-    shared::{footer::Footer, header::Header, plant_list::PlantList},
+    plant_overview::{plant_list::PlantList, PlantOverview},
+    shared::{footer::Footer, header::Header},
     species_details::SpeciesDetails,
-    species_overview::SpeciesOverview,
+    species_overview::{species_list::SpeciesList, SpeciesOverview},
 };
 use plants::{plant::Plant, species::Species};
 
