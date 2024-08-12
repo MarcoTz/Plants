@@ -1,4 +1,4 @@
-use crate::components::page_component::PageComponent;
+use crate::{components::page_component::PageComponent, page::PageURLs};
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
 use std::rc::Rc;
 
@@ -56,5 +56,23 @@ impl PageComponent for Header {
             content: Rc::new(links.into()),
         }
         .into()
+    }
+}
+
+impl From<bool> for Header {
+    fn from(relative_up: bool) -> Header {
+        let prefix = if relative_up {
+            "../".to_owned()
+        } else {
+            "./".to_owned()
+        };
+        Header {
+            dashboard_url: prefix.clone() + &PageURLs::get_url(PageURLs::IndexUrl),
+            plants_url: prefix.clone() + &PageURLs::get_url(PageURLs::PlantsOverviewUrl),
+            species_url: prefix.clone() + &PageURLs::get_url(PageURLs::SpeciesOverviewUrl),
+            gallery_url: prefix.clone() + &PageURLs::get_url(PageURLs::GalleryUrl),
+            activities_url: prefix.clone() + &PageURLs::get_url(PageURLs::ActivitiesUrl),
+            graveyard_url: prefix.clone() + &PageURLs::get_url(PageURLs::GraveyardUrl),
+        }
     }
 }

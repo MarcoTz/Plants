@@ -1,5 +1,5 @@
 use crate::components::page_component::PageComponent;
-use chrono::NaiveDate;
+use chrono::{Local, NaiveDate};
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
 use std::rc::Rc;
 
@@ -44,5 +44,14 @@ impl PageComponent for Footer {
             content: Rc::new(footer_content.into()),
         }
         .into()
+    }
+}
+
+impl From<i32> for Footer {
+    fn from(num_plants: i32) -> Footer {
+        Footer {
+            num_plants,
+            last_build: Local::now().date_naive(),
+        }
     }
 }

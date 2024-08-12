@@ -1,16 +1,16 @@
 use super::{
-    components::{html_head::HtmlHead, page_component::PageComponent, plant_gallery::PlantGallery},
+    components::{page_component::PageComponent, plant_gallery::PlantGallery},
     page::Page,
-    shared::{footer::Footer, header::Header},
+    shared::{footer::Footer, header::Header, html_head::HtmlHead},
 };
 use html::{
     attribute::Attribute, body::Body, div::Div, head::Head, html_document::HtmlDocument,
     html_element::HtmlElement,
 };
+use plants::plant::Plant;
 use std::rc::Rc;
 
 pub struct Gallery {
-    pub head: HtmlHead,
     pub header: Header,
     pub footer: Footer,
     pub plant_galleries: Vec<PlantGallery>,
@@ -36,8 +36,32 @@ impl Page for Gallery {
             content: Rc::new(body_content.into()),
         };
         HtmlDocument {
-            head: Head::from(&self.head),
+            head: Head::from(&self.get_head()),
             body,
+        }
+    }
+
+    fn get_head(&self) -> HtmlHead {
+        let styles = vec![
+            "css/main.css".to_owned(),
+            "css/header.css".to_owned(),
+            "css/footer.css".to_owned(),
+        ];
+        HtmlHead {
+            title: "Gallery".to_owned(),
+            styles,
+        }
+    }
+}
+
+impl From<&[Plant]> for Gallery {
+    fn from(plants: &[Plant]) -> Gallery {
+        let img_base = "img/plants";
+        let plant_galleries = plants.iter().map(|x| (x, img_base).into()).collect();
+        Gallery {
+            header: Header::from(false),
+            plant_galleries,
+            footer: Footer::from(plants.len() as i32),
         }
     }
 }

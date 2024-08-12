@@ -1,10 +1,9 @@
 use super::{
     components::{
-        html_head::HtmlHead, page_component::PageComponent, species_gallery::SpeciesGallery,
-        species_info::SpeciesInfo,
+        page_component::PageComponent, species_gallery::SpeciesGallery, species_info::SpeciesInfo,
     },
     page::Page,
-    shared::{footer::Footer, header::Header},
+    shared::{footer::Footer, header::Header, html_head::HtmlHead},
 };
 use html::{
     attribute::Attribute,
@@ -14,10 +13,10 @@ use html::{
     headline::{HeaderSize, Headline},
     html_document::HtmlDocument,
 };
+use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
 
 pub struct SpeciesDetails {
-    pub head: HtmlHead,
     pub species_name: String,
     pub species_info: SpeciesInfo,
     pub species_gallery: SpeciesGallery,
@@ -47,8 +46,34 @@ impl Page for SpeciesDetails {
             content: Rc::new(body_contents.into()),
         };
         HtmlDocument {
-            head: Head::from(&self.head),
+            head: Head::from(&self.get_head()),
             body,
+        }
+    }
+
+    fn get_head(&self) -> HtmlHead {
+        let styles = vec![
+            "../css/main.css".to_owned(),
+            "../css/header.css".to_owned(),
+            "../css/footer.css".to_owned(),
+        ];
+        HtmlHead {
+            title: self.species_name.clone(),
+            styles,
+        }
+    }
+}
+
+impl From<(&Species, &[Plant])> for SpeciesDetails {
+    fn from((species, plants): (&Species, &[Plant])) -> SpeciesDetails {
+        let img_base = "img/plants";
+        let species_plants = species.get_plants(plants);
+        SpeciesDetails {
+            header: Header::from(true),
+            species_name: species.name.clone(),
+            species_info: SpeciesInfo::from((species, species_plants.as_slice())),
+            species_gallery: SpeciesGallery::from((species_plants.as_slice(), img_base)),
+            footer: Footer::from(plants.len() as i32),
         }
     }
 }
