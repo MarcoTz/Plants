@@ -1,6 +1,7 @@
 use super::{
-    super::errors::Error, page_component::PageComponent, plant_activities::PlantActivities,
-    plant_gallery::PlantGallery, plant_growth::PlantGrowth, plant_status::PlantStatus,
+    super::errors::Error, super::shared::plant_gallery::PlantGallery,
+    page_component::PageComponent, plant_activities::PlantActivities, plant_growth::PlantGrowth,
+    plant_status::PlantStatus,
 };
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;
