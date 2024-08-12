@@ -52,7 +52,7 @@ impl PageComponent for LocationGroup {
             plant_divs.push(plant_item.render(date_format));
         }
         Div {
-            attributes: vec![Attribute::Class("location_group".to_owned())],
+            attributes: vec![Attribute::Class(vec!["location_group".to_owned()])],
             content: Rc::new(plant_divs.into()),
         }
         .into()
@@ -65,7 +65,7 @@ impl PageComponent for PlantListItem {
             A {
                 attributes: vec![
                     Attribute::Href(self.plant_url.clone()),
-                    Attribute::Class("plant_link".to_owned()),
+                    Attribute::Class(vec!["plant_link".to_owned()]),
                 ],
                 content: Rc::new(self.plant_name.clone().into()),
             }
@@ -77,7 +77,7 @@ impl PageComponent for PlantListItem {
             (_, None) => (),
             (Some(url), Some(name)) => div_content.push(
                 Div {
-                    attributes: vec![Attribute::Class("species_link".to_owned())],
+                    attributes: vec![Attribute::Class(vec!["species_link".to_owned()])],
                     content: Rc::new(
                         A {
                             attributes: vec![Attribute::Href(url.clone())],
@@ -114,7 +114,7 @@ impl PageComponent for PlantListItem {
             None => (),
             Some(temp) => div_content.push(
                 Div {
-                    attributes: vec![Attribute::Class("temp_max".to_owned())],
+                    attributes: vec![Attribute::Class(vec!["temp_max".to_owned()])],
                     content: Rc::new(temp.to_string().into()),
                 }
                 .into(),
@@ -125,7 +125,7 @@ impl PageComponent for PlantListItem {
             None => (),
             Some(temp) => div_content.push(
                 Div {
-                    attributes: vec![Attribute::Class("temp_min".to_owned())],
+                    attributes: vec![Attribute::Class(vec!["temp_min".to_owned()])],
                     content: Rc::new(temp.to_string().into()),
                 }
                 .into(),
@@ -133,7 +133,7 @@ impl PageComponent for PlantListItem {
         }
 
         Div {
-            attributes: vec![Attribute::Class("plant_list_item".to_owned())],
+            attributes: vec![Attribute::Class(vec!["plant_list_item".to_owned()])],
             content: Rc::new(div_content.into()),
         }
         .into()

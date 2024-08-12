@@ -51,7 +51,7 @@ impl PageComponent for PlantSearch {
         };
         let search_components = vec![
             Div {
-                attributes: vec![Attribute::Class("search_header".to_owned())],
+                attributes: vec![Attribute::Class(vec!["search_header".to_owned()])],
                 content: Rc::new("Filter".to_owned().into()),
             }
             .into(),

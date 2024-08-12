@@ -1,0 +1,47 @@
+#recent_updates_container {
+  display:flex;
+  flex-wrap:wrap;
+  align-content:center;
+  align-items:center;
+  justify-content:center;
+}
+
+#recent_growth_container {
+  margin-left:5%;
+  margin-right:5%;
+}
+
+#recent_activities_container{ 
+  margin-right:5%;
+  margin-left:5%;
+}
+
+#autowatering_container{
+  width:95%;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  align-content:space-around;
+  flex-wrap:wrap;
+  gap:1em;
+}
+
+.autowater_item{
+  border-radius:1em;
+  padding:0.5em;
+}
+
+#hall_of_fame {
+  display:flex;
+  flex-wrap:wrap;
+  width:95%;
+  gap:1em;
+  align-content:space-around;
+  justify-content:space-around;
+}
+.hall_of_fame_item{
+  border-radius:1em;
+  padding: 0.5em;
+  padding-bottom:1em;
+  text-align:center;
+}

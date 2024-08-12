@@ -92,7 +92,7 @@ impl PageComponent for PlantStatus {
 impl<T: ToString> PageComponent for StatusItem<T> {
     fn render(&self, _: &str) -> HtmlElement {
         Div {
-            attributes: vec![Attribute::Class("status_item".to_owned())],
+            attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
             content: {
                 let name_str = self.name.clone();
                 let content_str = self.content.to_string();

@@ -2,7 +2,7 @@ use super::render::Render;
 
 pub enum Attribute {
     Id(String),
-    Class(String),
+    Class(Vec<String>),
     Src(String),
     OnKeyUp(String),
     Style(String),
@@ -16,7 +16,10 @@ impl Render for Attribute {
     fn render(&self) -> String {
         match self {
             Attribute::Id(id) => format!("id=\"{id}\""),
-            Attribute::Class(class) => format!("class=\"{class}\""),
+            Attribute::Class(classes) => {
+                let class_str = classes.join(" ");
+                format!("class=\"{class_str}\"")
+            }
             Attribute::Src(src) => format!("src=\"{src}\""),
             Attribute::OnKeyUp(keyup) => format!("onKeyUp=\"{keyup}\""),
             Attribute::Style(style) => format!("style=\"{style}\""),

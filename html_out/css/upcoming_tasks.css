@@ -1,0 +1,10 @@
+.task_block {
+  max-width:10em;
+}
+.upcoming_task { 
+  font-size:12pt;
+  font-weight:bold;
+  text-align:center;
+  width:100%;
+  padding-bottom:0.5em;
+}
