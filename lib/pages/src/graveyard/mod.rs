@@ -1,8 +1,7 @@
-use super::{
-    components::{graveyard_table::GraveyardTable, page_component::PageComponent},
-    page::Page,
-    shared::html_head::HtmlHead,
-};
+pub mod graveyard_table;
+
+use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use graveyard_table::GraveyardTable;
 use html::html_element::HtmlElement;
 use plants::graveyard::GraveyardPlant;
 
