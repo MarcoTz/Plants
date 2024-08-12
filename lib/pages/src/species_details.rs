@@ -1,9 +1,10 @@
 use super::{
     components::{
-        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
-        species_gallery::SpeciesGallery, species_info::SpeciesInfo,
+        html_head::HtmlHead, page_component::PageComponent, species_gallery::SpeciesGallery,
+        species_info::SpeciesInfo,
     },
     page::Page,
+    shared::{footer::Footer, header::Header},
 };
 use html::{
     attribute::Attribute,

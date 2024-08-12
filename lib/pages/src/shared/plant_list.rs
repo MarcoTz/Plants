@@ -1,4 +1,4 @@
-use super::super::{components::page_component::PageComponent, errors::Error};
+use crate::{components::page_component::PageComponent, errors::Error};
 use html::{
     a::A,
     attribute::Attribute,

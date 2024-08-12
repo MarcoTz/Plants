@@ -5,7 +5,7 @@ use html::render::Render;
 use pages::{
     activities::Activities,
     components::{
-        footer::Footer, graveyard_table::GraveyardTable, header::Header, html_head::HtmlHead,
+        graveyard_table::GraveyardTable, html_head::HtmlHead,
         plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
         species_gallery::SpeciesGallery, species_info::SpeciesInfo, species_list::SpeciesList,
     },
@@ -15,8 +15,9 @@ use pages::{
     index::{autowatered::AutoWatered, hall_of_fame::HallOfFame, upcoming_tasks::UpcomingTasks},
     page::Page,
     plant_details::PlantDetails,
+    plant_overview::plant_search::PlantSearch,
     plant_overview::PlantOverview,
-    plant_overview::{plant_list::PlantList, plant_search::PlantSearch},
+    shared::{footer::Footer, header::Header, plant_list::PlantList},
     species_details::SpeciesDetails,
     species_overview::SpeciesOverview,
 };

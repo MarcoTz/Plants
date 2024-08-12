@@ -1,6 +1,4 @@
-pub mod footer;
 pub mod graveyard_table;
-pub mod header;
 pub mod html_head;
 pub mod page_component;
 pub mod plant_activities;

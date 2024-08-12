@@ -1,14 +1,11 @@
-pub mod plant_list;
 pub mod plant_search;
 
 use super::{
-    components::{
-        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
-    },
+    components::{html_head::HtmlHead, page_component::PageComponent},
     page::Page,
 };
+use crate::shared::{footer::Footer, header::Header, plant_list::PlantList};
 use html::{body::Body, head::Head, html_document::HtmlDocument};
-use plant_list::PlantList;
 use plant_search::PlantSearch;
 use std::rc::Rc;
 
