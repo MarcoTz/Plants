@@ -1,9 +1,31 @@
-use super::shared::html_head::HtmlHead;
-use html::html_document::HtmlDocument;
+use super::{
+    components::page_component::PageComponent,
+    shared::{footer::Footer, header::Header, html_head::HtmlHead},
+};
+use html::{body::Body, head::Head, html_document::HtmlDocument, html_element::HtmlElement};
 
 pub trait Page {
-    fn render(&self, date_format: &str) -> HtmlDocument;
     fn get_head(&self) -> HtmlHead;
+    fn get_content(&self, date_format: &str) -> HtmlElement;
+    fn get_footer(&self, num_plants: i32) -> Footer {
+        Footer::from(num_plants)
+    }
+    fn get_header(&self, relative_up: bool) -> Header {
+        Header::from(relative_up)
+    }
+
+    fn render(&self, date_format: &str, relative_up: bool, num_plants: i32) -> HtmlDocument {
+        let body_contents: HtmlElement = vec![
+            self.get_header(relative_up).render(date_format),
+            self.get_content(date_format),
+            self.get_footer(num_plants).render(date_format),
+        ]
+        .into();
+        HtmlDocument {
+            head: Head::from(&self.get_head()),
+            body: Body::from(body_contents),
+        }
+    }
 }
 
 pub enum PageURLs {

@@ -2,13 +2,11 @@ use super::{
     components::{page_component::PageComponent, plant_contents::PlantContents},
     errors::Error,
     page::Page,
-    shared::{footer::Footer, header::Header, html_head::HtmlHead},
+    shared::html_head::HtmlHead,
 };
 use html::{
-    body::Body,
-    head::Head,
     headline::{HeaderSize, Headline},
-    html_document::HtmlDocument,
+    html_element::HtmlElement,
 };
 use plants::plant::Plant;
 use std::rc::Rc;
@@ -16,13 +14,11 @@ use std::rc::Rc;
 pub struct PlantDetails {
     pub plant_name: String,
     pub plant_species: Option<String>,
-    pub header: Header,
-    pub footer: Footer,
     pub plant_content: PlantContents,
 }
 
 impl Page for PlantDetails {
-    fn render(&self, date_format: &str) -> HtmlDocument {
+    fn get_content(&self, date_format: &str) -> HtmlElement {
         let plant_header = Headline {
             attributes: vec![],
             size: HeaderSize::H1,
@@ -33,20 +29,7 @@ impl Page for PlantDetails {
             },
         }
         .into();
-        let body_content = vec![
-            self.header.render(date_format),
-            plant_header,
-            self.plant_content.render(date_format),
-            self.footer.render(date_format),
-        ]
-        .into();
-        let body = Body {
-            content: Rc::new(body_content),
-        };
-        HtmlDocument {
-            head: Head::from(&self.get_head()),
-            body,
-        }
+        vec![plant_header, self.plant_content.render(date_format)].into()
     }
 
     fn get_head(&self) -> HtmlHead {
@@ -61,18 +44,16 @@ impl Page for PlantDetails {
         }
     }
 }
-impl TryFrom<(&Plant, i32)> for PlantDetails {
+impl TryFrom<&Plant> for PlantDetails {
     type Error = Error;
-    fn try_from((plant, num_plants): (&Plant, i32)) -> Result<PlantDetails, Error> {
+    fn try_from(plant: &Plant) -> Result<PlantDetails, Error> {
         let plant_species = plant.species.clone().map(|sp| sp.name.clone());
         let img_base = "../img/plants";
         let plant_content = PlantContents::try_from((plant, img_base))?;
         Ok(PlantDetails {
-            header: Header::from(true),
             plant_name: plant.name.clone(),
             plant_species,
             plant_content,
-            footer: Footer::from(num_plants),
         })
     }
 }

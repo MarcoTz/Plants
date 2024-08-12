@@ -1,32 +1,18 @@
 use super::{
     components::{graveyard_table::GraveyardTable, page_component::PageComponent},
     page::Page,
-    shared::{footer::Footer, header::Header, html_head::HtmlHead},
+    shared::html_head::HtmlHead,
 };
-use html::{body::Body, head::Head, html_document::HtmlDocument};
+use html::html_element::HtmlElement;
 use plants::graveyard::GraveyardPlant;
-use std::rc::Rc;
 
 pub struct Graveyard {
-    pub header: Header,
-    pub footer: Footer,
     pub graveyard_table: GraveyardTable,
 }
 
 impl Page for Graveyard {
-    fn render(&self, date_format: &str) -> HtmlDocument {
-        let body_contents = vec![
-            self.header.render(date_format),
-            self.graveyard_table.render(date_format),
-            self.footer.render(date_format),
-        ];
-        let body = Body {
-            content: Rc::new(body_contents.into()),
-        };
-        HtmlDocument {
-            head: Head::from(&self.get_head()),
-            body,
-        }
+    fn get_content(&self, date_format: &str) -> HtmlElement {
+        self.graveyard_table.render(date_format)
     }
 
     fn get_head(&self) -> HtmlHead {
@@ -42,11 +28,9 @@ impl Page for Graveyard {
     }
 }
 
-impl From<(&[GraveyardPlant], i32)> for Graveyard {
-    fn from((graveyard, num_plants): (&[GraveyardPlant], i32)) -> Graveyard {
+impl From<&[GraveyardPlant]> for Graveyard {
+    fn from(graveyard: &[GraveyardPlant]) -> Graveyard {
         Graveyard {
-            header: Header::from(false),
-            footer: Footer::from(num_plants),
             graveyard_table: GraveyardTable::from(graveyard),
         }
     }

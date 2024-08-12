@@ -3,15 +3,13 @@ use super::{
         page_component::PageComponent, species_gallery::SpeciesGallery, species_info::SpeciesInfo,
     },
     page::Page,
-    shared::{footer::Footer, header::Header, html_head::HtmlHead},
+    shared::html_head::HtmlHead,
 };
 use html::{
     attribute::Attribute,
-    body::Body,
     div::Div,
-    head::Head,
     headline::{HeaderSize, Headline},
-    html_document::HtmlDocument,
+    html_element::HtmlElement,
 };
 use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
@@ -20,14 +18,11 @@ pub struct SpeciesDetails {
     pub species_name: String,
     pub species_info: SpeciesInfo,
     pub species_gallery: SpeciesGallery,
-    pub header: Header,
-    pub footer: Footer,
 }
 
 impl Page for SpeciesDetails {
-    fn render(&self, date_format: &str) -> HtmlDocument {
-        let body_contents = vec![
-            self.header.render(date_format),
+    fn get_content(&self, date_format: &str) -> HtmlElement {
+        vec![
             Headline {
                 attributes: vec![],
                 size: HeaderSize::H1,
@@ -40,15 +35,8 @@ impl Page for SpeciesDetails {
             }
             .into(),
             self.species_gallery.render(date_format),
-            self.footer.render(date_format),
-        ];
-        let body = Body {
-            content: Rc::new(body_contents.into()),
-        };
-        HtmlDocument {
-            head: Head::from(&self.get_head()),
-            body,
-        }
+        ]
+        .into()
     }
 
     fn get_head(&self) -> HtmlHead {
@@ -69,11 +57,9 @@ impl From<(&Species, &[Plant])> for SpeciesDetails {
         let img_base = "img/plants";
         let species_plants = species.get_plants(plants);
         SpeciesDetails {
-            header: Header::from(true),
             species_name: species.name.clone(),
             species_info: SpeciesInfo::from((species, species_plants.as_slice())),
             species_gallery: SpeciesGallery::from((species_plants.as_slice(), img_base)),
-            footer: Footer::from(plants.len() as i32),
         }
     }
 }
