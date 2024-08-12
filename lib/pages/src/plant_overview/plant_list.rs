@@ -11,6 +11,7 @@ use plants::plant::Plant;
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
+#[derive(Clone)]
 pub struct PlantListItem {
     plant_url: String,
     plant_name: String,
@@ -20,6 +21,8 @@ pub struct PlantListItem {
     species_url: Option<String>,
     species_name: Option<String>,
 }
+
+#[derive(Clone)]
 pub struct LocationGroup {
     location: String,
     plant_items: Vec<PlantListItem>,
@@ -30,7 +33,9 @@ pub struct PlantList {
 impl PageComponent for PlantList {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut location_divs = vec![];
-        for location in self.locations.iter() {
+        let mut locations_ordered = self.locations.clone();
+        locations_ordered.sort_by(|loc1, loc2| loc1.location.cmp(&loc2.location));
+        for location in locations_ordered.iter() {
             location_divs.push(location.render(date_format));
         }
         Div {
@@ -51,7 +56,9 @@ impl PageComponent for LocationGroup {
             content: Rc::new(self.location.clone().into()),
         }
         .into()];
-        for plant_item in self.plant_items.iter() {
+        let mut plant_items_ordered = self.plant_items.clone();
+        plant_items_ordered.sort_by(|it1, it2| it1.plant_name.cmp(&it2.plant_name));
+        for plant_item in plant_items_ordered.iter() {
             plant_divs.push(plant_item.render(date_format));
         }
         Div {
