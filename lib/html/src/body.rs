@@ -10,6 +10,15 @@ impl From<Body> for HtmlElement {
         HtmlElement::Body(bd)
     }
 }
+
+impl From<HtmlElement> for Body {
+    fn from(elem: HtmlElement) -> Body {
+        Body {
+            content: Rc::new(elem),
+        }
+    }
+}
+
 impl Render for Body {
     fn render(&self) -> String {
         let content_str = self.content.render();

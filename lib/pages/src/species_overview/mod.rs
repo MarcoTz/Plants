@@ -1,36 +1,19 @@
 pub mod species_list;
-use super::{
-    components::page_component::PageComponent,
-    page::Page,
-    shared::{footer::Footer, header::Header, html_head::HtmlHead},
-};
+use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
 use species_list::SpeciesList;
 
-use html::{body::Body, head::Head, html_document::HtmlDocument};
+use html::html_element::HtmlElement;
 use plants::{plant::Plant, species::Species};
-use std::rc::Rc;
 
 pub struct SpeciesOverview {
-    pub header: Header,
-    pub footer: Footer,
     pub species_list: SpeciesList,
 }
 
 impl Page for SpeciesOverview {
-    fn render(&self, date_format: &str) -> HtmlDocument {
-        let body_contents = vec![
-            self.header.render(date_format),
-            self.species_list.render(date_format),
-            self.footer.render(date_format),
-        ];
-        let body = Body {
-            content: Rc::new(body_contents.into()),
-        };
-        HtmlDocument {
-            head: Head::from(&self.get_head()),
-            body,
-        }
+    fn get_content(&self, date_format: &str) -> HtmlElement {
+        self.species_list.render(date_format)
     }
+
     fn get_head(&self) -> HtmlHead {
         let styles = vec![
             "css/main.css".to_owned(),
@@ -58,8 +41,6 @@ impl From<(&[Species], &[Plant])> for SpeciesOverview {
                     .collect::<Vec<(&Species, Option<Plant>)>>()
                     .as_slice(),
             ),
-            header: Header::from(false),
-            footer: Footer::from(plants.len() as i32),
         }
     }
 }

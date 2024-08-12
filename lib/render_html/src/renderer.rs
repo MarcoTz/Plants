@@ -31,39 +31,51 @@ impl<T: DatabaseManager> Renderer<T> {
     pub fn render_index(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let index = Index::try_from(plants.as_slice())?;
-        Ok(index.render(&self.date_format).render())
+        Ok(index
+            .render(&self.date_format, false, plants.len() as i32)
+            .render())
     }
 
     pub fn render_plant_overview(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let plant_overview = PlantOverview::try_from(plants.as_slice())?;
-        Ok(plant_overview.render(&self.date_format).render())
+        Ok(plant_overview
+            .render(&self.date_format, false, plants.len() as i32)
+            .render())
     }
 
     pub fn render_species_overview(&mut self) -> Result<String, Error> {
         let species = self.database_manager.get_all_species()?;
         let plants = self.database_manager.get_all_plants()?;
         let species_overview = SpeciesOverview::from((species.as_slice(), plants.as_slice()));
-        Ok(species_overview.render(&self.date_format).render())
+        Ok(species_overview
+            .render(&self.date_format, false, plants.len() as i32)
+            .render())
     }
 
     pub fn render_gallery(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let gallery = Gallery::from(plants.as_slice());
-        Ok(gallery.render(&self.date_format).render())
+        Ok(gallery
+            .render(&self.date_format, false, plants.len() as i32)
+            .render())
     }
 
     pub fn render_activities(&mut self) -> Result<String, Error> {
         let plants = self.database_manager.get_all_plants()?;
         let activities = Activities::from(plants.as_slice());
-        Ok(activities.render(&self.date_format).render())
+        Ok(activities
+            .render(&self.date_format, false, plants.len() as i32)
+            .render())
     }
 
     pub fn render_graveyard(&mut self) -> Result<String, Error> {
         let graveyard_plants = self.database_manager.get_graveyard()?;
         let num_plants = self.database_manager.get_num_plants()?;
-        let graveyard = Graveyard::from((graveyard_plants.as_slice(), num_plants));
-        Ok(graveyard.render(&self.date_format).render())
+        let graveyard = Graveyard::from(graveyard_plants.as_slice());
+        Ok(graveyard
+            .render(&self.date_format, false, num_plants)
+            .render())
     }
 
     pub fn render_all_plants(&mut self) -> Result<Vec<NamedPage>, Error> {
@@ -71,8 +83,10 @@ impl<T: DatabaseManager> Renderer<T> {
         let num_plants = plants.len() as i32;
         let mut plant_htmls = vec![];
         for plant in plants.iter() {
-            let plant_details = PlantDetails::try_from((plant, num_plants))?;
-            let page_html = plant_details.render(&self.date_format).render();
+            let plant_details = PlantDetails::try_from(plant)?;
+            let page_html = plant_details
+                .render(&self.date_format, true, num_plants)
+                .render();
             let page_name = plant.get_url("plants/");
             plant_htmls.push(NamedPage {
                 page_name,
@@ -89,7 +103,9 @@ impl<T: DatabaseManager> Renderer<T> {
 
         for species in all_species.iter() {
             let species_details = SpeciesDetails::from((species, all_plants.as_slice()));
-            let species_html = species_details.render(&self.date_format).render();
+            let species_html = species_details
+                .render(&self.date_format, true, all_plants.len() as i32)
+                .render();
             species_htmls.push(NamedPage {
                 page_name: species.get_url("species/"),
                 page_html: species_html,
