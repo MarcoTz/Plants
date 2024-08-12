@@ -7,8 +7,7 @@ use pages::{
     components::{
         footer::Footer, graveyard_table::GraveyardTable, header::Header, html_head::HtmlHead,
         plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
-        plant_list::PlantList, plant_search::PlantSearch, species_gallery::SpeciesGallery,
-        species_info::SpeciesInfo, species_list::SpeciesList,
+        species_gallery::SpeciesGallery, species_info::SpeciesInfo, species_list::SpeciesList,
     },
     gallery::Gallery,
     graveyard::Graveyard,
@@ -17,6 +16,7 @@ use pages::{
     page::Page,
     plant_details::PlantDetails,
     plant_overview::PlantOverview,
+    plant_overview::{plant_list::PlantList, plant_search::PlantSearch},
     species_details::SpeciesDetails,
     species_overview::SpeciesOverview,
 };
@@ -135,7 +135,15 @@ impl<T: DatabaseManager> Renderer<T> {
         let plants = self.database_manager.get_all_plants()?;
         let plant_list = PlantList::try_from(plants.as_slice())?;
         Ok(PlantOverview {
-            head: self.get_head("All Plants", false, vec!["css/plant_overview.css"]),
+            head: self.get_head(
+                "All Plants",
+                false,
+                vec![
+                    "css/plant_overview.css",
+                    "css/plant_search.css",
+                    "css/plant_list.css",
+                ],
+            ),
             header: self.get_header(false),
             search: PlantSearch {},
             plant_list,

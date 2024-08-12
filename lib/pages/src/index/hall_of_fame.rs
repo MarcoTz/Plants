@@ -58,6 +58,7 @@ impl PageComponent for HallOfFameItem {
 impl PageComponent for HallOfFameTable {
     fn render(&self, date_format: &str) -> HtmlElement {
         let hall_of_fame_header = Headline {
+            attributes: vec![],
             size: HeaderSize::H3,
             content: Rc::new(self.title.clone().into()),
         }
@@ -75,10 +76,7 @@ impl PageComponent for HallOfFameTable {
         .into();
 
         Div {
-            attributes: vec![
-                Attribute::Id("hall_of_fame_table".to_owned()),
-                Attribute::Class(vec!["flex_child".to_owned()]),
-            ],
+            attributes: vec![Attribute::Id("hall_of_fame_table".to_owned())],
             content: Rc::new(vec![hall_of_fame_header, hall_of_fame_table].into()),
         }
         .into()
@@ -88,6 +86,7 @@ impl PageComponent for HallOfFameTable {
 impl PageComponent for HallOfFame {
     fn render(&self, date_format: &str) -> HtmlElement {
         let hall_of_fame_header = Headline {
+            attributes: vec![],
             size: HeaderSize::H1,
             content: Rc::new("Hall Of Fame".to_owned().into()),
         }

@@ -14,6 +14,7 @@ impl PageComponent for PlantGrowth {
     fn render(&self, _: &str) -> HtmlElement {
         let div_content = vec![
             Headline {
+                attributes: vec![],
                 size: HeaderSize::H2,
                 content: Rc::new("Growth Log".to_owned().into()),
             }

@@ -1,12 +1,17 @@
+pub mod plant_list;
+pub mod plant_search;
+
 use super::{
     components::{
         footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
-        plant_list::PlantList, plant_search::PlantSearch,
     },
     page::Page,
 };
 use html::{body::Body, head::Head, html_document::HtmlDocument};
+use plant_list::PlantList;
+use plant_search::PlantSearch;
 use std::rc::Rc;
+
 pub struct PlantOverview {
     pub head: HtmlHead,
     pub header: Header,

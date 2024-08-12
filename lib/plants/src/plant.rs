@@ -151,7 +151,7 @@ impl Plant {
 
     pub fn get_url(&self, base: &str) -> String {
         let mut url = base.to_owned();
-        url.push_str("/");
+        url.push('/');
         url.push_str(&self.name.replace(' ', ""));
         url.push_str(".html");
         url
@@ -165,9 +165,9 @@ impl Plant {
     }
 
     pub fn get_preview_image_url(&self, base: &str) -> Option<String> {
-        let (_, file_name) = self.images.get(0).cloned()?;
+        let (_, file_name) = self.images.first().cloned()?;
         let mut image_url = base.to_owned();
-        image_url.push_str("/");
+        image_url.push('/');
         image_url.push_str(&file_name);
         Some(image_url)
     }

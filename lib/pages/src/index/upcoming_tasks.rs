@@ -54,10 +54,7 @@ impl PageComponent for TaskBlock {
         }
 
         Div {
-            attributes: vec![Attribute::Class(vec![
-                "task_block".to_owned(),
-                "flex_child".to_owned(),
-            ])],
+            attributes: vec![Attribute::Class(vec!["task_block".to_owned()])],
             content: Rc::new(div_content.into()),
         }
         .into()
@@ -76,6 +73,7 @@ impl PageComponent for UpcomingTasks {
 
         vec![
             Headline {
+                attributes: vec![],
                 size: HeaderSize::H1,
                 content: Rc::new("Upcoming Tasks".to_owned().into()),
             }
@@ -209,7 +207,7 @@ impl From<(&NaiveDate, &[TaskItem])> for TaskBlock {
     fn from((date, items): (&NaiveDate, &[TaskItem])) -> TaskBlock {
         TaskBlock {
             date: *date,
-            items: items.iter().cloned().collect(),
+            items: items.to_vec(),
         }
     }
 }
