@@ -19,7 +19,13 @@ impl PageComponent for SpeciesList {
             items.push(species_item.render(date_format));
         }
         Div {
-            attributes: vec![Attribute::Id("plant_list".to_owned())],
+            attributes: vec![
+                Attribute::Id("plant_list".to_owned()),
+                Attribute::Class(vec![
+                    "flex_container".to_owned(),
+                    "alternating_children".to_owned(),
+                ]),
+            ],
             content: Rc::new(items.into()),
         }
         .into()
@@ -30,13 +36,20 @@ impl PageComponent for SpeciesListItem {
     fn render(&self, _: &str) -> HtmlElement {
         let species_img: HtmlElement = match self.species_preview_url.clone() {
             None => "".to_owned().into(),
-            Some(url) => Img {
-                attributes: vec![Attribute::Src(url)],
-            }
+            Some(url) => vec![
+                HtmlElement::Br,
+                Img {
+                    attributes: vec![
+                        Attribute::Src(url),
+                        Attribute::Class(vec!["plant_preview".to_owned()]),
+                    ],
+                }
+                .into(),
+            ]
             .into(),
         };
         Div {
-            attributes: vec![Attribute::Id("plant_list_item".to_owned())],
+            attributes: vec![Attribute::Class(vec!["plant_list_item".to_owned()])],
             content: Rc::new(
                 vec![
                     A {

@@ -19,6 +19,7 @@ impl Page for SpeciesOverview {
             "css/main.css".to_owned(),
             "css/header.css".to_owned(),
             "css/footer.css".to_owned(),
+            "css/plant_list.css".to_owned(),
         ];
         HtmlHead {
             title: "Species".to_owned(),
