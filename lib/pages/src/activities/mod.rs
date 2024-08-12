@@ -1,19 +1,21 @@
-use super::{
-    components::{page_component::PageComponent, plant_activity_table::PlantActivityTable},
-    page::Page,
-    shared::html_head::HtmlHead,
-};
-
-use html::html_element::HtmlElement;
+pub mod activities_table;
+use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use activities_table::ActivitiesTable;
+use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;
+use std::rc::Rc;
 
 pub struct Activities {
-    pub activity_table: PlantActivityTable,
+    pub activity_table: ActivitiesTable,
 }
 
 impl Page for Activities {
     fn get_content(&self, date_format: &str) -> HtmlElement {
-        self.activity_table.render(date_format)
+        Div {
+            attributes: vec![Attribute::Style("width:95%;margin:auto;".to_owned())],
+            content: Rc::new(self.activity_table.render(date_format)),
+        }
+        .into()
     }
 
     fn get_head(&self) -> HtmlHead {
@@ -32,7 +34,7 @@ impl Page for Activities {
 impl From<&[Plant]> for Activities {
     fn from(plants: &[Plant]) -> Activities {
         Activities {
-            activity_table: PlantActivityTable::from((plants, true, true)),
+            activity_table: ActivitiesTable::from(plants),
         }
     }
 }
