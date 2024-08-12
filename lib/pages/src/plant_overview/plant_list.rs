@@ -1,5 +1,4 @@
-use super::super::errors::Error;
-use super::page_component::PageComponent;
+use super::super::{components::page_component::PageComponent, errors::Error};
 use html::{
     a::A,
     attribute::Attribute,
@@ -35,7 +34,10 @@ impl PageComponent for PlantList {
             location_divs.push(location.render(date_format));
         }
         Div {
-            attributes: vec![Attribute::Id("plant_list".to_owned())],
+            attributes: vec![
+                Attribute::Id("plant_list".to_owned()),
+                Attribute::Class(vec!["flex_container".to_owned()]),
+            ],
             content: Rc::new(location_divs.into()),
         }
         .into()
@@ -44,6 +46,7 @@ impl PageComponent for PlantList {
 impl PageComponent for LocationGroup {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut plant_divs = vec![Headline {
+            attributes: vec![Attribute::Class(vec!["location_header".to_owned()])],
             size: HeaderSize::H2,
             content: Rc::new(self.location.clone().into()),
         }
@@ -52,7 +55,11 @@ impl PageComponent for LocationGroup {
             plant_divs.push(plant_item.render(date_format));
         }
         Div {
-            attributes: vec![Attribute::Class(vec!["location_group".to_owned()])],
+            attributes: vec![Attribute::Class(vec![
+                "location_group".to_owned(),
+                "flex_container".to_owned(),
+                "alternating_children".to_owned(),
+            ])],
             content: Rc::new(plant_divs.into()),
         }
         .into()
@@ -99,7 +106,7 @@ impl PageComponent for PlantListItem {
                         Img {
                             attributes: vec![
                                 Attribute::Style("cursor:default;".to_owned()),
-                                Attribute::Id("plant_overview".to_owned()),
+                                Attribute::Class(vec!["plant_preview".to_owned()]),
                                 Attribute::Src(url),
                             ],
                         }

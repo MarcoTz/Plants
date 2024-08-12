@@ -29,6 +29,7 @@ impl Page for SpeciesDetails {
         let body_contents = vec![
             self.header.render(date_format),
             Headline {
+                attributes: vec![],
                 size: HeaderSize::H1,
                 content: Rc::new(self.species_name.clone().into()),
             }

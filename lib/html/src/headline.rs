@@ -1,4 +1,4 @@
-use super::{html_element::HtmlElement, render::Render};
+use super::{attribute::Attribute, html_element::HtmlElement, render::Render};
 use std::rc::Rc;
 
 pub enum HeaderSize {
@@ -12,6 +12,7 @@ pub enum HeaderSize {
 
 pub struct Headline {
     pub size: HeaderSize,
+    pub attributes: Vec<Attribute>,
     pub content: Rc<HtmlElement>,
 }
 
@@ -24,7 +25,8 @@ impl Render for Headline {
     fn render(&self) -> String {
         let size_tag = self.size.render();
         let content_str = self.content.render();
-        format!("<{size_tag}>{content_str}</{size_tag}>")
+        let attr_str = self.attributes.render();
+        format!("<{size_tag} {attr_str}>{content_str}</{size_tag}>")
     }
 }
 

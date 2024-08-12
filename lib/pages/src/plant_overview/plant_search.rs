@@ -1,4 +1,4 @@
-use super::page_component::PageComponent;
+use super::super::components::page_component::PageComponent;
 use html::{
     attribute::Attribute,
     div::Div,
@@ -61,7 +61,10 @@ impl PageComponent for PlantSearch {
             temp_max_search.render(date_format),
         ];
         Div {
-            attributes: vec![Attribute::Id("plant_search".to_owned())],
+            attributes: vec![
+                Attribute::Id("plant_search".to_owned()),
+                Attribute::Class(vec!["flex_container".to_owned()]),
+            ],
             content: Rc::new(search_components.into()),
         }
         .into()

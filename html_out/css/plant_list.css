@@ -1,0 +1,21 @@
+.plant_list_item{
+  height:9em;
+  width:10em;
+  text-align:center;
+  overflow:hidden;
+}
+
+.plant_preview{
+  height:40%;
+  margin-top:0.5em;
+}
+
+.temp_max, .temp_min{
+  display:none;
+}
+
+.location_header{
+  background:transparent!important;
+  padding:0em;
+}
+

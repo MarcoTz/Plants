@@ -60,7 +60,7 @@ impl PageComponent for GraveyardTable {
         }
         Table {
             attributes: vec![],
-            rows: table_rows.into(),
+            rows: table_rows,
         }
         .into()
     }

@@ -71,7 +71,7 @@ impl PageComponent for SpeciesInfo {
             content: Rc::new(
                 Table {
                     attributes: vec![],
-                    rows: rows.into(),
+                    rows,
                 }
                 .into(),
             ),

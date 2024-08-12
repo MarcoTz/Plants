@@ -46,6 +46,7 @@ impl PageComponent for PlantGallery {
         };
         let container_content = vec![
             Headline {
+                attributes: vec![],
                 size: HeaderSize::H2,
                 content: Rc::new(
                     A {

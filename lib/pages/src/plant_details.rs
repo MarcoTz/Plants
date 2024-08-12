@@ -25,6 +25,7 @@ pub struct PlantDetails {
 impl Page for PlantDetails {
     fn render(&self, date_format: &str) -> HtmlDocument {
         let plant_header = Headline {
+            attributes: vec![],
             size: HeaderSize::H1,
             content: {
                 let plant_name_str = self.plant_name.clone();

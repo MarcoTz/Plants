@@ -16,6 +16,7 @@ pub struct AutoWatered {
 impl PageComponent for AutoWatered {
     fn render(&self, date_format: &str) -> HtmlElement {
         let auto_water_header = Headline {
+            attributes: vec![],
             size: HeaderSize::H1,
             content: Rc::new("Autowatered Plants".to_owned().into()),
         }
@@ -25,10 +26,7 @@ impl PageComponent for AutoWatered {
         for auto_water_plant in self.auto_watered_plants.iter() {
             let plant_link = auto_water_plant.render(date_format);
             let new_div: HtmlElement = Div {
-                attributes: vec![Attribute::Class(vec![
-                    "autowater_item".to_owned(),
-                    "flex_child".to_owned(),
-                ])],
+                attributes: vec![Attribute::Class(vec!["autowater_item".to_owned()])],
                 content: Rc::new(plant_link),
             }
             .into();

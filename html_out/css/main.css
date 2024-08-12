@@ -70,6 +70,16 @@ td:nth-child(even){
   text-align:left;
 }
 
+
+input {
+  background: var(--bg-color);
+  color:var(--fg-color);
+}
+
+select { 
+  background: var(--bg-color);
+  color:var(--fg-color);
+}
 .alternating_children > *:nth-child(odd){
   background:var(--bg-color-odd);
 }
@@ -88,7 +98,7 @@ td:nth-child(even){
   margin:auto;
 }
 
-.flex_child { 
-  padding:0.5em;
+.flex_container > * {
   border-radius:1em;
+  padding:1em;
 }

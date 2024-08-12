@@ -31,7 +31,7 @@ impl PageComponent for PlantImage {
             .into(),
         ];
         let mut img_path = self.img_base.to_owned();
-        img_path.push_str("/");
+        img_path.push('/');
         img_path.push_str(&self.img_url);
         Figure {
             attributes: vec![Attribute::Class(vec!["plant_image".to_owned()])],
