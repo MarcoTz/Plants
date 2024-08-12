@@ -1,4 +1,4 @@
-use super::{page_component::PageComponent, plant_gallery::PlantGallery};
+use super::{super::shared::plant_gallery::PlantGallery, page_component::PageComponent};
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;
 use std::rc::Rc;
