@@ -1,9 +1,7 @@
 use super::{
-    components::{
-        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
-        species_list::SpeciesList,
-    },
+    components::{html_head::HtmlHead, page_component::PageComponent, species_list::SpeciesList},
     page::Page,
+    shared::{footer::Footer, header::Header},
 };
 
 use html::{body::Body, head::Head, html_document::HtmlDocument};

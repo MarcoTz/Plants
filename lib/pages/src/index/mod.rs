@@ -3,11 +3,10 @@ pub mod hall_of_fame;
 pub mod upcoming_tasks;
 
 use super::{
-    components::{
-        footer::Footer, header::Header, html_head::HtmlHead, page_component::PageComponent,
-    },
+    components::{html_head::HtmlHead, page_component::PageComponent},
     index::{autowatered::AutoWatered, hall_of_fame::HallOfFame, upcoming_tasks::UpcomingTasks},
     page::Page,
+    shared::{footer::Footer, header::Header},
 };
 use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;

@@ -1,9 +1,9 @@
 use super::{
     components::{
-        footer::Footer, graveyard_table::GraveyardTable, header::Header, html_head::HtmlHead,
-        page_component::PageComponent,
+        graveyard_table::GraveyardTable, html_head::HtmlHead, page_component::PageComponent,
     },
     page::Page,
+    shared::{footer::Footer, header::Header},
 };
 use html::{body::Body, head::Head, html_document::HtmlDocument};
 use std::rc::Rc;

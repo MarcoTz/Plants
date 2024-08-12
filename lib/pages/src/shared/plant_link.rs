@@ -1,4 +1,4 @@
-use super::components::page_component::PageComponent;
+use crate::components::page_component::PageComponent;
 use html::{a::A, attribute::Attribute, html_element::HtmlElement};
 use plants::plant::Plant;
 use std::rc::Rc;

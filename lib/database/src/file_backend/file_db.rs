@@ -1,10 +1,10 @@
 use super::{
-    super::database_manager::DatabaseManager,
     errors::{AccessType, Error, FSError},
     json_to_plant::load_plants,
     load_csv::load_graveyard,
     load_json::load_species,
 };
+use crate::database_manager::DatabaseManager;
 use plants::{graveyard::GraveyardPlant, plant::Plant, species::Species};
 use std::path;
 
@@ -101,28 +101,28 @@ impl FileDB {
 }
 
 impl DatabaseManager for FileDB {
-    fn get_all_plants(&mut self) -> Result<Vec<Plant>, super::super::errors::Error> {
+    fn get_all_plants(&mut self) -> Result<Vec<Plant>, crate::errors::Error> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.clone())
     }
 
-    fn get_num_plants(&mut self) -> Result<i32, super::super::errors::Error> {
+    fn get_num_plants(&mut self) -> Result<i32, crate::errors::Error> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.len() as i32)
     }
 
-    fn get_all_species(&mut self) -> Result<Vec<Species>, super::super::errors::Error> {
+    fn get_all_species(&mut self) -> Result<Vec<Species>, crate::errors::Error> {
         if self.species_cache.is_empty() {
             self.load_species()?;
         }
         Ok(self.species_cache.clone())
     }
 
-    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, super::super::errors::Error> {
+    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, crate::errors::Error> {
         if self.graveyard_cache.is_empty() {
             self.load_graveyard()?;
         }
@@ -132,7 +132,7 @@ impl DatabaseManager for FileDB {
     fn get_plants_species(
         &mut self,
         species_name: &str,
-    ) -> Result<Vec<Plant>, super::super::errors::Error> {
+    ) -> Result<Vec<Plant>, crate::errors::Error> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
