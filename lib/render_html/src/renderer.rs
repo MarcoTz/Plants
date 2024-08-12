@@ -5,15 +5,17 @@ use html::render::Render;
 use pages::{
     activities::Activities,
     components::{
-        autowatered::AutoWatered, footer::Footer, graveyard_table::GraveyardTable,
-        hall_of_fame::HallOfFame, header::Header, html_head::HtmlHead, next_activity::NextActivity,
+        footer::Footer, graveyard_table::GraveyardTable, header::Header, html_head::HtmlHead,
         plant_activity_table::PlantActivityTable, plant_contents::PlantContents,
         plant_list::PlantList, plant_search::PlantSearch, species_gallery::SpeciesGallery,
         species_info::SpeciesInfo, species_list::SpeciesList,
     },
     gallery::Gallery,
     graveyard::Graveyard,
-    index::Index,
+    index::{
+        autowatered::AutoWatered, hall_of_fame::HallOfFame, index::Index,
+        upcoming_tasks::UpcomingTasks,
+    },
     page::Page,
     plant_details::PlantDetails,
     plant_overview::PlantOverview,
@@ -94,7 +96,11 @@ impl<T: DatabaseManager> Renderer<T> {
 
     fn get_head(&self, title: &str, relative_up: bool, additional_styles: Vec<&str>) -> HtmlHead {
         let prefix = Renderer::<T>::get_prefix(relative_up);
-        let mut styles = vec![prefix.clone() + "css/main.css"];
+        let mut styles = vec![
+            prefix.clone() + "css/main.css",
+            prefix.clone() + "css/header.css",
+            prefix.clone() + "css/footer.css",
+        ];
         for additional_style in additional_styles.iter() {
             styles.push(prefix.clone() + additional_style);
         }
@@ -108,9 +114,17 @@ impl<T: DatabaseManager> Renderer<T> {
         let plants = self.database_manager.get_all_plants()?;
         let hall_of_fame = HallOfFame::try_from(plants.as_slice())?;
         Ok(Index {
-            head: self.get_head("Dashboard", false, vec!["css/index.css"]),
+            head: self.get_head(
+                "Dashboard",
+                false,
+                vec![
+                    "css/index.css",
+                    "css/upcoming_tasks.css",
+                    "css/hall_of_fame.css",
+                ],
+            ),
             header: self.get_header(false),
-            next_activities: NextActivity::from(plants.as_slice()),
+            next_activities: UpcomingTasks::from(plants.as_slice()),
             autowatered: AutoWatered::from(plants.as_slice()),
             hall_of_fame,
             footer: self.get_footer(plants.len() as i32),

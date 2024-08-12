@@ -34,45 +34,54 @@ pub struct SpeciesInfo {
 }
 
 impl PageComponent for SpeciesInfo {
-    fn render(&self, _: &str) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let mut rows = vec![
-            self.scientific_name.render(),
-            self.genus.render(),
-            self.family.render(),
-            self.sunlight.render(),
-            self.temp_range.render(),
-            self.opt_temp_range.render(),
+            self.scientific_name.render(date_format),
+            self.genus.render(date_format),
+            self.family.render(date_format),
+            self.sunlight.render(date_format),
+            self.temp_range.render(date_format),
+            self.opt_temp_range.render(date_format),
         ];
         match &self.plant_distance {
             None => (),
-            Some(dist) => rows.push(dist.render()),
+            Some(dist) => rows.push(dist.render(date_format)),
         };
-        rows.extend(vec![self.ph_range.render(), self.watering_notes.render()]);
+        rows.extend(vec![
+            self.ph_range.render(date_format),
+            self.watering_notes.render(date_format),
+        ]);
         match &self.watering_days {
             None => (),
-            Some(days) => rows.push(days.render()),
+            Some(days) => rows.push(days.render(date_format)),
         };
-        rows.push(self.fertilizing_notes.render());
+        rows.push(self.fertilizing_notes.render(date_format));
         match &self.fertilizing_days {
             None => (),
-            Some(days) => rows.push(days.render()),
+            Some(days) => rows.push(days.render(date_format)),
         }
         rows.extend(vec![
-            self.pruning_notes.render(),
-            self.companions.render(),
-            self.notes.render(),
-            self.species_plants.render(),
+            self.pruning_notes.render(date_format),
+            self.companions.render(date_format),
+            self.notes.render(date_format),
+            self.species_plants.render(date_format),
         ]);
         Div {
             attributes: vec![Attribute::Id("species_details_container".to_owned())],
-            content: Rc::new(Table { rows }.into()),
+            content: Rc::new(
+                Table {
+                    attributes: vec![],
+                    rows: rows.into(),
+                }
+                .into(),
+            ),
         }
         .into()
     }
 }
 
-impl SpeciesInfoItem {
-    fn render(&self) -> Tr {
+impl PageComponent for SpeciesInfoItem {
+    fn render(&self, _: &str) -> HtmlElement {
         Tr {
             attributes: vec![],
             cols: vec![
@@ -84,6 +93,7 @@ impl SpeciesInfoItem {
                 },
             ],
         }
+        .into()
     }
 }
 impl From<(&str, &str)> for SpeciesInfoItem {

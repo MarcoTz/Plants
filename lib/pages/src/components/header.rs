@@ -46,7 +46,13 @@ impl PageComponent for Header {
             .into(),
         ];
         Div {
-            attributes: vec![Attribute::Id("header".to_owned())],
+            attributes: vec![
+                Attribute::Class(vec![
+                    "alternating_children".to_owned(),
+                    "flex_container".to_owned(),
+                ]),
+                Attribute::Id("header".to_owned()),
+            ],
             content: Rc::new(links.into()),
         }
         .into()

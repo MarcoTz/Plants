@@ -9,16 +9,18 @@ pub struct Tr {
     pub cols: Vec<Td>,
 }
 pub struct Table {
-    pub rows: Vec<Tr>,
+    pub attributes: Vec<Attribute>,
+    pub rows: Vec<HtmlElement>,
 }
 
-impl Table {
-    pub fn render(&self) -> String {
+impl Render for Table {
+    fn render(&self) -> String {
+        let attr_str = self.attributes.render();
         let mut tr_str = "".to_owned();
         for tr in self.rows.iter() {
             tr_str.push_str(&tr.render());
         }
-        format!("<table>{tr_str}</table>")
+        format!("<table {attr_str}>{tr_str}</table>")
     }
 }
 
@@ -43,5 +45,17 @@ impl Render for Td {
 impl From<Table> for HtmlElement {
     fn from(tb: Table) -> HtmlElement {
         HtmlElement::Table(tb)
+    }
+}
+
+impl From<Tr> for HtmlElement {
+    fn from(tr: Tr) -> HtmlElement {
+        HtmlElement::Tr(tr)
+    }
+}
+
+impl From<Td> for HtmlElement {
+    fn from(td: Td) -> HtmlElement {
+        HtmlElement::Td(td)
     }
 }

@@ -1,6 +1,5 @@
-use super::page_component::PageComponent;
+use super::super::{components::page_component::PageComponent, plant_link::PlantLink};
 use html::{
-    a::A,
     attribute::Attribute,
     div::Div,
     headline::{HeaderSize, Headline},
@@ -10,39 +9,42 @@ use html::{
 use plants::plant::Plant;
 use std::rc::Rc;
 
-struct PlantLink {
-    plant_name: String,
-    plant_url: String,
-}
 pub struct AutoWatered {
     auto_watered_plants: Vec<PlantLink>,
 }
 
 impl PageComponent for AutoWatered {
-    fn render(&self, _: &str) -> HtmlElement {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let auto_water_header = Headline {
             size: HeaderSize::H1,
             content: Rc::new("Autowatered Plants".to_owned().into()),
         }
         .into();
+
         let mut plant_items = vec![];
         for auto_water_plant in self.auto_watered_plants.iter() {
-            let plant_link = A {
-                attributes: vec![Attribute::Href(auto_water_plant.plant_url.clone())],
-                content: Rc::new(auto_water_plant.plant_name.clone().into()),
-            }
-            .into();
+            let plant_link = auto_water_plant.render(date_format);
             let new_div: HtmlElement = Div {
-                attributes: vec![Attribute::Class("autowater_item".to_owned())],
+                attributes: vec![Attribute::Class(vec![
+                    "autowater_item".to_owned(),
+                    "flex_child".to_owned(),
+                ])],
                 content: Rc::new(plant_link),
             }
             .into();
             plant_items.push(new_div);
         }
+
         vec![
             auto_water_header,
             Div {
-                attributes: vec![Attribute::Id("autowatering_container".to_owned())],
+                attributes: vec![
+                    Attribute::Id("autowatering_container".to_owned()),
+                    Attribute::Class(vec![
+                        "flex_container".to_owned(),
+                        "alternating_children".to_owned(),
+                    ]),
+                ],
                 content: Rc::new(plant_items.into()),
             }
             .into(),
@@ -56,10 +58,7 @@ impl From<&[Plant]> for AutoWatered {
         let mut plant_vec = vec![];
         for plant in plants.iter() {
             if plant.auto_water {
-                plant_vec.push(PlantLink {
-                    plant_name: plant.name.clone(),
-                    plant_url: plant.get_url("plants/"),
-                })
+                plant_vec.push((plant, "plants").into())
             }
         }
         AutoWatered {

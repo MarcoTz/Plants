@@ -14,7 +14,7 @@ pub struct GraveyardTable {
 impl PageComponent for GraveyardTable {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut table_rows = vec![Tr {
-            attributes: vec![Attribute::Class("header_row".to_owned())],
+            attributes: vec![Attribute::Class(vec!["header_row".to_owned()])],
             cols: vec![
                 Td {
                     content: Rc::new("Name".to_owned().into()),
@@ -32,7 +32,8 @@ impl PageComponent for GraveyardTable {
                     content: Rc::new("Cause of Death".to_owned().into()),
                 },
             ],
-        }];
+        }
+        .into()];
         for plant in self.plants.iter() {
             let new_row = Tr {
                 attributes: vec![],
@@ -53,10 +54,15 @@ impl PageComponent for GraveyardTable {
                         content: Rc::new(plant.reason.clone().into()),
                     },
                 ],
-            };
+            }
+            .into();
             table_rows.push(new_row);
         }
-        Table { rows: table_rows }.into()
+        Table {
+            attributes: vec![],
+            rows: table_rows.into(),
+        }
+        .into()
     }
 }
 

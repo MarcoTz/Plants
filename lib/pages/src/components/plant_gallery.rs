@@ -27,16 +27,16 @@ impl PageComponent for PlantGallery {
             .map(|x| x.render(date_format))
             .collect();
         let controls_div = Div {
-            attributes: vec![Attribute::Class("img_controls".to_owned())],
+            attributes: vec![Attribute::Class(vec!["img_controls".to_owned()])],
             content: Rc::new(
                 vec![
                     Div {
-                        attributes: vec![Attribute::Class("left_arrow".to_owned())],
+                        attributes: vec![Attribute::Class(vec!["left_arrow".to_owned()])],
                         content: Rc::new("&#9754;".to_owned().into()),
                     }
                     .into(),
                     Div {
-                        attributes: vec![Attribute::Class("right_arrow".to_owned())],
+                        attributes: vec![Attribute::Class(vec!["right_arrow".to_owned()])],
                         content: Rc::new("&#9755".to_owned().into()),
                     }
                     .into(),
@@ -57,14 +57,14 @@ impl PageComponent for PlantGallery {
             }
             .into(),
             Div {
-                attributes: vec![Attribute::Class("images_plant".to_owned())],
+                attributes: vec![Attribute::Class(vec!["images_plant".to_owned()])],
                 content: Rc::new(images_rendered.into()),
             }
             .into(),
             controls_div.into(),
         ];
         Div {
-            attributes: vec![Attribute::Class("images_plant_container".to_owned())],
+            attributes: vec![Attribute::Class(vec!["images_plant_container".to_owned()])],
             content: Rc::new(container_content.into()),
         }
         .into()

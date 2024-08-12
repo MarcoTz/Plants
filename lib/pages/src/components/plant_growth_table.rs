@@ -35,16 +35,20 @@ impl PageComponent for PlantGrowthTable {
             ],
         };
 
-        let mut table_rows = vec![header_row];
+        let mut table_rows = vec![header_row.into()];
         for growth_row in self.growth_rows.iter() {
             table_rows.push(growth_row.render(date_format));
         }
-        Table { rows: table_rows }.into()
+        Table {
+            attributes: vec![],
+            rows: table_rows,
+        }
+        .into()
     }
 }
 
-impl PlantGrowthRow {
-    fn render(&self, date_format: &str) -> Tr {
+impl PageComponent for PlantGrowthRow {
+    fn render(&self, date_format: &str) -> HtmlElement {
         let cols = vec![
             Td {
                 content: Rc::new(self.growth.date.format(date_format).to_string().into()),
@@ -64,6 +68,7 @@ impl PlantGrowthRow {
             attributes: vec![],
             cols,
         }
+        .into()
     }
 }
 

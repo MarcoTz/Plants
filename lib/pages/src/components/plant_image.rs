@@ -16,12 +16,12 @@ impl PageComponent for PlantImage {
     fn render(&self, date_format: &str) -> HtmlElement {
         let caption = vec![
             Div {
-                attributes: vec![Attribute::Class("img_date".to_owned())],
+                attributes: vec![Attribute::Class(vec!["img_date".to_owned()])],
                 content: Rc::new(self.date.format(date_format).to_string().into()),
             }
             .into(),
             Div {
-                attributes: vec![Attribute::Class("img_nr".to_owned())],
+                attributes: vec![Attribute::Class(vec!["img_nr".to_owned()])],
                 content: {
                     let num_total_str = self.num_images.to_string();
                     let num_self_str = self.num_self.to_string();
@@ -34,7 +34,7 @@ impl PageComponent for PlantImage {
         img_path.push_str("/");
         img_path.push_str(&self.img_url);
         Figure {
-            attributes: vec![Attribute::Class("plant_image".to_owned())],
+            attributes: vec![Attribute::Class(vec!["plant_image".to_owned()])],
             content: Rc::new(
                 Img {
                     attributes: vec![Attribute::Src(img_path)],
