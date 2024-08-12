@@ -1,5 +1,4 @@
 pub mod graveyard_table;
-pub mod html_head;
 pub mod page_component;
 pub mod plant_activities;
 pub mod plant_activity_table;

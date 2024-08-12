@@ -1,9 +1,8 @@
 use super::{
-    components::{
-        html_head::HtmlHead, page_component::PageComponent, plant_contents::PlantContents,
-    },
+    components::{page_component::PageComponent, plant_contents::PlantContents},
+    errors::Error,
     page::Page,
-    shared::{footer::Footer, header::Header},
+    shared::{footer::Footer, header::Header, html_head::HtmlHead},
 };
 use html::{
     body::Body,
@@ -11,10 +10,10 @@ use html::{
     headline::{HeaderSize, Headline},
     html_document::HtmlDocument,
 };
+use plants::plant::Plant;
 use std::rc::Rc;
 
 pub struct PlantDetails {
-    pub head: HtmlHead,
     pub plant_name: String,
     pub plant_species: Option<String>,
     pub header: Header,
@@ -45,8 +44,35 @@ impl Page for PlantDetails {
             content: Rc::new(body_content),
         };
         HtmlDocument {
-            head: Head::from(&self.head),
+            head: Head::from(&self.get_head()),
             body,
         }
+    }
+
+    fn get_head(&self) -> HtmlHead {
+        let styles = vec![
+            "../css/main.css".to_owned(),
+            "../css/header.css".to_owned(),
+            "../css/footer.css".to_owned(),
+        ];
+        HtmlHead {
+            title: self.plant_name.clone(),
+            styles,
+        }
+    }
+}
+impl TryFrom<(&Plant, i32)> for PlantDetails {
+    type Error = Error;
+    fn try_from((plant, num_plants): (&Plant, i32)) -> Result<PlantDetails, Error> {
+        let plant_species = plant.species.clone().map(|sp| sp.name.clone());
+        let img_base = "../img/plants";
+        let plant_content = PlantContents::try_from((plant, img_base))?;
+        Ok(PlantDetails {
+            header: Header::from(true),
+            plant_name: plant.name.clone(),
+            plant_species,
+            plant_content,
+            footer: Footer::from(num_plants),
+        })
     }
 }

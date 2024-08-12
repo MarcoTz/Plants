@@ -1,4 +1,4 @@
-use super::errors::Error;
+use super::{errors::Error, plant::Plant};
 use chrono::TimeDelta;
 use serde::Serialize;
 use std::{fmt, str::FromStr};
@@ -69,5 +69,20 @@ impl Species {
         url.push_str(&self.name.replace(' ', ""));
         url.push_str(".html");
         url
+    }
+
+    pub fn get_plants(&self, plants: &[Plant]) -> Vec<Plant> {
+        let mut species_plants = vec![];
+        for plant in plants.iter() {
+            match plant.species.as_ref() {
+                None => (),
+                Some(species) => {
+                    if species.name == self.name {
+                        species_plants.push(plant.clone())
+                    }
+                }
+            }
+        }
+        species_plants
     }
 }
