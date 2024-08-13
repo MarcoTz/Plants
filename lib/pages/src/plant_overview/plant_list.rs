@@ -1,6 +1,9 @@
-use crate::{components::page_component::PageComponent, errors::Error};
+use crate::{
+    components::page_component::PageComponent,
+    errors::Error,
+    shared::{plant_link::PlantLink, species_link::SpeciesLink},
+};
 use html::{
-    a::A,
     attribute::Attribute,
     div::Div,
     headline::{HeaderSize, Headline},
@@ -13,13 +16,11 @@ use std::rc::Rc;
 
 #[derive(Clone)]
 pub struct PlantListItem {
-    plant_url: String,
-    plant_name: String,
+    plant_link: PlantLink,
     plant_preview_url: Option<String>,
     temp_max: Option<f32>,
     temp_min: Option<f32>,
-    species_url: Option<String>,
-    species_name: Option<String>,
+    species_link: Option<SpeciesLink>,
 }
 
 #[derive(Clone)]
@@ -51,13 +52,17 @@ impl PageComponent for PlantList {
 impl PageComponent for LocationGroup {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut plant_divs = vec![Headline {
-            attributes: vec![Attribute::Class(vec!["location_header".to_owned()])],
+            attributes: vec![
+                Attribute::Class(vec!["location_header".to_owned()]),
+                Attribute::Id(self.location.clone()),
+            ],
             size: HeaderSize::H2,
             content: Rc::new(self.location.clone().into()),
         }
         .into()];
         let mut plant_items_ordered = self.plant_items.clone();
-        plant_items_ordered.sort_by(|it1, it2| it1.plant_name.cmp(&it2.plant_name));
+        plant_items_ordered
+            .sort_by(|it1, it2| it1.plant_link.plant_name.cmp(&it2.plant_link.plant_name));
         for plant_item in plant_items_ordered.iter() {
             plant_divs.push(plant_item.render(date_format));
         }
@@ -74,34 +79,19 @@ impl PageComponent for LocationGroup {
 }
 
 impl PageComponent for PlantListItem {
-    fn render(&self, _: &str) -> HtmlElement {
-        let mut div_content = vec![
-            A {
-                attributes: vec![
-                    Attribute::Href(self.plant_url.clone()),
-                    Attribute::Class(vec!["plant_link".to_owned()]),
-                ],
-                content: Rc::new(self.plant_name.clone().into()),
+    fn render(&self, date_format: &str) -> HtmlElement {
+        let mut div_content = vec![self.plant_link.render(date_format), HtmlElement::Br];
+        match self.species_link.as_ref() {
+            None => (),
+            Some(link) => {
+                div_content.push(
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["species_link".to_owned()])],
+                        content: Rc::new(link.render(date_format)),
+                    }
+                    .into(),
+                );
             }
-            .into(),
-            HtmlElement::Br,
-        ];
-        match (self.species_url.clone(), self.species_name.clone()) {
-            (None, _) => (),
-            (_, None) => (),
-            (Some(url), Some(name)) => div_content.push(
-                Div {
-                    attributes: vec![Attribute::Class(vec!["species_link".to_owned()])],
-                    content: Rc::new(
-                        A {
-                            attributes: vec![Attribute::Href(url.clone())],
-                            content: Rc::new(name.clone().into()),
-                        }
-                        .into(),
-                    ),
-                }
-                .into(),
-            ),
         }
 
         match self.plant_preview_url.clone() {
@@ -157,13 +147,11 @@ impl PageComponent for PlantListItem {
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
         PlantListItem {
-            plant_url: plant.get_url("plants/"),
-            plant_name: plant.name.clone(),
+            plant_link: (plant, "plants").into(),
             plant_preview_url: plant.get_preview_image_url("img/plants"),
             temp_max: plant.species.as_ref().map(|x| x.temp_max),
             temp_min: plant.species.as_ref().map(|x| x.temp_min),
-            species_url: plant.species.as_ref().map(|x| x.get_url("species/")),
-            species_name: plant.species.as_ref().map(|x| x.name.clone()),
+            species_link: plant.species.as_ref().map(|sp| (sp, "species").into()),
         }
     }
 }
@@ -194,7 +182,8 @@ impl TryFrom<&[Plant]> for LocationGroup {
             ))?;
             let mut plant_items: Vec<PlantListItem> =
                 plants.iter().cloned().map(|p| (&p).into()).collect();
-            plant_items.sort_by(|it1, it2| it1.plant_name.cmp(&it2.plant_name));
+            plant_items
+                .sort_by(|it1, it2| it1.plant_link.plant_name.cmp(&it2.plant_link.plant_name));
             Ok(LocationGroup {
                 location: location.clone(),
                 plant_items,

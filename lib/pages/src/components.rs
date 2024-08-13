@@ -1,9 +1,3 @@
 pub mod page_component;
-pub mod plant_activities;
-pub mod plant_activity_table;
-pub mod plant_contents;
-pub mod plant_growth;
-pub mod plant_growth_table;
-pub mod plant_status;
 pub mod species_gallery;
 pub mod species_info;

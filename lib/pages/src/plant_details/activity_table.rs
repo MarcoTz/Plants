@@ -4,21 +4,19 @@ use html::{
     html_element::HtmlElement,
     table::{Table, Td, Tr},
 };
-use plants::{log_item::LogItem, plant::Plant};
+use plants::log_item::LogItem;
 use std::rc::Rc;
 
-struct PlantActivityRow {
+struct ActivityRow {
     activity: LogItem,
     include_activity: bool,
-    include_plant: bool,
 }
-pub struct PlantActivityTable {
-    activity_rows: Vec<PlantActivityRow>,
+pub struct ActivityTable {
+    activity_rows: Vec<ActivityRow>,
     include_activity: bool,
-    include_plant: bool,
 }
 
-impl PageComponent for PlantActivityTable {
+impl PageComponent for ActivityTable {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut header_row = Tr {
             attributes: vec![Attribute::Id("header_row".to_owned())],
@@ -30,12 +28,6 @@ impl PageComponent for PlantActivityTable {
         if self.include_activity {
             header_row.cols.push(Td {
                 content: Rc::new("Activity".to_owned().into()),
-            });
-        }
-
-        if self.include_plant {
-            header_row.cols.push(Td {
-                content: Rc::new("Plant".to_owned().into()),
             });
         }
 
@@ -56,7 +48,7 @@ impl PageComponent for PlantActivityTable {
     }
 }
 
-impl PageComponent for PlantActivityRow {
+impl PageComponent for ActivityRow {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut cols = vec![Td {
             content: Rc::new(self.activity.date.format(date_format).to_string().into()),
@@ -65,12 +57,6 @@ impl PageComponent for PlantActivityRow {
             cols.push(Td {
                 content: Rc::new(self.activity.activity.clone().into()),
             });
-        }
-
-        if self.include_plant {
-            cols.push(Td {
-                content: Rc::new(self.activity.plant.clone().into()),
-            })
         }
 
         cols.push(Td {
@@ -83,48 +69,24 @@ impl PageComponent for PlantActivityRow {
         .into()
     }
 }
-impl From<(&[Plant], bool, bool)> for PlantActivityTable {
-    fn from(
-        (plants, include_activity, include_plant): (&[Plant], bool, bool),
-    ) -> PlantActivityTable {
-        let mut activity_rows = vec![];
-        for plant in plants {
-            let new_rows: Vec<PlantActivityRow> = plant
-                .activities
-                .iter()
-                .map(|log| (log, include_activity, include_plant).into())
-                .collect();
-            activity_rows.extend(new_rows);
-        }
-        PlantActivityTable {
-            activity_rows,
-            include_activity,
-            include_plant,
-        }
-    }
-}
 
-impl From<(&[&LogItem], bool, bool)> for PlantActivityTable {
-    fn from(
-        (logs, include_activity, include_plant): (&[&LogItem], bool, bool),
-    ) -> PlantActivityTable {
-        PlantActivityTable {
+impl From<(&[&LogItem], bool)> for ActivityTable {
+    fn from((logs, include_activity): (&[&LogItem], bool)) -> ActivityTable {
+        ActivityTable {
             activity_rows: logs
                 .iter()
                 .cloned()
-                .map(|x| (x, include_activity, include_plant).into())
+                .map(|x| (x, include_activity).into())
                 .collect(),
             include_activity,
-            include_plant,
         }
     }
 }
-impl From<(&LogItem, bool, bool)> for PlantActivityRow {
-    fn from((log, include_activity, include_plant): (&LogItem, bool, bool)) -> PlantActivityRow {
-        PlantActivityRow {
+impl From<(&LogItem, bool)> for ActivityRow {
+    fn from((log, include_activity): (&LogItem, bool)) -> ActivityRow {
+        ActivityRow {
             activity: log.clone(),
             include_activity,
-            include_plant,
         }
     }
 }

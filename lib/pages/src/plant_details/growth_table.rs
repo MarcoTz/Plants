@@ -1,4 +1,4 @@
-use super::page_component::PageComponent;
+use crate::components::page_component::PageComponent;
 use html::{
     attribute::Attribute,
     html_element::HtmlElement,
@@ -7,15 +7,15 @@ use html::{
 use plants::growth_item::GrowthItem;
 use std::rc::Rc;
 
-struct PlantGrowthRow {
+struct GrowthRow {
     growth: GrowthItem,
 }
 
-pub struct PlantGrowthTable {
-    growth_rows: Vec<PlantGrowthRow>,
+pub struct GrowthTable {
+    growth_rows: Vec<GrowthRow>,
 }
 
-impl PageComponent for PlantGrowthTable {
+impl PageComponent for GrowthTable {
     fn render(&self, date_format: &str) -> HtmlElement {
         let header_row = Tr {
             attributes: vec![Attribute::Id("header_row".to_owned())],
@@ -28,6 +28,9 @@ impl PageComponent for PlantGrowthTable {
                 },
                 Td {
                     content: Rc::new("Width".to_owned().into()),
+                },
+                Td {
+                    content: Rc::new("Health".to_owned().into()),
                 },
                 Td {
                     content: Rc::new("Note".to_owned().into()),
@@ -47,7 +50,7 @@ impl PageComponent for PlantGrowthTable {
     }
 }
 
-impl PageComponent for PlantGrowthRow {
+impl PageComponent for GrowthRow {
     fn render(&self, date_format: &str) -> HtmlElement {
         let cols = vec![
             Td {
@@ -58,6 +61,9 @@ impl PageComponent for PlantGrowthRow {
             },
             Td {
                 content: Rc::new(self.growth.width_cm.to_string().into()),
+            },
+            Td {
+                content: Rc::new(self.growth.health.to_string().into()),
             },
             Td {
                 content: Rc::new(self.growth.note.clone().unwrap_or("".to_owned()).into()),
@@ -72,17 +78,17 @@ impl PageComponent for PlantGrowthRow {
     }
 }
 
-impl From<&GrowthItem> for PlantGrowthRow {
-    fn from(growth: &GrowthItem) -> PlantGrowthRow {
-        PlantGrowthRow {
+impl From<&GrowthItem> for GrowthRow {
+    fn from(growth: &GrowthItem) -> GrowthRow {
+        GrowthRow {
             growth: growth.clone(),
         }
     }
 }
 
-impl From<&[GrowthItem]> for PlantGrowthTable {
-    fn from(growth: &[GrowthItem]) -> PlantGrowthTable {
-        PlantGrowthTable {
+impl From<&[GrowthItem]> for GrowthTable {
+    fn from(growth: &[GrowthItem]) -> GrowthTable {
+        GrowthTable {
             growth_rows: growth.iter().map(|x| x.into()).collect(),
         }
     }

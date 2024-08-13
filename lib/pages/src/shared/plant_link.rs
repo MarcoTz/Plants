@@ -5,7 +5,7 @@ use std::rc::Rc;
 
 #[derive(Clone, Debug)]
 pub struct PlantLink {
-    plant_name: String,
+    pub plant_name: String,
     plant_url: String,
 }
 

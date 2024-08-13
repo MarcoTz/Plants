@@ -1,0 +1,67 @@
+#plant_content{
+  width:95%;
+  display:flow-root;
+}
+
+.images_plant_container{
+  width:20%;
+  float:left;
+  margin-left:5%;
+  background:var(--bg-color-even);
+  border-radius:1em;
+}
+
+#plant_info{
+  width:70%;
+}
+
+.status_item{
+  margin:auto;
+  text-align:center;
+  padding:0.5em;
+}
+
+#plant_growth_log_container{
+  width:100%;
+}
+.plant_graph{
+  width:45%;
+}
+
+#plant_activities_container{
+  width:95%;
+  flex-wrap:nowrap;
+  margin:auto;
+}
+
+
+.health{
+  --circle-radius:2em;
+  border-radius:50%;
+  width:var(--circle-radius);
+  height:var(--circle-radius);
+  line-height:var(--circle-radius);
+  text-align:center;
+  color:var(--fg-color-dark);
+  font-size:18pt;
+  margin:auto;
+}
+
+.health0{
+  background:var(--health-color0) !important;
+}
+.health1{
+  background:var(--health-color1) !important;
+}
+.health2{
+  background:var(--health-color2) !important;
+}
+.health3{
+  background:var(--health-color3) !important;
+}
+.health4{
+  background:var(--health-color4) !important;
+}
+.health5{
+  background:var(--health-color5) !important;
+}
