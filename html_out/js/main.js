@@ -8,6 +8,10 @@ function setup_img_events() {
       img_elements[i].addEventListener('click',open_image_viewer);
     }
   }
+/*  image_viewer = document.getElementById('image_viewer');
+  image_viewer.addEventListener('click',close_image_viewer);
+  image_box = document.getElementById('image_box');
+  image_box.addEventListener('click',close_image_viewer);*/
 
   left_arrows = document.getElementsByClassName('left_arrow');
   for(var i=0; i<left_arrows.length; i++){

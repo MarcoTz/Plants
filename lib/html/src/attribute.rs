@@ -11,6 +11,7 @@ pub enum Attribute {
     OnChange(String),
     OnLoad(String),
     OnKeyUp(String),
+    OnClick(String),
 }
 
 impl Render for Attribute {
@@ -28,6 +29,7 @@ impl Render for Attribute {
             Attribute::Type(ty) => format!("type=\"{ty}\""),
             Attribute::OnChange(onchange) => format!("onChange=\"{onchange}\""),
             Attribute::OnLoad(onload) => format!("onLoad=\"{onload}\""),
+            Attribute::OnClick(onclick) => format!("onClick=\"{onclick}\""),
             Attribute::Rel(rel) => format!("rel=\"{rel}\""),
         }
     }
