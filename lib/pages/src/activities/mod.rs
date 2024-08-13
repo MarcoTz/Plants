@@ -27,7 +27,7 @@ impl Page for Activities {
             "css/footer.css".to_owned(),
             "css/main.css".to_owned(),
         ];
-        let scripts = vec![];
+        let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Activities".to_owned(),
             styles,

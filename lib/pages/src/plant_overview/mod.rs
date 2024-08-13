@@ -33,7 +33,7 @@ impl Page for PlantOverview {
             "css/plant_list.css".to_owned(),
             "css/plant_search.css".to_owned(),
         ];
-        let scripts = vec![];
+        let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Plants".to_owned(),
             styles,

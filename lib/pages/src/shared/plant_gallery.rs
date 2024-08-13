@@ -49,7 +49,7 @@ impl PageComponent for PlantImg {
         let mut img_path = self.img_base.to_owned();
         img_path.push('/');
         img_path.push_str(&self.img_url);
-        let visible = if self.num_self == 0 {
+        let visible = if self.num_self == 1 {
             "display:block;".to_owned()
         } else {
             "display:none;".to_owned()
@@ -144,7 +144,7 @@ impl From<(&Plant, &str)> for PlantGallery {
             plant_images: images_sorted
                 .iter()
                 .enumerate()
-                .map(|(i, x)| get_info(x, i as i32).into())
+                .map(|(i, x)| get_info(x, i as i32 + 1).into())
                 .collect(),
         }
     }

@@ -49,7 +49,7 @@ impl Page for SpeciesDetails {
             "../css/gallery.css".to_owned(),
             "../css/species_details.css".to_owned(),
         ];
-        let scripts = vec![];
+        let scripts = vec!["../js/main.js".to_owned()];
         HtmlHead {
             title: self.species_name.clone(),
             styles,

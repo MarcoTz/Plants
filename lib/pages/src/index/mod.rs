@@ -35,7 +35,7 @@ impl Page for Index {
             "css/upcoming_tasks.css".to_owned(),
             "css/hall_of_fame.css".to_owned(),
         ];
-        let scripts = vec![];
+        let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Dashboard".to_owned(),
             styles,
