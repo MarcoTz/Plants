@@ -4,12 +4,13 @@ pub enum Attribute {
     Id(String),
     Class(Vec<String>),
     Src(String),
-    OnKeyUp(String),
     Style(String),
     Href(String),
+    Rel(String),
     Type(String),
     OnChange(String),
-    Rel(String),
+    OnLoad(String),
+    OnKeyUp(String),
 }
 
 impl Render for Attribute {
@@ -26,6 +27,7 @@ impl Render for Attribute {
             Attribute::Href(href) => format!("href=\"{href}\""),
             Attribute::Type(ty) => format!("type=\"{ty}\""),
             Attribute::OnChange(onchange) => format!("onChange=\"{onchange}\""),
+            Attribute::OnLoad(onload) => format!("onLoad=\"{onload}\""),
             Attribute::Rel(rel) => format!("rel=\"{rel}\""),
         }
     }

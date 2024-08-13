@@ -13,8 +13,11 @@ use activities::PlantActivities;
 use graphs::PlantGraphs;
 use html::{
     attribute::Attribute,
+    body::Body,
     div::Div,
+    head::Head,
     headline::{HeaderSize, Headline},
+    html_document::HtmlDocument,
     html_element::HtmlElement,
 };
 use plants::plant::Plant;
@@ -90,9 +93,30 @@ impl Page for PlantDetails {
             "../css/plant_details.css".to_owned(),
             "../css/gallery.css".to_owned(),
         ];
+        let scripts = vec![
+            "../js/graphs.js".to_owned(),
+            "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js".to_owned(),
+        ];
         HtmlHead {
             title: self.name.clone(),
             styles,
+            scripts,
+        }
+    }
+
+    fn render(&self, date_format: &str, relative_up: bool, num_plants: i32) -> HtmlDocument {
+        let body_contents: HtmlElement = vec![
+            self.get_header(relative_up).render(date_format),
+            self.get_content(date_format),
+            self.get_footer(num_plants).render(date_format),
+        ]
+        .into();
+        HtmlDocument {
+            head: Head::from(&self.get_head()),
+            body: Body {
+                attributes: vec![Attribute::OnLoad("create_graphs()".to_owned())],
+                content: Rc::new(body_contents),
+            },
         }
     }
 }
