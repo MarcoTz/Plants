@@ -6,7 +6,7 @@ use crate::{
     errors::Error,
     page::{Page, PageComponent},
 };
-use html::html_element::HtmlElement;
+use html::elements::HtmlElement;
 use plant_list::PlantList;
 use plant_search::PlantSearch;
 use plants::plant::Plant;

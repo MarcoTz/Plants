@@ -5,7 +5,7 @@ use super::{
     shared::html_head::HtmlHead,
 };
 use graveyard_table::GraveyardTable;
-use html::html_element::HtmlElement;
+use html::elements::HtmlElement;
 use plants::graveyard::GraveyardPlant;
 
 pub struct Graveyard {

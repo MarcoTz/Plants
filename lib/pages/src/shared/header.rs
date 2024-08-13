@@ -1,5 +1,8 @@
 use crate::page::{PageComponent, PageURLs};
-use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
+use html::{
+    attribute::Attribute,
+    elements::{a::A, div::Div, HtmlElement},
+};
 use std::rc::Rc;
 
 pub struct Header {

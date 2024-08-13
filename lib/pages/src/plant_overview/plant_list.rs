@@ -5,10 +5,12 @@ use crate::{
 };
 use html::{
     attribute::Attribute,
-    div::Div,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
-    img::Img,
+    elements::{
+        div::Div,
+        headline::{HeaderSize, Headline},
+        img::Img,
+        HtmlElement,
+    },
 };
 use plants::plant::Plant;
 use std::collections::{HashMap, HashSet};

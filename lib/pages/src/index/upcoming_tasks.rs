@@ -2,9 +2,11 @@ use crate::{page::PageComponent, shared::plant_link::PlantLink};
 use chrono::{Datelike, NaiveDate};
 use html::{
     attribute::Attribute,
-    div::Div,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
+    elements::{
+        div::Div,
+        headline::{HeaderSize, Headline},
+        HtmlElement,
+    },
 };
 use plants::plant::Plant;
 use std::collections::HashMap;

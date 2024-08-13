@@ -1,9 +1,11 @@
 use crate::{page::PageComponent, shared::plant_gallery::PlantGallery};
 use html::{
     attribute::Attribute,
-    div::Div,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
+    elements::{
+        div::Div,
+        headline::{HeaderSize, Headline},
+        HtmlElement,
+    },
 };
 use plants::plant::Plant;
 use std::rc::Rc;

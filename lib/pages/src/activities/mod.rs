@@ -4,7 +4,10 @@ use super::{
     shared::html_head::HtmlHead,
 };
 use activities_table::ActivitiesTable;
-use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
+use html::{
+    attribute::Attribute,
+    elements::{div::Div, HtmlElement},
+};
 use plants::plant::Plant;
 use std::rc::Rc;
 

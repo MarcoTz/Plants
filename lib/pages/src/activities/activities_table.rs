@@ -2,8 +2,10 @@ use crate::page::PageComponent;
 use chrono::NaiveDate;
 use html::{
     attribute::Attribute,
-    html_element::HtmlElement,
-    table::{Table, Td, Tr},
+    elements::{
+        table::{Table, Td, Tr},
+        HtmlElement,
+    },
 };
 use plants::plant::Plant;
 use std::collections::HashMap;

@@ -1,6 +1,7 @@
 use crate::page::PageComponent;
 use html::{
-    attribute::Attribute, head::Head, html_element::HtmlElement, link::Link, script::Script,
+    attribute::Attribute,
+    elements::{head::Head, link::Link, script::Script, HtmlElement},
 };
 use std::rc::Rc;
 

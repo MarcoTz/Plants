@@ -1,11 +1,13 @@
 use crate::page::PageComponent;
 use html::{
-    a::A,
     attribute::Attribute,
-    div::Div,
-    html_element::HtmlElement,
+    elements::{
+        a::A,
+        div::Div,
+        table::{Table, Td, Tr},
+        HtmlElement,
+    },
     render::Render,
-    table::{Table, Td, Tr},
 };
 use plants::{plant::Plant, species::Species};
 use std::rc::Rc;

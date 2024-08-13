@@ -1,5 +1,5 @@
-use super::html_element::HtmlElement;
-use super::render::Render;
+use super::HtmlElement;
+use crate::render::Render;
 use std::rc::Rc;
 
 pub struct Head {

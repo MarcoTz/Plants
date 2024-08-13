@@ -13,12 +13,14 @@ use activities::PlantActivities;
 use graphs::PlantGraphs;
 use html::{
     attribute::Attribute,
-    body::Body,
-    div::Div,
-    head::Head,
-    headline::{HeaderSize, Headline},
+    elements::{
+        body::Body,
+        div::Div,
+        head::Head,
+        headline::{HeaderSize, Headline},
+        HtmlElement,
+    },
     html_document::HtmlDocument,
-    html_element::HtmlElement,
 };
 use plants::plant::Plant;
 use status::Status;

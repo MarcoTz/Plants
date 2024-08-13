@@ -1,7 +1,8 @@
 use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
 use html::{
-    attribute::Attribute, body::Body, head::Head, html_document::HtmlDocument,
-    html_element::HtmlElement,
+    attribute::Attribute,
+    elements::{body::Body, head::Head, HtmlElement},
+    html_document::HtmlDocument,
 };
 use std::rc::Rc;
 

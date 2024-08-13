@@ -1,5 +1,8 @@
 use crate::page::PageComponent;
-use html::{a::A, attribute::Attribute, html_element::HtmlElement};
+use html::{
+    attribute::Attribute,
+    elements::{a::A, HtmlElement},
+};
 use plants::species::Species;
 use std::rc::Rc;
 

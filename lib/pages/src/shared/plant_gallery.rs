@@ -1,13 +1,15 @@
 use crate::page::PageComponent;
 use chrono::NaiveDate;
 use html::{
-    a::A,
     attribute::Attribute,
-    div::Div,
-    figure::Figure,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
-    img::Img,
+    elements::{
+        a::A,
+        div::Div,
+        figure::Figure,
+        headline::{HeaderSize, Headline},
+        img::Img,
+        HtmlElement,
+    },
 };
 use plants::plant::{Plant, PlantImage};
 use std::rc::Rc;
