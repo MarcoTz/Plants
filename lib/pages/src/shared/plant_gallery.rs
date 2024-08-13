@@ -1,4 +1,4 @@
-use crate::components::page_component::PageComponent;
+use crate::page::PageComponent;
 use chrono::NaiveDate;
 use html::{
     a::A,

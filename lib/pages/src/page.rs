@@ -1,8 +1,9 @@
-use super::{
-    components::page_component::PageComponent,
-    shared::{footer::Footer, header::Header, html_head::HtmlHead},
-};
+use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
 use html::{body::Body, head::Head, html_document::HtmlDocument, html_element::HtmlElement};
+
+pub trait PageComponent {
+    fn render(&self, date_format: &str) -> HtmlElement;
+}
 
 pub trait Page {
     fn get_head(&self) -> HtmlHead;

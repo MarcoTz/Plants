@@ -1,4 +1,4 @@
-use crate::{components::page_component::PageComponent, shared::plant_link::PlantLink};
+use crate::{page::PageComponent, shared::plant_link::PlantLink};
 use chrono::{Datelike, NaiveDate};
 use html::{
     attribute::Attribute,

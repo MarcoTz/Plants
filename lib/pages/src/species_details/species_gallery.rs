@@ -1,4 +1,4 @@
-use crate::{components::page_component::PageComponent, shared::plant_gallery::PlantGallery};
+use crate::{page::PageComponent, shared::plant_gallery::PlantGallery};
 use html::{
     attribute::Attribute,
     div::Div,

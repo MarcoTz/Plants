@@ -3,7 +3,10 @@ pub mod species_info;
 use species_gallery::SpeciesGallery;
 use species_info::SpeciesInfo;
 
-use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use super::{
+    page::{Page, PageComponent},
+    shared::html_head::HtmlHead,
+};
 use html::{
     attribute::Attribute,
     div::Div,

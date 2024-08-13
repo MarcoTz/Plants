@@ -1,4 +1,4 @@
-use crate::components::page_component::PageComponent;
+use crate::page::PageComponent;
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement, img::Img};
 use plants::{plant::Plant, species::Species};
 use std::rc::Rc;

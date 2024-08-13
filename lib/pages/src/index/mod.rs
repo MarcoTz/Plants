@@ -3,10 +3,9 @@ pub mod hall_of_fame;
 pub mod upcoming_tasks;
 
 use super::{
-    components::page_component::PageComponent,
     errors::Error,
     index::{autowatered::AutoWatered, hall_of_fame::HallOfFame, upcoming_tasks::UpcomingTasks},
-    page::Page,
+    page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
 use html::html_element::HtmlElement;

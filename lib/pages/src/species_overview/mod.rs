@@ -1,5 +1,8 @@
 pub mod species_list;
-use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use super::{
+    page::{Page, PageComponent},
+    shared::html_head::HtmlHead,
+};
 use species_list::SpeciesList;
 
 use html::html_element::HtmlElement;

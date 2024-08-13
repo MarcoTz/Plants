@@ -1,6 +1,9 @@
 pub mod graveyard_table;
 
-use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use super::{
+    page::{Page, PageComponent},
+    shared::html_head::HtmlHead,
+};
 use graveyard_table::GraveyardTable;
 use html::html_element::HtmlElement;
 use plants::graveyard::GraveyardPlant;

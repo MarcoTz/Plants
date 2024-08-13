@@ -1,6 +1,6 @@
 use crate::{
-    components::page_component::PageComponent,
     errors::Error,
+    page::PageComponent,
     shared::{plant_link::PlantLink, species_link::SpeciesLink},
 };
 use html::{

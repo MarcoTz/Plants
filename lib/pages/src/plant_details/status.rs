@@ -1,4 +1,4 @@
-use crate::{components::page_component::PageComponent, errors::Error};
+use crate::{errors::Error, page::PageComponent};
 use chrono::NaiveDate;
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;

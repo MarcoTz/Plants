@@ -1,5 +1,8 @@
 pub mod activities_table;
-use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
+use super::{
+    page::{Page, PageComponent},
+    shared::html_head::HtmlHead,
+};
 use activities_table::ActivitiesTable;
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
 use plants::plant::Plant;
