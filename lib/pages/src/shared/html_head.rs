@@ -1,11 +1,14 @@
 use crate::page::PageComponent;
-use html::{attribute::Attribute, head::Head, html_element::HtmlElement, link::Link};
+use html::{
+    attribute::Attribute, head::Head, html_element::HtmlElement, link::Link, script::Script,
+};
 use std::rc::Rc;
 
 #[derive(Clone)]
 pub struct HtmlHead {
     pub title: String,
     pub styles: Vec<String>,
+    pub scripts: Vec<String>,
 }
 
 impl From<&HtmlHead> for Head {
@@ -22,9 +25,19 @@ impl From<&HtmlHead> for Head {
                 .into(),
             );
         }
+        let mut scripts = vec![];
+        for script in hd.scripts.iter() {
+            scripts.push(
+                Script {
+                    attributes: vec![Attribute::Src(script.clone())],
+                    content: "".to_owned(),
+                }
+                .into(),
+            )
+        }
         Head {
             title: hd.title.clone(),
-            content: Rc::new(styles.into()),
+            content: Rc::new(vec![styles.into(), scripts.into()].into()),
         }
     }
 }

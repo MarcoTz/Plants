@@ -24,9 +24,11 @@ impl Page for SpeciesOverview {
             "css/footer.css".to_owned(),
             "css/plant_list.css".to_owned(),
         ];
+        let scripts = vec![];
         HtmlHead {
             title: "Species".to_owned(),
             styles,
+            scripts,
         }
     }
 }

@@ -95,6 +95,7 @@ impl<T: ToString> PageComponent for PlantGraph<T> {
             }
             .into(),
             Script {
+                attributes: vec![],
                 content: format!(
                     "{}=[{}]; {}",
                     self.x_values.name.clone(),

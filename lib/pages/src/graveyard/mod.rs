@@ -23,9 +23,11 @@ impl Page for Graveyard {
             "css/header.css".to_owned(),
             "css/footer.css".to_owned(),
         ];
+        let scripts = vec![];
         HtmlHead {
             title: "Graveyard".to_owned(),
             styles,
+            scripts,
         }
     }
 }
