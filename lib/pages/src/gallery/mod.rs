@@ -40,7 +40,7 @@ impl Page for Gallery {
             "css/footer.css".to_owned(),
             "css/gallery.css".to_owned(),
         ];
-        let scripts = vec![];
+        let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Gallery".to_owned(),
             styles,

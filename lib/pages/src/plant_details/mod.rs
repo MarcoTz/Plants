@@ -96,6 +96,7 @@ impl Page for PlantDetails {
         let scripts = vec![
             "../js/graphs.js".to_owned(),
             "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js".to_owned(),
+            "../js/main.js".to_owned(),
         ];
         HtmlHead {
             title: self.name.clone(),
@@ -114,7 +115,9 @@ impl Page for PlantDetails {
         HtmlDocument {
             head: Head::from(&self.get_head()),
             body: Body {
-                attributes: vec![Attribute::OnLoad("create_graphs()".to_owned())],
+                attributes: vec![Attribute::OnLoad(
+                    "create_graphs();setup_img_events()".to_owned(),
+                )],
                 content: Rc::new(body_contents),
             },
         }

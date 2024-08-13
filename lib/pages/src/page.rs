@@ -1,5 +1,9 @@
 use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
-use html::{body::Body, head::Head, html_document::HtmlDocument, html_element::HtmlElement};
+use html::{
+    attribute::Attribute, body::Body, head::Head, html_document::HtmlDocument,
+    html_element::HtmlElement,
+};
+use std::rc::Rc;
 
 pub trait PageComponent {
     fn render(&self, date_format: &str) -> HtmlElement;
@@ -24,7 +28,10 @@ pub trait Page {
         .into();
         HtmlDocument {
             head: Head::from(&self.get_head()),
-            body: Body::from(body_contents),
+            body: Body {
+                attributes: vec![Attribute::OnLoad("setup_img_events()".to_owned())],
+                content: Rc::new(body_contents),
+            },
         }
     }
 }
