@@ -1,4 +1,4 @@
-use super::page_component::PageComponent;
+use crate::components::page_component::PageComponent;
 use html::{
     a::A,
     attribute::Attribute,

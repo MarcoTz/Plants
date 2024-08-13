@@ -140,7 +140,7 @@ impl From<(&Plant, &str)> for PlantGallery {
         images_sorted.sort_by(|img1, img2| img1.0.cmp(&img2.0));
         PlantGallery {
             plant_name: plant.name.clone(),
-            plant_url: plant.get_url("plants/"),
+            plant_url: plant.get_url("plants"),
             plant_images: images_sorted
                 .iter()
                 .enumerate()
