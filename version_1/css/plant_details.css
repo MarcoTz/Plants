@@ -72,33 +72,4 @@ img {
   border-radius:0.5em;
 }
 
-.health{
-  --circle-radius:3em;
-  border-radius:50%;
-  width:var(--circle-radius);
-  height:var(--circle-radius);
-  line-height:var(--circle-radius);
-  text-align:center;
-  color:var(--fg-color-dark);
-  font-size:18pt;
-  margin:auto;
-}
 
-.health0{
-  background:var(--health-color0) !important;
-}
-.health1{
-  background:var(--health-color1) !important;
-}
-.health2{
-  background:var(--health-color2) !important;
-}
-.health3{
-  background:var(--health-color3) !important;
-}
-.health4{
-  background:var(--health-color4) !important;
-}
-.health5{
-  background:var(--health-color5) !important;
-}

@@ -11,6 +11,7 @@ use super::{
     link::Link,
     literal::Literal,
     render::Render,
+    script::Script,
     select::Select,
     table::{Table, Td, Tr},
 };
@@ -32,6 +33,7 @@ pub enum HtmlElement {
     Canvas(Canvas),
     Input(Input),
     Select(Select),
+    Script(Script),
     ComponentList(Vec<HtmlElement>),
 }
 
@@ -54,6 +56,7 @@ impl Render for HtmlElement {
             HtmlElement::Canvas(canvas) => canvas.render(),
             HtmlElement::Input(input) => input.render(),
             HtmlElement::Select(select) => select.render(),
+            HtmlElement::Script(script) => script.render(),
             HtmlElement::ComponentList(ls) => {
                 let mut out_str = "".to_owned();
                 for comp in ls.iter() {

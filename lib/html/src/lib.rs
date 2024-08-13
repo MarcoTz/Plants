@@ -13,5 +13,6 @@ pub mod input;
 pub mod link;
 pub mod literal;
 pub mod render;
+pub mod script;
 pub mod select;
 pub mod table;
