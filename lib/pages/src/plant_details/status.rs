@@ -1,6 +1,9 @@
 use crate::{errors::Error, page::PageComponent};
 use chrono::NaiveDate;
-use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
+use html::{
+    attribute::Attribute,
+    elements::{a::A, div::Div, HtmlElement},
+};
 use plants::plant::Plant;
 use std::rc::Rc;
 

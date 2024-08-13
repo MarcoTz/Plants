@@ -3,7 +3,10 @@ use super::{
     page::PageComponent,
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery},
 };
-use html::{attribute::Attribute, div::Div, html_element::HtmlElement};
+use html::{
+    attribute::Attribute,
+    elements::{div::Div, HtmlElement},
+};
 use plants::plant::Plant;
 use std::rc::Rc;
 

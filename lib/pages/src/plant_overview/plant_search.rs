@@ -1,10 +1,12 @@
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    div::Div,
-    html_element::HtmlElement,
-    input::Input,
-    select::{Select, SelectOption},
+    elements::{
+        div::Div,
+        input::Input,
+        select::{Select, SelectOption},
+        HtmlElement,
+    },
 };
 use std::rc::Rc;
 

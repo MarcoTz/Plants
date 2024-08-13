@@ -1,4 +1,6 @@
-use super::{html_element::HtmlElement, render::Render};
+use super::HtmlElement;
+use crate::render::Render;
+
 pub struct Literal {
     content: String,
 }

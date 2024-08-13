@@ -1,10 +1,12 @@
 use crate::{errors::Error, page::PageComponent, shared::plant_link::PlantLink};
 use html::{
     attribute::Attribute,
-    div::Div,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
-    table::{Table, Td, Tr},
+    elements::{
+        div::Div,
+        headline::{HeaderSize, Headline},
+        table::{Table, Td, Tr},
+        HtmlElement,
+    },
 };
 use plants::{plant, plant::Plant};
 use std::rc::Rc;

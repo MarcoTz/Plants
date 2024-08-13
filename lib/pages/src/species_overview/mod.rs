@@ -5,7 +5,7 @@ use super::{
 };
 use species_list::SpeciesList;
 
-use html::html_element::HtmlElement;
+use html::elements::HtmlElement;
 use plants::{plant::Plant, species::Species};
 
 pub struct SpeciesOverview {

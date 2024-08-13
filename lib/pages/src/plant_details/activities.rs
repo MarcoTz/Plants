@@ -2,9 +2,11 @@ use super::{activity_table::ActivityTable, growth_table::GrowthTable};
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    div::Div,
-    headline::{HeaderSize, Headline},
-    html_element::HtmlElement,
+    elements::{
+        div::Div,
+        headline::{HeaderSize, Headline},
+        HtmlElement,
+    },
 };
 use plants::{growth_item::GrowthItem, log_item::LogItem, plant::Plant};
 use std::rc::Rc;

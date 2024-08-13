@@ -1,4 +1,5 @@
-use super::{attribute::Attribute, html_element::HtmlElement, render::Render};
+use super::HtmlElement;
+use crate::{attribute::Attribute, render::Render};
 
 pub struct Script {
     pub attributes: Vec<Attribute>,

@@ -1,20 +1,34 @@
-use super::{
-    a::A,
-    body::Body,
-    canvas::Canvas,
-    div::Div,
-    figure::Figure,
-    head::Head,
-    headline::Headline,
-    img::Img,
-    input::Input,
-    link::Link,
-    literal::Literal,
-    render::Render,
-    script::Script,
-    select::Select,
-    table::{Table, Td, Tr},
-};
+pub mod a;
+pub mod body;
+pub mod canvas;
+pub mod div;
+pub mod figure;
+pub mod head;
+pub mod headline;
+pub mod img;
+pub mod input;
+pub mod link;
+pub mod literal;
+pub mod script;
+pub mod select;
+pub mod table;
+
+use a::A;
+use body::Body;
+use canvas::Canvas;
+use div::Div;
+use figure::Figure;
+use head::Head;
+use headline::Headline;
+use img::Img;
+use input::Input;
+use link::Link;
+use literal::Literal;
+use script::Script;
+use select::Select;
+use table::{Table, Td, Tr};
+
+use crate::render::Render;
 
 pub enum HtmlElement {
     Head(Head),
@@ -65,16 +79,6 @@ impl Render for HtmlElement {
                 out_str
             }
         }
-    }
-}
-
-impl<T: Render> Render for Vec<T> {
-    fn render(&self) -> String {
-        let mut out_str = "".to_owned();
-        for elem in self.iter() {
-            out_str.push_str(&elem.render());
-        }
-        out_str
     }
 }
 

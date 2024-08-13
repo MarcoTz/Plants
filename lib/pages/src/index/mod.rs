@@ -8,7 +8,7 @@ use super::{
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
-use html::html_element::HtmlElement;
+use html::elements::HtmlElement;
 use plants::plant::Plant;
 
 pub struct Index {

@@ -1,4 +1,8 @@
-use super::{body::Body, head::Head, render::Render};
+use super::{
+    elements::{body::Body, head::Head},
+    render::Render,
+};
+
 pub struct HtmlDocument {
     pub head: Head,
     pub body: Body,

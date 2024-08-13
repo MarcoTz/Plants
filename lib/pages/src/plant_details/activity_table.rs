@@ -1,8 +1,10 @@
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    html_element::HtmlElement,
-    table::{Table, Td, Tr},
+    elements::{
+        table::{Table, Td, Tr},
+        HtmlElement,
+    },
 };
 use plants::log_item::LogItem;
 use std::rc::Rc;

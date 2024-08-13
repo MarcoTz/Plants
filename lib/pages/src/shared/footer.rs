@@ -1,6 +1,9 @@
 use crate::page::PageComponent;
 use chrono::{Local, NaiveDate};
-use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement, img::Img};
+use html::{
+    attribute::Attribute,
+    elements::{a::A, div::Div, img::Img, HtmlElement},
+};
 use std::rc::Rc;
 
 pub struct Footer {
