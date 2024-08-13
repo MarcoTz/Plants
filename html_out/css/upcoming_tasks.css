@@ -1,5 +1,6 @@
 .task_block {
   max-width:10em;
+  text-align:center;
 }
 .upcoming_task { 
   font-size:12pt;
