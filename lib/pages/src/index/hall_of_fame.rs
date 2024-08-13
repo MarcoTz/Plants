@@ -1,6 +1,4 @@
-use crate::{
-    components::page_component::PageComponent, errors::Error, shared::plant_link::PlantLink,
-};
+use crate::{errors::Error, page::PageComponent, shared::plant_link::PlantLink};
 use html::{
     attribute::Attribute,
     div::Div,

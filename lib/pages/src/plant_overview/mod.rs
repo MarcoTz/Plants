@@ -1,8 +1,11 @@
 pub mod plant_list;
 pub mod plant_search;
 
-use super::{components::page_component::PageComponent, errors::Error, page::Page};
 use crate::shared::html_head::HtmlHead;
+use crate::{
+    errors::Error,
+    page::{Page, PageComponent},
+};
 use html::html_element::HtmlElement;
 use plant_list::PlantList;
 use plant_search::PlantSearch;

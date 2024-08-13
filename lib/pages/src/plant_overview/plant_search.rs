@@ -1,4 +1,4 @@
-use crate::components::page_component::PageComponent;
+use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
     div::Div,

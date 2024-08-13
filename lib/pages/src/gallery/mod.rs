@@ -1,6 +1,6 @@
 use super::{
-    components::page_component::PageComponent,
     page::Page,
+    page::PageComponent,
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery},
 };
 use html::{attribute::Attribute, div::Div, html_element::HtmlElement};

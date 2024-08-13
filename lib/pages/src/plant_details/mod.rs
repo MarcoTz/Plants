@@ -5,9 +5,8 @@ pub mod growth_table;
 pub mod status;
 
 use super::{
-    components::page_component::PageComponent,
     errors::Error,
-    page::Page,
+    page::{Page, PageComponent},
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery, species_link::SpeciesLink},
 };
 use activities::PlantActivities;

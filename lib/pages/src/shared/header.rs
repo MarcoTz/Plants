@@ -1,4 +1,4 @@
-use crate::{components::page_component::PageComponent, page::PageURLs};
+use crate::page::{PageComponent, PageURLs};
 use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
 use std::rc::Rc;
 
