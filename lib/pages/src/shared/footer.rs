@@ -1,6 +1,6 @@
 use crate::page::PageComponent;
 use chrono::{Local, NaiveDate};
-use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement};
+use html::{a::A, attribute::Attribute, div::Div, html_element::HtmlElement, img::Img};
 use std::rc::Rc;
 
 pub struct Footer {
@@ -38,6 +38,32 @@ impl PageComponent for Footer {
             content: Rc::new(format!("Last build: {last_build_str}").into()),
         };
         footer_content.push(last_build.into());
+
+        footer_content.push(
+            Div {
+                attributes: vec![
+                    Attribute::Id("image_viewer".to_owned()),
+                    Attribute::OnClick("close_image_viewer();".to_owned()),
+                    Attribute::Style("display:none;".to_owned()),
+                ],
+                content: Rc::new(
+                    Div {
+                        attributes: vec![
+                            Attribute::Id("image_box".to_owned()),
+                            Attribute::OnClick("close_image_viewer();".to_owned()),
+                        ],
+                        content: Rc::new(
+                            Img {
+                                attributes: vec![Attribute::Id("image_viewer_image".to_owned())],
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
 
         Div {
             attributes: vec![Attribute::Id("footer".to_owned())],

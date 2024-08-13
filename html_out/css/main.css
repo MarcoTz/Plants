@@ -102,3 +102,37 @@ select {
   border-radius:1em;
   padding:1em;
 }
+
+
+#image_viewer{
+  display:none;
+  width:100%;
+  height:100vh;
+  position:fixed;
+  overflow:none;
+  left:0%;
+  top:0%;
+  margin:0em !important;
+  background:var(--bg-color-trans);
+}
+
+#image_box{
+  position:relative;
+  width:100%;
+  height:100%;
+  margin:auto;
+  margin-top:5%;
+  overflow:auto;
+}
+
+#image_viewer_image{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:auto;
+  margin-top:auto;
+  max-width:90%;
+  max-height:80%;
+  width:auto;
+  height:auto;
+}
