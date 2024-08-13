@@ -66,6 +66,7 @@ impl Species {
 
     pub fn get_url(&self, base: &str) -> String {
         let mut url = base.to_owned();
+        url.push('/');
         url.push_str(&self.name.replace(' ', ""));
         url.push_str(".html");
         url

@@ -1,10 +1,9 @@
-use super::{
-    components::{
-        page_component::PageComponent, species_gallery::SpeciesGallery, species_info::SpeciesInfo,
-    },
-    page::Page,
-    shared::html_head::HtmlHead,
-};
+pub mod species_gallery;
+pub mod species_info;
+use species_gallery::SpeciesGallery;
+use species_info::SpeciesInfo;
+
+use super::{components::page_component::PageComponent, page::Page, shared::html_head::HtmlHead};
 use html::{
     attribute::Attribute,
     div::Div,
@@ -44,6 +43,8 @@ impl Page for SpeciesDetails {
             "../css/main.css".to_owned(),
             "../css/header.css".to_owned(),
             "../css/footer.css".to_owned(),
+            "../css/gallery.css".to_owned(),
+            "../css/species_details.css".to_owned(),
         ];
         HtmlHead {
             title: self.species_name.clone(),
@@ -54,12 +55,11 @@ impl Page for SpeciesDetails {
 
 impl From<(&Species, &[Plant])> for SpeciesDetails {
     fn from((species, plants): (&Species, &[Plant])) -> SpeciesDetails {
-        let img_base = "img/plants";
         let species_plants = species.get_plants(plants);
         SpeciesDetails {
             species_name: species.name.clone(),
             species_info: SpeciesInfo::from((species, species_plants.as_slice())),
-            species_gallery: SpeciesGallery::from((species_plants.as_slice(), img_base)),
+            species_gallery: SpeciesGallery::from(species_plants.as_slice()),
         }
     }
 }

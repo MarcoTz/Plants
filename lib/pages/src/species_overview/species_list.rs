@@ -77,7 +77,7 @@ impl From<&(&Species, Option<Plant>)> for SpeciesListItem {
             Some(Some(url)) => Some(url),
         };
         SpeciesListItem {
-            species_url: species.get_url("species/"),
+            species_url: species.get_url("species"),
             species_name: species.name.clone(),
             species_preview_url,
         }
