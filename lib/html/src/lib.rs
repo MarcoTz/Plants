@@ -2,6 +2,7 @@ pub mod a;
 pub mod attribute;
 pub mod body;
 pub mod canvas;
+pub mod css;
 pub mod div;
 pub mod figure;
 pub mod head;
