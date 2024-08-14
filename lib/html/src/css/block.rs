@@ -11,6 +11,6 @@ impl Render for CssBlock {
         let selector_str = self.selector.render();
         let decls_str = self.decls.render();
 
-        format!("{selector_str} {{ {decls_str} }}")
+        format!("{selector_str} {{ \n {decls_str}\n }}")
     }
 }

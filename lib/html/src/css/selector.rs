@@ -2,8 +2,8 @@ use crate::render::Render;
 use std::rc::Rc;
 
 pub struct Selector {
-    top: TopSelector,
-    sub: Option<SubSelector>,
+    pub top: TopSelector,
+    pub sub: Option<SubSelector>,
 }
 
 pub enum TopSelector {
@@ -73,5 +73,17 @@ impl Render for ChildSelector {
             ChildSelector::Even => "even".to_string(),
             ChildSelector::AnPlusB(a, b) => format!("{a}n+{b}"),
         }
+    }
+}
+
+impl From<TopSelector> for Selector {
+    fn from(top: TopSelector) -> Selector {
+        Selector { top, sub: None }
+    }
+}
+
+impl From<ChildSelector> for SubSelector {
+    fn from(child_select: ChildSelector) -> SubSelector {
+        SubSelector::NthChild(child_select)
     }
 }

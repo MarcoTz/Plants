@@ -1,13 +1,17 @@
 use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
 use html::{
     attribute::Attribute,
-    elements::{body::Body, head::Head, HtmlElement},
+    elements::{body::Body, head::Head, style::Style, HtmlElement},
     html_document::HtmlDocument,
 };
 use std::rc::Rc;
 
 pub trait PageComponent {
     fn render(&self, date_format: &str) -> HtmlElement;
+}
+
+pub trait CssComponent {
+    fn render(&self) -> Style;
 }
 
 pub trait Page {
