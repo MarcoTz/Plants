@@ -29,18 +29,16 @@ impl Page for Index {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles_extern = vec![
-            "css/upcoming_tasks.css".to_owned(),
-            "css/hall_of_fame.css".to_owned(),
-        ];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Dashboard".to_owned(),
-            styles_extern,
+            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,
                 DefinedDocument::Footer,
+                DefinedDocument::HallOfFame,
+                DefinedDocument::UpcomingTasks,
             ],
             scripts,
         }

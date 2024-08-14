@@ -21,6 +21,7 @@ pub enum Keyword {
     Solid,
     Column,
     FlexEnd,
+    Bold,
 }
 
 impl Render for Keyword {
@@ -44,6 +45,7 @@ impl Render for Keyword {
             Keyword::Solid => "solid".to_owned(),
             Keyword::Column => "column".to_owned(),
             Keyword::FlexEnd => "flex-end".to_owned(),
+            Keyword::Bold => "bold".to_owned(),
         }
     }
 }
