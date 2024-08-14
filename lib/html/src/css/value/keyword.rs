@@ -1,6 +1,7 @@
 use super::Value;
 use crate::render::Render;
 
+#[derive(Clone)]
 pub enum Keyword {
     Center,
     FlexStart,
@@ -17,6 +18,7 @@ pub enum Keyword {
     Fixed,
     Relative,
     Block,
+    Solid,
 }
 
 impl Render for Keyword {
@@ -37,6 +39,7 @@ impl Render for Keyword {
             Keyword::Fixed => "fixed".to_owned(),
             Keyword::Relative => "relative".to_owned(),
             Keyword::Block => "block".to_owned(),
+            Keyword::Solid => "solid".to_owned(),
         }
     }
 }

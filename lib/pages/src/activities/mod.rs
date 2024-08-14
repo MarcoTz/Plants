@@ -1,5 +1,6 @@
 pub mod activities_table;
 use super::{
+    css::DefinedDocument,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -25,15 +26,15 @@ impl Page for Activities {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
-            "css/main.css".to_owned(),
-        ];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Activities".to_owned(),
-            styles,
+            styles_extern: vec![],
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

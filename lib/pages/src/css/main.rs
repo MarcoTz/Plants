@@ -1,19 +1,17 @@
 use crate::page::CssComponent;
-use html::{
-    css::{
-        block::CssBlock,
-        property::{Direction, Margin, Padding, Property},
-        selector::{ChildSelector, Selector, SubSelector, TopSelector},
-        value::{color::Color, keyword::Keyword, unit::Unit, Value},
-    },
-    elements::style::Style,
+use html::css::{
+    block::CssBlock,
+    property::{Direction, Margin, Padding, Property},
+    selector::{ChildSelector, Selector, SubSelector, TopSelector},
+    value::{color::Color, keyword::Keyword, unit::Unit, Value},
+    CssDocument,
 };
 use std::rc::Rc;
 
 pub struct Main {}
 
 impl CssComponent for Main {
-    fn render(&self) -> Style {
+    fn render(&self) -> CssDocument {
         let root = CssBlock {
             selector: TopSelector::Pseudo("root".to_owned()).into(),
             decls: vec![
@@ -290,103 +288,8 @@ impl CssComponent for Main {
             ],
         };
 
-        let image_viewer = CssBlock {
-            selector: TopSelector::Id("image_viewer".to_owned()).into(),
+        CssDocument {
             decls: vec![
-                (Property::Display, Keyword::Non.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
-                (Property::Height, Value::Measurement(100.0, Unit::Vh)).into(),
-                (Property::Position, Keyword::Fixed.into()).into(),
-                (Property::Overflow, Keyword::Non.into()).into(),
-                (Property::Left, Value::Measurement(0.0, Unit::Percent)).into(),
-                (Property::Top, Value::Measurement(0.0, Unit::Percent)).into(),
-                (
-                    Margin {
-                        dir: Direction::All,
-                    }
-                    .into(),
-                    Value::Measurement(0.0, Unit::Em),
-                )
-                    .into(),
-                (
-                    Property::Background,
-                    Value::Var("bg-color-trans".to_owned()),
-                )
-                    .into(),
-            ],
-        };
-
-        let image_box = CssBlock {
-            selector: TopSelector::Id("image_box".to_owned()).into(),
-            decls: vec![
-                (Property::Position, Keyword::Relative.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
-                (Property::Height, Value::Measurement(100.0, Unit::Percent)).into(),
-                (
-                    Margin {
-                        dir: Direction::All,
-                    }
-                    .into(),
-                    Keyword::Auto.into(),
-                )
-                    .into(),
-                (
-                    Margin {
-                        dir: Direction::Top,
-                    }
-                    .into(),
-                    Value::Measurement(5.0, Unit::Percent),
-                )
-                    .into(),
-                (Property::Overflow, Keyword::Auto.into()).into(),
-            ],
-        };
-
-        let image_viewer_image = CssBlock {
-            selector: TopSelector::Id("image_viewer_image".to_owned()).into(),
-            decls: vec![
-                (Property::Display, Keyword::Block.into()).into(),
-                (
-                    Margin {
-                        dir: Direction::Left,
-                    }
-                    .into(),
-                    Keyword::Auto.into(),
-                )
-                    .into(),
-                (
-                    Margin {
-                        dir: Direction::Right,
-                    }
-                    .into(),
-                    Keyword::Auto.into(),
-                )
-                    .into(),
-                (
-                    Margin {
-                        dir: Direction::Bottom,
-                    }
-                    .into(),
-                    Keyword::Auto.into(),
-                )
-                    .into(),
-                (
-                    Margin {
-                        dir: Direction::Top,
-                    }
-                    .into(),
-                    Keyword::Auto.into(),
-                )
-                    .into(),
-                (Property::MaxWidth, Value::Measurement(90.0, Unit::Percent)).into(),
-                (Property::MaxHeight, Value::Measurement(80.0, Unit::Percent)).into(),
-                (Property::Width, Keyword::Auto.into()).into(),
-                (Property::Height, Keyword::Auto.into()).into(),
-            ],
-        };
-
-        Style {
-            styles: vec![
                 root,
                 body,
                 h1,
@@ -407,9 +310,6 @@ impl CssComponent for Main {
                 alternating_children_even,
                 flex_container,
                 flex_container_children,
-                image_viewer,
-                image_box,
-                image_viewer_image,
             ],
         }
     }

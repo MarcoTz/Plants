@@ -1,7 +1,8 @@
 use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
 use html::{
     attribute::Attribute,
-    elements::{body::Body, head::Head, style::Style, HtmlElement},
+    css::CssDocument,
+    elements::{body::Body, head::Head, HtmlElement},
     html_document::HtmlDocument,
 };
 use std::rc::Rc;
@@ -11,7 +12,7 @@ pub trait PageComponent {
 }
 
 pub trait CssComponent {
-    fn render(&self) -> Style;
+    fn render(&self) -> CssDocument;
 }
 
 pub trait Page {

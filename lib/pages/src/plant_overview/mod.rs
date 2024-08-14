@@ -3,6 +3,7 @@ pub mod plant_search;
 
 use crate::shared::html_head::HtmlHead;
 use crate::{
+    css::DefinedDocument,
     errors::Error,
     page::{Page, PageComponent},
 };
@@ -26,17 +27,19 @@ impl Page for PlantOverview {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/main.css".to_owned(),
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
+        let styles_extern = vec![
             "css/plant_list.css".to_owned(),
             "css/plant_search.css".to_owned(),
         ];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Plants".to_owned(),
-            styles,
+            styles_extern,
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

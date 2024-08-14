@@ -1,11 +1,13 @@
 use crate::render::Render;
 use std::rc::Rc;
 
+#[derive(Clone)]
 pub struct Selector {
     pub top: TopSelector,
     pub sub: Option<SubSelector>,
 }
 
+#[derive(Clone)]
 pub enum TopSelector {
     Class(String),
     Id(String),
@@ -14,12 +16,14 @@ pub enum TopSelector {
     All,
 }
 
+#[derive(Clone)]
 pub enum SubSelector {
     Visited,
     NthChild(ChildSelector),
     ChildCombinator(Rc<Selector>),
 }
 
+#[derive(Clone)]
 pub enum ChildSelector {
     Odd,
     Even,
@@ -34,7 +38,7 @@ impl Render for Selector {
             .as_ref()
             .map(|sb| sb.render())
             .unwrap_or("".to_owned());
-        format!("{top_str} {sub_str}")
+        format!("{top_str}{sub_str}")
     }
 }
 
@@ -60,7 +64,7 @@ impl Render for SubSelector {
             }
             SubSelector::ChildCombinator(top_select) => {
                 let top_str = top_select.render();
-                format!("> {top_str}")
+                format!(">{top_str}")
             }
         }
     }

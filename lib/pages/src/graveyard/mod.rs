@@ -1,6 +1,7 @@
 pub mod graveyard_table;
 
 use super::{
+    css::DefinedDocument,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -18,15 +19,15 @@ impl Page for Graveyard {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/main.css".to_owned(),
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
-        ];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Graveyard".to_owned(),
-            styles,
+            styles_extern: vec![],
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }
