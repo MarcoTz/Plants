@@ -1,6 +1,7 @@
 use super::{property::Property, value::Value};
 use crate::render::Render;
 
+#[derive(Clone)]
 pub struct Declaration {
     pub property: Property,
     pub value: Value,

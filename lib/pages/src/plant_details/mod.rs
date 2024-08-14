@@ -5,6 +5,7 @@ pub mod growth_table;
 pub mod status;
 
 use super::{
+    css::DefinedDocument,
     errors::Error,
     page::{Page, PageComponent},
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery, species_link::SpeciesLink},
@@ -88,10 +89,7 @@ impl Page for PlantDetails {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "../css/main.css".to_owned(),
-            "../css/header.css".to_owned(),
-            "../css/footer.css".to_owned(),
+        let styles_extern = vec![
             "../css/plant_details.css".to_owned(),
             "../css/gallery.css".to_owned(),
         ];
@@ -102,7 +100,12 @@ impl Page for PlantDetails {
         ];
         HtmlHead {
             title: self.name.clone(),
-            styles,
+            styles_extern,
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

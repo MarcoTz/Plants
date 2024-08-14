@@ -1,4 +1,5 @@
 use super::{
+    css::DefinedDocument,
     page::Page,
     page::PageComponent,
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery},
@@ -37,16 +38,16 @@ impl Page for Gallery {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/main.css".to_owned(),
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
-            "css/gallery.css".to_owned(),
-        ];
+        let styles_extern = vec!["css/gallery.css".to_owned()];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Gallery".to_owned(),
-            styles,
+            styles_extern,
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

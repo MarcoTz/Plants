@@ -3,6 +3,7 @@ pub mod hall_of_fame;
 pub mod upcoming_tasks;
 
 use super::{
+    css::DefinedDocument,
     errors::Error,
     index::{autowatered::AutoWatered, hall_of_fame::HallOfFame, upcoming_tasks::UpcomingTasks},
     page::{Page, PageComponent},
@@ -28,17 +29,19 @@ impl Page for Index {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/main.css".to_owned(),
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
+        let styles_extern = vec![
             "css/upcoming_tasks.css".to_owned(),
             "css/hall_of_fame.css".to_owned(),
         ];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Dashboard".to_owned(),
-            styles,
+            styles_extern,
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

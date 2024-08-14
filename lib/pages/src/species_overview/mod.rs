@@ -1,5 +1,6 @@
 pub mod species_list;
 use super::{
+    css::DefinedDocument,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -18,16 +19,16 @@ impl Page for SpeciesOverview {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles = vec![
-            "css/main.css".to_owned(),
-            "css/header.css".to_owned(),
-            "css/footer.css".to_owned(),
-            "css/plant_list.css".to_owned(),
-        ];
+        let styles_extern = vec!["css/plant_list.css".to_owned()];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Species".to_owned(),
-            styles,
+            styles_extern,
+            styles: vec![
+                DefinedDocument::Main,
+                DefinedDocument::Header,
+                DefinedDocument::Footer,
+            ],
             scripts,
         }
     }

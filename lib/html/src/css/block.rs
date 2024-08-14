@@ -1,6 +1,7 @@
 use super::{declaration::Declaration, selector::Selector};
 use crate::render::Render;
 
+#[derive(Clone)]
 pub struct CssBlock {
     pub selector: Selector,
     pub decls: Vec<Declaration>,

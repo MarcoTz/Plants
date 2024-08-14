@@ -1,6 +1,7 @@
 use super::Value;
 use crate::render::Render;
 
+#[derive(Clone)]
 pub enum Color {
     Rgb(u8, u8, u8),
     Rgba(u8, u8, u8, f32),

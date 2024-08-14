@@ -1,5 +1,6 @@
 use crate::render::Render;
 
+#[derive(Clone)]
 pub enum Property {
     Background,
     Color,
@@ -12,8 +13,6 @@ pub enum Property {
     MaxHeight,
     Cursor,
     BorderCollapse,
-    Margin(Margin),
-    Padding(Padding),
     Display,
     Position,
     AlignContent,
@@ -28,9 +27,16 @@ pub enum Property {
     Left,
     Right,
     Overflow,
+    BorderStyle,
+    BorderColor,
+    Float,
+    Margin(Margin),
+    Padding(Padding),
     Var(String),
+    Border(Border),
 }
 
+#[derive(Clone)]
 pub enum Direction {
     Top,
     Bottom,
@@ -39,10 +45,18 @@ pub enum Direction {
     All,
 }
 
+#[derive(Clone)]
 pub struct Margin {
     pub dir: Direction,
 }
+
+#[derive(Clone)]
 pub struct Padding {
+    pub dir: Direction,
+}
+
+#[derive(Clone)]
+pub struct Border {
     pub dir: Direction,
 }
 
@@ -60,8 +74,6 @@ impl Render for Property {
             Property::MaxHeight => "max-height".to_owned(),
             Property::Cursor => "cursor".to_owned(),
             Property::BorderCollapse => "border-collapse".to_owned(),
-            Property::Margin(margin) => margin.render(),
-            Property::Padding(padding) => padding.render(),
             Property::Display => "display".to_owned(),
             Property::Position => "position".to_owned(),
             Property::AlignContent => "align-content".to_owned(),
@@ -76,6 +88,12 @@ impl Render for Property {
             Property::Left => "left".to_owned(),
             Property::Right => "right".to_owned(),
             Property::Overflow => "overflow".to_owned(),
+            Property::BorderStyle => "border-style".to_owned(),
+            Property::BorderColor => "border-color".to_owned(),
+            Property::Float => "float".to_owned(),
+            Property::Margin(margin) => margin.render(),
+            Property::Padding(padding) => padding.render(),
+            Property::Border(border) => border.render(),
             Property::Var(v) => format!("--{v}"),
         }
     }
@@ -105,6 +123,18 @@ impl Render for Padding {
     }
 }
 
+impl Render for Border {
+    fn render(&self) -> String {
+        match self.dir {
+            Direction::Top => "border-top".to_owned(),
+            Direction::Bottom => "border-bottom".to_owned(),
+            Direction::Left => "border-left".to_owned(),
+            Direction::Right => "border-right".to_owned(),
+            Direction::All => "border".to_owned(),
+        }
+    }
+}
+
 impl From<Margin> for Property {
     fn from(margin: Margin) -> Property {
         Property::Margin(margin)
@@ -114,5 +144,11 @@ impl From<Margin> for Property {
 impl From<Padding> for Property {
     fn from(padding: Padding) -> Property {
         Property::Padding(padding)
+    }
+}
+
+impl From<Border> for Property {
+    fn from(border: Border) -> Property {
+        Property::Border(border)
     }
 }
