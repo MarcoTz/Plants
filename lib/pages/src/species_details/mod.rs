@@ -45,10 +45,7 @@ impl Page for SpeciesDetails {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles_extern = vec![
-            "../css/gallery.css".to_owned(),
-            "../css/species_details.css".to_owned(),
-        ];
+        let styles_extern = vec!["../css/species_details.css".to_owned()];
         let scripts = vec!["../js/main.js".to_owned()];
         HtmlHead {
             title: self.species_name.clone(),
@@ -57,6 +54,7 @@ impl Page for SpeciesDetails {
                 DefinedDocument::Main,
                 DefinedDocument::Header,
                 DefinedDocument::Footer,
+                DefinedDocument::Gallery,
             ],
             scripts,
         }
