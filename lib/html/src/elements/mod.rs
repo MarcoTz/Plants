@@ -11,6 +11,7 @@ pub mod link;
 pub mod literal;
 pub mod script;
 pub mod select;
+pub mod style;
 pub mod table;
 
 use a::A;
@@ -26,6 +27,7 @@ use link::Link;
 use literal::Literal;
 use script::Script;
 use select::Select;
+use style::Style;
 use table::{Table, Td, Tr};
 
 use crate::render::Render;
@@ -49,6 +51,7 @@ pub enum HtmlElement {
     Select(Select),
     Script(Script),
     ComponentList(Vec<HtmlElement>),
+    Style(Style),
 }
 
 impl Render for HtmlElement {
@@ -71,6 +74,7 @@ impl Render for HtmlElement {
             HtmlElement::Input(input) => input.render(),
             HtmlElement::Select(select) => select.render(),
             HtmlElement::Script(script) => script.render(),
+            HtmlElement::Style(style) => style.render(),
             HtmlElement::ComponentList(ls) => {
                 let mut out_str = "".to_owned();
                 for comp in ls.iter() {

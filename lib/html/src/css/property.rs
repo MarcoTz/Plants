@@ -104,3 +104,15 @@ impl Render for Padding {
         }
     }
 }
+
+impl From<Margin> for Property {
+    fn from(margin: Margin) -> Property {
+        Property::Margin(margin)
+    }
+}
+
+impl From<Padding> for Property {
+    fn from(padding: Padding) -> Property {
+        Property::Padding(padding)
+    }
+}

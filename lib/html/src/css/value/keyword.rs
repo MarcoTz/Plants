@@ -1,3 +1,4 @@
+use super::Value;
 use crate::render::Render;
 
 pub enum Keyword {
@@ -37,5 +38,11 @@ impl Render for Keyword {
             Keyword::Relative => "relative".to_owned(),
             Keyword::Block => "block".to_owned(),
         }
+    }
+}
+
+impl From<Keyword> for Value {
+    fn from(keyword: Keyword) -> Value {
+        Value::Keyword(keyword)
     }
 }

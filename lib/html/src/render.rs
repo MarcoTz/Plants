@@ -8,6 +8,6 @@ impl<T: Render> Render for Vec<T> {
         for t in self.iter() {
             t_strs.push(t.render());
         }
-        t_strs.join(" ")
+        t_strs.join("\n")
     }
 }

@@ -1,4 +1,5 @@
 pub mod activities;
+pub mod css;
 pub mod errors;
 pub mod gallery;
 pub mod graveyard;

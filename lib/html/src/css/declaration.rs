@@ -19,3 +19,13 @@ impl Render for Declaration {
         format!("{property_str}:{value_str}{imp_str};")
     }
 }
+
+impl From<(Property, Value)> for Declaration {
+    fn from((prop, val): (Property, Value)) -> Declaration {
+        Declaration {
+            property: prop,
+            value: val,
+            important: false,
+        }
+    }
+}
