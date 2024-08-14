@@ -160,7 +160,10 @@ impl Plant {
     pub fn get_next_growth(&self) -> NaiveDate {
         match self.get_last_growth() {
             Err(_) => Local::now().date_naive(),
-            Ok(last_growth) => last_growth.date + TimeDelta::days(14),
+            Ok(last_growth) => max(
+                last_growth.date + TimeDelta::days(14),
+                Local::now().date_naive(),
+            ),
         }
     }
 
