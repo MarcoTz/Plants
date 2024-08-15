@@ -3,7 +3,7 @@ use super::{
     load_csv::{load_activities, load_growth},
     load_json::{load_plant_jsons, load_species},
 };
-use chrono::{DateTime, Local, NaiveDate};
+use chrono::NaiveDate;
 use plants::{
     growth_item::GrowthItem,
     log_item::LogItem,
@@ -170,18 +170,20 @@ pub fn load_images(image_dir: &str, plant_name: &str) -> Result<Vec<PlantImage>,
             access: AccessType::Read,
         }))?;
         if file_name.contains(plant_name) {
-            let meta = dir_file.metadata().map_err(|err| FSError {
+            let file_end = file_name.split("_").last().ok_or(Error::FSError(FSError {
                 file_name: file_name.to_owned(),
-                err_msg: ("Could not get metadata,".to_owned() + &err.to_string()),
+                err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,
-            })?;
-            let created = meta.created().map_err(|err| FSError {
+            }))?;
+            let parts = file_end.split(".").collect::<Vec<&str>>();
+
+            let date_str = parts.get(0).ok_or(Error::FSError(FSError {
                 file_name: file_name.to_owned(),
-                err_msg: ("Could not get created date".to_owned() + &err.to_string()),
+                err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,
-            })?;
-            let created_chrono: DateTime<Local> = created.into();
-            plant_images.push((created_chrono.date_naive(), file_name.to_owned()))
+            }))?;
+            let created = NaiveDate::parse_from_str(date_str, "%d%m%Y")?;
+            plant_images.push((created, file_name.to_owned()))
         }
     }
     Ok(plant_images)
