@@ -24,6 +24,8 @@ pub enum Keyword {
     Bold,
     Transparent,
     Hidden,
+    FlowRoot,
+    NoWrap,
 }
 
 impl Render for Keyword {
@@ -50,6 +52,8 @@ impl Render for Keyword {
             Keyword::Bold => "bold".to_owned(),
             Keyword::Transparent => "transparent".to_owned(),
             Keyword::Hidden => "hidden".to_owned(),
+            Keyword::FlowRoot => "flot-root".to_owned(),
+            Keyword::NoWrap => "nowrap".to_owned(),
         }
     }
 }

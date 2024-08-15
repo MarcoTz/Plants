@@ -4,7 +4,7 @@ use html::css::{
     declaration::Declaration,
     property::{Direction, Margin, Padding, Property},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit, Value},
+    value::{keyword::Keyword, unit::Unit},
     CssDocument,
 };
 
@@ -15,8 +15,8 @@ impl CssComponent for PlantList {
         let plant_list_item = CssBlock {
             selector: TopSelector::Class("plant_list_item".to_owned()).into(),
             decls: vec![
-                (Property::Height, Value::Measurement(9.0, Unit::Em)).into(),
-                (Property::Width, Value::Measurement(10.0, Unit::Em)).into(),
+                (Property::Height, (9.0, Unit::Em).into()).into(),
+                (Property::Width, (10.0, Unit::Em).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
                 (Property::Overflow, Keyword::Hidden.into()).into(),
             ],
@@ -25,13 +25,13 @@ impl CssComponent for PlantList {
         let plant_preview = CssBlock {
             selector: TopSelector::Class("plant_preview".to_owned()).into(),
             decls: vec![
-                (Property::Height, Value::Measurement(40.0, Unit::Percent)).into(),
+                (Property::Height, (40.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(0.5, Unit::Em),
+                    (0.5, Unit::Em).into(),
                 )
                     .into(),
             ],
@@ -59,7 +59,7 @@ impl CssComponent for PlantList {
                         dir: Direction::All,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Em),
+                    (0.0, Unit::Em).into(),
                 )
                     .into(),
             ],
@@ -70,5 +70,3 @@ impl CssComponent for PlantList {
         }
     }
 }
-
-/**/

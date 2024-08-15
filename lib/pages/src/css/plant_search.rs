@@ -15,13 +15,13 @@ impl CssComponent for PlantSearch {
             selector: TopSelector::Id("plant_search".to_owned()).into(),
             decls: vec![
                 (Property::Background, Value::Var("bg-color-even".to_owned())).into(),
-                (Property::BorderRadius, Value::Measurement(1.0, Unit::Em)).into(),
+                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -29,10 +29,10 @@ impl CssComponent for PlantSearch {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Em),
+                    (0.0, Unit::Em).into(),
                 )
                     .into(),
-                (Property::Width, Value::Measurement(90.0, Unit::Percent)).into(),
+                (Property::Width, (90.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -41,23 +41,23 @@ impl CssComponent for PlantSearch {
                     Keyword::Auto.into(),
                 )
                     .into(),
-                (Property::Gap, Value::Measurement(0.5, Unit::Em)).into(),
+                (Property::Gap, (0.5, Unit::Em).into()).into(),
             ],
         };
 
         let search_header = CssBlock {
             selector: TopSelector::Class("search_header".to_owned()).into(),
             decls: vec![
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
                 (Property::FontWeight, Keyword::Bold.into()).into(),
-                (Property::FontSize, Value::Measurement(14.0, Unit::Pt)).into(),
+                (Property::FontSize, (14.0, Unit::Pt).into()).into(),
                 (
                     Padding {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(0.5, Unit::Em),
+                    (0.5, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -65,7 +65,7 @@ impl CssComponent for PlantSearch {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Em),
+                    (0.0, Unit::Em).into(),
                 )
                     .into(),
                 (

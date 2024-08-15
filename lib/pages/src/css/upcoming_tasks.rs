@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Direction, Padding, Property},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit, Value},
+    value::{keyword::Keyword, unit::Unit},
     CssDocument,
 };
 pub struct UpcomingTasks {}
@@ -13,7 +13,7 @@ impl CssComponent for UpcomingTasks {
         let task_block = CssBlock {
             selector: TopSelector::Class("task_block".to_owned()).into(),
             decls: vec![
-                (Property::MaxWidth, Value::Measurement(10.0, Unit::Em)).into(),
+                (Property::MaxWidth, (10.0, Unit::Em).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
             ],
         };
@@ -21,16 +21,16 @@ impl CssComponent for UpcomingTasks {
         let upcoming_task = CssBlock {
             selector: TopSelector::Class("upcoming_task".to_owned()).into(),
             decls: vec![
-                (Property::FontSize, Value::Measurement(12.0, Unit::Pt)).into(),
+                (Property::FontSize, (12.0, Unit::Pt).into()).into(),
                 (Property::FontWeight, Keyword::Bold.into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
                 (
                     Padding {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(0.5, Unit::Em),
+                    (0.5, Unit::Em).into(),
                 )
                     .into(),
             ],
