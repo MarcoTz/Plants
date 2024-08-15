@@ -24,8 +24,8 @@ impl From<HtmlElement> for Body {
 
 impl Render for Body {
     fn render(&self) -> String {
-        let content_str = self.content.render();
-        let attr_str = self.attributes.render();
-        format!("<body {attr_str}>{content_str}</body>")
+        let content_str = self.content.render().replace("\n", "\n\t");
+        let attr_str = self.attributes.render().replace("\n", " ");
+        format!("<body {attr_str}>\n\t{content_str}\n</body>")
     }
 }

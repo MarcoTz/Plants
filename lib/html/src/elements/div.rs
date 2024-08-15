@@ -15,8 +15,8 @@ impl From<Div> for HtmlElement {
 
 impl Render for Div {
     fn render(&self) -> String {
-        let content_str = self.content.render();
-        let attr_str = self.attributes.render();
-        format!("<div {attr_str}>{content_str}</div>")
+        let content_str = self.content.render().replace("\n", "\n\t");
+        let attr_str = self.attributes.render().replace("\n", " ");
+        format!("<div {attr_str}>\n\t{content_str}\n</div>")
     }
 }

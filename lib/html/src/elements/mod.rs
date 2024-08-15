@@ -75,13 +75,7 @@ impl Render for HtmlElement {
             HtmlElement::Select(select) => select.render(),
             HtmlElement::Script(script) => script.render(),
             HtmlElement::Style(style) => style.render(),
-            HtmlElement::ComponentList(ls) => {
-                let mut out_str = "".to_owned();
-                for comp in ls.iter() {
-                    out_str.push_str(&comp.render());
-                }
-                out_str
-            }
+            HtmlElement::ComponentList(ls) => ls.render(),
         }
     }
 }
