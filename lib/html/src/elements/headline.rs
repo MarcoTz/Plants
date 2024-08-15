@@ -25,8 +25,8 @@ impl From<Headline> for HtmlElement {
 impl Render for Headline {
     fn render(&self) -> String {
         let size_tag = self.size.render();
-        let content_str = self.content.render().replace("\n", "\n\t");
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let content_str = self.content.render().replace('\n', "\n\t");
+        let attr_str = self.attributes.render().replace('\n', " ");
         format!("<{size_tag} {attr_str}>\n\t{content_str}\n</{size_tag}>")
     }
 }

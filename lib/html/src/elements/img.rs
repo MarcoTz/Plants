@@ -7,7 +7,7 @@ pub struct Img {
 
 impl Render for Img {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         format!("<img {attr_str} />")
     }
 }

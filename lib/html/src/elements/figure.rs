@@ -10,9 +10,9 @@ pub struct Figure {
 
 impl Render for Figure {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
-        let contents_str = self.content.render().replace("\n", "\n\t");
-        let caption_str = self.caption.render().replace("\n", "\n\t\t");
+        let attr_str = self.attributes.render().replace('\n', " ");
+        let contents_str = self.content.render().replace('\n', "\n\t");
+        let caption_str = self.caption.render().replace('\n', "\n\t\t");
         format!("<figure {attr_str}>\n\t{contents_str}\n\t<figcaption>\n\t\t{caption_str}\n\t</figcaption>\n</figure>")
     }
 }

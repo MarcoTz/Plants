@@ -9,7 +9,7 @@ pub struct A {
 
 impl Render for A {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         let cont_str = self.content.render();
 
         format!("<a {attr_str}>{cont_str}</a>")

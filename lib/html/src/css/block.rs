@@ -11,7 +11,7 @@ pub struct CssBlock {
 impl Render for CssBlock {
     fn render(&self) -> String {
         let selector_str = self.selector.render();
-        let decls_str = self.decls.render().replace("\n", "\n\t");
+        let decls_str = self.decls.render().replace('\n', "\n\t");
 
         format!("{selector_str} {{ \n\t{decls_str}\n}}")
     }
