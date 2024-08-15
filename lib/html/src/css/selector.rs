@@ -14,6 +14,7 @@ pub enum TopSelector {
     Tag(String),
     Pseudo(String),
     All,
+    Multiple(Vec<TopSelector>),
 }
 
 #[derive(Clone)]
@@ -50,6 +51,10 @@ impl Render for TopSelector {
             TopSelector::Tag(tag) => tag.to_string(),
             TopSelector::Pseudo(pseudo) => format!(":{pseudo}"),
             TopSelector::All => "*".to_owned(),
+            TopSelector::Multiple(selectors) => {
+                let sel_strs: Vec<String> = selectors.iter().map(|s| s.render()).collect();
+                sel_strs.join(", ")
+            }
         }
     }
 }
