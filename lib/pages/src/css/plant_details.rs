@@ -1,3 +1,14 @@
+use crate::page::CssComponent;
+use html::css::CssDocument;
+
+pub struct PlantDetails {}
+
+impl CssComponent for PlantDetails {
+    fn render(&self) -> CssDocument {
+        todo!("")
+    }
+}
+
 /*#plant_content{
   width:95%;
   display:flow-root;
