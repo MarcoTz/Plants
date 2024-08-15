@@ -1,11 +1,11 @@
-pub mod color;
-pub mod keyword;
-pub mod unit;
+mod color;
+mod keyword;
+mod unit;
 
 use crate::render::Render;
-use color::Color;
-use keyword::Keyword;
-use unit::Unit;
+pub use color::Color;
+pub use keyword::Keyword;
+pub use unit::Unit;
 
 #[derive(Clone)]
 pub enum Value {

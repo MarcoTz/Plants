@@ -4,7 +4,7 @@ use html::css::{
     declaration::Declaration,
     property::{Color, Direction, Margin, Padding, Property, Size},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit},
+    value::{Keyword, Unit},
     CssDocument,
 };
 
