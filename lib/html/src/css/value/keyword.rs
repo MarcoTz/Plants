@@ -23,6 +23,7 @@ pub enum Keyword {
     FlexEnd,
     Bold,
     Transparent,
+    Hidden,
 }
 
 impl Render for Keyword {
@@ -48,6 +49,7 @@ impl Render for Keyword {
             Keyword::FlexEnd => "flex-end".to_owned(),
             Keyword::Bold => "bold".to_owned(),
             Keyword::Transparent => "transparent".to_owned(),
+            Keyword::Hidden => "hidden".to_owned(),
         }
     }
 }
