@@ -1,0 +1,19 @@
+/*#plant_search {
+  background:var(--bg-color-even);
+  border-radius:1em;
+  padding-bottom:1em;
+  padding-top:0em;
+  width:90%;
+  margin:auto;
+  gap:0.5em;
+}
+
+.search_header{
+  width:100%;
+  text-align:center;
+  font-weight:bold;
+  font-size:14pt;
+  padding-top:0.5em;
+  padding-bottom:0em;
+  margin:auto;
+}*/
