@@ -4,7 +4,7 @@ use crate::{
 };
 use html::{
     attribute::Attribute,
-    elements::{head::Head, script::Script, HtmlElement},
+    elements::{Head, HtmlElement, Script},
 };
 use std::rc::Rc;
 

@@ -1,7 +1,7 @@
 use crate::page::{PageComponent, PageURLs};
 use html::{
     attribute::Attribute,
-    elements::{a::A, div::Div, HtmlElement},
+    elements::{Div, HtmlElement, A},
 };
 use std::rc::Rc;
 

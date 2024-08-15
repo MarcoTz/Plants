@@ -1,12 +1,7 @@
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    elements::{
-        a::A,
-        div::Div,
-        table::{Table, Td, Tr},
-        HtmlElement,
-    },
+    elements::{Div, HtmlElement, Table, Td, Tr, A},
     render::Render,
 };
 use plants::{plant::Plant, species::Species};

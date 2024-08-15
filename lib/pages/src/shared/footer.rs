@@ -2,7 +2,7 @@ use crate::page::PageComponent;
 use chrono::{Local, NaiveDate};
 use html::{
     attribute::Attribute,
-    elements::{a::A, div::Div, img::Img, HtmlElement},
+    elements::{Div, HtmlElement, Img, A},
 };
 use std::rc::Rc;
 

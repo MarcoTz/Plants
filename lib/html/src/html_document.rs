@@ -1,5 +1,5 @@
 use super::{
-    elements::{body::Body, head::Head},
+    elements::{Body, Head},
     render::Render,
 };
 

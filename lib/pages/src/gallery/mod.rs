@@ -6,7 +6,7 @@ use super::{
 };
 use html::{
     attribute::Attribute,
-    elements::{div::Div, HtmlElement},
+    elements::{Div, HtmlElement},
 };
 use plants::plant::Plant;
 use std::rc::Rc;

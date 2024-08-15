@@ -10,11 +10,7 @@ use super::{
 };
 use html::{
     attribute::Attribute,
-    elements::{
-        div::Div,
-        headline::{HeaderSize, Headline},
-        HtmlElement,
-    },
+    elements::{Div, HeaderSize, Headline, HtmlElement},
 };
 use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
