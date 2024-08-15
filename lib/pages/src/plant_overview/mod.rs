@@ -27,10 +27,7 @@ impl Page for PlantOverview {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles_extern = vec![
-            "css/plant_list.css".to_owned(),
-            "css/plant_search.css".to_owned(),
-        ];
+        let styles_extern = vec!["css/plant_list.css".to_owned()];
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Plants".to_owned(),
@@ -39,6 +36,7 @@ impl Page for PlantOverview {
                 DefinedDocument::Main,
                 DefinedDocument::Header,
                 DefinedDocument::Footer,
+                DefinedDocument::PlantSearch,
             ],
             scripts,
         }

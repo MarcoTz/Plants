@@ -1,3 +1,14 @@
+use crate::page::CssComponent;
+use html::css::CssDocument;
+
+pub struct PlantList {}
+
+impl CssComponent for PlantList {
+    fn render(&self) -> CssDocument {
+        todo!("")
+    }
+}
+
 /*.plant_list_item{
   height:9em;
   width:10em;
