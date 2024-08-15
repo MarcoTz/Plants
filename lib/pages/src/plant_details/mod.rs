@@ -96,7 +96,6 @@ impl Page for PlantDetails {
         ];
         HtmlHead {
             title: self.name.clone(),
-            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,

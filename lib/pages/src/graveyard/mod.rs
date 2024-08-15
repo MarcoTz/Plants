@@ -22,7 +22,6 @@ impl Page for Graveyard {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Graveyard".to_owned(),
-            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,
