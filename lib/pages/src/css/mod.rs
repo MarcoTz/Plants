@@ -1,28 +1,30 @@
+mod classes;
 mod footer;
 mod gallery;
 mod hall_of_fame;
 mod header;
-mod main;
 mod plant_details;
 mod plant_list;
 mod plant_search;
 mod root;
 mod species_details;
+mod tags;
 mod upcoming_tasks;
 
 use crate::page::{CssComponent, PageComponent};
 use html::elements::{HtmlElement, Style};
 
+use classes::Classes;
 use footer::Footer;
 use gallery::Gallery;
 use hall_of_fame::HallOfFame;
 use header::Header;
-use main::Main;
 use plant_details::PlantDetails;
 use plant_list::PlantList;
 use plant_search::PlantSearch;
 use root::Root;
 use species_details::SpeciesDetails;
+use tags::Tags;
 use upcoming_tasks::UpcomingTasks;
 
 #[derive(Clone)]
@@ -42,7 +44,8 @@ impl PageComponent for PageCss {
         match self {
             PageCss::Activities => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -51,7 +54,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::Gallery => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -61,7 +65,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::Graveyard => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -70,7 +75,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::Index => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -81,7 +87,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::PlantDetails => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -92,7 +99,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::PlantOverview => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -103,7 +111,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::SpeciesDetails => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
@@ -114,7 +123,8 @@ impl PageComponent for PageCss {
             .into(),
             PageCss::SpeciesOverview => Style {
                 styles: vec![
-                    Main {}.render(),
+                    Classes {}.render(),
+                    Tags {}.render(),
                     Root {}.render(),
                     Header {}.render(),
                     Footer {}.render(),
