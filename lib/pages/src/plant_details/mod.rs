@@ -5,7 +5,7 @@ pub mod growth_table;
 pub mod status;
 
 use super::{
-    css::DefinedDocument,
+    css::PageCss,
     errors::Error,
     page::{Page, PageComponent},
     shared::{html_head::HtmlHead, plant_gallery::PlantGallery, species_link::SpeciesLink},
@@ -82,7 +82,7 @@ impl Page for PlantDetails {
         .into()
     }
 
-    fn get_head(&self) -> HtmlHead {
+    fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec![
             "../js/graphs.js".to_owned(),
             "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js".to_owned(),
@@ -90,14 +90,9 @@ impl Page for PlantDetails {
         ];
         HtmlHead {
             title: self.name.clone(),
-            styles: vec![
-                DefinedDocument::Main,
-                DefinedDocument::Header,
-                DefinedDocument::Footer,
-                DefinedDocument::Gallery,
-                DefinedDocument::PlantDetails,
-            ],
+            styles: PageCss::PlantDetails,
             scripts,
+            date_format: date_format.to_owned(),
         }
     }
 
@@ -109,7 +104,7 @@ impl Page for PlantDetails {
         ]
         .into();
         HtmlDocument {
-            head: Head::from(&self.get_head()),
+            head: Head::from(&self.get_head(date_format)),
             body: Body {
                 attributes: vec![Attribute::OnLoad(
                     "create_graphs();setup_img_events()".to_owned(),

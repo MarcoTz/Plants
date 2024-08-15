@@ -23,6 +23,6 @@ impl Render for CssDocument {
 
 impl From<CssDocument> for HtmlElement {
     fn from(css: CssDocument) -> HtmlElement {
-        HtmlElement::Style(Style { styles: css.decls })
+        HtmlElement::Style(Style { styles: vec![css] })
     }
 }

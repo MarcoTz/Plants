@@ -16,7 +16,7 @@ pub trait CssComponent {
 }
 
 pub trait Page {
-    fn get_head(&self) -> HtmlHead;
+    fn get_head(&self, date_format: &str) -> HtmlHead;
     fn get_content(&self, date_format: &str) -> HtmlElement;
     fn get_footer(&self, num_plants: i32) -> Footer {
         Footer::from(num_plants)
@@ -33,7 +33,7 @@ pub trait Page {
         ]
         .into();
         HtmlDocument {
-            head: Head::from(&self.get_head()),
+            head: Head::from(&self.get_head(date_format)),
             body: Body {
                 attributes: vec![Attribute::OnLoad("setup_img_events()".to_owned())],
                 content: Rc::new(body_contents),

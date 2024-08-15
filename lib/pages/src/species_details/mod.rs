@@ -4,7 +4,7 @@ use species_gallery::SpeciesGallery;
 use species_info::SpeciesInfo;
 
 use super::{
-    css::DefinedDocument,
+    css::PageCss,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -40,18 +40,13 @@ impl Page for SpeciesDetails {
         .into()
     }
 
-    fn get_head(&self) -> HtmlHead {
+    fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["../js/main.js".to_owned()];
         HtmlHead {
             title: self.species_name.clone(),
-            styles: vec![
-                DefinedDocument::Main,
-                DefinedDocument::Header,
-                DefinedDocument::Footer,
-                DefinedDocument::Gallery,
-                DefinedDocument::SpeciesDetails,
-            ],
+            styles: PageCss::SpeciesDetails,
             scripts,
+            date_format: date_format.to_owned(),
         }
     }
 }

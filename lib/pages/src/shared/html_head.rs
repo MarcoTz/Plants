@@ -1,7 +1,4 @@
-use crate::{
-    css::DefinedDocument,
-    page::{CssComponent, PageComponent},
-};
+use crate::{css::PageCss, page::PageComponent};
 use html::{
     attribute::Attribute,
     elements::{Head, HtmlElement, Script},
@@ -11,8 +8,9 @@ use std::rc::Rc;
 #[derive(Clone)]
 pub struct HtmlHead {
     pub title: String,
-    pub styles: Vec<DefinedDocument>,
+    pub styles: PageCss,
     pub scripts: Vec<String>,
+    pub date_format: String,
 }
 
 impl From<&HtmlHead> for Head {
@@ -28,13 +26,9 @@ impl From<&HtmlHead> for Head {
             )
         }
 
-        let mut styles = vec![];
-        for style in hd.styles.iter() {
-            styles.push(style.render().into())
-        }
         Head {
             title: hd.title.clone(),
-            content: Rc::new(vec![styles.into(), scripts.into()].into()),
+            content: Rc::new(vec![hd.styles.render(&hd.date_format), scripts.into()].into()),
         }
     }
 }
