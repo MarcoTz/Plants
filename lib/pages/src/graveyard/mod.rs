@@ -1,7 +1,7 @@
 pub mod graveyard_table;
 
 use super::{
-    css::DefinedDocument,
+    css::PageCss,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -18,16 +18,13 @@ impl Page for Graveyard {
         self.graveyard_table.render(date_format)
     }
 
-    fn get_head(&self) -> HtmlHead {
+    fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Graveyard".to_owned(),
-            styles: vec![
-                DefinedDocument::Main,
-                DefinedDocument::Header,
-                DefinedDocument::Footer,
-            ],
+            styles: PageCss::Graveyard,
             scripts,
+            date_format: date_format.to_owned(),
         }
     }
 }

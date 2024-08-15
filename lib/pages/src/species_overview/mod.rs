@@ -1,6 +1,6 @@
 pub mod species_list;
 use super::{
-    css::DefinedDocument,
+    css::PageCss,
     page::{Page, PageComponent},
     shared::html_head::HtmlHead,
 };
@@ -18,17 +18,13 @@ impl Page for SpeciesOverview {
         self.species_list.render(date_format)
     }
 
-    fn get_head(&self) -> HtmlHead {
+    fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Species".to_owned(),
-            styles: vec![
-                DefinedDocument::Main,
-                DefinedDocument::Header,
-                DefinedDocument::Footer,
-                DefinedDocument::PlantList,
-            ],
+            styles: PageCss::SpeciesOverview,
             scripts,
+            date_format: date_format.to_owned(),
         }
     }
 }
