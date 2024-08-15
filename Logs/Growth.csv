@@ -10,6 +10,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Stefan;18.0;30.0;
 03.07.2024;Stefan;22.0;30.0;
 16.07.2024;Stefan;20.0;32.0;First Fruit
+31.07.2024;Stefan;15.0;35.0;
 08.04.2024;Beehome;0.0;0.0;Planted Seeds
 12.04.2024;Beehome;0.1;0.1;First Sprouts
 03.05.2024;Beehome;7.0;30.0;
@@ -21,6 +22,8 @@ Date;Plant;Height;Width;Note
 25.06.2024;Beehome;70.0;30.0;Mustard seeds appeared
 03.07.2024;Beehome;76.0;30.0;Some plants are already dying but others are freshly growing
 16.07.2024;Beehome;51.0;30.0;Most plants have already died, mostly natural I think
+31.07.2024;Beehome;24.0;30.0;most flowers have wilted already
+15.08.2024;Beehome;29.0;62.0;
 14.04.2024;Brock;0.0;0.0;Planted Seeds
 18.04.2024;Brock;0.1;0.1;First Sprouts
 22.04.2024;Brock;11.0;2.0;Repotted
@@ -32,6 +35,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Brock;20.0;22.0;Probably needs repotting soon
 03.07.2024;Brock;20.0;25.0;Might have grown too slow for fruiting
 16.07.2024;Brock;24.0;20.0;Has been attacked by snails
+31.07.2024;Brock;30.0;33.0;
 08.04.2024;Cerberus;8.0;8.0;
 03.05.2024;Cerberus;7.0;11.0;
 20.05.2024;Cerberus;8.5;7.5;
@@ -40,6 +44,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Cerberus;10.0;7.0;Looks like he's losing one stem
 03.07.2024;Cerberus;10.0;8.0;Still very dangerous, but I think he'll make it
 16.07.2024;Cerberus;10.0;8.0;
+02.08.2024;Cerberus;12.0;10.0;DOne
 08.04.2024;Elvis;10.0;20.0;
 14.04.2024;Elvis;10.0;30.0;
 03.05.2024;Elvis;12.0;32.0;
@@ -51,6 +56,8 @@ Date;Plant;Height;Width;Note
 25.06.2024;Elvis;15.0;45.0;
 03.07.2024;Elvis;17.0;50.0;
 16.07.2024;Elvis;47.0;46.0;
+31.07.2024;Elvis;17.0;42.0;
+15.08.2024;Elvis;10.0;54.0;Major sunburn
 14.04.2024;Eva Longoria;60.0;30.0;
 24.04.2024;Eva Longoria;20.0;15.0;Repotted and added stem
 03.05.2024;Eva Longoria;78.0;35.0;
@@ -60,6 +67,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Eva Longoria;80.0;43.0;
 03.07.2024;Eva Longoria;88.0;38.0;
 16.07.2024;Eva Longoria;92.0;39.0;seems a bit stressed
+31.07.2024;Eva Longoria;58.0;42.0;
 08.04.2024;Findus;70.0;40.0;
 03.05.2024;Findus;70.0;40.0;
 20.05.2024;Findus;80.0;50.0;
@@ -68,6 +76,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Findus;78.0;70.0;is getting pretty big for his pot
 03.07.2024;Findus;75.0;72.0;Has a bigger pot and the stick is removed
 16.07.2024;Findus;78.0;72.0;
+31.07.2024;Findus;77.0;76.0;DOne
 14.04.2024;Jerry;7.0;4.0;
 03.05.2024;Jerry;11.0;10.0;
 17.05.2024;Jerry;17.0;22.0;
@@ -92,6 +101,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Kelly;44.0;40.0;
 16.07.2024;Kelly;48.0;47.0;
 31.07.2024;Kelly;44.0;50.0;
+15.08.2024;Kelly;93.0;50.0;
 08.04.2024;Kevin;28.0;10.0;
 14.04.2024;Kevin;30.0;12.0;
 03.05.2024;Kevin;23.0;25.0;
@@ -102,6 +112,8 @@ Date;Plant;Height;Width;Note
 25.06.2024;Kevin;45.0;22.0;Probably needs repot soon
 03.07.2024;Kevin;34.0;50.0;Fruits are growing
 16.07.2024;Kevin;30.0;50.0;
+31.07.2024;Kevin;43.0;28.0;
+15.08.2024;Kevin;42.0;38.0;
 08.04.2024;Liliana;24.0;15.0;
 03.05.2024;Liliana;21.0;28.0;
 20.05.2024;Liliana;24.0;30.0;
@@ -110,6 +122,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Liliana;22.0;26.0;Might need repotting soon again
 03.07.2024;Liliana;21.0;35.0;
 16.07.2024;Liliana;25.0;30.0;
+31.07.2024;Liliana;24.0;30.0;
 07.04.2024;Lucy;6.0;4.0;
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
@@ -123,6 +136,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Lucy;35.0;28.0;
 03.07.2024;Lucy;46.0;35.0;Dome
 16.07.2024;Lucy;46.0;32.0;first fruit
+31.07.2024;Lucy;50.0;36.0;
 07.04.2024;Sandy;7.0;4.0;
 14.04.2024;Sandy;9.0;4.0;
 24.04.2024;Sandy;9.0;8.0;
@@ -136,6 +150,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Sandy;34.0;30.0;
 03.07.2024;Sandy;38.0;35.0;
 16.07.2024;Sandy;37.0;36.0;
+31.07.2024;Sandy;41.0;32.0;
 08.04.2024;Maria;2.0;2.0;
 14.04.2024;Maria;2.5;2.0;
 03.05.2024;Maria;2.0;1.0;
@@ -145,6 +160,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Maria;9.0;8.0;Still not very bushy sadly
 03.07.2024;Maria;10.0;10.0;
 16.07.2024;Maria;16.0;10.0;
+31.07.2024;Maria;13.0;18.0;Fell over, but recovered
 08.04.2024;Nadja;10.0;5.0;
 14.04.2024;Nadja;12.0;5.0;
 24.04.2024;Nadja;15.0;5.0;
@@ -158,6 +174,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Nadja;44.0;24.0;Leaves keep drooping since chilis started growing, there's probably not enough nutrients
 03.07.2024;Nadja;42.0;37.0;Adding some fertilizer to water helped
 16.07.2024;Nadja;49.0;28.0;
+31.07.2024;Nadja;49.0;31.0;
 08.04.2024;Pepe;6.5;4.0;
 14.04.2024;Pepe;7.0;4.0;
 03.05.2024;Pepe;7.0;4.0;
@@ -167,6 +184,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Pepe;2.0;4.5;Still not rooting properly
 03.07.2024;Pepe;3.0;4.0;Roots seem to have come out, new flowering buds are forming, but still hanging a bit sideways
 16.07.2024;Pepe;3.0;5.0;
+02.08.2024;Pepe;7.0;4.5;
 08.04.2024;Peppa;4.0;10.0;
 14.04.2024;Peppa;4.0;13.0;
 03.05.2024;Peppa;5.0;26.0;
@@ -176,6 +194,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Peppa;5.0;18.0;
 03.07.2024;Peppa;18.0;6.0;
 16.07.2024;Peppa;7.0;16.0;
+31.07.2024;Peppa;11.0;13.0;
 08.04.2024;Rosy;45.0;40.0;
 03.05.2024;Rosy;35.0;35.0;
 20.05.2024;Rosy;44.0;35.0;
@@ -185,6 +204,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Rosy;48.0;42.0;Needs a new pot
 03.07.2024;Rosy;44.0;58.0;doing a lot better since she has new soil
 16.07.2024;Rosy;39.0;59.0;New leaf uncurling
+02.08.2024;Rosy;50.0;56.0;
 14.04.2024;Zoey;0.0;0.0;Planted Seeds
 18.04.2024;Zoey;0.1;0.1;First Sprouts
 22.04.2024;Zoey;10.0;1.0;Repotted
@@ -196,6 +216,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Zoey;38.0;64.0;Still no fruit even though there are a lot of flowers
 03.07.2024;Zoey;45.0;95.0;
 16.07.2024;Zoey;53.0;82.0;Still no fruit
+31.07.2024;Zoey;31.0;41.0;
 03.05.2024;Chrom;15.0;5.0;
 18.05.2024;Chrom;20.0;20.0;
 20.05.2024;Chrom;18.0;15.0;
@@ -206,6 +227,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Chrom;72.0;60.0;
 16.07.2024;Chrom;102.0;82.0;Flowering
 31.07.2024;Chrom;110.0;78.0;
+15.08.2024;Chrom;107.0;83.0;
 05.05.2024;Darryl;33.0;10.0;
 20.05.2024;Darryl;33.0;9.5;
 04.06.2024;Darryl;34.0;6.0;
@@ -213,6 +235,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Darryl;34.0;9.0;
 03.07.2024;Darryl;33.0;10.0;Many new sprouts and great color since he has more light
 16.07.2024;Darryl;36.0;11.0;
+02.08.2024;Darryl;33.0;14.0;
 03.05.2024;Zane;7.0;5.0;
 20.05.2024;Zane;11.5;10.0;
 04.06.2024;Zane;16.0;25.0;
@@ -220,6 +243,7 @@ Date;Plant;Height;Width;Note
 18.06.2024;Zane;24.0;41.0;
 25.06.2024;Zane;32.0;55.0;Still no fruit even though there are a lot of flowers
 16.07.2024;Zane;54.0;62.0;Still no fruit
+31.07.2024;Zane;40.0;40.0;
 03.05.2024;Ivan;8.0;5.0;
 20.05.2024;Ivan;9.0;8.5;
 04.06.2024;Ivan;9.0;8.0;
@@ -227,6 +251,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Ivan;8.0;9.0;
 03.07.2024;Ivan;10.0;11.0;
 16.07.2024;Ivan;10.0;10.0;
+02.08.2024;Ivan;10.0;8.0;
 03.05.2024;Tom;11.0;8.0;
 17.05.2024;Tom;15.5;17.0;
 20.05.2024;Tom;16.0;17.0;
@@ -237,6 +262,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Tom;38.0;55.0;
 16.07.2024;Tom;38.0;47.0;Almost died from heat
 31.07.2024;Tom;34.0;56.0;
+15.08.2024;Tom;35.0;53.0;
 05.05.2024;Hella;32.0;28.0;
 20.05.2024;Hella;13.0;36.0;
 04.06.2024;Hella;20.0;42.0;
@@ -244,6 +270,7 @@ Date;Plant;Height;Width;Note
 14.06.2024;Hella;22.0;46.0;
 25.06.2024;Hella;22.0;43.0;Some leaves burnt from heavy sun
 16.07.2024;Hella;25.0;41.0;Too many burned leaves
+31.07.2024;Hella;36.0;15.0;
 03.05.2024;Terry;5.0;9.0;
 26.05.2024;Terry;13.0;10.0;
 04.06.2024;Terry;18.0;15.0;
@@ -253,6 +280,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Terry;80.0;53.0;
 16.07.2024;Terry;91.0;50.0;
 31.07.2024;Terry;60.0;82.0;
+15.08.2024;Terry;110.0;60.0;
 03.05.2024;Martha;13.0;17.0;
 20.05.2024;Martha;11.0;23.0;
 04.06.2024;Martha;12.0;23.0;Might want more sunlight
@@ -260,6 +288,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Martha;20.0;25.0;
 03.07.2024;Martha;38.0;17.0;
 16.07.2024;Martha;19.0;32.0;
+31.07.2024;Martha;24.0;30.0;
 05.05.2024;Dirk;3.0;1.0;
 20.05.2024;Dirk;5.0;2.0;
 04.06.2024;Dirk;4.0;3.0;
@@ -267,6 +296,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Dirk;4.5;2.0;
 03.07.2024;Dirk;4.0;3.0;
 16.07.2024;Dirk;4.0;4.0;
+02.08.2024;Dirk;4.0;3.5;
 03.05.2024;Klaus;15.0;5.0;
 18.05.2024;Klaus;22.0;23.0;
 20.05.2024;Klaus;20.0;15.0;
@@ -277,6 +307,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Klaus;104.0;80.0;
 16.07.2024;Klaus;112.0;100.0;Flowering
 31.07.2024;Klaus;130.0;110.0;
+15.08.2024;Klaus;128.0;100.0;Cob is growing, and side plant appeared
 06.05.2024;Mike;22.0;10.0;Added during plant creation
 20.05.2024;Mike;23.0;12.0;
 04.06.2024;Mike;30.0;20.0;
@@ -285,6 +316,7 @@ Date;Plant;Height;Width;Note
 30.06.2024;Mike;45.0;25.0;
 03.07.2024;Mike;50.0;20.0;Some yellow leaves, otherwise doing great
 16.07.2024;Mike;46.0;26.0;Almost died from heat
+31.07.2024;Mike;47.0;23.0;Last pot broke during the move
 06.05.2024;Biggie;9.0;14.0;Added during plant creation
 20.05.2024;Biggie;12.0;12.0;
 04.06.2024;Biggie;13.0;13.0;
@@ -292,6 +324,7 @@ Date;Plant;Height;Width;Note
 14.06.2024;Biggie;12.0;26.0;
 25.06.2024;Biggie;12.0;18.0;
 16.07.2024;Biggie;16.0;25.0;Finally new leaves
+31.07.2024;Biggie;16.0;22.0;Old leaf broke off, but new one is already growing
 06.05.2024;Harry;25.0;20.0;Added during plant creation
 20.05.2024;Harry;21.0;29.0;
 24.05.2024;Harry;15.0;30.0;
@@ -301,12 +334,15 @@ Date;Plant;Height;Width;Note
 25.06.2024;Harry;19.0;35.0;
 03.07.2024;Harry;29.0;34.0;
 16.07.2024;Harry;23.0;33.0;Missed some watering while I was away
+31.07.2024;Harry;27.0;35.0;
+15.08.2024;Harry;26.0;35.0;
 06.05.2024;Sam;1.0;6.0;Added during plant creation
 04.06.2024;Sam;2.0;4.0;
 10.06.2024;Sam;2.5;4.0;
 25.06.2024;Sam;3.0;3.0;
 03.07.2024;Sam;2.5;3.5;Looking very healthy again
 16.07.2024;Sam;2.0;3.0;
+02.08.2024;Sam;2.0;3.0;
 08.05.2024;Nosferatu;8.0;0.1;Added during plant creation
 17.05.2024;Nosferatu;23.0;10.0;Tallest plant, more bulbs have sprouted
 20.05.2024;Nosferatu;28.0;15.0;
@@ -317,6 +353,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Nosferatu;35.0;35.0;
 03.07.2024;Nosferatu;36.0;17.0;Doesn't seem to be growing much anymore
 16.07.2024;Nosferatu;36.0;20.0;Probably reaching the end of his life, flowers seem unlikely
+31.07.2024;Nosferatu;25.0;10.0;at the end of life
 19.05.2024;Tony;14.0;8.0;Added during plant creation
 04.06.2024;Tony;21.0;16.0;
 10.06.2024;Tony;25.0;13.0;
@@ -325,6 +362,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Tony;56.0;45.0;
 16.07.2024;Tony;60.0;45.0;
 31.07.2024;Tony;83.0;40.0;DOne
+15.08.2024;Tony;94.0;60.0;
 19.05.2024;Louie;9.0;4.0;Added during plant creation
 04.06.2024;Louie;12.0;10.0;
 10.06.2024;Louie;14.0;16.0;
@@ -333,6 +371,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Louie;50.0;55.0;
 16.07.2024;Louie;68.0;60.0;
 31.07.2024;Louie;83.0;60.0;
+15.08.2024;Louie;79.0;47.0;
 24.05.2024;Jake;11.0;5.5;Added during plant creation
 04.06.2024;Jake;15.0;13.0;
 10.06.2024;Jake;18.0;20.0;
@@ -341,6 +380,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Jake;70.0;56.0;
 16.07.2024;Jake;75.0;65.0;
 31.07.2024;Jake;72.0;48.0;
+15.08.2024;Jake;81.0;57.0;
 24.05.2024;Charles;12.0;7.0;Added during plant creation
 04.06.2024;Charles;14.0;10.0;
 10.06.2024;Charles;21.0;20.0;
@@ -349,6 +389,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Charles;71.0;60.0;
 16.07.2024;Charles;95.0;85.0;
 31.07.2024;Charles;87.0;40.0;Top branch got broken off during move
+15.08.2024;Charles;70.0;60.0;
 26.05.2024;Ray;11.0;8.0;Added during plant creation
 04.06.2024;Ray;16.0;17.0;
 10.06.2024;Ray;25.0;24.0;
@@ -357,6 +398,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Ray;85.0;65.0;
 16.07.2024;Ray;94.0;74.0;
 31.07.2024;Ray;89.0;70.0;
+15.08.2024;Ray;106.0;68.0;
 26.05.2024;Amy;12.0;8.0;Added during plant creation
 04.06.2024;Amy;13.0;13.0;
 10.06.2024;Amy;15.0;15.0;DOne
@@ -366,6 +408,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Amy;88.0;56.0;
 16.07.2024;Amy;84.0;60.0;
 31.07.2024;Amy;110.0;65.0;
+15.08.2024;Amy;120.0;61.0;
 26.05.2024;Rosa;13.0;8.0;Added during plant creation
 04.06.2024;Rosa;14.0;12.0;
 10.06.2024;Rosa;17.0;18.0;
@@ -374,6 +417,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Rosa;73.0;59.0;
 16.07.2024;Rosa;94.0;60.0;
 31.07.2024;Rosa;104.0;85.0;
+15.08.2024;Rosa;150.0;85.0;
 26.05.2024;Gina;8.0;5.0;Added during plant creation
 04.06.2024;Gina;11.0;13.0;
 10.06.2024;Gina;18.0;20.0;Desperately needs a repot
@@ -381,6 +425,7 @@ Date;Plant;Height;Width;Note
 25.06.2024;Gina;45.0;32.0;
 03.07.2024;Gina;70.0;60.0;
 31.07.2024;Gina;96.0;74.0;
+15.08.2024;Gina;120.0;50.0;
 26.05.2024;Scully;7.0;5.0;Added during plant creation
 04.06.2024;Scully;9.0;10.0;
 10.06.2024;Scully;14.0;15.0;
@@ -389,6 +434,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Scully;68.0;57.0;
 16.07.2024;Scully;88.0;69.0;
 31.07.2024;Scully;97.0;80.0;
+15.08.2024;Scully;86.0;53.0;
 26.05.2024;Hitchcock;8.0;7.0;Added during plant creation
 04.06.2024;Hitchcock;13.0;12.0;
 10.06.2024;Hitchcock;15.0;17.0;
@@ -397,23 +443,27 @@ Date;Plant;Height;Width;Note
 03.07.2024;Hitchcock;71.0;54.0;
 16.07.2024;Hitchcock;87.0;65.0;
 31.07.2024;Hitchcock;90.0;96.0;
+15.08.2024;Hitchcock;89.0;46.0;
 04.06.2024;Lucas;7.0;7.0;Added during plant creation
 10.06.2024;Lucas;7.0;6.0;Grows well, but doesn't have a lot of space under Lucy
 14.06.2024;Lucas;7.0;5.0;
 25.06.2024;Lucas;7.0;5.0;
 03.07.2024;Lucas;9.0;6.0;
 16.07.2024;Lucas;10.0;7.0;
+31.07.2024;Lucas;11.0;9.0;
 04.06.2024;Nate;8.0;7.0;Added during plant creation
 10.06.2024;Nate;10.0;7.0;
 14.06.2024;Nate;11.0;7.0;
 25.06.2024;Nate;15.0;10.0;
 16.07.2024;Nate;20.0;20.0;
+31.07.2024;Nate;23.0;14.0;
 04.06.2024;Sandra;12.0;8.0;Added during plant creation
 10.06.2024;Sandra;10.0;8.0;
 14.06.2024;Sandra;10.0;6.0;
 25.06.2024;Sandra;12.0;9.0;
 03.07.2024;Sandra;15.0;10.0;
 16.07.2024;Sandra;16.0;13.0;
+31.07.2024;Sandra;22.0;15.0;
 04.06.2024;Jim;8.0;5.0;Added during plant creation
 10.06.2024;Jim;8.0;5.0;
 14.06.2024;Jim;10.0;6.0;
@@ -428,6 +478,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Tim;17.0;12.0;
 16.07.2024;Tim;19.0;12.0;
 31.07.2024;Tim;26.0;12.0;
+15.08.2024;Tim;38.0;15.0;
 04.06.2024;Chris;10.0;6.0;Added during plant creation
 10.06.2024;Chris;13.0;7.0;
 14.06.2024;Chris;11.0;7.0;
@@ -435,6 +486,7 @@ Date;Plant;Height;Width;Note
 03.07.2024;Chris;25.0;14.0;
 16.07.2024;Chris;30.0;12.0;
 31.07.2024;Chris;30.0;12.0;
+15.08.2024;Chris;48.0;12.0;
 04.06.2024;Bart;3.0;6.0;Added during plant creation
 10.06.2024;Bart;7.0;4.0;
 14.06.2024;Bart;6.0;4.0;
@@ -452,110 +504,127 @@ Date;Plant;Height;Width;Note
 25.06.2024;Mrs Sprout;23.0;14.0;
 03.07.2024;Mrs Sprout;24.0;15.0;
 16.07.2024;Mrs Sprout;29.0;18.0;
+31.07.2024;Mrs Sprout;24.0;21.0;
 10.06.2024;Fuchur;53.0;39.0;Added during plant creation
 25.06.2024;Fuchur;50.0;32.0;
 03.07.2024;Fuchur;52.0;36.0;
 16.07.2024;Fuchur;51.0;43.0;
+31.07.2024;Fuchur;46.0;46.0;Fell over, not sure if he will survive, but now separated into two plants
 10.06.2024;Timon;16.0;20.0;Added during plant creation
 25.06.2024;Timon;19.0;19.0;
 03.07.2024;Timon;17.0;22.0;
 16.07.2024;Timon;22.0;21.0;
+31.07.2024;Timon;19.0;21.0;
 10.06.2024;Pumbaa;21.0;29.0;Added during plant creation
 25.06.2024;Pumbaa;22.0;26.0;standing a bit tilted
 16.07.2024;Pumbaa;29.0;29.0;
+31.07.2024;Pumbaa;22.0;26.0;
 26.06.2024;Rihanna;44.0;30.0;Added during plant creation
 26.06.2024;Jay;19.0;23.0;Added during plant creation
 26.06.2024;Avi;0.1;0.1;Added during plant creation
 03.07.2024;Avi;1.0;0.5;
 16.07.2024;Avi;6.0;1.0;
 23.07.2024;Avi;11.5;1.0;
+02.08.2024;Avi;22.0;9.0;
 26.06.2024;Albus;0.1;0.1;Added during plant creation
 03.07.2024;Albus;1.2;0.5;
 23.07.2024;Albus;11.0;1.0;
+02.08.2024;Albus;20.0;7.0;
 26.06.2024;Jenn;3.5;3.5;Added during plant creation
 26.06.2024;Jenn;2.5;6.0;Added during plant creation
 03.07.2024;Jenn;3.0;5.0;
 16.07.2024;Jenn;4.5;5.0;
+02.08.2024;Jenn;3.0;6.5;
 26.06.2024;Joe;2.5;5.5;Added during plant creation
 03.07.2024;Joe;3.0;6.0;
 16.07.2024;Joe;4.5;5.0;
+02.08.2024;Joe;3.0;6.0;
 26.06.2024;Jack;0.5;2.5;Added during plant creation
 03.07.2024;Jack;0.5;3.0;
 16.07.2024;Jack;1.0;2.0;
+02.08.2024;Jack;1.0;3.0;
 26.06.2024;Jane;0.5;4.0;Added during plant creation
 03.07.2024;Jane;0.5;4.0;
 16.07.2024;Jane;1.5;3.5;
+02.08.2024;Jane;1.0;4.0;
 26.06.2024;Bubba;51.0;34.0;Added during plant creation
 03.07.2024;Bubba;51.0;43.0;
 16.07.2024;Bubba;58.0;47.0;First new leaf
+31.07.2024;Bubba;59.0;45.0;
 28.06.2024;Tupac;2.0;10.0;Added during plant creation
 03.07.2024;Tupac;7.0;10.0;
 16.07.2024;Tupac;5.0;9.0;Lost a leaf but got two new ones
+31.07.2024;Tupac;5.0;6.0;Leaf got burned from the sun
 28.06.2024;Smaug;14.0;13.0;Added during plant creation
 03.07.2024;Smaug;15.0;12.0;
 16.07.2024;Smaug;14.0;13.0;
+02.08.2024;Smaug;13.5;9.0;
 03.07.2024;Gabrielle;25.0;30.0;Added during plant creation
 03.07.2024;Jill;3.0;4.0;Added during plant creation
 16.07.2024;Jill;3.5;3.0;Still no new growth
-06.07.2024;Cyrus;25.0;40.0;Added during plant creation
-16.07.2024;Cyrus;21.0;33.0;Almost died from the heat
+02.08.2024;Jill;3.0;3.0;
 16.07.2024;Leela;10.0;25.0;Added during plant creation
+31.07.2024;Leela;14.0;25.0;
 16.07.2024;Anya;7.5;10.0;Added during plant creation
+31.07.2024;Anya;5.0;8.0;
 16.07.2024;Tito;3.0;3.0;Added during plant creation
+02.08.2024;Tito;3.0;3.0;
 16.07.2024;Tigger;4.0;5.0;Added during plant creation
+02.08.2024;Tigger;5.0;6.5;
 24.07.2024;Jesus;14.0;12.0;Added during plant creation
-31.07.2024;Zane;40;40;
-31.07.2024;Zoey;31;41;
-31.07.2024;Brock;30;33;
-31.07.2024;Hella;36;15;
-31.07.2024;Harry;27;35;
-31.07.2024;Cyrus;5;22;Didn't like the move, might be dying
-31.07.2024;Biggie;16;22;Old leaf broke off, but new one is already growing
-31.07.2024;Tupac;5;6;Leaf got burned from the sun
-31.07.2024;Beehome;24;30;most flowers have wilted already
-31.07.2024;Nosferatu;25;10;at the end of life
-31.07.2024;Kevin;43;28;
-31.07.2024;Nadja;49;31;
-31.07.2024;Nate;23;14;
-31.07.2024;Sandy;41;32;
-31.07.2024;Sandra;22;15;
-31.07.2024;Lucy;50;36;
-31.07.2024;Lucas;11;9;
-31.07.2024;Stefan;15;35;
-31.07.2024;Mike;47;23;Last pot broke during the move
-31.07.2024;Elvis;17;42;
-31.07.2024;Maria;13;18;Fell over, but recovered
-31.07.2024;Jesus;15;13;Fell over, might survive
-31.07.2024;Fuchur;46;46;Fell over, not sure if he will survive, but now separated into two plants
-31.07.2024;Anya;5;8;
-31.07.2024;Leela;14;25;
-31.07.2024;Peppa;11;13;
-31.07.2024;Mrs Sprout;24;21;
-31.07.2024;Findus;77;76;DOne
-31.07.2024;Eva Longoria;58;42;
-31.07.2024;Bubba;59;45;
-31.07.2024;Liliana;24;30;
-31.07.2024;Pumbaa;22;26;
-31.07.2024;Timon;19;21;
-31.07.2024;Martha;24;30;
-02.08.2024;Tigger;5;6.5;
-02.08.2024;Ivan;10;8;
-02.08.2024;Jack;1;3;
-02.08.2024;Jane;1;4;
-02.08.2024;Sam;2;3;
-02.08.2024;Cerberus;12;10;DOne
-02.08.2024;Pepe;7;4.5;
-02.08.2024;Tito;3;3;
-02.08.2024;Darryl;33;14;
-02.08.2024;Albus;20;7;
-02.08.2024;Avi;22;9;
-02.08.2024;Smaug;13.5;9;
-02.08.2024;Jenn;3;6.5;
-02.08.2024;Jill;3;3;
-02.08.2024;Joe;3;6;
-02.08.2024;Dirk;4;3.5;
-02.08.2024;Rosy;50;56;
-09.08.2024;Mufasa;103;96;Added during plant creation
-09.08.2024;Selene;25;14;Added during plant creation
-09.08.2024;Sting;3;7;Added during plant creation
-12.08.2024;Al;10;11;Added during plant creation
+31.07.2024;Jesus;15.0;13.0;Fell over, might survive
+09.08.2024;Mufasa;103.0;96.0;Added during plant creation
+09.08.2024;Selene;25.0;14.0;Added during plant creation
+09.08.2024;Sting;3.0;7.0;Added during plant creation
+12.08.2024;Al;10.0;11.0;Added during plant creation
+15.08.2024;Hella;33;20;Hasn't recovered
+15.08.2024;Sting;5;8;
+15.08.2024;Brock;43;44;
+15.08.2024;Bart;22;18;Recovering slowly
+15.08.2024;Jerry;34;40;
+15.08.2024;Jim;32;33;
+15.08.2024;Bond;42;54;
+15.08.2024;Zoey;16;9;Might have died from snails
+15.08.2024;Zane;51;74;
+15.08.2024;Biggie;13;6;Severe sunburn
+15.08.2024;Tupac;3;4;Severe sunburn
+15.08.2024;Stefan;15;28;Probably done with fruit
+15.08.2024;Mike;51;30;Needs new pot
+15.08.2024;Lucy;49;47;
+15.08.2024;Lucas;16;9;
+15.08.2024;Sandy;45;41;
+15.08.2024;Sandra;26;21;
+15.08.2024;Nadja;48;41;
+15.08.2024;Nate;19;23;
+15.08.2024;Darryl;33;13;
+15.08.2024;Cerberus;9;8.5;
+15.08.2024;Pepe;2.5;4;
+15.08.2024;Tito;3;3;
+15.08.2024;Sam;2.5;3;
+15.08.2024;Ivan;10;10;
+15.08.2024;Tigger;5;6;
+15.08.2024;Jack;0.5;2;
+15.08.2024;Jane;1;4;
+15.08.2024;Martha;24;43;
+15.08.2024;Timon;22;26;
+15.08.2024;Pumbaa;22;27;
+15.08.2024;Liliana;27;28;
+15.08.2024;Bubba;58;37;
+15.08.2024;Smaug;13;11;Overwatered
+15.08.2024;Mrs Sprout;30;24;
+15.08.2024;Peppa;20;4;
+15.08.2024;Anya;9;9;
+15.08.2024;Leela;21;30;
+15.08.2024;Fuchur;48;39;
+15.08.2024;Jesus;16;9;
+15.08.2024;Maria;20;23;
+15.08.2024;Findus;80;72;
+15.08.2024;Eva Longoria;57;44;
+15.08.2024;Rosy;58;46;
+15.08.2024;Mufasa;95;93;
+15.08.2024;Albus;24;16;
+15.08.2024;Avi;26;21;
+15.08.2024;Dirk;5;3;
+15.08.2024;Jenn;6;7;
+15.08.2024;Joe;5;6;
+15.08.2024;Jill;4;4;
