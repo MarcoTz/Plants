@@ -7,7 +7,7 @@ pub struct Canvas {
 
 impl Render for Canvas {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render();
+        let attr_str = self.attributes.render().replace("\n", " ");
         format!("<canvas {attr_str}></canvas>")
     }
 }

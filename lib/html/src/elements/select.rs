@@ -13,7 +13,7 @@ pub struct Select {
 
 impl Render for Select {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render();
+        let attr_str = self.attributes.render().replace("\n", " ");
         let mut options_str = "".to_owned();
         for option in self.options.iter() {
             options_str.push_str(&option.render());
