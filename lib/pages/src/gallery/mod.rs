@@ -41,7 +41,6 @@ impl Page for Gallery {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Gallery".to_owned(),
-            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,

@@ -30,7 +30,6 @@ impl Page for PlantOverview {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
             title: "Plants".to_owned(),
-            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,
