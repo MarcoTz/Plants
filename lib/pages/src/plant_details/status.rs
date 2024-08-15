@@ -2,7 +2,7 @@ use crate::{errors::Error, page::PageComponent};
 use chrono::NaiveDate;
 use html::{
     attribute::Attribute,
-    elements::{a::A, div::Div, HtmlElement},
+    elements::{Div, HtmlElement, A},
 };
 use plants::plant::Plant;
 use std::rc::Rc;

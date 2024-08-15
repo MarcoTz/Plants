@@ -5,7 +5,7 @@ pub mod selector;
 pub mod value;
 
 use crate::{
-    elements::{style::Style, HtmlElement},
+    elements::{HtmlElement, Style},
     render::Render,
 };
 use block::CssBlock;

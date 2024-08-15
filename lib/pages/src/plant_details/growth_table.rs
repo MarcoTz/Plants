@@ -1,10 +1,7 @@
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    elements::{
-        table::{Table, Td, Tr},
-        HtmlElement,
-    },
+    elements::{HtmlElement, Table, Td, Tr},
 };
 use plants::growth_item::GrowthItem;
 use std::rc::Rc;

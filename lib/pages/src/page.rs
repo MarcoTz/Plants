@@ -2,7 +2,7 @@ use super::shared::{footer::Footer, header::Header, html_head::HtmlHead};
 use html::{
     attribute::Attribute,
     css::CssDocument,
-    elements::{body::Body, head::Head, HtmlElement},
+    elements::{Body, Head, HtmlElement},
     html_document::HtmlDocument,
 };
 use std::rc::Rc;

@@ -14,13 +14,7 @@ use activities::PlantActivities;
 use graphs::PlantGraphs;
 use html::{
     attribute::Attribute,
-    elements::{
-        body::Body,
-        div::Div,
-        head::Head,
-        headline::{HeaderSize, Headline},
-        HtmlElement,
-    },
+    elements::{Body, Div, Head, HeaderSize, Headline, HtmlElement},
     html_document::HtmlDocument,
 };
 use plants::plant::Plant;

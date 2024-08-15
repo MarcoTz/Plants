@@ -2,13 +2,7 @@ use crate::page::PageComponent;
 use chrono::NaiveDate;
 use html::{
     attribute::Attribute,
-    elements::{
-        canvas::Canvas,
-        div::Div,
-        headline::{HeaderSize, Headline},
-        script::Script,
-        HtmlElement,
-    },
+    elements::{Canvas, Div, HeaderSize, Headline, HtmlElement, Script},
 };
 use plants::plant::Plant;
 use std::rc::Rc;

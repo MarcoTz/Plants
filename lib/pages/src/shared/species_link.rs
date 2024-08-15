@@ -1,7 +1,7 @@
 use crate::page::PageComponent;
 use html::{
     attribute::Attribute,
-    elements::{a::A, HtmlElement},
+    elements::{HtmlElement, A},
 };
 use plants::species::Species;
 use std::rc::Rc;
