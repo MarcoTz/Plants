@@ -1,7 +1,8 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Direction, Margin, Padding, Property},
+    property,
+    property::{Border, Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::{ChildSelector, Selector, SubSelector, TopSelector},
     value::{color::Color, keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -91,10 +92,18 @@ impl CssComponent for Main {
         let body = CssBlock {
             selector: TopSelector::Tag("body".to_owned()).into(),
             decls: vec![
-                (Property::Background, Value::Var("bg-color".to_owned())).into(),
-                (Property::Color, Value::Var("fg-color".to_owned())).into(),
-                (Property::FontFamily, Value::Str("Noto Sans".to_owned())).into(),
-                (Property::FontSize, (14.0, Unit::Pt).into()).into(),
+                (
+                    property::Color::Background.into(),
+                    Value::Var("bg-color".to_owned()),
+                )
+                    .into(),
+                (
+                    property::Color::Color.into(),
+                    Value::Var("fg-color".to_owned()),
+                )
+                    .into(),
+                (Font::Family.into(), Value::Str("Noto Sans".to_owned())).into(),
+                (Font::Size.into(), (14.0, Unit::Pt).into()).into(),
             ],
         };
 
@@ -102,7 +111,7 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h1".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
             ],
         };
 
@@ -110,8 +119,8 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h2".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
-                (Property::AlignSelf, Keyword::FlexStart.into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
+                (Flex::AlignSelf.into(), Keyword::FlexStart.into()).into(),
             ],
         };
 
@@ -119,13 +128,17 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h3".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
             ],
         };
 
         let a = CssBlock {
             selector: TopSelector::Tag("a".to_owned()).into(),
-            decls: vec![(Property::Color, Value::Var("link-color".to_owned())).into()],
+            decls: vec![(
+                property::Color::Color.into(),
+                Value::Var("link-color".to_owned()),
+            )
+                .into()],
         };
 
         let a_visited = CssBlock {
@@ -133,7 +146,11 @@ impl CssComponent for Main {
                 top: TopSelector::Tag("a".to_owned()),
                 sub: Some(SubSelector::Visited),
             },
-            decls: vec![(Property::Color, Value::Var("link-color-visited".to_owned())).into()],
+            decls: vec![(
+                property::Color::Color.into(),
+                Value::Var("link-color-visited".to_owned()),
+            )
+                .into()],
         };
 
         let img = CssBlock {
@@ -161,14 +178,22 @@ impl CssComponent for Main {
                 top: TopSelector::Tag("tr".to_owned()),
                 sub: Some(ChildSelector::Odd.into()),
             },
-            decls: vec![(Property::Background, Value::Var("bg-color-odd".to_owned())).into()],
+            decls: vec![(
+                property::Color::Background.into(),
+                Value::Var("bg-color-odd".to_owned()),
+            )
+                .into()],
         };
         let tr_even = CssBlock {
             selector: Selector {
                 top: TopSelector::Tag("tr".to_owned()),
                 sub: Some(ChildSelector::Even.into()),
             },
-            decls: vec![(Property::Background, Value::Var("bg-color-even".to_owned())).into()],
+            decls: vec![(
+                property::Color::Background.into(),
+                Value::Var("bg-color-even".to_owned()),
+            )
+                .into()],
         };
 
         let td = CssBlock {
@@ -212,16 +237,32 @@ impl CssComponent for Main {
         let input = CssBlock {
             selector: TopSelector::Tag("input".to_owned()).into(),
             decls: vec![
-                (Property::Background, Value::Var("bg-color".to_owned())).into(),
-                (Property::Color, Value::Var("fg-color".to_owned())).into(),
+                (
+                    property::Color::Background.into(),
+                    Value::Var("bg-color".to_owned()),
+                )
+                    .into(),
+                (
+                    property::Color::Color.into(),
+                    Value::Var("fg-color".to_owned()),
+                )
+                    .into(),
             ],
         };
 
         let select = CssBlock {
             selector: TopSelector::Tag("select".to_owned()).into(),
             decls: vec![
-                (Property::Background, Value::Var("bg-color".to_owned())).into(),
-                (Property::Color, Value::Var("fg-color".to_owned())).into(),
+                (
+                    property::Color::Background.into(),
+                    Value::Var("bg-color".to_owned()),
+                )
+                    .into(),
+                (
+                    property::Color::Color.into(),
+                    Value::Var("fg-color".to_owned()),
+                )
+                    .into(),
             ],
         };
 
@@ -233,7 +274,11 @@ impl CssComponent for Main {
                     sub: Some(ChildSelector::Even.into()),
                 }))),
             },
-            decls: vec![(Property::Background, Value::Var("bg-color-even".to_owned())).into()],
+            decls: vec![(
+                property::Color::Background.into(),
+                Value::Var("bg-color-even".to_owned()),
+            )
+                .into()],
         };
 
         let alternating_children_odd = CssBlock {
@@ -244,19 +289,23 @@ impl CssComponent for Main {
                     sub: Some(ChildSelector::Odd.into()),
                 }))),
             },
-            decls: vec![(Property::Background, Value::Var("bg-color-odd".to_owned())).into()],
+            decls: vec![(
+                property::Color::Background.into(),
+                Value::Var("bg-color-odd".to_owned()),
+            )
+                .into()],
         };
 
         let flex_container = CssBlock {
             selector: TopSelector::Class("flex_container".to_owned()).into(),
             decls: vec![
                 (Property::Display, Keyword::Flex.into()).into(),
-                (Property::AlignContent, Keyword::SpaceAround.into()).into(),
-                (Property::AlignSelf, Keyword::Center.into()).into(),
-                (Property::JustifyContent, Keyword::Center.into()).into(),
-                (Property::Gap, (1.0, Unit::Em).into()).into(),
-                (Property::FlexWrap, Keyword::Wrap.into()).into(),
-                (Property::AlignItems, Keyword::Stretch.into()).into(),
+                (Flex::AlignContent.into(), Keyword::SpaceAround.into()).into(),
+                (Flex::AlignSelf.into(), Keyword::Center.into()).into(),
+                (Flex::JustifyContent.into(), Keyword::Center.into()).into(),
+                (Flex::Gap.into(), (1.0, Unit::Em).into()).into(),
+                (Flex::FlexWrap.into(), Keyword::Wrap.into()).into(),
+                (Flex::AlignItems.into(), Keyword::Stretch.into()).into(),
                 (
                     Margin {
                         dir: Direction::All,

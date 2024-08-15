@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Property},
+    property::{Direction, Margin, Property, Size},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit},
     CssDocument,
@@ -14,7 +14,7 @@ impl CssComponent for HallOfFame {
         let hall_of_fame = CssBlock {
             selector: TopSelector::Id("hall_of_fame".to_owned()).into(),
             decls: vec![
-                (Property::Width, (95.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (95.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,

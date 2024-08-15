@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Direction, Margin, Padding, Property},
+    property::{Border, Color, Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -14,7 +14,7 @@ impl CssComponent for PlantDetails {
         let plant_content = CssBlock {
             selector: TopSelector::Id("plant_content".to_owned()).into(),
             decls: vec![
-                (Property::Width, (90.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (90.0, Unit::Percent).into()).into(),
                 (Property::Display, Keyword::FlowRoot.into()).into(),
             ],
         };
@@ -22,7 +22,7 @@ impl CssComponent for PlantDetails {
         let images_plant_container = CssBlock {
             selector: TopSelector::Class("images_plant_container".to_owned()).into(),
             decls: vec![
-                (Property::Width, (20.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (20.0, Unit::Percent).into()).into(),
                 (Property::Float, Keyword::Left.into()).into(),
                 (
                     Margin {
@@ -32,14 +32,18 @@ impl CssComponent for PlantDetails {
                     (5.0, Unit::Percent).into(),
                 )
                     .into(),
-                (Property::Background, Value::Var("bg-color-even".to_owned())).into(),
+                (
+                    Color::Background.into(),
+                    Value::Var("bg-color-even".to_owned()),
+                )
+                    .into(),
                 (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
             ],
         };
 
         let plant_info = CssBlock {
             selector: TopSelector::Id("plant_info".to_owned()).into(),
-            decls: vec![(Property::Width, (70.0, Unit::Percent).into()).into()],
+            decls: vec![(Size::Width.into(), (70.0, Unit::Percent).into()).into()],
         };
 
         let status_item = CssBlock {
@@ -67,19 +71,19 @@ impl CssComponent for PlantDetails {
 
         let growth_log_container = CssBlock {
             selector: TopSelector::Id("plant_growth_log_container".to_owned()).into(),
-            decls: vec![(Property::Width, (100.0, Unit::Percent).into()).into()],
+            decls: vec![(Size::Width.into(), (100.0, Unit::Percent).into()).into()],
         };
 
         let plant_graph = CssBlock {
             selector: TopSelector::Class("plant_graph".to_owned()).into(),
-            decls: vec![(Property::Width, (45.0, Unit::Percent).into()).into()],
+            decls: vec![(Size::Width.into(), (45.0, Unit::Percent).into()).into()],
         };
 
         let activities_container = CssBlock {
             selector: TopSelector::Id("plant_activities_container".to_owned()).into(),
             decls: vec![
-                (Property::Width, (95.0, Unit::Percent).into()).into(),
-                (Property::FlexWrap, Keyword::NoWrap.into()).into(),
+                (Size::Width.into(), (95.0, Unit::Percent).into()).into(),
+                (Flex::FlexWrap.into(), Keyword::NoWrap.into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -100,12 +104,12 @@ impl CssComponent for PlantDetails {
                 )
                     .into(),
                 (Border::Radius.into(), (50.0, Unit::Percent).into()).into(),
-                (Property::Width, Value::Var("circle-radius".to_owned())).into(),
-                (Property::Height, Value::Var("circle-radius".to_owned())).into(),
+                (Size::Width.into(), Value::Var("circle-radius".to_owned())).into(),
+                (Size::Height.into(), Value::Var("circle-radius".to_owned())).into(),
                 (Property::LineHeight, Value::Var("circle-radius".to_owned())).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Color, Value::Var("fg-color-dark".to_owned())).into(),
-                (Property::FontSize, (18.0, Unit::Pt).into()).into(),
+                (Color::Color.into(), Value::Var("fg-color-dark".to_owned())).into(),
+                (Font::Size.into(), (18.0, Unit::Pt).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -119,28 +123,52 @@ impl CssComponent for PlantDetails {
 
         let health0 = CssBlock {
             selector: TopSelector::Class("health0".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color0".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color0".to_owned()),
+            )
+                .into()],
         };
         let health1 = CssBlock {
             selector: TopSelector::Class("health1".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color1".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color1".to_owned()),
+            )
+                .into()],
         };
         let health2 = CssBlock {
             selector: TopSelector::Class("health2".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color2".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color2".to_owned()),
+            )
+                .into()],
         };
         let health3 = CssBlock {
             selector: TopSelector::Class("health3".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color3".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color3".to_owned()),
+            )
+                .into()],
         };
         let health4 = CssBlock {
             selector: TopSelector::Class("health4".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color4".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color4".to_owned()),
+            )
+                .into()],
         };
 
         let health5 = CssBlock {
             selector: TopSelector::Class("health5".to_owned()).into(),
-            decls: vec![(Property::Background, Value::Var("health-color5".to_owned())).into()],
+            decls: vec![(
+                Color::Background.into(),
+                Value::Var("health-color5".to_owned()),
+            )
+                .into()],
         };
 
         CssDocument {

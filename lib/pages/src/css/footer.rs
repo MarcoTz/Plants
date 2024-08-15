@@ -3,7 +3,7 @@ pub struct Footer {}
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Direction, Margin, Property},
+    property::{Border, Color, Direction, Margin, Position, Property, Size},
     selector::{Selector, SubSelector, TopSelector},
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -15,7 +15,7 @@ impl CssComponent for Footer {
         let footer = CssBlock {
             selector: TopSelector::Id("footer".to_owned()).into(),
             decls: vec![
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Top,
@@ -70,12 +70,12 @@ impl CssComponent for Footer {
             selector: TopSelector::Id("image_viewer".to_owned()).into(),
             decls: vec![
                 (Property::Display, Keyword::Non.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
-                (Property::Height, (100.0, Unit::Vh).into()).into(),
-                (Property::Position, Keyword::Fixed.into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
+                (Size::Height.into(), (100.0, Unit::Vh).into()).into(),
+                (Position::Position.into(), Keyword::Fixed.into()).into(),
                 (Property::Overflow, Keyword::Non.into()).into(),
-                (Property::Left, (0.0, Unit::Percent).into()).into(),
-                (Property::Top, (0.0, Unit::Percent).into()).into(),
+                (Position::Left.into(), (0.0, Unit::Percent).into()).into(),
+                (Position::Top.into(), (0.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -85,7 +85,7 @@ impl CssComponent for Footer {
                 )
                     .into(),
                 (
-                    Property::Background,
+                    Color::Background.into(),
                     Value::Var("bg-color-trans".to_owned()),
                 )
                     .into(),
@@ -95,9 +95,9 @@ impl CssComponent for Footer {
         let image_box = CssBlock {
             selector: TopSelector::Id("image_box".to_owned()).into(),
             decls: vec![
-                (Property::Position, Keyword::Relative.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
-                (Property::Height, (100.0, Unit::Percent).into()).into(),
+                (Position::Position.into(), Keyword::Relative.into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
+                (Size::Height.into(), (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -154,10 +154,10 @@ impl CssComponent for Footer {
                     Keyword::Auto.into(),
                 )
                     .into(),
-                (Property::MaxWidth, (90.0, Unit::Percent).into()).into(),
-                (Property::MaxHeight, (80.0, Unit::Percent).into()).into(),
-                (Property::Width, Keyword::Auto.into()).into(),
-                (Property::Height, Keyword::Auto.into()).into(),
+                (Size::MaxWidth.into(), (90.0, Unit::Percent).into()).into(),
+                (Size::MaxHeight.into(), (80.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), Keyword::Auto.into()).into(),
+                (Size::Height.into(), Keyword::Auto.into()).into(),
             ],
         };
 

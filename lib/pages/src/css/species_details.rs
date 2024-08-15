@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Property},
+    property::{Color, Direction, Margin, Size},
     selector::{Selector, SubSelector, TopSelector},
     value::{keyword::Keyword, unit::Unit},
     CssDocument,
@@ -15,7 +15,7 @@ impl CssComponent for SpeciesDetails {
         let species_content = CssBlock {
             selector: TopSelector::Id("species_content".to_owned()).into(),
             decls: vec![
-                (Property::Width, (95.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (95.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -29,7 +29,7 @@ impl CssComponent for SpeciesDetails {
 
         let species_details_gallery = CssBlock {
             selector: TopSelector::Id("species_details_gallery".to_owned()).into(),
-            decls: vec![(Property::Width, (95.0, Unit::Percent).into()).into()],
+            decls: vec![(Size::Width.into(), (95.0, Unit::Percent).into()).into()],
         };
         let species_gallery_header = CssBlock {
             selector: Selector {
@@ -38,7 +38,7 @@ impl CssComponent for SpeciesDetails {
                     TopSelector::Tag("h2".to_owned()).into(),
                 ))),
             },
-            decls: vec![(Property::Background, Keyword::Transparent.into()).into()],
+            decls: vec![(Color::Background.into(), Keyword::Transparent.into()).into()],
         };
         CssDocument {
             decls: vec![

@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Direction, Margin, Padding, Property},
+    property::{Border, Direction, Font, Margin, Padding, Property, Size},
     selector::{Selector, SubSelector, TopSelector},
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -20,11 +20,11 @@ impl CssComponent for Header {
                 ))),
             },
             decls: vec![
-                (Property::FontSize, (16.0, Unit::Pt).into()).into(),
+                (Font::Size.into(), (16.0, Unit::Pt).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
                 (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
-                (Property::Width, (10.0, Unit::Em).into()).into(),
-                (Property::Height, (3.0, Unit::Em).into()).into(),
+                (Size::Width.into(), (10.0, Unit::Em).into()).into(),
+                (Size::Height.into(), (3.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::All,
@@ -47,7 +47,7 @@ impl CssComponent for Header {
         let header = CssBlock {
             selector: TopSelector::Id("header".to_owned()).into(),
             decls: vec![
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Bottom,

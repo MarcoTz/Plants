@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Direction, Margin, Padding, Property},
+    property::{Border, Color, Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -14,7 +14,11 @@ impl CssComponent for PlantSearch {
         let plant_search = CssBlock {
             selector: TopSelector::Id("plant_search".to_owned()).into(),
             decls: vec![
-                (Property::Background, Value::Var("bg-color-even".to_owned())).into(),
+                (
+                    Color::Background.into(),
+                    Value::Var("bg-color-even".to_owned()),
+                )
+                    .into(),
                 (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
                 (
                     Padding {
@@ -32,7 +36,7 @@ impl CssComponent for PlantSearch {
                     (0.0, Unit::Em).into(),
                 )
                     .into(),
-                (Property::Width, (90.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (90.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -41,17 +45,17 @@ impl CssComponent for PlantSearch {
                     Keyword::Auto.into(),
                 )
                     .into(),
-                (Property::Gap, (0.5, Unit::Em).into()).into(),
+                (Flex::Gap.into(), (0.5, Unit::Em).into()).into(),
             ],
         };
 
         let search_header = CssBlock {
             selector: TopSelector::Class("search_header".to_owned()).into(),
             decls: vec![
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::FontWeight, Keyword::Bold.into()).into(),
-                (Property::FontSize, (14.0, Unit::Pt).into()).into(),
+                (Font::Weight.into(), Keyword::Bold.into()).into(),
+                (Font::Size.into(), (14.0, Unit::Pt).into()).into(),
                 (
                     Padding {
                         dir: Direction::Top,
