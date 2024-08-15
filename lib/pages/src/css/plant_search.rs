@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Padding, Property},
+    property::{Border, Direction, Margin, Padding, Property},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -15,7 +15,7 @@ impl CssComponent for PlantSearch {
             selector: TopSelector::Id("plant_search".to_owned()).into(),
             decls: vec![
                 (Property::Background, Value::Var("bg-color-even".to_owned())).into(),
-                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
+                (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::Bottom,

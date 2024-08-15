@@ -22,7 +22,7 @@ impl CssComponent for Header {
             decls: vec![
                 (Property::FontSize, (16.0, Unit::Pt).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
+                (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
                 (Property::Width, (10.0, Unit::Em).into()).into(),
                 (Property::Height, (3.0, Unit::Em).into()).into(),
                 (
@@ -72,44 +72,20 @@ impl CssComponent for Header {
                     (1.0, Unit::Em).into(),
                 )
                     .into(),
+                (Border::Side(Direction::Top).into(), (0.0, Unit::Px).into()).into(),
                 (
-                    Border {
-                        dir: Direction::Top,
-                    }
-                    .into(),
+                    Border::Side(Direction::Right).into(),
                     (0.0, Unit::Px).into(),
                 )
                     .into(),
+                (Border::Side(Direction::Left).into(), (0.0, Unit::Px).into()).into(),
                 (
-                    Border {
-                        dir: Direction::Right,
-                    }
-                    .into(),
-                    (0.0, Unit::Px).into(),
-                )
-                    .into(),
-                (
-                    Border {
-                        dir: Direction::Left,
-                    }
-                    .into(),
-                    (0.0, Unit::Px).into(),
-                )
-                    .into(),
-                (
-                    Border {
-                        dir: Direction::Bottom,
-                    }
-                    .into(),
+                    Border::Side(Direction::Bottom).into(),
                     (0.5, Unit::Em).into(),
                 )
                     .into(),
-                (Property::BorderStyle, Keyword::Solid.into()).into(),
-                (
-                    Property::BorderColor,
-                    Value::Var("bg-color-even".to_owned()),
-                )
-                    .into(),
+                (Border::Style.into(), Keyword::Solid.into()).into(),
+                (Border::Color.into(), Value::Var("bg-color-even".to_owned())).into(),
             ],
         };
 
