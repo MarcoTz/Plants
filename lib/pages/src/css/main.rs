@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Padding, Property},
+    property::{Border, Direction, Margin, Padding, Property},
     selector::{ChildSelector, Selector, SubSelector, TopSelector},
     value::{color::Color, keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -144,7 +144,7 @@ impl CssComponent for Main {
         let table = CssBlock {
             selector: TopSelector::Tag("table".to_owned()).into(),
             decls: vec![
-                (Property::BorderCollapse, Keyword::Collapse.into()).into(),
+                (Border::Collapse.into(), Keyword::Collapse.into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -276,7 +276,7 @@ impl CssComponent for Main {
                 ))),
             },
             decls: vec![
-                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
+                (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::All,

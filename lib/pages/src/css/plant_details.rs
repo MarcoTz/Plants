@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Padding, Property},
+    property::{Border, Direction, Margin, Padding, Property},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit, Value},
     CssDocument,
@@ -33,7 +33,7 @@ impl CssComponent for PlantDetails {
                 )
                     .into(),
                 (Property::Background, Value::Var("bg-color-even".to_owned())).into(),
-                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
+                (Border::Radius.into(), (1.0, Unit::Em).into()).into(),
             ],
         };
 
@@ -99,7 +99,7 @@ impl CssComponent for PlantDetails {
                     (2.0, Unit::Em).into(),
                 )
                     .into(),
-                (Property::BorderRadius, (50.0, Unit::Percent).into()).into(),
+                (Border::Radius.into(), (50.0, Unit::Percent).into()).into(),
                 (Property::Width, Value::Var("circle-radius".to_owned())).into(),
                 (Property::Height, Value::Var("circle-radius".to_owned())).into(),
                 (Property::LineHeight, Value::Var("circle-radius".to_owned())).into(),
