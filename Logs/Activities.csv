@@ -203,6 +203,7 @@ Date;Activity;Plants;Note
 09.08.2024;Watering;Beehome;
 12.08.2024;Watering;Beehome;
 13.08.2024;Watering;Beehome;
+15.08.2024;Watering;Beehome;
 12.04.2024;Watering;Peppa;
 14.04.2024;Watering;Peppa;
 18.04.2024;Watering;Peppa;
@@ -1293,41 +1294,6 @@ Date;Activity;Plants;Note
 02.08.2024;Watering;Dirk;
 05.08.2024;Watering;Dirk;
 12.08.2024;Watering;Dirk;
-24.04.2024;Watering;Nosferatu;
-05.05.2024;Watering;Nosferatu;
-10.05.2024;Watering;Nosferatu;
-12.05.2024;Watering;Nosferatu;
-14.05.2024;Watering;Nosferatu;
-20.05.2024;Watering;Nosferatu;
-24.05.2024;Watering;Nosferatu;
-24.05.2024;Fertilizing;Nosferatu;
-01.06.2024;Watering;Nosferatu;Rain Water
-03.06.2024;Watering;Nosferatu;
-05.06.2024;Watering;Nosferatu;
-06.06.2024;Watering;Nosferatu;
-10.06.2024;Watering;Nosferatu;
-11.06.2024;Watering;Nosferatu;
-14.06.2024;Watering;Nosferatu;
-17.06.2024;Watering;Nosferatu;
-18.06.2024;Watering;Nosferatu;
-19.06.2024;Watering;Nosferatu;
-25.06.2024;Watering;Nosferatu;
-25.06.2024;Pruning;Nosferatu;
-27.06.2024;Watering;Nosferatu;
-28.06.2024;Watering;Nosferatu;
-02.07.2024;Watering;Nosferatu;
-05.07.2024;Watering;Nosferatu;
-06.07.2024;Watering;Nosferatu;
-15.07.2024;Watering;Nosferatu;
-16.07.2024;Watering;Nosferatu;
-21.07.2024;Watering;Nosferatu;
-22.07.2024;Watering;Nosferatu;
-24.07.2024;Repot;Nosferatu;
-24.07.2024;Watering;Nosferatu;
-01.08.2024;Watering;Nosferatu;Rain Water
-03.08.2024;Watering;Nosferatu;Rain Water
-12.08.2024;Watering;Nosferatu;
-12.08.2024;Watering;Nosferatu;
 09.05.2024;Watering;Sam;
 17.05.2024;Fertilizing;Sam;Root Growth
 20.05.2024;Repot;Sam;Combined Sam, Pepe and Harvey into a single pot
@@ -2299,4 +2265,3 @@ Date;Activity;Plants;Note
 12.08.2024;Fertilizing;Mufasa;
 12.08.2024;Fertilizing;Mufasa;
 12.08.2024;Watering;Mufasa;
-15.08.2024;Watering;Beehome;
