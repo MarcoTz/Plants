@@ -20,17 +20,17 @@ impl CssComponent for Header {
                 ))),
             },
             decls: vec![
-                (Property::FontSize, Value::Measurement(16.0, Unit::Pt)).into(),
+                (Property::FontSize, (16.0, Unit::Pt).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::BorderRadius, Value::Measurement(1.0, Unit::Em)).into(),
-                (Property::Width, Value::Measurement(10.0, Unit::Em)).into(),
-                (Property::Height, Value::Measurement(3.0, Unit::Em)).into(),
+                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
+                (Property::Width, (10.0, Unit::Em).into()).into(),
+                (Property::Height, (3.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::All,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Em),
+                    (0.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -38,7 +38,7 @@ impl CssComponent for Header {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
             ],
@@ -47,13 +47,13 @@ impl CssComponent for Header {
         let header = CssBlock {
             selector: TopSelector::Id("header".to_owned()).into(),
             decls: vec![
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(2.0, Unit::Em),
+                    (2.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -61,7 +61,7 @@ impl CssComponent for Header {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(2.0, Unit::Em),
+                    (2.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -69,7 +69,7 @@ impl CssComponent for Header {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -77,7 +77,7 @@ impl CssComponent for Header {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (
@@ -85,7 +85,7 @@ impl CssComponent for Header {
                         dir: Direction::Right,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (
@@ -93,7 +93,7 @@ impl CssComponent for Header {
                         dir: Direction::Left,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (
@@ -101,7 +101,7 @@ impl CssComponent for Header {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(0.5, Unit::Em),
+                    (0.5, Unit::Em).into(),
                 )
                     .into(),
                 (Property::BorderStyle, Keyword::Solid.into()).into(),

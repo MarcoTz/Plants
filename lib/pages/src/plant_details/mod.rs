@@ -89,7 +89,6 @@ impl Page for PlantDetails {
     }
 
     fn get_head(&self) -> HtmlHead {
-        let styles_extern = vec!["../css/plant_details.css".to_owned()];
         let scripts = vec![
             "../js/graphs.js".to_owned(),
             "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js".to_owned(),
@@ -97,12 +96,13 @@ impl Page for PlantDetails {
         ];
         HtmlHead {
             title: self.name.clone(),
-            styles_extern,
+            styles_extern: vec![],
             styles: vec![
                 DefinedDocument::Main,
                 DefinedDocument::Header,
                 DefinedDocument::Footer,
                 DefinedDocument::Gallery,
+                DefinedDocument::PlantDetails,
             ],
             scripts,
         }

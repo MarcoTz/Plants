@@ -15,13 +15,13 @@ impl CssComponent for Footer {
         let footer = CssBlock {
             selector: TopSelector::Id("footer".to_owned()).into(),
             decls: vec![
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(2.0, Unit::Em),
+                    (2.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -29,7 +29,7 @@ impl CssComponent for Footer {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(0.5, Unit::Em),
+                    (0.5, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -37,7 +37,7 @@ impl CssComponent for Footer {
                         dir: Direction::Left,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (
@@ -45,7 +45,7 @@ impl CssComponent for Footer {
                         dir: Direction::Right,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (
@@ -53,7 +53,7 @@ impl CssComponent for Footer {
                         dir: Direction::Bottom,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Px),
+                    (0.0, Unit::Px).into(),
                 )
                     .into(),
                 (Property::BorderStyle, Keyword::Solid.into()).into(),
@@ -78,7 +78,7 @@ impl CssComponent for Footer {
                         dir: Direction::All,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
                 (Property::Float, Keyword::Right.into()).into(),
@@ -94,18 +94,18 @@ impl CssComponent for Footer {
             selector: TopSelector::Id("image_viewer".to_owned()).into(),
             decls: vec![
                 (Property::Display, Keyword::Non.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
-                (Property::Height, Value::Measurement(100.0, Unit::Vh)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Property::Height, (100.0, Unit::Vh).into()).into(),
                 (Property::Position, Keyword::Fixed.into()).into(),
                 (Property::Overflow, Keyword::Non.into()).into(),
-                (Property::Left, Value::Measurement(0.0, Unit::Percent)).into(),
-                (Property::Top, Value::Measurement(0.0, Unit::Percent)).into(),
+                (Property::Left, (0.0, Unit::Percent).into()).into(),
+                (Property::Top, (0.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
                     }
                     .into(),
-                    Value::Measurement(0.0, Unit::Em),
+                    (0.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -120,8 +120,8 @@ impl CssComponent for Footer {
             selector: TopSelector::Id("image_box".to_owned()).into(),
             decls: vec![
                 (Property::Position, Keyword::Relative.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
-                (Property::Height, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Property::Height, (100.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -135,7 +135,7 @@ impl CssComponent for Footer {
                         dir: Direction::Top,
                     }
                     .into(),
-                    Value::Measurement(5.0, Unit::Percent),
+                    (5.0, Unit::Percent).into(),
                 )
                     .into(),
                 (Property::Overflow, Keyword::Auto.into()).into(),
@@ -178,8 +178,8 @@ impl CssComponent for Footer {
                     Keyword::Auto.into(),
                 )
                     .into(),
-                (Property::MaxWidth, Value::Measurement(90.0, Unit::Percent)).into(),
-                (Property::MaxHeight, Value::Measurement(80.0, Unit::Percent)).into(),
+                (Property::MaxWidth, (90.0, Unit::Percent).into()).into(),
+                (Property::MaxHeight, (80.0, Unit::Percent).into()).into(),
                 (Property::Width, Keyword::Auto.into()).into(),
                 (Property::Height, Keyword::Auto.into()).into(),
             ],

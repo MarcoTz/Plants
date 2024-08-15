@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Direction, Margin, Property},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit, Value},
+    value::{keyword::Keyword, unit::Unit},
     CssDocument,
 };
 
@@ -14,7 +14,7 @@ impl CssComponent for HallOfFame {
         let hall_of_fame = CssBlock {
             selector: TopSelector::Id("hall_of_fame".to_owned()).into(),
             decls: vec![
-                (Property::Width, Value::Measurement(95.0, Unit::Percent)).into(),
+                (Property::Width, (95.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,

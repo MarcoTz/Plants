@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Direction, Margin, Property},
     selector::{Selector, SubSelector, TopSelector},
-    value::{keyword::Keyword, unit::Unit, Value},
+    value::{keyword::Keyword, unit::Unit},
     CssDocument,
 };
 use std::rc::Rc;
@@ -15,7 +15,7 @@ impl CssComponent for SpeciesDetails {
         let species_content = CssBlock {
             selector: TopSelector::Id("species_content".to_owned()).into(),
             decls: vec![
-                (Property::Width, Value::Measurement(95.0, Unit::Percent)).into(),
+                (Property::Width, (95.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -29,7 +29,7 @@ impl CssComponent for SpeciesDetails {
 
         let species_details_gallery = CssBlock {
             selector: TopSelector::Id("species_details_gallery".to_owned()).into(),
-            decls: vec![(Property::Width, Value::Measurement(95.0, Unit::Percent)).into()],
+            decls: vec![(Property::Width, (95.0, Unit::Percent).into()).into()],
         };
         let species_gallery_header = CssBlock {
             selector: Selector {

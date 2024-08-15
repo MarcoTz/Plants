@@ -31,3 +31,9 @@ impl Render for Value {
         }
     }
 }
+
+impl From<(f32, Unit)> for Value {
+    fn from((val, unit): (f32, Unit)) -> Value {
+        Value::Measurement(val, unit)
+    }
+}

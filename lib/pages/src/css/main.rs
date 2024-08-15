@@ -94,7 +94,7 @@ impl CssComponent for Main {
                 (Property::Background, Value::Var("bg-color".to_owned())).into(),
                 (Property::Color, Value::Var("fg-color".to_owned())).into(),
                 (Property::FontFamily, Value::Str("Noto Sans".to_owned())).into(),
-                (Property::FontSize, Value::Measurement(14.0, Unit::Pt)).into(),
+                (Property::FontSize, (14.0, Unit::Pt).into()).into(),
             ],
         };
 
@@ -102,7 +102,7 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h1".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
             ],
         };
 
@@ -110,7 +110,7 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h2".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
                 (Property::AlignSelf, Keyword::FlexStart.into()).into(),
             ],
         };
@@ -119,7 +119,7 @@ impl CssComponent for Main {
             selector: TopSelector::Tag("h3".to_owned()).into(),
             decls: vec![
                 (Property::TextAlign, Keyword::Center.into()).into(),
-                (Property::Width, Value::Measurement(100.0, Unit::Percent)).into(),
+                (Property::Width, (100.0, Unit::Percent).into()).into(),
             ],
         };
 
@@ -179,7 +179,7 @@ impl CssComponent for Main {
                         dir: Direction::Left,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
                 (
@@ -187,7 +187,7 @@ impl CssComponent for Main {
                         dir: Direction::Right,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
             ],
@@ -254,7 +254,7 @@ impl CssComponent for Main {
                 (Property::AlignContent, Keyword::SpaceAround.into()).into(),
                 (Property::AlignSelf, Keyword::Center.into()).into(),
                 (Property::JustifyContent, Keyword::Center.into()).into(),
-                (Property::Gap, Value::Measurement(1.0, Unit::Em)).into(),
+                (Property::Gap, (1.0, Unit::Em).into()).into(),
                 (Property::FlexWrap, Keyword::Wrap.into()).into(),
                 (Property::AlignItems, Keyword::Stretch.into()).into(),
                 (
@@ -276,13 +276,13 @@ impl CssComponent for Main {
                 ))),
             },
             decls: vec![
-                (Property::BorderRadius, Value::Measurement(1.0, Unit::Em)).into(),
+                (Property::BorderRadius, (1.0, Unit::Em).into()).into(),
                 (
                     Padding {
                         dir: Direction::All,
                     }
                     .into(),
-                    Value::Measurement(1.0, Unit::Em),
+                    (1.0, Unit::Em).into(),
                 )
                     .into(),
             ],
