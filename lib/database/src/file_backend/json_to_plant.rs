@@ -170,14 +170,14 @@ pub fn load_images(image_dir: &str, plant_name: &str) -> Result<Vec<PlantImage>,
             access: AccessType::Read,
         }))?;
         if file_name.contains(plant_name) {
-            let file_end = file_name.split("_").last().ok_or(Error::FSError(FSError {
+            let file_end = file_name.split('_').last().ok_or(Error::FSError(FSError {
                 file_name: file_name.to_owned(),
                 err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,
             }))?;
-            let parts = file_end.split(".").collect::<Vec<&str>>();
+            let parts = file_end.split('.').collect::<Vec<&str>>();
 
-            let date_str = parts.get(0).ok_or(Error::FSError(FSError {
+            let date_str = parts.first().ok_or(Error::FSError(FSError {
                 file_name: file_name.to_owned(),
                 err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,

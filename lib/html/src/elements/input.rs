@@ -7,7 +7,7 @@ pub struct Input {
 
 impl Render for Input {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         format!("<input {attr_str}/>")
     }
 }

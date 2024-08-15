@@ -7,7 +7,7 @@ pub struct Link {
 
 impl Render for Link {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         format!("<link {attr_str}/>")
     }
 }

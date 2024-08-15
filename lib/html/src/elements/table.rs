@@ -16,31 +16,31 @@ pub struct Table {
 
 impl Render for Table {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         let mut tr_str = "".to_owned();
         for tr in self.rows.iter() {
             tr_str.push_str(&tr.render());
         }
-        tr_str = tr_str.replace("\n", "\n\t");
+        tr_str = tr_str.replace('\n', "\n\t");
         format!("<table {attr_str}>\n\t{tr_str}\n</table>")
     }
 }
 
 impl Render for Tr {
     fn render(&self) -> String {
-        let attr_str = self.attributes.render().replace("\n", " ");
+        let attr_str = self.attributes.render().replace('\n', " ");
         let mut td_str = "".to_owned();
         for td in self.cols.iter() {
             td_str.push_str(&td.render());
         }
-        td_str = td_str.replace("\n", "\n\t");
+        td_str = td_str.replace('\n', "\n\t");
         format!("<tr {attr_str}>\n\t{td_str}\n</tr>")
     }
 }
 
 impl Render for Td {
     fn render(&self) -> String {
-        let content_str = self.content.render().replace("\n", "\n\t");
+        let content_str = self.content.render().replace('\n', "\n\t");
         format!("<td>\n\t{content_str}\n</td>")
     }
 }
