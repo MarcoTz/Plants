@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Direction, Font, Padding, Property, Size},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit},
+    value::{Keyword, Unit},
     CssDocument,
 };
 pub struct UpcomingTasks {}

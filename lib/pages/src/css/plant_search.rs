@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Border, Color, Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::TopSelector,
-    value::{keyword::Keyword, unit::Unit, Value},
+    value::{Keyword, Unit, Value},
     CssDocument,
 };
 

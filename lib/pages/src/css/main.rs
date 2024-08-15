@@ -4,7 +4,7 @@ use html::css::{
     property,
     property::{Border, Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::{ChildSelector, Selector, SubSelector, TopSelector},
-    value::{color::Color, keyword::Keyword, unit::Unit, Value},
+    value::{Color, Keyword, Unit, Value},
     CssDocument,
 };
 use std::rc::Rc;

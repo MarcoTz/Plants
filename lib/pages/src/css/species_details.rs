@@ -3,7 +3,7 @@ use html::css::{
     block::CssBlock,
     property::{Color, Direction, Margin, Size},
     selector::{Selector, SubSelector, TopSelector},
-    value::{keyword::Keyword, unit::Unit},
+    value::{Keyword, Unit},
     CssDocument,
 };
 use std::rc::Rc;
