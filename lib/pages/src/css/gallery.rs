@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Direction, Margin, Padding, Property},
+    property::{Direction, Flex, Font, Margin, Padding, Property, Size},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit},
     CssDocument,
@@ -14,7 +14,7 @@ impl CssComponent for Gallery {
         let plant_gallery = CssBlock {
             selector: TopSelector::Id("plant_gallery".to_owned()).into(),
             decls: vec![
-                (Property::Width, (95.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (95.0, Unit::Percent).into()).into(),
                 (
                     Padding {
                         dir: Direction::All,
@@ -29,8 +29,8 @@ impl CssComponent for Gallery {
         let images_plant_container = CssBlock {
             selector: TopSelector::Class("images_plant_container".to_owned()).into(),
             decls: vec![
-                (Property::Width, (19.0, Unit::Percent).into()).into(),
-                (Property::FlexDirection, Keyword::Column.into()).into(),
+                (Size::Width.into(), (19.0, Unit::Percent).into()).into(),
+                (Flex::FlexDirection.into(), Keyword::Column.into()).into(),
                 (
                     Padding {
                         dir: Direction::All,
@@ -45,7 +45,7 @@ impl CssComponent for Gallery {
         let images_plant = CssBlock {
             selector: TopSelector::Class("images_plant".to_owned()).into(),
             decls: vec![
-                (Property::Width, (90.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (90.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
@@ -80,8 +80,8 @@ impl CssComponent for Gallery {
         let img = CssBlock {
             selector: TopSelector::Tag("img".to_owned()).into(),
             decls: vec![
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
-                (Property::Height, (100.0, Unit::Percent).into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
+                (Size::Height.into(), (100.0, Unit::Percent).into()).into(),
             ],
         };
 
@@ -100,8 +100,8 @@ impl CssComponent for Gallery {
         let img_controls = CssBlock {
             selector: TopSelector::Class("img_controls".to_owned()).into(),
             decls: vec![
-                (Property::AlignSelf, Keyword::FlexEnd.into()).into(),
-                (Property::Width, (100.0, Unit::Percent).into()).into(),
+                (Flex::AlignSelf.into(), Keyword::FlexEnd.into()).into(),
+                (Size::Width.into(), (100.0, Unit::Percent).into()).into(),
                 (
                     Padding {
                         dir: Direction::Top,
@@ -152,7 +152,7 @@ impl CssComponent for Gallery {
                 )
                     .into(),
                 (Property::Cursor, Keyword::Pointer.into()).into(),
-                (Property::FontSize, (24.0, Unit::Pt).into()).into(),
+                (Font::Size.into(), (24.0, Unit::Pt).into()).into(),
             ],
         };
 
@@ -177,7 +177,7 @@ impl CssComponent for Gallery {
                 )
                     .into(),
                 (Property::Cursor, Keyword::Pointer.into()).into(),
-                (Property::FontSize, (24.0, Unit::Pt).into()).into(),
+                (Font::Size.into(), (24.0, Unit::Pt).into()).into(),
             ],
         };
 

@@ -2,7 +2,7 @@ use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
     declaration::Declaration,
-    property::{Direction, Margin, Padding, Property},
+    property::{Color, Direction, Margin, Padding, Property, Size},
     selector::TopSelector,
     value::{keyword::Keyword, unit::Unit},
     CssDocument,
@@ -15,8 +15,8 @@ impl CssComponent for PlantList {
         let plant_list_item = CssBlock {
             selector: TopSelector::Class("plant_list_item".to_owned()).into(),
             decls: vec![
-                (Property::Height, (9.0, Unit::Em).into()).into(),
-                (Property::Width, (10.0, Unit::Em).into()).into(),
+                (Size::Height.into(), (9.0, Unit::Em).into()).into(),
+                (Size::Width.into(), (10.0, Unit::Em).into()).into(),
                 (Property::TextAlign, Keyword::Center.into()).into(),
                 (Property::Overflow, Keyword::Hidden.into()).into(),
             ],
@@ -25,7 +25,7 @@ impl CssComponent for PlantList {
         let plant_preview = CssBlock {
             selector: TopSelector::Class("plant_preview".to_owned()).into(),
             decls: vec![
-                (Property::Height, (40.0, Unit::Percent).into()).into(),
+                (Size::Height.into(), (40.0, Unit::Percent).into()).into(),
                 (
                     Margin {
                         dir: Direction::Top,
@@ -50,7 +50,7 @@ impl CssComponent for PlantList {
             selector: TopSelector::Class("location_header".to_owned()).into(),
             decls: vec![
                 Declaration {
-                    property: Property::Background,
+                    property: Color::Background.into(),
                     value: Keyword::Transparent.into(),
                     important: true,
                 },
