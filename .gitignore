@@ -1,6 +1,7 @@
 __pycache__
 html_out/**/*.html
 conf.json
+log.txt
 
 
 # Added by cargo
