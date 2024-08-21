@@ -11,6 +11,7 @@ pub struct HallOfFame {}
 
 impl CssComponent for HallOfFame {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Hall of Fame css");
         let hall_of_fame = CssBlock {
             selector: TopSelector::Id("hall_of_fame".to_owned()).into(),
             decls: vec![

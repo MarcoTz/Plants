@@ -9,3 +9,4 @@ database = {path="../database" }
 pages = { path="../pages" } 
 html = { path="../html"} 
 chrono = "0.4.38"
+log = "0.4.22"

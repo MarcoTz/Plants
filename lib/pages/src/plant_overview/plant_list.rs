@@ -192,6 +192,7 @@ impl TryFrom<&[Plant]> for LocationGroup {
 impl TryFrom<&[Plant]> for PlantList {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<PlantList, Self::Error> {
+        log::info!("Loading Plant List");
         let mut by_location: HashMap<String, Vec<Plant>> = HashMap::new();
         for plant in plants.iter() {
             match by_location.get_mut(&plant.location) {

@@ -14,6 +14,10 @@ pub struct SpeciesOverview {
 }
 
 impl Page for SpeciesOverview {
+    fn get_title(&self) -> String {
+        "Species".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         self.species_list.render(date_format)
     }
@@ -21,7 +25,7 @@ impl Page for SpeciesOverview {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Species".to_owned(),
+            title: self.get_title(),
             styles: PageCss::SpeciesOverview,
             scripts,
             date_format: date_format.to_owned(),
@@ -31,6 +35,7 @@ impl Page for SpeciesOverview {
 
 impl From<(&[Species], &[Plant])> for SpeciesOverview {
     fn from((species, plants): (&[Species], &[Plant])) -> SpeciesOverview {
+        log::info!("Loading species overview");
         let species_plants: Vec<(&Species, Vec<Plant>)> = species
             .iter()
             .map(|sp| (sp, sp.get_plants(plants)))

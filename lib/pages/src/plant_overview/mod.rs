@@ -18,6 +18,10 @@ pub struct PlantOverview {
 }
 
 impl Page for PlantOverview {
+    fn get_title(&self) -> String {
+        "Plants".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         vec![
             self.search.render(date_format),
@@ -29,7 +33,7 @@ impl Page for PlantOverview {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Plants".to_owned(),
+            title: self.get_title(),
             styles: PageCss::PlantOverview,
             scripts,
             date_format: date_format.to_owned(),
@@ -40,6 +44,7 @@ impl Page for PlantOverview {
 impl TryFrom<&[Plant]> for PlantOverview {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<PlantOverview, Self::Error> {
+        log::info!("loading plant overview");
         let plant_list = PlantList::try_from(plants)?;
         Ok(PlantOverview {
             search: PlantSearch {},

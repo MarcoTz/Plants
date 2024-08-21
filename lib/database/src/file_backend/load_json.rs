@@ -9,6 +9,7 @@ use serde::de::DeserializeOwned;
 use std::fs;
 
 fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, Error> {
+    log::info!("Loading JSON {}", file_name);
     let file_contents = fs::read_to_string(file_name).map_err(|err| {
         <FSError as Into<Error>>::into(FSError {
             file_name: file_name.to_owned(),
@@ -27,6 +28,7 @@ fn load_json<T: DeserializeOwned>(file_name: &str) -> Result<T, Error> {
 }
 
 pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
+    log::info!("Loading JSON from dir {}", dir_path);
     let mut struct_list = vec![];
     for dir_entry in fs::read_dir(dir_path).map_err(|err| {
         <FSError as Into<Error>>::into(FSError {

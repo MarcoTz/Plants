@@ -43,6 +43,14 @@ impl PageComponent for SpeciesGallery {
 
 impl From<&[Plant]> for SpeciesGallery {
     fn from(plants: &[Plant]) -> SpeciesGallery {
+        log::info!(
+            "Loading species gallery with plants {}",
+            plants
+                .iter()
+                .map(|plant| plant.name.clone())
+                .collect::<Vec<String>>()
+                .join(", ")
+        );
         let img_base = "../img/plants";
         let mut plant_galleries = vec![];
         for plant in plants.iter() {

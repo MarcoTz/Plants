@@ -11,6 +11,7 @@ use html::css::{
 
 impl CssComponent for Tags {
     fn render(&self) -> CssDocument {
+        log::info!("Loading common CSS for Html Tags");
         let body = CssBlock {
             selector: TopSelector::Tag("body".to_owned()).into(),
             decls: vec![

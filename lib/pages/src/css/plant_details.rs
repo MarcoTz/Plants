@@ -6,11 +6,13 @@ use html::css::{
     value::{Keyword, Unit, Value},
     CssDocument,
 };
+use log;
 
 pub struct PlantDetails {}
 
 impl CssComponent for PlantDetails {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Plant Details CSS");
         let plant_content = CssBlock {
             selector: TopSelector::Id("plant_content".to_owned()).into(),
             decls: vec![

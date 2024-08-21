@@ -107,6 +107,7 @@ impl<T: ToString> PageComponent for PlantGraph<T> {
 
 impl From<&Plant> for PlantGraphs {
     fn from(plant: &Plant) -> PlantGraphs {
+        log::info!("Loading graphs for {}", plant.name);
         let growth_dates: Vec<NaiveDate> = plant.growth.iter().map(|growth| growth.date).collect();
         let growth_heights = plant.growth.iter().map(|growth| growth.height_cm).collect();
         let growth_widths = plant.growth.iter().map(|growth| growth.width_cm).collect();

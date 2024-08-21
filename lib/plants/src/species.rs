@@ -57,6 +57,11 @@ pub struct Species {
 
 impl Species {
     pub fn get_activity_delta(&self, activity_name: &str) -> Option<TimeDelta> {
+        log::info!(
+            "Getting time delta between {} for {}",
+            activity_name,
+            self.name
+        );
         match activity_name.to_lowercase().trim() {
             "watering" => self.avg_watering_days.map(|x| TimeDelta::days(x as i64)),
             "fertilizing" => self.avg_fertilizing_days.map(|x| TimeDelta::days(x as i64)),

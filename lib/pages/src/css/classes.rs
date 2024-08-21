@@ -7,12 +7,15 @@ use html::css::{
     value::{Keyword, Unit, Value},
     CssDocument,
 };
+use log;
+
 use std::rc::Rc;
 
 pub struct Classes {}
 
 impl CssComponent for Classes {
     fn render(&self) -> CssDocument {
+        log::info!("Loading css for shared classes");
         let alternating_children_even = CssBlock {
             selector: Selector {
                 top: TopSelector::Class("alternating_children".to_owned()),

@@ -4,6 +4,7 @@ use html::{
     elements::{Div, HeaderSize, Headline, HtmlElement},
 };
 
+use log;
 use plants::plant::Plant;
 use std::rc::Rc;
 
@@ -13,6 +14,7 @@ pub struct AutoWatered {
 
 impl PageComponent for AutoWatered {
     fn render(&self, date_format: &str) -> HtmlElement {
+        log::info!("Loading Autowatered Plants");
         let auto_water_header = Headline {
             attributes: vec![],
             size: HeaderSize::H1,
@@ -51,6 +53,7 @@ impl PageComponent for AutoWatered {
 
 impl From<&[Plant]> for AutoWatered {
     fn from(plants: &[Plant]) -> AutoWatered {
+        log::info!("Getting autowatered plants");
         let mut plant_vec = vec![];
         for plant in plants.iter() {
             if plant.auto_water {

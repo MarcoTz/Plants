@@ -10,6 +10,7 @@ pub struct UpcomingTasks {}
 
 impl CssComponent for UpcomingTasks {
     fn render(&self) -> CssDocument {
+        log::info!("Loading CSS for upcoming tasks");
         let task_block = CssBlock {
             selector: TopSelector::Class("task_block".to_owned()).into(),
             decls: vec![

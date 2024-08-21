@@ -17,6 +17,10 @@ pub struct Activities {
 }
 
 impl Page for Activities {
+    fn get_title(&self) -> String {
+        "Activities".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         Div {
             attributes: vec![Attribute::Style("width:95%;margin:auto;".to_owned())],
@@ -28,7 +32,7 @@ impl Page for Activities {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Activities".to_owned(),
+            title: self.get_title(),
             styles: PageCss::Activities,
             scripts,
             date_format: date_format.to_owned(),

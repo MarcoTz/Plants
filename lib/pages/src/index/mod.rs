@@ -19,6 +19,10 @@ pub struct Index {
 }
 
 impl Page for Index {
+    fn get_title(&self) -> String {
+        "Dashboard".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         vec![
             self.next_activities.render(date_format),
@@ -31,7 +35,7 @@ impl Page for Index {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Dashboard".to_owned(),
+            title: self.get_title(),
             styles: PageCss::Index,
             scripts,
             date_format: date_format.to_owned(),
@@ -42,6 +46,7 @@ impl Page for Index {
 impl TryFrom<&[Plant]> for Index {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<Index, Self::Error> {
+        log::info!("Loading Index");
         let hall_of_fame = HallOfFame::try_from(plants)?;
         Ok(Index {
             next_activities: UpcomingTasks::from(plants),

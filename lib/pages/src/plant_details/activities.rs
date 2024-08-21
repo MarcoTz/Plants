@@ -102,6 +102,7 @@ impl From<&Plant> for PlantActivities {
 }
 impl From<(&[LogItem], &[GrowthItem])> for PlantActivities {
     fn from((logs, growth): (&[LogItem], &[GrowthItem])) -> PlantActivities {
+        log::info!("Loading Plant Activities");
         let watering_activities: Vec<&LogItem> = logs
             .iter()
             .filter(|log| log.activity.to_lowercase().trim() == "watering")
