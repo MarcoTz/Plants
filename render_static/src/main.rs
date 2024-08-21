@@ -1,7 +1,17 @@
 use database::file_backend::file_db;
+use log::Level;
+use logger::{init::init_logger, std_out_logger::StdOutLogger};
 use render_html::{renderer::Renderer, write_html::write_all};
 
+static LOGGER: StdOutLogger = StdOutLogger { level: Level::Warn };
+
 fn main() {
+    let log_res = init_logger(&LOGGER);
+    if log_res.is_err() {
+        println!("{}", log_res.unwrap_err());
+        std::process::exit(1);
+    }
+
     let db_man = file_db::FileDB::get_default();
     let mut renderer = Renderer {
         database_manager: db_man,

@@ -13,3 +13,5 @@ database = { path = "../lib/database" }
 html = {path="../lib/html"}
 pages = {path="../lib/pages"}
 render_html = {path="../lib/render_html"}
+logger = {path="../lib/logger"}
+log = "0.4.22"
