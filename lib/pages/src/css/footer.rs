@@ -8,10 +8,12 @@ use html::css::{
     value::{Keyword, Unit, Value},
     CssDocument,
 };
+use log;
 use std::rc::Rc;
 
 impl CssComponent for Footer {
     fn render(&self) -> CssDocument {
+        log::info!("Loading footer css");
         let footer = CssBlock {
             selector: TopSelector::Id("footer".to_owned()).into(),
             decls: vec![

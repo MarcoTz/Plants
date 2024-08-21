@@ -87,6 +87,8 @@ impl From<&GrowthItem> for GrowthRow {
 
 impl From<&[GrowthItem]> for GrowthTable {
     fn from(growth: &[GrowthItem]) -> GrowthTable {
+        log::info!("Loading growth table");
+
         GrowthTable {
             growth_rows: growth.iter().map(|x| x.into()).collect(),
         }

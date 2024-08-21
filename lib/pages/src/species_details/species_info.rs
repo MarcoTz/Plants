@@ -103,6 +103,7 @@ impl From<(&str, &str)> for SpeciesInfoItem {
 }
 impl From<(&Species, &[Plant])> for SpeciesInfo {
     fn from((species, species_plants): (&Species, &[Plant])) -> SpeciesInfo {
+        log::info!("Loading species info for {}", species.name);
         let temp_range_str = format!("{}-{}", species.temp_min, species.temp_max);
         let opt_temp_range_str = format!("{}-{}", species.opt_temp_min, species.opt_temp_max);
         let ph_range_str = format!("{}-{}", species.ph_min, species.ph_max);

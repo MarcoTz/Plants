@@ -102,6 +102,7 @@ impl PageComponent for PlantSearchField {
 
 impl PageComponent for PlantNumberSearch {
     fn render(&self, _: &str) -> HtmlElement {
+        log::info!("Generating plant search");
         Div {
             attributes: vec![],
             content: Rc::new(

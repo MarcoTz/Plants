@@ -22,6 +22,10 @@ pub struct SpeciesDetails {
 }
 
 impl Page for SpeciesDetails {
+    fn get_title(&self) -> String {
+        self.species_name.clone()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         vec![
             Headline {
@@ -43,7 +47,7 @@ impl Page for SpeciesDetails {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["../js/main.js".to_owned()];
         HtmlHead {
-            title: self.species_name.clone(),
+            title: self.get_title(),
             styles: PageCss::SpeciesDetails,
             scripts,
             date_format: date_format.to_owned(),
@@ -53,6 +57,7 @@ impl Page for SpeciesDetails {
 
 impl From<(&Species, &[Plant])> for SpeciesDetails {
     fn from((species, plants): (&Species, &[Plant])) -> SpeciesDetails {
+        log::info!("Loading species details for {}", species.name);
         let species_plants = species.get_plants(plants);
         SpeciesDetails {
             species_name: species.name.clone(),

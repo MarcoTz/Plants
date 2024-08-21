@@ -6,11 +6,13 @@ use html::css::{
     value::{Keyword, Unit},
     CssDocument,
 };
+use log;
 
 pub struct Gallery {}
 
 impl CssComponent for Gallery {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Gallery CSS");
         let plant_gallery = CssBlock {
             selector: TopSelector::Id("plant_gallery".to_owned()).into(),
             decls: vec![

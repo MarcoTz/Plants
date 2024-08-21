@@ -8,6 +8,7 @@ use plants::log_item::LogItem;
 use serde::de::DeserializeOwned;
 
 fn load_csv<T: DeserializeOwned>(file_path: &str) -> Result<Vec<T>, Error> {
+    log::info!("Loading CSV {}", file_path);
     let mut csv_rows = vec![];
     let mut csv_reader = ReaderBuilder::new()
         .delimiter(b';')

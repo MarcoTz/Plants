@@ -150,6 +150,7 @@ impl PageComponent for Status {
 impl TryFrom<&Plant> for Status {
     type Error = Error;
     fn try_from(plant: &Plant) -> Result<Status, Self::Error> {
+        log::info!("loading plant status for {}", plant.name);
         let health = plant.get_health()?;
         let next_watering = plant.get_next_watering();
         let next_fertilizing = plant.get_next_fertilizing();

@@ -6,12 +6,14 @@ use html::css::{
     value::{Keyword, Unit},
     CssDocument,
 };
+use log;
 use std::rc::Rc;
 
 pub struct SpeciesDetails {}
 
 impl CssComponent for SpeciesDetails {
     fn render(&self) -> CssDocument {
+        log::info!("Loading SPecies Details CSS");
         let species_content = CssBlock {
             selector: TopSelector::Id("species_content".to_owned()).into(),
             decls: vec![

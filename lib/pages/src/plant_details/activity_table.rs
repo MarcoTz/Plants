@@ -71,6 +71,7 @@ impl PageComponent for ActivityRow {
 
 impl From<(&[&LogItem], bool)> for ActivityTable {
     fn from((logs, include_activity): (&[&LogItem], bool)) -> ActivityTable {
+        log::info!("Loading Activity Table");
         ActivityTable {
             activity_rows: logs
                 .iter()

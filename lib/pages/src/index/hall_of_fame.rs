@@ -32,6 +32,7 @@ pub struct HallOfFame {
 
 impl PageComponent for HallOfFameItem {
     fn render(&self, date_format: &str) -> HtmlElement {
+        log::info!("Loading Hall of Fame");
         let value_str = format!("{:.2} {}", self.value, self.unit);
         Tr {
             attributes: vec![],

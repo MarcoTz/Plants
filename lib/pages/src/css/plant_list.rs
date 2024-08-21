@@ -12,6 +12,8 @@ pub struct PlantList {}
 
 impl CssComponent for PlantList {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Plant List CSS");
+
         let plant_list_item = CssBlock {
             selector: TopSelector::Class("plant_list_item".to_owned()).into(),
             decls: vec![

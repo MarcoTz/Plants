@@ -12,6 +12,7 @@ pub struct GraveyardTable {
 
 impl PageComponent for GraveyardTable {
     fn render(&self, date_format: &str) -> HtmlElement {
+        log::info!("Loading Graveyard Table");
         let mut table_rows = vec![Tr {
             attributes: vec![Attribute::Class(vec!["header_row".to_owned()])],
             cols: vec![

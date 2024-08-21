@@ -16,6 +16,7 @@ pub trait CssComponent {
 }
 
 pub trait Page {
+    fn get_title(&self) -> String;
     fn get_head(&self, date_format: &str) -> HtmlHead;
     fn get_content(&self, date_format: &str) -> HtmlElement;
     fn get_footer(&self, num_plants: i32) -> Footer {
@@ -26,6 +27,7 @@ pub trait Page {
     }
 
     fn render(&self, date_format: &str, relative_up: bool, num_plants: i32) -> HtmlDocument {
+        log::info!("rendering {} with default implementation", self.get_title());
         let body_contents: HtmlElement = vec![
             self.get_header(relative_up).render(date_format),
             self.get_content(date_format),

@@ -6,6 +6,7 @@ use plants::log_item::LogItem;
 use serde::Serialize;
 
 fn write_csv<T: Serialize + std::fmt::Debug>(items: Vec<T>, file_path: &str) -> Result<(), Error> {
+    log::info!("Writing CSV {}", file_path);
     let mut writer = WriterBuilder::new()
         .delimiter(b';')
         .flexible(true)

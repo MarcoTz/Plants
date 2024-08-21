@@ -14,6 +14,10 @@ pub struct Graveyard {
 }
 
 impl Page for Graveyard {
+    fn get_title(&self) -> String {
+        "Graveyard".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         self.graveyard_table.render(date_format)
     }
@@ -21,7 +25,7 @@ impl Page for Graveyard {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Graveyard".to_owned(),
+            title: self.get_title(),
             styles: PageCss::Graveyard,
             scripts,
             date_format: date_format.to_owned(),
@@ -31,6 +35,7 @@ impl Page for Graveyard {
 
 impl From<&[GraveyardPlant]> for Graveyard {
     fn from(graveyard: &[GraveyardPlant]) -> Graveyard {
+        log::info!("Loading Graveyard");
         Graveyard {
             graveyard_table: GraveyardTable::from(graveyard),
         }

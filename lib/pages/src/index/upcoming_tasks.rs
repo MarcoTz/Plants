@@ -94,6 +94,7 @@ impl PageComponent for UpcomingTasks {
 
 impl From<&[Plant]> for UpcomingTasks {
     fn from(plants: &[Plant]) -> UpcomingTasks {
+        log::info!("Loading Upcoming Tasks");
         let mut next_watering_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
         let mut next_fertilizing_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
         let mut next_both_dates: HashMap<NaiveDate, Vec<PlantLink>> = HashMap::new();
@@ -110,6 +111,7 @@ impl From<&[Plant]> for UpcomingTasks {
             };
         for plant in plants.iter() {
             if plant.auto_water {
+                log::info!("Skipping plant {} in upcoming tasks", plant.name);
                 continue;
             }
 

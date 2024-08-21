@@ -78,6 +78,7 @@ impl PageComponent for ActivityRow {
 }
 impl From<&[Plant]> for ActivitiesTable {
     fn from(plants: &[Plant]) -> ActivitiesTable {
+        log::info!("Generating activity table (all activities)");
         let mut activities: HashMap<(NaiveDate, String), (Vec<String>, String)> = HashMap::new();
 
         for plant in plants.iter() {

@@ -95,23 +95,31 @@ pub fn load_plants(
     growth_file: &str,
     date_format: &str,
 ) -> Result<Vec<Plant>, Error> {
+    log::info!("Loading plants");
     let plant_jsons: Vec<PlantJSON> = load_plant_jsons(plants_dir)?;
     let species = load_species(species_dir)?;
     let logs = load_activities(activity_file)?;
     let growth = load_growth(growth_file)?;
     let mut plants = vec![];
     for plant_json in plant_jsons.iter() {
+        log::info!("Loading plant {}", plant_json.plant_name);
         let species_plant = species
             .iter()
             .find(|sp| {
                 sp.name.to_lowercase().trim() == plant_json.species_name.to_lowercase().trim()
             })
             .cloned();
+        if species_plant.is_none() {
+            log::warn!("Could not find species for plant {}", plant_json.plant_name);
+        }
         let plant_logs: Vec<LogItem> = logs
             .iter()
             .filter(|log| log.plant == plant_json.plant_name)
             .cloned()
             .collect();
+        if plant_logs.is_empty() {
+            log::warn!("No logs for plant {}", plant_json.plant_name);
+        }
         let mut plant_growth: Vec<GrowthItem> = growth
             .iter()
             .filter(|growth| growth.plant == plant_json.plant_name)
@@ -125,6 +133,9 @@ pub fn load_plants(
                     plant_json.plant_name.clone(),
                 )))?;
         let images = load_images("html_out/img/plants", &plant_json.plant_name)?;
+        if images.is_empty() {
+            log::warn!("No images for plant {}", plant_json.plant_name);
+        }
         last_growth.health = last_health;
         plant_growth.push(last_growth);
         let new_plant = PlantInfo {

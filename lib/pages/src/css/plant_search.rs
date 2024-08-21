@@ -6,11 +6,13 @@ use html::css::{
     value::{Keyword, Unit, Value},
     CssDocument,
 };
+use log;
 
 pub struct PlantSearch {}
 
 impl CssComponent for PlantSearch {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Plant Search CSS");
         let plant_search = CssBlock {
             selector: TopSelector::Id("plant_search".to_owned()).into(),
             decls: vec![

@@ -9,6 +9,7 @@ use std::fs::File;
 use std::io::Write;
 
 pub fn write_json<T: Serialize>(item: T, out_filepath: &str) -> Result<(), Error> {
+    log::info!("Writing JSON {}", out_filepath);
     let serialized = serde_json::to_string(&item).map_err(|err| {
         <SerializeError as Into<Error>>::into(SerializeError {
             out_path: out_filepath.to_owned(),

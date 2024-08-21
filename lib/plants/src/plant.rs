@@ -3,7 +3,9 @@ use super::growth_item::GrowthItem;
 use super::log_item::LogItem;
 use super::species::Species;
 use chrono::{Local, NaiveDate, TimeDelta};
+use log;
 use std::cmp::max;
+
 pub type PlantImage = (NaiveDate, String);
 
 #[derive(Clone, Debug)]
@@ -22,11 +24,15 @@ pub struct Plant {
 
 impl Plant {
     fn get_activities(&self, activity_name: &str) -> Vec<LogItem> {
+        log::info!("Getting activitiyes {activity_name} for {}", self.name);
         let mut activities = vec![];
         for activity in self.activities.iter() {
             if activity.activity.to_lowercase().trim() == activity_name.to_lowercase().trim() {
                 activities.push(activity.clone())
             }
+        }
+        if activities.is_empty() {
+            log::warn!("No activities {activity_name} for {}", self.name)
         }
         activities
     }
@@ -36,12 +42,14 @@ impl Plant {
     }
 
     pub fn get_last_watering(&self) -> Option<LogItem> {
+        log::info!("Getting last watering activity for {}", self.name);
         let mut watering_activities = self.get_watering_activities();
         watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
         watering_activities.last().cloned()
     }
 
     pub fn get_last_fertilizing(&self) -> Option<LogItem> {
+        log::info!("Geting last fertilizing activity for {}", self.name);
         let mut watering_activities = self.get_fertilizing_activities();
         watering_activities.sort_by(|log1, log2| log1.date.cmp(&log2.date));
         watering_activities.last().cloned()
@@ -52,12 +60,14 @@ impl Plant {
     }
 
     pub fn get_age_days(&self) -> i64 {
+        log::info!("Getting age for {}", self.name);
         let today = Local::now().date_naive();
         let time_diff = today - self.obtained;
         time_diff.num_days()
     }
 
     fn get_next_activity_date(&self, activity_name: &str) -> Option<NaiveDate> {
+        log::info!("Getting next activity {activity_name} for {}", self.name);
         let self_activities = self.get_activities(activity_name);
         let m_last_activity = self_activities.iter().max();
         match (m_last_activity, &self.species) {
@@ -82,6 +92,8 @@ impl Plant {
     }
 
     fn get_last_growth(&self) -> Result<GrowthItem, Error> {
+        log::info!("Getting next growth for plant {}", self.name);
+
         let last_growth = self
             .growth
             .iter()
@@ -90,21 +102,29 @@ impl Plant {
         Ok(last_growth.clone())
     }
     pub fn get_height(&self) -> Result<f32, Error> {
+        log::info!("Getting height for plant {}", self.name);
         let last_growth = self.get_last_growth()?;
         Ok(last_growth.height_cm)
     }
 
     pub fn get_width(&self) -> Result<f32, Error> {
+        log::info!("Getting width for plant {}", self.name);
         let last_growth = self.get_last_growth()?;
         Ok(last_growth.width_cm)
     }
 
     pub fn get_health(&self) -> Result<i32, Error> {
+        log::info!("Getting Health for plant {}", self.name);
         let last_growth = self.get_last_growth()?;
         Ok(last_growth.health)
     }
 
     fn get_activity_frequency(&self, activity_name: &str) -> Option<f32> {
+        log::info!(
+            "Getting frequency of activity {} for {}",
+            activity_name,
+            self.name
+        );
         let self_activities = self.get_activities(activity_name);
         let first_activity = self_activities.iter().min()?;
         let last_activity = self_activities.iter().max()?;
@@ -124,6 +144,7 @@ impl Plant {
     }
 
     pub fn get_growth_speed(&self) -> Result<f32, Error> {
+        log::info!("Getting growth seped for {}", self.name);
         let self_growth = self
             .growth
             .iter()
@@ -158,6 +179,7 @@ impl Plant {
     }
 
     pub fn get_next_growth(&self) -> NaiveDate {
+        log::info!("Getting next growth for {}", self.name);
         match self.get_last_growth() {
             Err(_) => Local::now().date_naive(),
             Ok(last_growth) => max(

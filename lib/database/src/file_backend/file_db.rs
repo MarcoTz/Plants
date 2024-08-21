@@ -73,6 +73,7 @@ impl FileDB {
     }
 
     fn load_plants(&mut self) -> Result<(), Error> {
+        log::info!("Loading plants from json and csv");
         let activity_file = self.get_activities_filepath()?;
         let growth_file = self.get_growth_filepath()?;
         let plants = load_plants(
@@ -87,12 +88,14 @@ impl FileDB {
     }
 
     fn load_species(&mut self) -> Result<(), Error> {
+        log::info!("Loading species from json");
         let species = load_species(&self.species_dir)?;
         self.species_cache = species;
         Ok(())
     }
 
     fn load_graveyard(&mut self) -> Result<(), Error> {
+        log::info!("Loading graveyard from csv");
         let graveyard_file = self.get_graveyard_filepath()?;
         let graveyard = load_graveyard(&graveyard_file)?;
         self.graveyard_cache = graveyard;

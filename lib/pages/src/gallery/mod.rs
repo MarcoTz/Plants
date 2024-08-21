@@ -8,6 +8,7 @@ use html::{
     attribute::Attribute,
     elements::{Div, HtmlElement},
 };
+use log;
 use plants::plant::Plant;
 use std::rc::Rc;
 
@@ -16,7 +17,12 @@ pub struct Gallery {
 }
 
 impl Page for Gallery {
+    fn get_title(&self) -> String {
+        "Gallery".to_owned()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
+        log::info!("Loading Gallery Html");
         let mut galleries_sorted = self.plant_galleries.clone();
         galleries_sorted
             .sort_by(|gallery1, gallery2| gallery1.plant_name.cmp(&gallery2.plant_name));
@@ -40,7 +46,7 @@ impl Page for Gallery {
     fn get_head(&self, date_format: &str) -> HtmlHead {
         let scripts = vec!["js/main.js".to_owned()];
         HtmlHead {
-            title: "Gallery".to_owned(),
+            title: self.get_title(),
             styles: PageCss::Gallery,
             scripts,
             date_format: date_format.to_owned(),
@@ -50,6 +56,7 @@ impl Page for Gallery {
 
 impl From<&[Plant]> for Gallery {
     fn from(plants: &[Plant]) -> Gallery {
+        log::info!("Getting Plant Galleries");
         let img_base = "img/plants";
         let plant_galleries = plants.iter().map(|x| (x, img_base).into()).collect();
         Gallery { plant_galleries }

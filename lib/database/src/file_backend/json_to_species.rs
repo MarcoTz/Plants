@@ -70,6 +70,7 @@ impl TryInto<Species> for SpeciesJSON {
     type Error = Error;
 
     fn try_into(self) -> Result<Species, Self::Error> {
+        log::info!("Loading species {} from JSON", self.name);
         let new_temp_min = self.temperature_min.try_into()?;
         let new_temp_max = self.temperature_max.try_into()?;
         let new_opt_min = self.optimal_temperature_min.try_into()?;

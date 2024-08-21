@@ -31,6 +31,10 @@ pub struct PlantDetails {
 }
 
 impl Page for PlantDetails {
+    fn get_title(&self) -> String {
+        self.name.clone()
+    }
+
     fn get_content(&self, date_format: &str) -> HtmlElement {
         let species_link = self
             .species_link
@@ -89,7 +93,7 @@ impl Page for PlantDetails {
             "../js/main.js".to_owned(),
         ];
         HtmlHead {
-            title: self.name.clone(),
+            title: self.get_title(),
             styles: PageCss::PlantDetails,
             scripts,
             date_format: date_format.to_owned(),
@@ -117,6 +121,7 @@ impl Page for PlantDetails {
 impl TryFrom<&Plant> for PlantDetails {
     type Error = Error;
     fn try_from(plant: &Plant) -> Result<PlantDetails, Error> {
+        log::info!("Loading plant details for {}", plant.name);
         let status = Status::try_from(plant)?;
         Ok(PlantDetails {
             name: plant.name.clone(),

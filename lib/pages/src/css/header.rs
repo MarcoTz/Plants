@@ -6,12 +6,14 @@ use html::css::{
     value::{Keyword, Unit, Value},
     CssDocument,
 };
+use log;
 use std::rc::Rc;
 
 pub struct Header {}
 
 impl CssComponent for Header {
     fn render(&self) -> CssDocument {
+        log::info!("Loading Header CSS");
         let header_items = CssBlock {
             selector: Selector {
                 top: TopSelector::Id("header".to_owned()),
