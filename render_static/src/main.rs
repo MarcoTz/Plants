@@ -1,9 +1,12 @@
 use database::file_backend::file_db;
 use log::Level;
-use logger::{init::init_logger, std_out_logger::StdOutLogger};
+use logger::{file_logger::FileLogger, init::init_logger};
 use render_html::{renderer::Renderer, write_html::write_all};
 
-static LOGGER: StdOutLogger = StdOutLogger { level: Level::Warn };
+static LOGGER: FileLogger = FileLogger {
+    level: Level::Warn,
+    file_path: "log.txt",
+};
 
 fn main() {
     let log_res = init_logger(&LOGGER);

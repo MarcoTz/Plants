@@ -1,8 +1,15 @@
+use super::init::Logger;
 use chrono::Local;
 use log::{Level, Log, Metadata, Record};
 
 pub struct StdOutLogger {
     pub level: Level,
+}
+
+impl Logger for StdOutLogger {
+    fn setup(&self) -> Result<(), String> {
+        Ok(())
+    }
 }
 
 impl Log for StdOutLogger {
