@@ -5,8 +5,9 @@ members = [
   "lib/html",
   "lib/pages",
   "lib/render_html",
+  "lib/logger",
   "render_static",
-  "telegram_bot"
+  "telegram_bot",
 ]
 resolver = "2"
 default-members = ["render_static","telegram_bot"]
