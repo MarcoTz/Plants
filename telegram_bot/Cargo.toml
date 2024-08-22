@@ -8,5 +8,8 @@ name="plant_updater_bot"
 path="src/main.rs"
 
 [dependencies]
+database = {path="../lib/database"}
+plants = {path="../lib/plants"}
+chrono = "0.4.38"
 tokio={version="1.39.2",features = ["rt-multi-thread", "macros"] }
 teloxide="0.13.0"
