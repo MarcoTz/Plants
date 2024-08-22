@@ -3,9 +3,13 @@ use super::{
     json_to_plant::load_plants,
     load_csv::load_graveyard,
     load_json::load_species,
+    write_csv::{write_activities, write_growth},
 };
 use crate::database_manager::DatabaseManager;
-use plants::{graveyard::GraveyardPlant, plant::Plant, species::Species};
+use plants::{
+    graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, plant::Plant,
+    species::Species,
+};
 use std::path;
 
 pub struct FileDB {
@@ -151,5 +155,43 @@ impl DatabaseManager for FileDB {
             .cloned()
             .collect();
         Ok(species_plants)
+    }
+
+    fn plant_exists(&mut self, plant_name: String) -> Result<bool, crate::errors::Error> {
+        if self.plants_cache.is_empty() {
+            self.load_plants()?;
+        }
+
+        Ok(self
+            .plants_cache
+            .iter()
+            .find(|pl| pl.name == plant_name)
+            .is_some())
+    }
+
+    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), crate::errors::Error> {
+        write_activities(logs, &self.activities_out)?;
+        Ok(())
+    }
+
+    fn get_plants_by_location(
+        &mut self,
+        location: String,
+    ) -> Result<Vec<Plant>, crate::errors::Error> {
+        if self.plants_cache.is_empty() {
+            self.load_plants()?;
+        }
+
+        Ok(self
+            .plants_cache
+            .iter()
+            .filter(|pl| pl.location == location)
+            .cloned()
+            .collect())
+    }
+
+    fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), crate::errors::Error> {
+        let _ = write_growth(growth, &self.growth_out)?;
+        Ok(())
     }
 }
