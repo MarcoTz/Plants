@@ -4,8 +4,9 @@ use super::{
     load_csv::load_graveyard,
     load_json::load_species,
     write_csv::{write_activities, write_growth},
+    write_json::{write_plants, write_species},
 };
-use crate::database_manager::DatabaseManager;
+use crate::database_manager::{DatabaseManager, PlantJSON};
 use plants::{
     graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, plant::Plant,
     species::Species,
@@ -129,6 +130,20 @@ impl DatabaseManager for FileDB {
         Ok(self.species_cache.clone())
     }
 
+    fn get_species(&mut self, name: &str) -> Result<Species, crate::errors::Error> {
+        if self.species_cache.is_empty() {
+            self.load_species()?;
+        }
+        self.species_cache
+            .iter()
+            .filter(|sp| sp.name == name)
+            .cloned()
+            .collect::<Vec<Species>>()
+            .first()
+            .cloned()
+            .ok_or(Error::SpeciesNotFound(name.to_owned()).into())
+    }
+
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, crate::errors::Error> {
         if self.graveyard_cache.is_empty() {
             self.load_graveyard()?;
@@ -157,16 +172,19 @@ impl DatabaseManager for FileDB {
         Ok(species_plants)
     }
 
-    fn plant_exists(&mut self, plant_name: String) -> Result<bool, crate::errors::Error> {
+    fn plant_exists(&mut self, plant_name: &str) -> Result<bool, crate::errors::Error> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
 
-        Ok(self
-            .plants_cache
-            .iter()
-            .find(|pl| pl.name == plant_name)
-            .is_some())
+        Ok(self.plants_cache.iter().any(|pl| pl.name == plant_name))
+    }
+
+    fn species_exists(&mut self, species_name: &str) -> Result<bool, crate::errors::Error> {
+        if self.species_cache.is_empty() {
+            self.load_species()?;
+        }
+        Ok(self.species_cache.iter().any(|sp| sp.name == species_name))
     }
 
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), crate::errors::Error> {
@@ -191,7 +209,17 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), crate::errors::Error> {
-        let _ = write_growth(growth, &self.growth_out)?;
+        write_growth(growth, &self.growth_out)?;
+        Ok(())
+    }
+
+    fn write_plant(&mut self, plant: PlantJSON) -> Result<(), crate::errors::Error> {
+        write_plants(vec![plant], &self.plants_out_dir)?;
+        Ok(())
+    }
+
+    fn write_species(&mut self, species: Species) -> Result<(), crate::errors::Error> {
+        write_species(vec![species], &self.species_out_dir)?;
         Ok(())
     }
 }

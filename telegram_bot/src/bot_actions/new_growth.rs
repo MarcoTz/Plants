@@ -1,4 +1,7 @@
-use super::{Action, BotAction};
+use super::{
+    input_handlers::{input_health, input_plant_name},
+    Action, BotAction,
+};
 use crate::errors::Error;
 use chrono::Local;
 use database::database_manager::DatabaseManager;
@@ -31,13 +34,7 @@ impl Action for NewGrowth {
     ) -> Result<(), Error> {
         match self.current_step {
             Step::PlantName => {
-                let name = input.to_lowercase().trim().to_owned();
-                let exists = db_man.plant_exists(name.clone())?;
-                let _ = if exists {
-                    Ok(())
-                } else {
-                    Err(Error::PlantDoesNotExist(input))
-                }?;
+                let name = input_plant_name(input, db_man)?;
                 self.name = Some(name);
                 self.current_step = Step::Height;
                 Ok(())
@@ -63,18 +60,10 @@ impl Action for NewGrowth {
                 Ok(())
             }
             Step::Health => {
-                let health = input
-                    .to_lowercase()
-                    .trim()
-                    .parse::<i32>()
-                    .map_err(|_| Error::ParseError("Health".to_owned()))?;
-                if health > 5 || health < 0 {
-                    Err(Error::BadHealth(health))
-                } else {
-                    self.health = Some(health);
-                    self.current_step = Step::Note;
-                    Ok(())
-                }
+                let health = input_health(input)?;
+                self.health = Some(health);
+                self.current_step = Step::Note;
+                Ok(())
             }
             Step::Note => {
                 if input.to_lowercase().trim() == "done" {

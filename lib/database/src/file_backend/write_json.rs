@@ -1,7 +1,5 @@
-use super::{
-    errors::{AccessType, Error, FSError, SerializeError},
-    json_to_plant::PlantJSON,
-};
+use super::errors::{AccessType, Error, FSError, SerializeError};
+use crate::database_manager::PlantJSON;
 use plants::named::Named;
 use plants::species::Species;
 use serde::Serialize;

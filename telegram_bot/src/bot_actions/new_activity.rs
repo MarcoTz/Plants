@@ -1,4 +1,4 @@
-use super::{Action, BotAction};
+use super::{input_handlers::input_plant_names, Action, BotAction};
 use crate::errors::Error;
 use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
@@ -43,18 +43,8 @@ impl Action for NewActivity {
                 Ok(())
             }
             Step::Plants => {
-                let plants = input.split(",").map(|st| st.trim());
-                let mut plants_vec = vec![];
-                for plant in plants {
-                    let exists = db_man.plant_exists(plant.to_owned())?;
-                    let _ = if exists {
-                        Ok(())
-                    } else {
-                        Err(Error::PlantDoesNotExist(plant.to_owned()))
-                    }?;
-                    plants_vec.push(plant);
-                }
-                self.plants = Some(plants_vec.into_iter().map(|st| st.to_owned()).collect());
+                let plants = input_plant_names(input, db_man)?;
+                self.plants = Some(plants);
                 self.current_step = Step::Note;
                 Ok(())
             }

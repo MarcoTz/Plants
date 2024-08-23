@@ -3,6 +3,7 @@ use super::{
     load_csv::{load_activities, load_growth},
     load_json::{load_plant_jsons, load_species},
 };
+use crate::database_manager::{BoolOrString, PlantJSON};
 use chrono::NaiveDate;
 use plants::{
     growth_item::GrowthItem,
@@ -11,45 +12,30 @@ use plants::{
     plant::{Plant, PlantImage},
     species::Species,
 };
-use serde::{Deserialize, Serialize};
 use std::fs;
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
-#[serde(untagged)]
-pub enum BoolOrString {
-    Bool(bool),
-    Str(String),
-}
-
-impl TryInto<bool> for BoolOrString {
-    type Error = Error;
-    fn try_into(self) -> Result<bool, Self::Error> {
-        let new_b = match self {
-            BoolOrString::Bool(b) => Ok(b),
-            BoolOrString::Str(st) => {
-                if st.as_str() == "y" {
-                    Ok(true)
-                } else if st.as_str() == "n" {
-                    Ok(false)
-                } else {
-                    st.to_lowercase().trim().parse::<bool>()
-                }
-            }
-        }?;
-        Ok(new_b)
+impl From<(&Plant, String)> for PlantJSON {
+    fn from((plant, date_format): (&Plant, String)) -> PlantJSON {
+        PlantJSON {
+            plant_name: plant.name.clone(),
+            species_name: plant
+                .species
+                .clone()
+                .map(|sp| sp.name)
+                .unwrap_or("".to_owned()),
+            auto_watering: BoolOrString::Bool(plant.auto_water),
+            current_location: plant.location.clone(),
+            obtained: plant.obtained.format(&date_format).to_string(),
+            origin: plant.origin.clone(),
+            plant_health: plant
+                .growth
+                .last()
+                .map(|gr| gr.health)
+                .unwrap_or(3)
+                .to_string(),
+            plant_notes: plant.notes.clone(),
+        }
     }
-}
-
-#[derive(Deserialize, Serialize, Debug, Clone)]
-pub struct PlantJSON {
-    auto_watering: BoolOrString,
-    current_location: String,
-    obtained: String,
-    origin: String,
-    plant_health: String,
-    plant_name: String,
-    plant_notes: Vec<String>,
-    species_name: String,
 }
 
 struct PlantInfo {
@@ -64,6 +50,19 @@ struct PlantInfo {
 impl Named for PlantJSON {
     fn get_name(&self) -> String {
         self.plant_name.clone()
+    }
+}
+
+impl From<(&Plant, String)> for PlantInfo {
+    fn from((plant, date_format): (&Plant, String)) -> PlantInfo {
+        PlantInfo {
+            plant: (plant, date_format.clone()).into(),
+            species: plant.species.clone(),
+            logs: plant.activities.clone(),
+            growth: plant.growth.clone(),
+            date_format,
+            images: plant.images.clone(),
+        }
     }
 }
 

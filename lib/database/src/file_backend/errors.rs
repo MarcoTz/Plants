@@ -23,6 +23,7 @@ pub enum Error {
     SerializeError(SerializeError),
     FSError(FSError),
     PlantError(plant_err::Error),
+    SpeciesNotFound(String),
 }
 
 pub struct ConversionError {
@@ -164,6 +165,7 @@ impl fmt::Debug for Error {
                 frmt.write_str(&format!("Could not {acc_msg} file {file}, message: {msg}"))
             }
             Error::PlantError(err) => fmt::Debug::fmt(err, frmt),
+            Error::SpeciesNotFound(name) => frmt.write_str(&format!("Species {name} not found")),
         }
     }
 }
