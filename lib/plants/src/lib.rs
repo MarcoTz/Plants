@@ -6,3 +6,4 @@ pub mod log_item;
 pub mod named;
 pub mod plant;
 pub mod species;
+pub mod species_update;

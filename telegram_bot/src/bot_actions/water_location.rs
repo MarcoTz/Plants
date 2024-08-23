@@ -5,7 +5,7 @@ use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
 pub struct WaterLocation {
-    watered_plants: Vec<String>,
+    watered_plants: Option<Vec<String>>,
     done: bool,
 }
 
@@ -19,7 +19,7 @@ impl Action for WaterLocation {
         if location_plants.is_empty() {
             Err(Error::NoPlantsLocation(input))
         } else {
-            self.watered_plants = location_plants.iter().map(|pl| pl.name.clone()).collect();
+            self.watered_plants = Some(location_plants.iter().map(|pl| pl.name.clone()).collect());
             self.done = true;
             Ok(())
         }
@@ -30,7 +30,11 @@ impl Action for WaterLocation {
 
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         let mut activities = vec![];
-        for plant in self.watered_plants.clone().into_iter() {
+        let plants = self
+            .watered_plants
+            .clone()
+            .ok_or(Error::MissingInput("Location to water".to_owned()))?;
+        for plant in plants.iter().cloned() {
             activities.push(LogItem {
                 activity: "Watering".to_owned(),
                 date: Local::now().date_naive(),
@@ -39,10 +43,7 @@ impl Action for WaterLocation {
             });
         }
         db_man.write_logs(activities)?;
-        let ret_msg = format!(
-            "Successfully watered plants {}",
-            self.watered_plants.join(", ")
-        );
+        let ret_msg = format!("Successfully watered plants {}", plants.join(", "));
         Ok(ret_msg)
     }
 

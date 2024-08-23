@@ -1,9 +1,8 @@
 use super::{
     errors::{AccessType, Error, FSError, SerializeError},
-    json_to_plant::PlantJSON,
     json_to_species::SpeciesJSON,
 };
-
+use crate::database_manager::PlantJSON;
 use plants::species::Species;
 use serde::de::DeserializeOwned;
 use std::fs;

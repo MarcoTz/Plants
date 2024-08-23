@@ -1,6 +1,10 @@
 mod fertilize_plants;
+mod input_handlers;
 mod new_activity;
 mod new_growth;
+mod new_plant;
+mod new_species;
+mod update_species;
 mod water_location;
 mod water_plants;
 
@@ -9,6 +13,9 @@ use database::database_manager::DatabaseManager;
 use fertilize_plants::FertilizePlants;
 use new_activity::NewActivity;
 use new_growth::NewGrowth;
+use new_plant::NewPlant;
+use new_species::NewSpecies;
+use update_species::UpdateSpecies;
 use water_location::WaterLocation;
 use water_plants::WaterPlants;
 
@@ -20,9 +27,9 @@ pub enum BotAction {
     FertilizePlants(FertilizePlants),
     NewGrowth(NewGrowth),
     NewActivity(NewActivity),
-    NewPlant,
-    NewSpecies,
-    UpdateSpecies,
+    NewPlant(NewPlant),
+    NewSpecies(NewSpecies),
+    UpdateSpecies(UpdateSpecies),
     UpdatePlant,
     MoveToGraveyard,
 }
@@ -45,46 +52,62 @@ impl Action for BotAction {
         db_man: &mut T,
     ) -> Result<(), Error> {
         match self {
+            BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.handle_input(input, db_man),
             BotAction::WaterLocation(water) => water.handle_input(input, db_man),
             BotAction::Rain => todo!("Cannot check locations for inside/outside"),
             BotAction::FertilizePlants(fert) => fert.handle_input(input, db_man),
             BotAction::NewGrowth(growth) => growth.handle_input(input, db_man),
             BotAction::NewActivity(act) => act.handle_input(input, db_man),
+            BotAction::NewPlant(newp) => newp.handle_input(input, db_man),
+            BotAction::NewSpecies(newsp) => newsp.handle_input(input, db_man),
+            BotAction::UpdateSpecies(updsp) => updsp.handle_input(input, db_man),
             _ => Ok(()),
         }
     }
     fn is_done(&self) -> bool {
         match self {
+            BotAction::Idle => true,
             BotAction::WaterPlants(water) => water.is_done(),
             BotAction::WaterLocation(water) => water.is_done(),
             BotAction::Rain => todo!("Cannot check locations for inside/outside"),
             BotAction::FertilizePlants(fert) => fert.is_done(),
             BotAction::NewGrowth(growth) => growth.is_done(),
             BotAction::NewActivity(act) => act.is_done(),
+            BotAction::NewPlant(newp) => newp.is_done(),
+            BotAction::NewSpecies(newsp) => newsp.is_done(),
+            BotAction::UpdateSpecies(updsp) => updsp.is_done(),
             _ => true,
         }
     }
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         match self {
+            BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.write_result(db_man),
             BotAction::WaterLocation(water) => water.write_result(db_man),
             BotAction::Rain => todo!("Cannot check locations for inside/outside"),
             BotAction::FertilizePlants(fert) => fert.write_result(db_man),
             BotAction::NewGrowth(growth) => growth.write_result(db_man),
             BotAction::NewActivity(act) => act.write_result(db_man),
+            BotAction::NewPlant(newp) => newp.write_result(db_man),
+            BotAction::NewSpecies(newsp) => newsp.write_result(db_man),
+            BotAction::UpdateSpecies(updsp) => updsp.write_result(db_man),
             _ => Ok("".to_owned()),
         }
     }
 
     fn get_next_prompt(&self) -> Result<String, Error> {
         match self {
+            BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.get_next_prompt(),
             BotAction::WaterLocation(water) => water.get_next_prompt(),
             BotAction::Rain => todo!("Cannot check locations for inside/outside"),
             BotAction::FertilizePlants(fert) => fert.get_next_prompt(),
             BotAction::NewGrowth(growth) => growth.get_next_prompt(),
             BotAction::NewActivity(act) => act.get_next_prompt(),
+            BotAction::NewPlant(newp) => newp.get_next_prompt(),
+            BotAction::NewSpecies(newsp) => newsp.get_next_prompt(),
+            BotAction::UpdateSpecies(updsp) => updsp.get_next_prompt(),
             _ => Ok("".to_owned()),
         }
     }

@@ -33,11 +33,10 @@ impl Log for FileLogger {
             let current_time = Local::now();
             let log_line = format!("{}:{} - {}\n", current_time, record.level(), record.args());
             let mut file = OpenOptions::new()
-                .write(true)
                 .append(true)
                 .open(self.file_path)
                 .unwrap();
-            file.write(log_line.as_bytes()).unwrap();
+            file.write_all(log_line.as_bytes()).unwrap();
         }
     }
 

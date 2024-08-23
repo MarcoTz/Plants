@@ -1,11 +1,11 @@
-use super::{Action, BotAction};
+use super::{input_handlers::input_plant_names, Action, BotAction};
 use crate::errors::Error;
 use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
 pub struct WaterPlants {
-    watered_plants: Vec<String>,
+    watered_plants: Option<Vec<String>>,
     done: bool,
 }
 
@@ -15,16 +15,8 @@ impl Action for WaterPlants {
         input: String,
         db_man: &mut T,
     ) -> Result<(), Error> {
-        let plants = input.split(",").map(|st| st.trim());
-        for plant in plants {
-            let exists = db_man.plant_exists(plant.to_owned())?;
-            let _ = if exists {
-                Ok(())
-            } else {
-                Err(Error::PlantDoesNotExist(plant.to_owned()))
-            }?;
-            self.watered_plants.push(plant.to_owned());
-        }
+        let plants = input_plant_names(input, db_man)?;
+        self.watered_plants = Some(plants);
         self.done = true;
         Ok(())
     }
@@ -35,7 +27,11 @@ impl Action for WaterPlants {
 
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         let mut activities = vec![];
-        for plant in self.watered_plants.clone() {
+        let plants = self
+            .watered_plants
+            .clone()
+            .ok_or(Error::MissingInput("Plants to water".to_owned()))?;
+        for plant in plants.clone() {
             activities.push(LogItem {
                 activity: "Watering".to_owned(),
                 date: Local::now().date_naive(),
@@ -45,10 +41,7 @@ impl Action for WaterPlants {
         }
 
         db_man.write_logs(activities)?;
-        let ret_msg = format!(
-            "Successfully watered plants {}",
-            self.watered_plants.clone().join(",")
-        );
+        let ret_msg = format!("Successfully watered plants {}", plants.clone().join(","));
         Ok(ret_msg)
     }
 

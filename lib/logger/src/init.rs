@@ -6,7 +6,7 @@ pub trait Logger: Log {
 
 pub fn init_logger<T: Logger>(logger: &'static T) -> Result<(), String> {
     logger.setup()?;
-    let _ = set_logger(logger).map_err(|err| format!("{}", err))?;
-    let _ = set_max_level(LevelFilter::Trace);
+    set_logger(logger).map_err(|err| format!("{}", err))?;
+    set_max_level(LevelFilter::Trace);
     Ok(())
 }

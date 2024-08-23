@@ -1,11 +1,11 @@
-use super::{Action, BotAction};
+use super::{input_handlers::input_plant_names, Action, BotAction};
 use crate::errors::Error;
 use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
 pub struct FertilizePlants {
-    fertilized_plants: Vec<String>,
+    fertilized_plants: Option<Vec<String>>,
     done: bool,
 }
 
@@ -15,16 +15,8 @@ impl Action for FertilizePlants {
         input: String,
         db_man: &mut T,
     ) -> Result<(), Error> {
-        let plants = input.split(",").map(|st| st.trim());
-        for plant in plants {
-            let exists = db_man.plant_exists(plant.to_owned())?;
-            let _ = if exists {
-                Ok(())
-            } else {
-                Err(Error::PlantDoesNotExist(plant.to_owned()))
-            }?;
-            self.fertilized_plants.push(plant.to_owned());
-        }
+        let plants = input_plant_names(input, db_man)?;
+        self.fertilized_plants = Some(plants);
         self.done = true;
         Ok(())
     }
@@ -35,7 +27,11 @@ impl Action for FertilizePlants {
 
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         let mut activities = vec![];
-        for plant in self.fertilized_plants.iter().cloned() {
+        let plants = self
+            .fertilized_plants
+            .clone()
+            .ok_or(Error::MissingInput("Plants to fertilize".to_owned()))?;
+        for plant in plants.iter().cloned() {
             activities.push(LogItem {
                 activity: "Fertilizing".to_owned(),
                 date: Local::now().date_naive(),
@@ -44,10 +40,7 @@ impl Action for FertilizePlants {
             });
         }
         db_man.write_logs(activities)?;
-        let ret_msg = format!(
-            "Successfully fertilized plants {}",
-            self.fertilized_plants.join(", ")
-        );
+        let ret_msg = format!("Successfully fertilized plants {}", plants.join(", "));
         Ok(ret_msg)
     }
 
