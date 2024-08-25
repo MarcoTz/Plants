@@ -14,12 +14,12 @@ use load_json::load_species;
 use write_csv::{write_activities, write_graveyard, write_growth};
 use write_json::{write_plants, write_species};
 
-use crate::database_manager::{DatabaseManager, PlantJSON};
+use crate::database_manager::DatabaseManager;
 use plants::{
     graveyard::GraveyardPlant,
     growth_item::GrowthItem,
     log_item::LogItem,
-    plant::{Plant, PlantSpecies},
+    plant::{Plant, PlantInfo, PlantSpecies},
     species::Species,
 };
 use std::{fs::remove_file, path};
@@ -90,7 +90,6 @@ impl FileDB {
             &self.species_dir,
             &activity_file,
             &growth_file,
-            &self.date_format,
         )?;
         self.plants_cache = plants;
         Ok(())
@@ -232,7 +231,7 @@ impl DatabaseManager for FileDB {
         Ok(())
     }
 
-    fn write_plant(&mut self, plant: PlantJSON) -> Result<(), crate::errors::Error> {
+    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), crate::errors::Error> {
         write_plants(vec![plant], &self.plants_dir)?;
         Ok(())
     }

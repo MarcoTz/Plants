@@ -94,7 +94,7 @@ impl Action for UpdatePlant {
             .clone()
             .ok_or(Error::MissingInput("Update Value".to_owned()))?;
         update_plant(&mut plant, update_field, update_value)?;
-        db_man.write_plant((&plant, self.date_format.clone()).into())?;
+        db_man.write_plant(plant.info)?;
         let ret_msg = format!("Successfully updated plant {plant_name}");
         Ok(ret_msg)
     }

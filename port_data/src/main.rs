@@ -1,5 +1,5 @@
 use plants::species::Species;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
 pub fn main() {
@@ -17,6 +17,17 @@ pub fn main() {
     //              | - data.json
     //          | - plant_name
     //              | - ...
+    //
+    //
+    /*let last_health = plant_json.plant_health.parse::<i32>()?;
+    let mut last_growth =
+        plant_growth
+            .pop()
+            .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
+                plant_info.name.clone(),
+            )))?;
+    last_growth.health = last_health;
+    plant_growth.push(last_growth);*/
     println!()
 }
 
@@ -123,3 +134,68 @@ impl TryInto<Species> for SpeciesJSON {
         })
     }
 }
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct PlantJSON {
+    pub auto_watering: BoolOrString,
+    pub current_location: String,
+    pub obtained: String,
+    pub origin: String,
+    pub plant_health: String,
+    pub plant_name: String,
+    pub plant_notes: Vec<String>,
+    pub species_name: String,
+}
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum BoolOrString {
+    Bool(bool),
+    Str(String),
+}
+
+impl From<bool> for BoolOrString {
+    fn from(b: bool) -> BoolOrString {
+        BoolOrString::Bool(b)
+    }
+}
+impl TryInto<bool> for BoolOrString {
+    type Error = database::file_backend::errors::Error;
+    fn try_into(self) -> Result<bool, Self::Error> {
+        let new_b = match self {
+            BoolOrString::Bool(b) => Ok(b),
+            BoolOrString::Str(st) => {
+                if st.as_str() == "y" {
+                    Ok(true)
+                } else if st.as_str() == "n" {
+                    Ok(false)
+                } else {
+                    st.to_lowercase().trim().parse::<bool>()
+                }
+            }
+        }?;
+        Ok(new_b)
+    }
+}
+
+/*impl From<(&Plant, String)> for PlantJSON {
+    fn from((plant, date_format): (&Plant, String)) -> PlantJSON {
+        PlantJSON {
+            plant_name: plant.info.name.clone(),
+            species_name: match &plant.info.species {
+                PlantSpecies::Other(name) => name.clone(),
+                PlantSpecies::Species(sp) => sp.name.clone(),
+            },
+            auto_watering: BoolOrString::Bool(plant.info.auto_water),
+            current_location: plant.info.location.clone(),
+            obtained: plant.info.obtained.format(&date_format).to_string(),
+            origin: plant.info.origin.clone(),
+            plant_health: plant
+                .growth
+                .last()
+                .map(|gr| gr.health)
+                .unwrap_or(3)
+                .to_string(),
+            plant_notes: plant.info.notes.clone(),
+        }
+    }
+}*/
