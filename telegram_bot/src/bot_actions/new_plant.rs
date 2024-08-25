@@ -36,6 +36,25 @@ pub struct NewPlant {
     notes: Option<Vec<String>>,
 }
 
+impl NewPlant {
+    pub fn new(date_format: &str) -> NewPlant {
+        NewPlant {
+            current_step: Step::PlantName,
+            date_format: date_format.to_owned(),
+            plant_name: None,
+            species_name: None,
+            height: None,
+            width: None,
+            health: None,
+            location: None,
+            autowatered: None,
+            origin: None,
+            obtained: None,
+            notes: None,
+        }
+    }
+}
+
 impl Action for NewPlant {
     fn handle_input<T: DatabaseManager>(
         &mut self,

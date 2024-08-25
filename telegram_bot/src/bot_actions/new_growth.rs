@@ -26,6 +26,19 @@ pub struct NewGrowth {
     note: Option<String>,
 }
 
+impl NewGrowth {
+    pub fn new() -> NewGrowth {
+        NewGrowth {
+            current_step: Step::PlantName,
+            name: None,
+            height: None,
+            width: None,
+            health: None,
+            note: None,
+        }
+    }
+}
+
 impl Action for NewGrowth {
     fn handle_input<T: DatabaseManager>(
         &mut self,
