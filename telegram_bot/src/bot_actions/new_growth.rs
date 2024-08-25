@@ -39,6 +39,12 @@ impl NewGrowth {
     }
 }
 
+impl Default for NewGrowth {
+    fn default() -> Self {
+        NewGrowth::new()
+    }
+}
+
 impl Action for NewGrowth {
     fn handle_input<T: DatabaseManager>(
         &mut self,

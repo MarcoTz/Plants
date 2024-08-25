@@ -9,9 +9,14 @@ use std::cmp::max;
 pub type PlantImage = (NaiveDate, String);
 
 #[derive(Clone, Debug)]
+pub enum PlantSpecies {
+    Species(Box<Species>),
+    Other(String),
+}
+#[derive(Clone, Debug)]
 pub struct Plant {
     pub name: String,
-    pub species: Option<Species>,
+    pub species: PlantSpecies,
     pub location: String,
     pub origin: String,
     pub obtained: NaiveDate,
@@ -72,8 +77,8 @@ impl Plant {
         let m_last_activity = self_activities.iter().max();
         match (m_last_activity, &self.species) {
             (None, _) => Some(Local::now().date_naive()),
-            (_, None) => None,
-            (Some(last_activity), Some(species)) => {
+            (_, PlantSpecies::Other(_)) => None,
+            (Some(last_activity), PlantSpecies::Species(species)) => {
                 let activity_delta = species.get_activity_delta(activity_name)?;
                 Some(max(
                     last_activity.date + activity_delta,

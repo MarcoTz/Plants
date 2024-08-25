@@ -1,4 +1,7 @@
-use super::{errors::Error, plant::Plant};
+use super::{
+    errors::Error,
+    plant::{Plant, PlantSpecies},
+};
 use chrono::TimeDelta;
 use serde::Serialize;
 use std::{fmt, str::FromStr};
@@ -80,9 +83,9 @@ impl Species {
     pub fn get_plants(&self, plants: &[Plant]) -> Vec<Plant> {
         let mut species_plants = vec![];
         for plant in plants.iter() {
-            match plant.species.as_ref() {
-                None => (),
-                Some(species) => {
+            match &plant.species {
+                PlantSpecies::Other(_) => (),
+                PlantSpecies::Species(species) => {
                     if species.name == self.name {
                         species_plants.push(plant.clone())
                     }

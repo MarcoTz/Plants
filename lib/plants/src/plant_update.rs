@@ -1,11 +1,11 @@
-use super::{errors::Error, plant::Plant, species::Species};
+use super::{errors::Error, plant::Plant, plant::PlantSpecies};
 use chrono::NaiveDate;
 use std::{fmt, str::FromStr};
 
 #[derive(Clone)]
 pub enum UpdateValue {
     Str(String),
-    Species(Option<Species>),
+    Species(Box<PlantSpecies>),
     Date(NaiveDate),
     Bool(bool),
     Note(Vec<String>, bool),
@@ -111,7 +111,7 @@ pub fn update_plant(
         },
         UpdateValue::Species(sp) => {
             if let UpdateField::Species = field {
-                plant.species = sp;
+                plant.species = *sp;
                 Ok(())
             } else {
                 Err(Error::FieldError(field.to_string()))

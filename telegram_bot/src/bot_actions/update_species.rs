@@ -29,6 +29,12 @@ impl UpdateSpecies {
     }
 }
 
+impl Default for UpdateSpecies {
+    fn default() -> Self {
+        UpdateSpecies::new()
+    }
+}
+
 impl Action for UpdateSpecies {
     fn handle_input<T: DatabaseManager>(
         &mut self,

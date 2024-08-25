@@ -9,8 +9,7 @@ use plants::{
     growth_item::GrowthItem,
     log_item::LogItem,
     named::Named,
-    plant::{Plant, PlantImage},
-    species::Species,
+    plant::{Plant, PlantImage, PlantSpecies},
 };
 use std::fs;
 
@@ -18,11 +17,10 @@ impl From<(&Plant, String)> for PlantJSON {
     fn from((plant, date_format): (&Plant, String)) -> PlantJSON {
         PlantJSON {
             plant_name: plant.name.clone(),
-            species_name: plant
-                .species
-                .clone()
-                .map(|sp| sp.name)
-                .unwrap_or("".to_owned()),
+            species_name: match &plant.species {
+                PlantSpecies::Other(name) => name.clone(),
+                PlantSpecies::Species(sp) => sp.name.clone(),
+            },
             auto_watering: BoolOrString::Bool(plant.auto_water),
             current_location: plant.location.clone(),
             obtained: plant.obtained.format(&date_format).to_string(),
@@ -40,7 +38,7 @@ impl From<(&Plant, String)> for PlantJSON {
 
 struct PlantInfo {
     plant: PlantJSON,
-    species: Option<Species>,
+    species: PlantSpecies,
     logs: Vec<LogItem>,
     growth: Vec<GrowthItem>,
     date_format: String,
@@ -107,10 +105,10 @@ pub fn load_plants(
             .find(|sp| {
                 sp.name.to_lowercase().trim() == plant_json.species_name.to_lowercase().trim()
             })
-            .cloned();
-        if species_plant.is_none() {
-            log::warn!("Could not find species for plant {}", plant_json.plant_name);
-        }
+            .cloned()
+            .map(|sp| PlantSpecies::Species(Box::new(sp)))
+            .unwrap_or(PlantSpecies::Other(plant_json.plant_name.clone()));
+
         let plant_logs: Vec<LogItem> = logs
             .iter()
             .filter(|log| log.plant == plant_json.plant_name)
@@ -119,11 +117,13 @@ pub fn load_plants(
         if plant_logs.is_empty() {
             log::warn!("No logs for plant {}", plant_json.plant_name);
         }
+
         let mut plant_growth: Vec<GrowthItem> = growth
             .iter()
             .filter(|growth| growth.plant == plant_json.plant_name)
             .cloned()
             .collect();
+
         let last_health = plant_json.plant_health.parse::<i32>()?;
         let mut last_growth =
             plant_growth
@@ -131,12 +131,14 @@ pub fn load_plants(
                 .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
                     plant_json.plant_name.clone(),
                 )))?;
+
         let images = load_images("html_out/img/plants", &plant_json.plant_name)?;
         if images.is_empty() {
             log::warn!("No images for plant {}", plant_json.plant_name);
         }
         last_growth.health = last_health;
         plant_growth.push(last_growth);
+
         let new_plant = PlantInfo {
             plant: plant_json.clone(),
             species: species_plant,

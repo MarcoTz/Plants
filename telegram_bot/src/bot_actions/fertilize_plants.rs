@@ -18,6 +18,12 @@ impl FertilizePlants {
     }
 }
 
+impl Default for FertilizePlants {
+    fn default() -> Self {
+        FertilizePlants::new()
+    }
+}
+
 impl Action for FertilizePlants {
     fn handle_input<T: DatabaseManager>(
         &mut self,

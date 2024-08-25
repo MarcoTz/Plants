@@ -8,7 +8,10 @@ use super::{
 };
 use crate::database_manager::{DatabaseManager, PlantJSON};
 use plants::{
-    graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, plant::Plant,
+    graveyard::GraveyardPlant,
+    growth_item::GrowthItem,
+    log_item::LogItem,
+    plant::{Plant, PlantSpecies},
     species::Species,
 };
 use std::{fs::remove_file, path};
@@ -172,14 +175,12 @@ impl DatabaseManager for FileDB {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
-
         let species_plants = self
             .plants_cache
             .iter()
-            .filter(|plant| {
-                plant.species.clone().is_some_and(|sp| {
-                    sp.name.to_lowercase().trim() == species_name.to_lowercase().trim()
-                })
+            .filter(|plant| match &plant.species {
+                PlantSpecies::Other(name) => name == species_name,
+                PlantSpecies::Species(sp) => sp.name == species_name,
             })
             .cloned()
             .collect();
@@ -252,8 +253,8 @@ impl DatabaseManager for FileDB {
         self.plants_cache = self
             .plants_cache
             .iter()
-            .cloned()
             .filter(|pl| pl.name == name)
+            .cloned()
             .collect();
         //write plants
 

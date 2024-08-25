@@ -18,6 +18,12 @@ impl WaterLocation {
     }
 }
 
+impl Default for WaterLocation {
+    fn default() -> Self {
+        WaterLocation::new()
+    }
+}
+
 impl Action for WaterLocation {
     fn handle_input<T: DatabaseManager>(
         &mut self,
