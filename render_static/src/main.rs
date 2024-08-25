@@ -1,4 +1,4 @@
-use database::file_backend::file_db;
+use database::file_backend::FileDB;
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
 use render_html::{renderer::Renderer, write_html::write_all};
@@ -15,7 +15,7 @@ fn main() {
         std::process::exit(1);
     }
 
-    let db_man = file_db::FileDB::get_default();
+    let db_man = FileDB::default();
     let mut renderer = Renderer {
         database_manager: db_man,
         date_format: "%d.%m.%Y".to_owned(),
