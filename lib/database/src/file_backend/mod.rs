@@ -22,12 +22,12 @@ use plants::{
     plant::{Plant, PlantInfo, PlantSpecies},
     species::Species,
 };
-use std::{fs::remove_file, path};
+use std::{fs::remove_file, path::PathBuf};
 
 pub struct FileDB {
-    pub plants_dir: String,
-    pub species_dir: String,
-    logs_dir: String,
+    pub plants_dir: PathBuf,
+    pub species_dir: PathBuf,
+    logs_dir: PathBuf,
     graveyard_csv: String,
     growth_csv: String,
     activities_csv: String,
@@ -38,25 +38,13 @@ pub struct FileDB {
     pub species_cache: Vec<Species>,
 }
 
-fn get_path_from_buf(logs_dir: &str, file_name: &str) -> Result<String, Error> {
-    let file_path = path::Path::new(logs_dir).join(file_name);
-    match file_path.to_str() {
-        None => Err(FSError {
-            file_name: file_name.to_owned(),
-            err_msg: "Could not find path".to_owned(),
-            access: AccessType::Read,
-        }
-        .into()),
-        Some(st) => Ok(st.to_owned()),
-    }
-}
-
 impl Default for FileDB {
     fn default() -> Self {
+        let data_dir: PathBuf = "data".into();
         FileDB {
-            plants_dir: "data/Plants".to_owned(),
-            species_dir: "data/PlantSpecies".to_owned(),
-            logs_dir: "data/Logs".to_owned(),
+            plants_dir: data_dir.join("Plants"),
+            species_dir: data_dir.join("Species"),
+            logs_dir: data_dir.join("Logs"),
             graveyard_csv: "Graveyard.csv".to_owned(),
             growth_csv: "Growth.csv".to_owned(),
             activities_csv: "Activities.csv".to_owned(),
@@ -69,22 +57,22 @@ impl Default for FileDB {
 }
 
 impl FileDB {
-    pub fn get_activities_filepath(&self) -> Result<String, Error> {
-        get_path_from_buf(&self.logs_dir, &self.activities_csv)
+    pub fn get_activities_filepath(&self) -> PathBuf {
+        self.logs_dir.join(self.activities_csv.clone())
     }
 
-    pub fn get_graveyard_filepath(&self) -> Result<String, Error> {
-        get_path_from_buf(&self.logs_dir, &self.graveyard_csv)
+    pub fn get_graveyard_filepath(&self) -> PathBuf {
+        self.logs_dir.join(self.graveyard_csv.clone())
     }
 
-    pub fn get_growth_filepath(&self) -> Result<String, Error> {
-        get_path_from_buf(&self.logs_dir, &self.growth_csv)
+    pub fn get_growth_filepath(&self) -> PathBuf {
+        self.logs_dir.join(self.growth_csv.clone())
     }
 
     fn load_plants(&mut self) -> Result<(), Error> {
         log::info!("Loading plants from json and csv");
-        let activity_file = self.get_activities_filepath()?;
-        let growth_file = self.get_growth_filepath()?;
+        let activity_file = self.get_activities_filepath();
+        let growth_file = self.get_growth_filepath();
         let plants = load_plants(
             &self.plants_dir,
             &self.species_dir,
@@ -104,7 +92,7 @@ impl FileDB {
 
     fn load_graveyard(&mut self) -> Result<(), Error> {
         log::info!("Loading graveyard from csv");
-        let graveyard_file = self.get_graveyard_filepath()?;
+        let graveyard_file = self.get_graveyard_filepath();
         let graveyard = load_graveyard(&graveyard_file)?;
         self.graveyard_cache = graveyard;
         Ok(())
@@ -206,7 +194,7 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), crate::errors::Error> {
-        write_activities(logs, &self.get_activities_filepath()?)?;
+        write_activities(logs, &self.get_activities_filepath())?;
         Ok(())
     }
 
@@ -227,7 +215,7 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), crate::errors::Error> {
-        write_growth(growth, &self.get_growth_filepath()?)?;
+        write_growth(growth, &self.get_growth_filepath())?;
         Ok(())
     }
 
@@ -243,12 +231,12 @@ impl DatabaseManager for FileDB {
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), crate::errors::Error> {
         let name = plant.name.clone();
-        write_graveyard(vec![plant], &self.get_graveyard_filepath()?)?;
+        write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
         let plant_filename = name.replace(' ', "") + ".json";
-        let plant_path = path::Path::new(&self.plants_dir).join(plant_filename.clone());
-        remove_file(plant_path).map_err(|_| {
+        let plant_path = PathBuf::from(&self.plants_dir).join(plant_filename.clone());
+        remove_file(plant_path.clone()).map_err(|_| {
             Error::FSError(FSError {
-                file_name: plant_filename,
+                path: plant_path,
                 err_msg: "Could not remove file".to_owned(),
                 access: AccessType::Write,
             })

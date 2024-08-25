@@ -1,8 +1,23 @@
+mod errors;
+mod port_plants;
+
 use plants::species::Species;
-use serde::{Deserialize, Serialize};
-use std::str::FromStr;
+use port_plants::port_plants;
+use serde::Deserialize;
+use std::{path::PathBuf, str::FromStr};
+
+const DATA_DIR_OLD: &str = "data_old";
+const DATA_DIR_NEW: &str = "data";
+const DATE_FORMAT: &str = "%d.%m.%Y";
 
 pub fn main() {
+    let in_dir = PathBuf::from(DATA_DIR_OLD);
+    let out_dir = PathBuf::from(DATA_DIR_NEW);
+    match port_plants(&in_dir, DATE_FORMAT, &out_dir) {
+        Ok(()) => println!("Successfully ported plants"),
+        Err(err) => println!("{err:?}"),
+    };
+
     //1. Load all plants and save them again, ensuring all fields have the correct types
     //  species needs to be either species or string
     //2. Do the same for all species
@@ -132,48 +147,6 @@ impl TryInto<Species> for SpeciesJSON {
             companions: self.companions,
             additional_notes: self.additional_notes,
         })
-    }
-}
-
-#[derive(Deserialize, Serialize, Debug, Clone)]
-pub struct PlantJSON {
-    pub auto_watering: BoolOrString,
-    pub current_location: String,
-    pub obtained: String,
-    pub origin: String,
-    pub plant_health: String,
-    pub plant_name: String,
-    pub plant_notes: Vec<String>,
-    pub species_name: String,
-}
-#[derive(Deserialize, Serialize, Debug, Clone)]
-#[serde(untagged)]
-pub enum BoolOrString {
-    Bool(bool),
-    Str(String),
-}
-
-impl From<bool> for BoolOrString {
-    fn from(b: bool) -> BoolOrString {
-        BoolOrString::Bool(b)
-    }
-}
-impl TryInto<bool> for BoolOrString {
-    type Error = database::file_backend::errors::Error;
-    fn try_into(self) -> Result<bool, Self::Error> {
-        let new_b = match self {
-            BoolOrString::Bool(b) => Ok(b),
-            BoolOrString::Str(st) => {
-                if st.as_str() == "y" {
-                    Ok(true)
-                } else if st.as_str() == "n" {
-                    Ok(false)
-                } else {
-                    st.to_lowercase().trim().parse::<bool>()
-                }
-            }
-        }?;
-        Ok(new_b)
     }
 }
 

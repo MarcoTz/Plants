@@ -1,8 +1,6 @@
 use chrono;
 use plants::errors as plant_err;
-use std::fmt;
-use std::num;
-use std::str;
+use std::{fmt, num, path::PathBuf, str};
 
 #[derive(Debug)]
 pub enum ConversionType {
@@ -34,18 +32,18 @@ pub struct ConversionError {
 }
 
 pub struct CSVError {
-    pub csv_file: String,
+    pub path: PathBuf,
     pub err_msg: String,
 }
 
 pub struct SerializeError {
-    pub out_path: String,
+    pub path: PathBuf,
     pub err_msg: String,
     pub access: AccessType,
 }
 
 pub struct FSError {
-    pub file_name: String,
+    pub path: PathBuf,
     pub err_msg: String,
     pub access: AccessType,
 }
@@ -128,7 +126,7 @@ impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::CSVError(CSVError {
-                csv_file: file_name,
+                path: file_name,
                 err_msg: msg,
             }) => frmt.write_str(&format!(
                 "Could not load csv file {file_name:?}, message: {msg}"
@@ -141,7 +139,7 @@ impl fmt::Debug for Error {
                 "Could not convert from {frty:?} to {toty:?}, message: {err}",
             )),
             Error::SerializeError(SerializeError {
-                out_path: path,
+                path,
                 err_msg: msg,
                 access: acc_ty,
             }) => {
@@ -151,11 +149,11 @@ impl fmt::Debug for Error {
                 };
 
                 frmt.write_str(&format!(
-                    "Could not {acc_msg} for file {path}, message: {msg}"
+                    "Could not {acc_msg} for file {path:?}, message: {msg}"
                 ))
             }
             Error::FSError(FSError {
-                file_name: file,
+                path: file,
                 err_msg: msg,
                 access: acc_ty,
             }) => {
@@ -163,7 +161,9 @@ impl fmt::Debug for Error {
                     AccessType::Write => "write to",
                     AccessType::Read => "read from",
                 };
-                frmt.write_str(&format!("Could not {acc_msg} file {file}, message: {msg}"))
+                frmt.write_str(&format!(
+                    "Could not {acc_msg} file {file:?}, message: {msg}"
+                ))
             }
             Error::PlantError(err) => fmt::Debug::fmt(err, frmt),
             Error::SpeciesNotFound(name) => frmt.write_str(&format!("Species {name} not found")),
