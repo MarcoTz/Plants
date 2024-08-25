@@ -5,5 +5,6 @@ pub mod growth_item;
 pub mod log_item;
 pub mod named;
 pub mod plant;
+pub mod plant_update;
 pub mod species;
 pub mod species_update;

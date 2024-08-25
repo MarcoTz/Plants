@@ -24,6 +24,7 @@ pub enum Error {
     FSError(FSError),
     PlantError(plant_err::Error),
     SpeciesNotFound(String),
+    PlantNotFound(String),
 }
 
 pub struct ConversionError {
@@ -166,6 +167,7 @@ impl fmt::Debug for Error {
             }
             Error::PlantError(err) => fmt::Debug::fmt(err, frmt),
             Error::SpeciesNotFound(name) => frmt.write_str(&format!("Species {name} not found")),
+            Error::PlantNotFound(name) => frmt.write_str(&format!("Plant {name} not found")),
         }
     }
 }

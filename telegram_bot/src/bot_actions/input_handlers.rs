@@ -1,5 +1,7 @@
 use crate::errors::Error;
+use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
+use plants::plant_update::{UpdateField, UpdateValue};
 
 pub fn input_plant_name<T: DatabaseManager>(
     input: String,
@@ -53,5 +55,37 @@ pub fn input_notes(input: String) -> Vec<String> {
         vec![]
     } else {
         input.split(',').map(|st| st.trim().to_owned()).collect()
+    }
+}
+
+pub fn str_to_value<T: DatabaseManager>(
+    input: String,
+    field: &UpdateField,
+    db_man: &mut T,
+    date_format: &str,
+) -> Result<UpdateValue, Error> {
+    let ty_err = Error::ParseError(format!("Plant Update {}, with value {}", field, input));
+    /*
+    pub fn get_str_fields() -> Vec<UpdateField> {
+    pub fn get_species_fields() -> Vec<UpdateField> {
+    pub fn get_date_fields() -> Vec<UpdateField> {
+    pub fn get_bool_fields() -> Vec<UpdateField> {
+    pub fn get_note_fields() -> Vec<UpdateField> {*/
+    if UpdateField::get_str_fields().contains(field) {
+        Ok(UpdateValue::Str(input.trim().to_owned()))
+    } else if UpdateField::get_species_fields().contains(field) {
+        let species = db_man.get_species(input.trim())?;
+        Ok(UpdateValue::Species(Some(species)))
+    } else if UpdateField::get_date_fields().contains(field) {
+        let date = NaiveDate::parse_from_str(&input, date_format).map_err(|_| ty_err)?;
+        Ok(UpdateValue::Date(date))
+    } else if UpdateField::get_bool_fields().contains(field) {
+        let b = input.trim().parse::<bool>().map_err(|_| ty_err)?;
+        Ok(UpdateValue::Bool(b))
+    } else if UpdateField::get_note_fields().contains(field) {
+        let notes = input.split(",").map(|nt| nt.trim().to_owned()).collect();
+        Ok(UpdateValue::Note(notes, true))
+    } else {
+        Err(ty_err)
     }
 }
