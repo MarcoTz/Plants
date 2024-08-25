@@ -3,7 +3,7 @@ use super::{
     json_to_plant::load_plants,
     load_csv::load_graveyard,
     load_json::load_species,
-    write_csv::{write_activities, write_growth},
+    write_csv::{write_activities, write_graveyard, write_growth},
     write_json::{write_plants, write_species},
 };
 use crate::database_manager::{DatabaseManager, PlantJSON};
@@ -11,7 +11,7 @@ use plants::{
     graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, plant::Plant,
     species::Species,
 };
-use std::path;
+use std::{fs::remove_file, path};
 
 pub struct FileDB {
     pub plants_dir: String,
@@ -123,6 +123,20 @@ impl DatabaseManager for FileDB {
         Ok(self.plants_cache.len() as i32)
     }
 
+    fn get_plant(&mut self, plant_name: &str) -> Result<Plant, crate::errors::Error> {
+        if self.plants_cache.is_empty() {
+            self.load_plants()?;
+        }
+        self.plants_cache
+            .iter()
+            .filter(|pl| pl.name == plant_name)
+            .cloned()
+            .collect::<Vec<Plant>>()
+            .first()
+            .cloned()
+            .ok_or(Error::PlantNotFound(plant_name.to_owned()).into())
+    }
+
     fn get_all_species(&mut self) -> Result<Vec<Species>, crate::errors::Error> {
         if self.species_cache.is_empty() {
             self.load_species()?;
@@ -130,18 +144,18 @@ impl DatabaseManager for FileDB {
         Ok(self.species_cache.clone())
     }
 
-    fn get_species(&mut self, name: &str) -> Result<Species, crate::errors::Error> {
+    fn get_species(&mut self, species_name: &str) -> Result<Species, crate::errors::Error> {
         if self.species_cache.is_empty() {
             self.load_species()?;
         }
         self.species_cache
             .iter()
-            .filter(|sp| sp.name == name)
+            .filter(|sp| sp.name == species_name)
             .cloned()
             .collect::<Vec<Species>>()
             .first()
             .cloned()
-            .ok_or(Error::SpeciesNotFound(name.to_owned()).into())
+            .ok_or(Error::SpeciesNotFound(species_name.to_owned()).into())
     }
 
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, crate::errors::Error> {
@@ -220,6 +234,29 @@ impl DatabaseManager for FileDB {
 
     fn write_species(&mut self, species: Species) -> Result<(), crate::errors::Error> {
         write_species(vec![species], &self.species_out_dir)?;
+        Ok(())
+    }
+
+    fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), crate::errors::Error> {
+        let name = plant.name.clone();
+        write_graveyard(vec![plant], &self.graveyard_out)?;
+        let plant_filename = name.replace(' ', "") + ".json";
+        let plant_path = path::Path::new(&self.plants_dir).join(plant_filename.clone());
+        remove_file(plant_path).map_err(|_| {
+            Error::FSError(FSError {
+                file_name: plant_filename,
+                err_msg: "Could not remove file".to_owned(),
+                access: AccessType::Write,
+            })
+        })?;
+        self.plants_cache = self
+            .plants_cache
+            .iter()
+            .cloned()
+            .filter(|pl| pl.name == name)
+            .collect();
+        //write plants
+
         Ok(())
     }
 }
