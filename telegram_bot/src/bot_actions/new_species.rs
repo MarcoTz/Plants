@@ -76,6 +76,12 @@ impl NewSpecies {
     }
 }
 
+impl Default for NewSpecies {
+    fn default() -> Self {
+        NewSpecies::new()
+    }
+}
+
 impl Action for NewSpecies {
     fn handle_input<T: DatabaseManager>(
         &mut self,

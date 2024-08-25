@@ -17,7 +17,7 @@ use html::{
     elements::{Body, Div, Head, HeaderSize, Headline, HtmlElement},
     html_document::HtmlDocument,
 };
-use plants::plant::Plant;
+use plants::plant::{Plant, PlantSpecies};
 use status::Status;
 use std::rc::Rc;
 
@@ -123,9 +123,13 @@ impl TryFrom<&Plant> for PlantDetails {
     fn try_from(plant: &Plant) -> Result<PlantDetails, Error> {
         log::info!("Loading plant details for {}", plant.name);
         let status = Status::try_from(plant)?;
+        let species_link = match &plant.species {
+            PlantSpecies::Other(_) => None,
+            PlantSpecies::Species(sp) => Some((sp.as_ref(), "../species").into()),
+        };
         Ok(PlantDetails {
             name: plant.name.clone(),
-            species_link: plant.species.clone().map(|sp| (&sp, "../species").into()),
+            species_link,
             status,
             gallery: PlantGallery::from((plant, "../img/plants")),
             growth: PlantGraphs::from(plant),

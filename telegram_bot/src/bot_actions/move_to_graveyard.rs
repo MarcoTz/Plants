@@ -2,7 +2,7 @@ use super::{input_handlers::input_plant_name, Action, BotAction};
 use crate::errors::Error;
 use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
-use plants::graveyard::GraveyardPlant;
+use plants::{graveyard::GraveyardPlant, named::Named};
 
 #[derive(PartialEq, Eq)]
 enum Step {
@@ -28,6 +28,12 @@ impl MoveToGraveyard {
             died_date: None,
             reason: None,
         }
+    }
+}
+
+impl Default for MoveToGraveyard {
+    fn default() -> Self {
+        MoveToGraveyard::new("%d.%m.%Y")
     }
 }
 
@@ -78,7 +84,7 @@ impl Action for MoveToGraveyard {
         let plant = db_man.get_plant(&name)?;
         let gr_plant = GraveyardPlant {
             name: name.clone(),
-            species: plant.species.map(|sp| sp.name).unwrap_or("".to_owned()),
+            species: plant.species.get_name(),
             planted: plant.obtained,
             died,
             reason,

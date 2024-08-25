@@ -35,6 +35,12 @@ impl NewActivity {
     }
 }
 
+impl Default for NewActivity {
+    fn default() -> Self {
+        NewActivity::new("%d.%m.%Y")
+    }
+}
+
 impl Action for NewActivity {
     fn handle_input<T: DatabaseManager>(
         &mut self,

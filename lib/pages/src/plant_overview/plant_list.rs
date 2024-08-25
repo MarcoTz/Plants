@@ -7,7 +7,7 @@ use html::{
     attribute::Attribute,
     elements::{Div, HeaderSize, Headline, HtmlElement, Img},
 };
-use plants::plant::Plant;
+use plants::plant::{Plant, PlantSpecies};
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
@@ -143,12 +143,21 @@ impl PageComponent for PlantListItem {
 
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
-        PlantListItem {
-            plant_link: (plant, "plants").into(),
-            plant_preview_url: plant.get_preview_image_url("img/plants"),
-            temp_max: plant.species.as_ref().map(|x| x.temp_max),
-            temp_min: plant.species.as_ref().map(|x| x.temp_min),
-            species_link: plant.species.as_ref().map(|sp| (sp, "species").into()),
+        match &plant.species {
+            PlantSpecies::Other(_) => PlantListItem {
+                plant_link: (plant, "plants").into(),
+                plant_preview_url: plant.get_preview_image_url("img/plants"),
+                temp_max: None,
+                temp_min: None,
+                species_link: None,
+            },
+            PlantSpecies::Species(sp) => PlantListItem {
+                plant_link: (plant, "plants").into(),
+                plant_preview_url: plant.get_preview_image_url("img/plants"),
+                temp_max: Some(sp.temp_max),
+                temp_min: Some(sp.temp_min),
+                species_link: Some((sp.as_ref(), "species").into()),
+            },
         }
     }
 }

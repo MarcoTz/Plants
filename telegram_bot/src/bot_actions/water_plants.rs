@@ -18,6 +18,12 @@ impl WaterPlants {
     }
 }
 
+impl Default for WaterPlants {
+    fn default() -> Self {
+        WaterPlants::new()
+    }
+}
+
 impl Action for WaterPlants {
     fn handle_input<T: DatabaseManager>(
         &mut self,

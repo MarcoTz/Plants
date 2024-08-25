@@ -1,7 +1,10 @@
 use crate::errors::Error;
 use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
-use plants::plant_update::{UpdateField, UpdateValue};
+use plants::{
+    plant::PlantSpecies,
+    plant_update::{UpdateField, UpdateValue},
+};
 
 pub fn input_plant_name<T: DatabaseManager>(
     input: String,
@@ -65,17 +68,16 @@ pub fn str_to_value<T: DatabaseManager>(
     date_format: &str,
 ) -> Result<UpdateValue, Error> {
     let ty_err = Error::ParseError(format!("Plant Update {}, with value {}", field, input));
-    /*
-    pub fn get_str_fields() -> Vec<UpdateField> {
-    pub fn get_species_fields() -> Vec<UpdateField> {
-    pub fn get_date_fields() -> Vec<UpdateField> {
-    pub fn get_bool_fields() -> Vec<UpdateField> {
-    pub fn get_note_fields() -> Vec<UpdateField> {*/
     if UpdateField::get_str_fields().contains(field) {
         Ok(UpdateValue::Str(input.trim().to_owned()))
     } else if UpdateField::get_species_fields().contains(field) {
-        let species = db_man.get_species(input.trim())?;
-        Ok(UpdateValue::Species(Some(species)))
+        let species = db_man.get_species(input.trim());
+        match species {
+            Ok(sp) => Ok(UpdateValue::Species(Box::new(PlantSpecies::Species(
+                Box::new(sp),
+            )))),
+            Err(_) => Ok(UpdateValue::Species(Box::new(PlantSpecies::Other(input)))),
+        }
     } else if UpdateField::get_date_fields().contains(field) {
         let date = NaiveDate::parse_from_str(&input, date_format).map_err(|_| ty_err)?;
         Ok(UpdateValue::Date(date))
@@ -83,7 +85,7 @@ pub fn str_to_value<T: DatabaseManager>(
         let b = input.trim().parse::<bool>().map_err(|_| ty_err)?;
         Ok(UpdateValue::Bool(b))
     } else if UpdateField::get_note_fields().contains(field) {
-        let notes = input.split(",").map(|nt| nt.trim().to_owned()).collect();
+        let notes = input.split(',').map(|nt| nt.trim().to_owned()).collect();
         Ok(UpdateValue::Note(notes, true))
     } else {
         Err(ty_err)

@@ -55,6 +55,12 @@ impl NewPlant {
     }
 }
 
+impl Default for NewPlant {
+    fn default() -> Self {
+        NewPlant::new("%d.%m.%Y")
+    }
+}
+
 impl Action for NewPlant {
     fn handle_input<T: DatabaseManager>(
         &mut self,
