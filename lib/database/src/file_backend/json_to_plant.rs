@@ -8,27 +8,9 @@ use plants::{
     growth_item::GrowthItem,
     log_item::LogItem,
     named::Named,
-    plant::{Plant, PlantImage, PlantInfo, PlantSpecies},
+    plant::{Plant, PlantImage, PlantSpecies},
 };
 use std::{fs, path::PathBuf};
-
-struct PlantData {
-    plant: PlantInfo,
-    logs: Vec<LogItem>,
-    growth: Vec<GrowthItem>,
-    images: Vec<PlantImage>,
-}
-
-impl From<PlantData> for Plant {
-    fn from(data: PlantData) -> Plant {
-        Plant {
-            info: data.plant,
-            activities: data.logs,
-            growth: data.growth,
-            images: data.images,
-        }
-    }
-}
 
 pub fn load_plants(
     plants_dir: &PathBuf,
@@ -73,13 +55,12 @@ pub fn load_plants(
             log::warn!("No images for plant {}", plant_info.name);
         }
 
-        let new_plant = PlantData {
-            plant: plant_info.clone(),
-            logs: plant_logs.clone(),
+        let new_plant = Plant {
+            info: plant_info.clone(),
+            activities: plant_logs.clone(),
             growth: plant_growth.clone(),
             images,
-        }
-        .into();
+        };
         plants.push(new_plant);
     }
     Ok(plants)
