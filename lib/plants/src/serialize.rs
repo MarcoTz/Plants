@@ -24,7 +24,7 @@ pub mod species_serializer {
         species: &PlantSpecies,
         serializer: S,
     ) -> Result<S::Ok, S::Error> {
-        let s = format!("{}", species.get_name());
+        let s = species.get_name().to_string();
         serializer.serialize_str(&s)
     }
 

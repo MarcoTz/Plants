@@ -10,7 +10,7 @@ use plants::{
     named::Named,
     plant::{Plant, PlantImage, PlantInfo, PlantSpecies},
 };
-use std::fs;
+use std::{fs, path::PathBuf};
 
 struct PlantData {
     plant: PlantInfo,
@@ -19,22 +19,22 @@ struct PlantData {
     images: Vec<PlantImage>,
 }
 
-impl Into<Plant> for PlantData {
-    fn into(self) -> Plant {
+impl From<PlantData> for Plant {
+    fn from(data: PlantData) -> Plant {
         Plant {
-            info: self.plant,
-            activities: self.logs,
-            growth: self.growth,
-            images: self.images,
+            info: data.plant,
+            activities: data.logs,
+            growth: data.growth,
+            images: data.images,
         }
     }
 }
 
 pub fn load_plants(
-    plants_dir: &str,
-    species_dir: &str,
-    activity_file: &str,
-    growth_file: &str,
+    plants_dir: &PathBuf,
+    species_dir: &PathBuf,
+    activity_file: &PathBuf,
+    growth_file: &PathBuf,
 ) -> Result<Vec<Plant>, Error> {
     log::info!("Loading plants");
     let mut plant_infos = load_plant_infos(plants_dir)?;
@@ -67,7 +67,8 @@ pub fn load_plants(
             .cloned()
             .collect();
 
-        let images = load_images("html_out/img/plants", &plant_info.name)?;
+        let img_dir = plants_dir.join(plant_info.name.replace(' ', ""));
+        let images = load_images(&img_dir, &plant_info.name)?;
         if images.is_empty() {
             log::warn!("No images for plant {}", plant_info.name);
         }
@@ -84,47 +85,45 @@ pub fn load_plants(
     Ok(plants)
 }
 
-pub fn load_images(image_dir: &str, plant_name: &str) -> Result<Vec<PlantImage>, Error> {
+pub fn load_images(image_dir: &PathBuf, plant_name: &str) -> Result<Vec<PlantImage>, Error> {
     let mut plant_images = vec![];
     let dir_files = fs::read_dir(image_dir).map_err(|err| {
         <FSError as Into<Error>>::into(FSError {
-            file_name: image_dir.to_owned(),
+            path: image_dir.clone(),
             err_msg: err.to_string(),
             access: AccessType::Read,
         })
     })?;
     for dir_file in dir_files {
-        let dir_file = dir_file.map_err(|err| {
-            <FSError as Into<Error>>::into(FSError {
-                file_name: image_dir.to_owned(),
-                err_msg: err.to_string(),
-                access: AccessType::Read,
-            })
+        let dir_file = dir_file.map_err(|err| FSError {
+            path: image_dir.clone(),
+            err_msg: err.to_string(),
+            access: AccessType::Read,
         })?;
         let path = dir_file.path();
-        let file_base = path.file_name().ok_or(Error::FSError(FSError {
-            file_name: image_dir.to_owned(),
+        let file_base = path.file_name().ok_or(FSError {
+            path: path.clone(),
             err_msg: "Could not find path".to_owned(),
             access: AccessType::Read,
-        }))?;
-        let file_name = file_base.to_str().ok_or(Error::FSError(FSError {
-            file_name: image_dir.to_owned(),
+        })?;
+        let file_name = file_base.to_str().ok_or(FSError {
+            path: image_dir.clone(),
             err_msg: "Could not get name as string".to_owned(),
             access: AccessType::Read,
-        }))?;
+        })?;
         if file_name.contains(plant_name) {
-            let file_end = file_name.split('_').last().ok_or(Error::FSError(FSError {
-                file_name: file_name.to_owned(),
+            let file_end = file_name.split('_').last().ok_or(FSError {
+                path: path.clone(),
                 err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,
-            }))?;
+            })?;
             let parts = file_end.split('.').collect::<Vec<&str>>();
 
-            let date_str = parts.first().ok_or(Error::FSError(FSError {
-                file_name: file_name.to_owned(),
+            let date_str = parts.first().ok_or(FSError {
+                path: path.clone(),
                 err_msg: "Filename did not contain date".to_owned(),
                 access: AccessType::Read,
-            }))?;
+            })?;
             let created = NaiveDate::parse_from_str(date_str, "%d%m%Y")?;
             plant_images.push((created, file_name.to_owned()))
         }

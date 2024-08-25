@@ -169,7 +169,7 @@ impl Action for NewPlant {
 
         let plant_json = PlantInfo {
             name: plant_name.clone(),
-            auto_water: auto_watering.into(),
+            auto_water: auto_watering,
             location: current_location,
             obtained,
             origin,
