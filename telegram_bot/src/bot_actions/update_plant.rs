@@ -22,6 +22,18 @@ pub struct UpdatePlant {
     date_format: String,
 }
 
+impl UpdatePlant {
+    pub fn new(date_format: &str) -> UpdatePlant {
+        UpdatePlant {
+            current_step: Step::PlantName,
+            plant_name: None,
+            update_field: None,
+            update_value: None,
+            date_format: date_format.to_owned(),
+        }
+    }
+}
+
 impl Action for UpdatePlant {
     fn handle_input<T: DatabaseManager>(
         &mut self,

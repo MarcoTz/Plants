@@ -9,6 +9,15 @@ pub struct FertilizePlants {
     done: bool,
 }
 
+impl FertilizePlants {
+    pub fn new() -> FertilizePlants {
+        FertilizePlants {
+            fertilized_plants: None,
+            done: false,
+        }
+    }
+}
+
 impl Action for FertilizePlants {
     fn handle_input<T: DatabaseManager>(
         &mut self,

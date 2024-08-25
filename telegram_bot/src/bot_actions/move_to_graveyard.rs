@@ -19,6 +19,18 @@ pub struct MoveToGraveyard {
     reason: Option<String>,
 }
 
+impl MoveToGraveyard {
+    pub fn new(date_format: &str) -> MoveToGraveyard {
+        MoveToGraveyard {
+            current_step: Step::PlantName,
+            date_format: date_format.to_owned(),
+            plant_name: None,
+            died_date: None,
+            reason: None,
+        }
+    }
+}
+
 impl Action for MoveToGraveyard {
     fn handle_input<T: DatabaseManager>(
         &mut self,

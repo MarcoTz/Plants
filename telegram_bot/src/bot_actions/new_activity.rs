@@ -22,6 +22,19 @@ pub struct NewActivity {
     note: Option<String>,
 }
 
+impl NewActivity {
+    pub fn new(date_format: &str) -> NewActivity {
+        NewActivity {
+            current_step: Step::Date,
+            date_format: date_format.to_owned(),
+            date: None,
+            activity: None,
+            plants: None,
+            note: None,
+        }
+    }
+}
+
 impl Action for NewActivity {
     fn handle_input<T: DatabaseManager>(
         &mut self,

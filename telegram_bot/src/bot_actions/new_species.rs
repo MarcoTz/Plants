@@ -49,6 +49,33 @@ pub struct NewSpecies {
     notes: Option<Vec<String>>,
 }
 
+impl NewSpecies {
+    pub fn new() -> NewSpecies {
+        NewSpecies {
+            current_step: Step::SpeciesName,
+            species_name: None,
+            scientific_name: None,
+            genus: None,
+            family: None,
+            sunlight: None,
+            min_temp: None,
+            max_temp: None,
+            min_temp_opt: None,
+            max_temp_opt: None,
+            planting_distance: None,
+            ph_min: None,
+            ph_max: None,
+            avg_watering: None,
+            watering_notes: None,
+            avg_fertilizing: None,
+            fertilizing_notes: None,
+            pruning_notes: None,
+            companions: None,
+            notes: None,
+        }
+    }
+}
+
 impl Action for NewSpecies {
     fn handle_input<T: DatabaseManager>(
         &mut self,

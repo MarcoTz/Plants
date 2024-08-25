@@ -18,6 +18,17 @@ pub struct UpdateSpecies {
     update_value: Option<UpdateValue>,
 }
 
+impl UpdateSpecies {
+    pub fn new() -> UpdateSpecies {
+        UpdateSpecies {
+            current_step: Step::SpeciesName,
+            species_name: None,
+            update_field: None,
+            update_value: None,
+        }
+    }
+}
+
 impl Action for UpdateSpecies {
     fn handle_input<T: DatabaseManager>(
         &mut self,

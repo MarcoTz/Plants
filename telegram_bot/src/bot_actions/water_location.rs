@@ -9,6 +9,15 @@ pub struct WaterLocation {
     done: bool,
 }
 
+impl WaterLocation {
+    pub fn new() -> WaterLocation {
+        WaterLocation {
+            watered_plants: None,
+            done: false,
+        }
+    }
+}
+
 impl Action for WaterLocation {
     fn handle_input<T: DatabaseManager>(
         &mut self,
