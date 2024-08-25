@@ -1,7 +1,4 @@
-use super::{
-    errors::{AccessType, Error, FSError, SerializeError},
-    json_to_species::SpeciesJSON,
-};
+use super::errors::{AccessType, Error, FSError, SerializeError};
 use crate::database_manager::PlantJSON;
 use plants::species::Species;
 use serde::de::DeserializeOwned;
@@ -60,11 +57,6 @@ pub fn load_plant_jsons(plants_dir: &str) -> Result<Vec<PlantJSON>, Error> {
 }
 
 pub fn load_species(species_dir: &str) -> Result<Vec<Species>, Error> {
-    let species_old: Vec<SpeciesJSON> = load_dir(species_dir)?;
-    let species_new = species_old
-        .iter()
-        .cloned()
-        .map(<SpeciesJSON as TryInto<Species>>::try_into)
-        .collect::<Result<Vec<Species>, Error>>()?;
-    Ok(species_new)
+    let species: Vec<Species> = load_dir(species_dir)?;
+    Ok(species)
 }

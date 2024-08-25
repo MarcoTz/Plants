@@ -1,11 +1,19 @@
-use super::{
-    errors::{AccessType, Error, FSError},
-    json_to_plant::load_plants,
-    load_csv::load_graveyard,
-    load_json::load_species,
-    write_csv::{write_activities, write_graveyard, write_growth},
-    write_json::{write_plants, write_species},
-};
+pub mod csv_to_growth_item;
+pub mod csv_to_log_item;
+pub mod errors;
+pub mod json_to_plant;
+pub mod load_csv;
+pub mod load_json;
+pub mod write_csv;
+pub mod write_json;
+
+use errors::{AccessType, Error, FSError};
+use json_to_plant::load_plants;
+use load_csv::load_graveyard;
+use load_json::load_species;
+use write_csv::{write_activities, write_graveyard, write_growth};
+use write_json::{write_plants, write_species};
+
 use crate::database_manager::{DatabaseManager, PlantJSON};
 use plants::{
     graveyard::GraveyardPlant,
@@ -24,12 +32,6 @@ pub struct FileDB {
     growth_csv: String,
     activities_csv: String,
     pub date_format: String,
-    //REMOVE later
-    pub plants_out_dir: String,
-    pub species_out_dir: String,
-    pub graveyard_out: String,
-    pub activities_out: String,
-    pub growth_out: String,
 
     pub plants_cache: Vec<Plant>,
     pub graveyard_cache: Vec<GraveyardPlant>,
@@ -48,8 +50,9 @@ fn get_path_from_buf(logs_dir: &str, file_name: &str) -> Result<String, Error> {
         Some(st) => Ok(st.to_owned()),
     }
 }
-impl FileDB {
-    pub fn get_default() -> FileDB {
+
+impl Default for FileDB {
+    fn default() -> Self {
         FileDB {
             plants_dir: "data/Plants".to_owned(),
             species_dir: "data/PlantSpecies".to_owned(),
@@ -58,16 +61,14 @@ impl FileDB {
             growth_csv: "Growth.csv".to_owned(),
             activities_csv: "Activities.csv".to_owned(),
             date_format: "%d.%m.%Y".to_owned(),
-            plants_out_dir: "data_new/Plants".to_owned(),
-            species_out_dir: "data_new/Species".to_owned(),
-            graveyard_out: "data_new/Logs/Graveyard.csv".to_owned(),
-            activities_out: "data_new/Logs/Activities.csv".to_owned(),
-            growth_out: "data_new/Logs/Growth.csv".to_owned(),
             plants_cache: vec![],
             graveyard_cache: vec![],
             species_cache: vec![],
         }
     }
+}
+
+impl FileDB {
     pub fn get_activities_filepath(&self) -> Result<String, Error> {
         get_path_from_buf(&self.logs_dir, &self.activities_csv)
     }
@@ -206,7 +207,7 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), crate::errors::Error> {
-        write_activities(logs, &self.activities_out)?;
+        write_activities(logs, &self.get_activities_filepath()?)?;
         Ok(())
     }
 
@@ -227,23 +228,23 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), crate::errors::Error> {
-        write_growth(growth, &self.growth_out)?;
+        write_growth(growth, &self.get_growth_filepath()?)?;
         Ok(())
     }
 
     fn write_plant(&mut self, plant: PlantJSON) -> Result<(), crate::errors::Error> {
-        write_plants(vec![plant], &self.plants_out_dir)?;
+        write_plants(vec![plant], &self.plants_dir)?;
         Ok(())
     }
 
     fn write_species(&mut self, species: Species) -> Result<(), crate::errors::Error> {
-        write_species(vec![species], &self.species_out_dir)?;
+        write_species(vec![species], &self.species_dir)?;
         Ok(())
     }
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), crate::errors::Error> {
         let name = plant.name.clone();
-        write_graveyard(vec![plant], &self.graveyard_out)?;
+        write_graveyard(vec![plant], &self.get_graveyard_filepath()?)?;
         let plant_filename = name.replace(' ', "") + ".json";
         let plant_path = path::Path::new(&self.plants_dir).join(plant_filename.clone());
         remove_file(plant_path).map_err(|_| {
