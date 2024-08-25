@@ -1,0 +1,11 @@
+[package]
+name = "port_data"
+version = "0.0.1"
+edition = "2021"
+
+[[bin]]
+name="port_data"
+path="src/main.rs"
+
+[dependencies]
+plants = { path = "../lib/plants" }
