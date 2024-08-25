@@ -132,7 +132,7 @@ impl DatabaseManager for FileDB {
         }
         self.plants_cache
             .iter()
-            .filter(|pl| pl.name == plant_name)
+            .filter(|pl| pl.info.name == plant_name)
             .cloned()
             .collect::<Vec<Plant>>()
             .first()
@@ -178,7 +178,7 @@ impl DatabaseManager for FileDB {
         let species_plants = self
             .plants_cache
             .iter()
-            .filter(|plant| match &plant.species {
+            .filter(|plant| match &plant.info.species {
                 PlantSpecies::Other(name) => name == species_name,
                 PlantSpecies::Species(sp) => sp.name == species_name,
             })
@@ -192,7 +192,10 @@ impl DatabaseManager for FileDB {
             self.load_plants()?;
         }
 
-        Ok(self.plants_cache.iter().any(|pl| pl.name == plant_name))
+        Ok(self
+            .plants_cache
+            .iter()
+            .any(|pl| pl.info.name == plant_name))
     }
 
     fn species_exists(&mut self, species_name: &str) -> Result<bool, crate::errors::Error> {
@@ -218,7 +221,7 @@ impl DatabaseManager for FileDB {
         Ok(self
             .plants_cache
             .iter()
-            .filter(|pl| pl.location == location)
+            .filter(|pl| pl.info.location == location)
             .cloned()
             .collect())
     }
@@ -253,7 +256,7 @@ impl DatabaseManager for FileDB {
         self.plants_cache = self
             .plants_cache
             .iter()
-            .filter(|pl| pl.name == name)
+            .filter(|pl| pl.info.name == name)
             .cloned()
             .collect();
         //write plants

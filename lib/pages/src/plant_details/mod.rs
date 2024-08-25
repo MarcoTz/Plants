@@ -121,14 +121,14 @@ impl Page for PlantDetails {
 impl TryFrom<&Plant> for PlantDetails {
     type Error = Error;
     fn try_from(plant: &Plant) -> Result<PlantDetails, Error> {
-        log::info!("Loading plant details for {}", plant.name);
+        log::info!("Loading plant details for {}", plant.info.name);
         let status = Status::try_from(plant)?;
-        let species_link = match &plant.species {
+        let species_link = match &plant.info.species {
             PlantSpecies::Other(_) => None,
             PlantSpecies::Species(sp) => Some((sp.as_ref(), "../species").into()),
         };
         Ok(PlantDetails {
-            name: plant.name.clone(),
+            name: plant.info.name.clone(),
             species_link,
             status,
             gallery: PlantGallery::from((plant, "../img/plants")),

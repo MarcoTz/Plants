@@ -91,7 +91,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let num_plants = plants.len() as i32;
         let mut plant_htmls = vec![];
         for plant in plants.iter() {
-            log::info!("Rendering Details Page for plant {}", plant.name);
+            log::info!("Rendering Details Page for plant {}", plant.info.name);
             let plant_details = PlantDetails::try_from(plant)?;
             let page_html = plant_details
                 .render(&self.date_format, true, num_plants)

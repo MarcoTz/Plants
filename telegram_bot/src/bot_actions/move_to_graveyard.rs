@@ -84,8 +84,8 @@ impl Action for MoveToGraveyard {
         let plant = db_man.get_plant(&name)?;
         let gr_plant = GraveyardPlant {
             name: name.clone(),
-            species: plant.species.get_name(),
-            planted: plant.obtained,
+            species: plant.info.species.get_name(),
+            planted: plant.info.obtained,
             died,
             reason,
         };

@@ -88,10 +88,10 @@ impl From<&[Plant]> for ActivitiesTable {
 
                 match activities.get_mut(&log_key) {
                     None => {
-                        activities.insert(log_key, (vec![plant.name.clone()], note));
+                        activities.insert(log_key, (vec![plant.info.name.clone()], note));
                     }
                     Some((plants, notes)) => {
-                        plants.push(plant.name.clone());
+                        plants.push(plant.info.name.clone());
                         if !notes.contains(&note) {
                             notes.push_str(
                                 &log.note

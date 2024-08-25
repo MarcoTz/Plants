@@ -9,34 +9,34 @@ use plants::{
     growth_item::GrowthItem,
     log_item::LogItem,
     named::Named,
-    plant::{Plant, PlantImage, PlantSpecies},
+    plant::{Plant, PlantImage, PlantInfo, PlantSpecies},
 };
 use std::fs;
 
 impl From<(&Plant, String)> for PlantJSON {
     fn from((plant, date_format): (&Plant, String)) -> PlantJSON {
         PlantJSON {
-            plant_name: plant.name.clone(),
-            species_name: match &plant.species {
+            plant_name: plant.info.name.clone(),
+            species_name: match &plant.info.species {
                 PlantSpecies::Other(name) => name.clone(),
                 PlantSpecies::Species(sp) => sp.name.clone(),
             },
-            auto_watering: BoolOrString::Bool(plant.auto_water),
-            current_location: plant.location.clone(),
-            obtained: plant.obtained.format(&date_format).to_string(),
-            origin: plant.origin.clone(),
+            auto_watering: BoolOrString::Bool(plant.info.auto_water),
+            current_location: plant.info.location.clone(),
+            obtained: plant.info.obtained.format(&date_format).to_string(),
+            origin: plant.info.origin.clone(),
             plant_health: plant
                 .growth
                 .last()
                 .map(|gr| gr.health)
                 .unwrap_or(3)
                 .to_string(),
-            plant_notes: plant.notes.clone(),
+            plant_notes: plant.info.notes.clone(),
         }
     }
 }
 
-struct PlantInfo {
+struct PlantData {
     plant: PlantJSON,
     species: PlantSpecies,
     logs: Vec<LogItem>,
@@ -51,11 +51,11 @@ impl Named for PlantJSON {
     }
 }
 
-impl From<(&Plant, String)> for PlantInfo {
-    fn from((plant, date_format): (&Plant, String)) -> PlantInfo {
-        PlantInfo {
+impl From<(&Plant, String)> for PlantData {
+    fn from((plant, date_format): (&Plant, String)) -> PlantData {
+        PlantData {
             plant: (plant, date_format.clone()).into(),
-            species: plant.species.clone(),
+            species: plant.info.species.clone(),
             logs: plant.activities.clone(),
             growth: plant.growth.clone(),
             date_format,
@@ -64,20 +64,22 @@ impl From<(&Plant, String)> for PlantInfo {
     }
 }
 
-impl TryInto<Plant> for PlantInfo {
+impl TryInto<Plant> for PlantData {
     type Error = Error;
     fn try_into(self) -> Result<Plant, Self::Error> {
         let new_obtained = NaiveDate::parse_from_str(&self.plant.obtained, &self.date_format)?;
         let new_autowater = self.plant.auto_watering.try_into()?;
         let species = self.species;
         Ok(Plant {
-            name: self.plant.plant_name,
-            species,
-            location: self.plant.current_location,
-            origin: self.plant.origin,
-            obtained: new_obtained,
-            auto_water: new_autowater,
-            notes: self.plant.plant_notes,
+            info: PlantInfo {
+                name: self.plant.plant_name,
+                species,
+                location: self.plant.current_location,
+                origin: self.plant.origin,
+                obtained: new_obtained,
+                auto_water: new_autowater,
+                notes: self.plant.plant_notes,
+            },
             activities: self.logs,
             growth: self.growth,
             images: self.images,
@@ -139,7 +141,7 @@ pub fn load_plants(
         last_growth.health = last_health;
         plant_growth.push(last_growth);
 
-        let new_plant = PlantInfo {
+        let new_plant = PlantData {
             plant: plant_json.clone(),
             species: species_plant,
             logs: plant_logs.clone(),

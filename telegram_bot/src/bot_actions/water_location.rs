@@ -34,7 +34,12 @@ impl Action for WaterLocation {
         if location_plants.is_empty() {
             Err(Error::NoPlantsLocation(input))
         } else {
-            self.watered_plants = Some(location_plants.iter().map(|pl| pl.name.clone()).collect());
+            self.watered_plants = Some(
+                location_plants
+                    .iter()
+                    .map(|pl| pl.info.name.clone())
+                    .collect(),
+            );
             self.done = true;
             Ok(())
         }

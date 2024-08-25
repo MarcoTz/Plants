@@ -134,7 +134,7 @@ impl From<(&Plant, &str)> for PlantGallery {
         let mut images_sorted = plant.images.clone();
         images_sorted.sort_by(|img1, img2| img2.0.cmp(&img1.0));
         PlantGallery {
-            plant_name: plant.name.clone(),
+            plant_name: plant.info.name.clone(),
             plant_url: plant.get_url("plants"),
             plant_images: images_sorted
                 .iter()

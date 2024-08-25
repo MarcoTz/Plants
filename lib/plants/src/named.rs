@@ -7,7 +7,7 @@ pub trait Named {
 
 impl Named for Plant {
     fn get_name(&self) -> String {
-        self.name.clone()
+        self.info.name.clone()
     }
 }
 

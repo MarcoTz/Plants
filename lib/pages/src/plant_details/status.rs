@@ -150,7 +150,7 @@ impl PageComponent for Status {
 impl TryFrom<&Plant> for Status {
     type Error = Error;
     fn try_from(plant: &Plant) -> Result<Status, Self::Error> {
-        log::info!("loading plant status for {}", plant.name);
+        log::info!("loading plant status for {}", plant.info.name);
         let health = plant.get_health()?;
         let next_watering = plant.get_next_watering();
         let next_fertilizing = plant.get_next_fertilizing();
@@ -174,11 +174,11 @@ impl TryFrom<&Plant> for Status {
             current_height,
             current_width,
             growth_speed,
-            is_autowatered: plant.auto_water,
-            current_location: plant.location.clone(),
-            origin: plant.origin.clone(),
+            is_autowatered: plant.info.auto_water,
+            current_location: plant.info.location.clone(),
+            origin: plant.info.origin.clone(),
             age,
-            notes: plant.notes.join(", ").clone(),
+            notes: plant.info.notes.join(", ").clone(),
         })
     }
 }
