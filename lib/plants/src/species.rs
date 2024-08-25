@@ -83,7 +83,7 @@ impl Species {
     pub fn get_plants(&self, plants: &[Plant]) -> Vec<Plant> {
         let mut species_plants = vec![];
         for plant in plants.iter() {
-            match &plant.species {
+            match &plant.info.species {
                 PlantSpecies::Other(_) => (),
                 PlantSpecies::Species(species) => {
                     if species.name == self.name {

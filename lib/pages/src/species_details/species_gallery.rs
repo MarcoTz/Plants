@@ -47,7 +47,7 @@ impl From<&[Plant]> for SpeciesGallery {
             "Loading species gallery with plants {}",
             plants
                 .iter()
-                .map(|plant| plant.name.clone())
+                .map(|plant| plant.info.name.clone())
                 .collect::<Vec<String>>()
                 .join(", ")
         );

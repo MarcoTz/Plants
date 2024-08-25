@@ -25,7 +25,7 @@ impl PageComponent for PlantLink {
 impl From<(&Plant, &str)> for PlantLink {
     fn from((plant, plant_base): (&Plant, &str)) -> PlantLink {
         PlantLink {
-            plant_name: plant.name.clone(),
+            plant_name: plant.info.name.clone(),
             plant_url: plant.get_url(plant_base),
         }
     }

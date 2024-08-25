@@ -96,22 +96,22 @@ pub fn update_plant(
     match value {
         UpdateValue::Str(st) => match field {
             UpdateField::Name => {
-                plant.name = st;
+                plant.info.name = st;
                 Ok(())
             }
             UpdateField::Location => {
-                plant.location = st;
+                plant.info.location = st;
                 Ok(())
             }
             UpdateField::Origin => {
-                plant.origin = st;
+                plant.info.origin = st;
                 Ok(())
             }
             _ => Err(field_err),
         },
         UpdateValue::Species(sp) => {
             if let UpdateField::Species = field {
-                plant.species = *sp;
+                plant.info.species = *sp;
                 Ok(())
             } else {
                 Err(Error::FieldError(field.to_string()))
@@ -119,7 +119,7 @@ pub fn update_plant(
         }
         UpdateValue::Date(dt) => {
             if let UpdateField::Obtained = field {
-                plant.obtained = dt;
+                plant.info.obtained = dt;
                 Ok(())
             } else {
                 Err(field_err)
@@ -127,7 +127,7 @@ pub fn update_plant(
         }
         UpdateValue::Bool(b) => {
             if let UpdateField::AutoWater = field {
-                plant.auto_water = b;
+                plant.info.auto_water = b;
                 Ok(())
             } else {
                 Err(field_err)
@@ -136,9 +136,9 @@ pub fn update_plant(
         UpdateValue::Note(notes, append) => {
             if let UpdateField::Notes = field {
                 if append {
-                    plant.notes.extend(notes);
+                    plant.info.notes.extend(notes);
                 } else {
-                    plant.notes = notes;
+                    plant.info.notes = notes;
                 }
                 Ok(())
             } else {

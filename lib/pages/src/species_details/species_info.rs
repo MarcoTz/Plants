@@ -112,7 +112,7 @@ impl From<(&Species, &[Plant])> for SpeciesInfo {
             plant_strs.push(
                 <A as Into<HtmlElement>>::into(A {
                     attributes: vec![Attribute::Href(plant.get_url("../plants/"))],
-                    content: Rc::new(plant.name.to_owned().into()),
+                    content: Rc::new(plant.info.name.to_owned().into()),
                 })
                 .render(),
             )

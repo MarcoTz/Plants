@@ -110,8 +110,8 @@ impl From<&[Plant]> for UpcomingTasks {
                 }
             };
         for plant in plants.iter() {
-            if plant.auto_water {
-                log::info!("Skipping plant {} in upcoming tasks", plant.name);
+            if plant.info.auto_water {
+                log::info!("Skipping plant {} in upcoming tasks", plant.info.name);
                 continue;
             }
 

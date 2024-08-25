@@ -143,7 +143,7 @@ impl PageComponent for PlantListItem {
 
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
-        match &plant.species {
+        match &plant.info.species {
             PlantSpecies::Other(_) => PlantListItem {
                 plant_link: (plant, "plants").into(),
                 plant_preview_url: plant.get_preview_image_url("img/plants"),
@@ -167,7 +167,7 @@ impl TryFrom<&[Plant]> for LocationGroup {
     fn try_from(plants: &[Plant]) -> Result<LocationGroup, Self::Error> {
         let mut locations = HashSet::new();
         for plant in plants.iter() {
-            locations.insert(plant.location.clone());
+            locations.insert(plant.info.location.clone());
         }
         let locations_vec: Vec<String> = locations.iter().cloned().collect();
         if locations_vec.len() != 1 {
@@ -204,9 +204,9 @@ impl TryFrom<&[Plant]> for PlantList {
         log::info!("Loading Plant List");
         let mut by_location: HashMap<String, Vec<Plant>> = HashMap::new();
         for plant in plants.iter() {
-            match by_location.get_mut(&plant.location) {
+            match by_location.get_mut(&plant.info.location) {
                 None => {
-                    by_location.insert(plant.location.to_owned(), vec![plant.clone()]);
+                    by_location.insert(plant.info.location.to_owned(), vec![plant.clone()]);
                 }
                 Some(location_vec) => {
                     location_vec.push(plant.clone());

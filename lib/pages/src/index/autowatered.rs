@@ -56,7 +56,7 @@ impl From<&[Plant]> for AutoWatered {
         log::info!("Getting autowatered plants");
         let mut plant_vec = vec![];
         for plant in plants.iter() {
-            if plant.auto_water {
+            if plant.info.auto_water {
                 plant_vec.push((plant, "plants").into())
             }
         }
