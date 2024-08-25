@@ -1,6 +1,6 @@
 use chrono::NaiveDate;
-use plants::date::date_serializer;
 use plants::log_item::LogItem;
+use plants::serialize::date_serializer;
 use serde::Deserialize;
 
 #[derive(Deserialize, Clone)]

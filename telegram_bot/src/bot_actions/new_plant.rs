@@ -1,10 +1,8 @@
-use super::{
-    input_handlers::{input_health, input_species},
-    Action, BotAction,
-};
+use super::{input_handlers::input_species, Action, BotAction};
 use crate::errors::Error;
 use chrono::NaiveDate;
-use database::database_manager::{DatabaseManager, PlantJSON};
+use database::database_manager::DatabaseManager;
+use plants::plant::{PlantInfo, PlantSpecies};
 
 #[derive(PartialEq, Eq)]
 enum Step {
@@ -12,7 +10,6 @@ enum Step {
     SpeciesName,
     Height,
     Width,
-    Health,
     Location,
     AutoWatered,
     Origin,
@@ -28,7 +25,6 @@ pub struct NewPlant {
     species_name: Option<String>,
     height: Option<f32>,
     width: Option<f32>,
-    health: Option<i32>,
     location: Option<String>,
     autowatered: Option<bool>,
     origin: Option<String>,
@@ -45,7 +41,6 @@ impl NewPlant {
             species_name: None,
             height: None,
             width: None,
-            health: None,
             location: None,
             autowatered: None,
             origin: None,
@@ -100,14 +95,8 @@ impl Action for NewPlant {
                     .parse::<f32>()
                     .map_err(|_| Error::ParseError("Width".to_owned()))?;
                 self.width = Some(width);
-                self.current_step = Step::Health;
-                todo!("")
-            }
-            Step::Health => {
-                let health = input_health(input)?;
-                self.health = Some(health);
                 self.current_step = Step::Location;
-                Ok(())
+                todo!("")
             }
             Step::Location => {
                 self.location = Some(input.trim().to_owned());
@@ -165,9 +154,6 @@ impl Action for NewPlant {
             .origin
             .clone()
             .ok_or(Error::MissingInput("Origin".to_owned()))?;
-        let plant_health = self
-            .health
-            .ok_or(Error::MissingInput("Health".to_owned()))?;
         let plant_notes = self
             .notes
             .clone()
@@ -176,16 +162,19 @@ impl Action for NewPlant {
             .species_name
             .clone()
             .ok_or(Error::MissingInput("Species Name".to_owned()))?;
+        let species = match db_man.get_species(&species_name) {
+            Ok(sp) => PlantSpecies::Species(Box::new(sp)),
+            Err(_) => PlantSpecies::Other(species_name),
+        };
 
-        let plant_json = PlantJSON {
-            plant_name: plant_name.clone(),
-            auto_watering: auto_watering.into(),
-            current_location,
-            obtained: obtained.format(&self.date_format).to_string(),
+        let plant_json = PlantInfo {
+            name: plant_name.clone(),
+            auto_water: auto_watering.into(),
+            location: current_location,
+            obtained,
             origin,
-            plant_health: plant_health.to_string(),
-            plant_notes,
-            species_name,
+            notes: plant_notes,
+            species,
         };
 
         db_man.write_plant(plant_json)?;
@@ -199,7 +188,6 @@ impl Action for NewPlant {
             Step::SpeciesName => Ok("Please enter species name".to_owned()),
             Step::Height => Ok("Please enter height (cm)".to_owned()),
             Step::Width => Ok("Please enter width (cm)".to_owned()),
-            Step::Health => Ok("Please enter health (0-5)".to_owned()),
             Step::Location => Ok("Please enter location".to_owned()),
             Step::AutoWatered => Ok("Is plant autowatered (y/n)".to_owned()),
             Step::Origin => Ok("Please enter plant origin".to_owned()),

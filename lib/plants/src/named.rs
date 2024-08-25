@@ -1,4 +1,4 @@
-use super::plant::{Plant, PlantSpecies};
+use super::plant::{Plant, PlantInfo, PlantSpecies};
 use super::species::Species;
 
 pub trait Named {
@@ -8,6 +8,12 @@ pub trait Named {
 impl Named for Plant {
     fn get_name(&self) -> String {
         self.info.name.clone()
+    }
+}
+
+impl Named for PlantInfo {
+    fn get_name(&self) -> String {
+        self.name.clone()
     }
 }
 

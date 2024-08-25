@@ -15,3 +15,24 @@ pub mod date_serializer {
         Ok(d)
     }
 }
+
+pub mod species_serializer {
+    use crate::{named::Named, plant::PlantSpecies};
+    use serde::{Deserialize, Deserializer, Serializer};
+
+    pub fn serialize<S: Serializer>(
+        species: &PlantSpecies,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error> {
+        let s = format!("{}", species.get_name());
+        serializer.serialize_str(&s)
+    }
+
+    pub fn deserialize<'de, D: Deserializer<'de>>(
+        deserializer: D,
+    ) -> Result<PlantSpecies, D::Error> {
+        let s = String::deserialize(deserializer)?;
+        let sp = PlantSpecies::Other(s);
+        Ok(sp)
+    }
+}

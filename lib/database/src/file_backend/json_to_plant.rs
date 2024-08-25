@@ -1,9 +1,8 @@
 use super::{
     errors::{AccessType, Error, FSError},
     load_csv::{load_activities, load_growth},
-    load_json::{load_plant_jsons, load_species},
+    load_json::{load_plant_infos, load_species},
 };
-use crate::database_manager::{BoolOrString, PlantJSON};
 use chrono::NaiveDate;
 use plants::{
     growth_item::GrowthItem,
@@ -13,77 +12,21 @@ use plants::{
 };
 use std::fs;
 
-impl From<(&Plant, String)> for PlantJSON {
-    fn from((plant, date_format): (&Plant, String)) -> PlantJSON {
-        PlantJSON {
-            plant_name: plant.info.name.clone(),
-            species_name: match &plant.info.species {
-                PlantSpecies::Other(name) => name.clone(),
-                PlantSpecies::Species(sp) => sp.name.clone(),
-            },
-            auto_watering: BoolOrString::Bool(plant.info.auto_water),
-            current_location: plant.info.location.clone(),
-            obtained: plant.info.obtained.format(&date_format).to_string(),
-            origin: plant.info.origin.clone(),
-            plant_health: plant
-                .growth
-                .last()
-                .map(|gr| gr.health)
-                .unwrap_or(3)
-                .to_string(),
-            plant_notes: plant.info.notes.clone(),
-        }
-    }
-}
-
 struct PlantData {
-    plant: PlantJSON,
-    species: PlantSpecies,
+    plant: PlantInfo,
     logs: Vec<LogItem>,
     growth: Vec<GrowthItem>,
-    date_format: String,
     images: Vec<PlantImage>,
 }
 
-impl Named for PlantJSON {
-    fn get_name(&self) -> String {
-        self.plant_name.clone()
-    }
-}
-
-impl From<(&Plant, String)> for PlantData {
-    fn from((plant, date_format): (&Plant, String)) -> PlantData {
-        PlantData {
-            plant: (plant, date_format.clone()).into(),
-            species: plant.info.species.clone(),
-            logs: plant.activities.clone(),
-            growth: plant.growth.clone(),
-            date_format,
-            images: plant.images.clone(),
-        }
-    }
-}
-
-impl TryInto<Plant> for PlantData {
-    type Error = Error;
-    fn try_into(self) -> Result<Plant, Self::Error> {
-        let new_obtained = NaiveDate::parse_from_str(&self.plant.obtained, &self.date_format)?;
-        let new_autowater = self.plant.auto_watering.try_into()?;
-        let species = self.species;
-        Ok(Plant {
-            info: PlantInfo {
-                name: self.plant.plant_name,
-                species,
-                location: self.plant.current_location,
-                origin: self.plant.origin,
-                obtained: new_obtained,
-                auto_water: new_autowater,
-                notes: self.plant.plant_notes,
-            },
+impl Into<Plant> for PlantData {
+    fn into(self) -> Plant {
+        Plant {
+            info: self.plant,
             activities: self.logs,
             growth: self.growth,
             images: self.images,
-        })
+        }
     }
 }
 
@@ -92,64 +35,50 @@ pub fn load_plants(
     species_dir: &str,
     activity_file: &str,
     growth_file: &str,
-    date_format: &str,
 ) -> Result<Vec<Plant>, Error> {
     log::info!("Loading plants");
-    let plant_jsons: Vec<PlantJSON> = load_plant_jsons(plants_dir)?;
+    let mut plant_infos = load_plant_infos(plants_dir)?;
     let species = load_species(species_dir)?;
     let logs = load_activities(activity_file)?;
     let growth = load_growth(growth_file)?;
     let mut plants = vec![];
-    for plant_json in plant_jsons.iter() {
-        log::info!("Loading plant {}", plant_json.plant_name);
+    for plant_info in plant_infos.iter_mut() {
+        log::info!("Loading plant {}", plant_info.name);
         let species_plant = species
             .iter()
-            .find(|sp| {
-                sp.name.to_lowercase().trim() == plant_json.species_name.to_lowercase().trim()
-            })
+            .find(|sp| sp.name.to_lowercase().trim() == plant_info.species.get_name())
             .cloned()
             .map(|sp| PlantSpecies::Species(Box::new(sp)))
-            .unwrap_or(PlantSpecies::Other(plant_json.plant_name.clone()));
+            .unwrap_or(PlantSpecies::Other(plant_info.name.clone()));
+        plant_info.species = species_plant;
 
         let plant_logs: Vec<LogItem> = logs
             .iter()
-            .filter(|log| log.plant == plant_json.plant_name)
+            .filter(|log| log.plant == plant_info.name)
             .cloned()
             .collect();
         if plant_logs.is_empty() {
-            log::warn!("No logs for plant {}", plant_json.plant_name);
+            log::warn!("No logs for plant {}", plant_info.name);
         }
 
-        let mut plant_growth: Vec<GrowthItem> = growth
+        let plant_growth: Vec<GrowthItem> = growth
             .iter()
-            .filter(|growth| growth.plant == plant_json.plant_name)
+            .filter(|growth| growth.plant == plant_info.name)
             .cloned()
             .collect();
 
-        let last_health = plant_json.plant_health.parse::<i32>()?;
-        let mut last_growth =
-            plant_growth
-                .pop()
-                .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
-                    plant_json.plant_name.clone(),
-                )))?;
-
-        let images = load_images("html_out/img/plants", &plant_json.plant_name)?;
+        let images = load_images("html_out/img/plants", &plant_info.name)?;
         if images.is_empty() {
-            log::warn!("No images for plant {}", plant_json.plant_name);
+            log::warn!("No images for plant {}", plant_info.name);
         }
-        last_growth.health = last_health;
-        plant_growth.push(last_growth);
 
         let new_plant = PlantData {
-            plant: plant_json.clone(),
-            species: species_plant,
+            plant: plant_info.clone(),
             logs: plant_logs.clone(),
             growth: plant_growth.clone(),
-            date_format: date_format.to_owned(),
             images,
         }
-        .try_into()?;
+        .into();
         plants.push(new_plant);
     }
     Ok(plants)

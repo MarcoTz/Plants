@@ -1,7 +1,6 @@
 use super::errors::{AccessType, Error, FSError, SerializeError};
-use crate::database_manager::PlantJSON;
-use plants::named::Named;
 use plants::species::Species;
+use plants::{named::Named, plant::PlantInfo};
 use serde::Serialize;
 use std::fs::File;
 use std::io::Write;
@@ -43,7 +42,7 @@ pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path_base: &str) -> Re
     Ok(())
 }
 
-pub fn write_plants(plants: Vec<PlantJSON>, plant_dir: &str) -> Result<(), Error> {
+pub fn write_plants(plants: Vec<PlantInfo>, plant_dir: &str) -> Result<(), Error> {
     write_vec(plants, plant_dir)
 }
 

@@ -1,4 +1,3 @@
-pub mod date;
 pub mod errors;
 pub mod graveyard;
 pub mod growth_item;
@@ -6,5 +5,6 @@ pub mod log_item;
 pub mod named;
 pub mod plant;
 pub mod plant_update;
+pub mod serialize;
 pub mod species;
 pub mod species_update;

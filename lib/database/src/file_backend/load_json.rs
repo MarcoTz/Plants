@@ -1,6 +1,5 @@
 use super::errors::{AccessType, Error, FSError, SerializeError};
-use crate::database_manager::PlantJSON;
-use plants::species::Species;
+use plants::{plant::PlantInfo, species::Species};
 use serde::de::DeserializeOwned;
 use std::fs;
 
@@ -52,7 +51,7 @@ pub fn load_dir<T: DeserializeOwned>(dir_path: &str) -> Result<Vec<T>, Error> {
     Ok(struct_list)
 }
 
-pub fn load_plant_jsons(plants_dir: &str) -> Result<Vec<PlantJSON>, Error> {
+pub fn load_plant_infos(plants_dir: &str) -> Result<Vec<PlantInfo>, Error> {
     load_dir(plants_dir)
 }
 

@@ -1,11 +1,13 @@
-use super::errors::Error;
-use super::growth_item::GrowthItem;
-use super::log_item::LogItem;
-use super::species::Species;
+use super::{
+    errors::Error,
+    growth_item::GrowthItem,
+    log_item::LogItem,
+    serialize::{date_serializer, species_serializer},
+    species::Species,
+};
 use chrono::{Local, NaiveDate, TimeDelta};
-use log;
+use serde::{Deserialize, Serialize};
 use std::cmp::max;
-
 pub type PlantImage = (NaiveDate, String);
 
 #[derive(Clone, Debug)]
@@ -14,12 +16,14 @@ pub enum PlantSpecies {
     Other(String),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Clone, Deserialize, Debug)]
 pub struct PlantInfo {
     pub name: String,
+    #[serde(with = "species_serializer")]
     pub species: PlantSpecies,
     pub location: String,
     pub origin: String,
+    #[serde(with = "date_serializer")]
     pub obtained: NaiveDate,
     pub auto_water: bool,
     pub notes: Vec<String>,
