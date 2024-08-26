@@ -1,4 +1,5 @@
-use super::errors::Error;
+use super::Port;
+use crate::errors::Error;
 use database::file_backend::{load_json::load_dir, write_json::write_species};
 use plants::species::Species;
 use serde::Deserialize;
@@ -108,54 +109,50 @@ impl TryInto<Species> for SpeciesJSON {
     }
 }
 
-fn load_old_species(species_dir_old: &PathBuf) -> Result<Vec<SpeciesJSON>, Error> {
-    let species_jsons = load_dir(species_dir_old)?;
-    Ok(species_jsons)
-}
+impl Port<Vec<Species>> for Vec<SpeciesJSON> {
+    type LoadArgs = PathBuf;
+    type SaveArgs = PathBuf;
+    type ConvertArgs = bool;
 
-fn convert_species(species: Vec<SpeciesJSON>, interactive: bool) -> Result<Vec<Species>, Error> {
-    let mut new_species = vec![];
-    for old_species in species.into_iter() {
-        let species_ty = old_species.species_type.clone();
-        let mut new_sp: Species = old_species.try_into()?;
-        if interactive {
-            let stdin = io::stdin();
-            let mut genus = String::new();
-            println!(
-                "Please enter genus for {}, (type is {})",
-                new_sp.name, species_ty
-            );
-            stdin
-                .read_line(&mut genus)
-                .map_err(|_| Error::InputErr("species genus".to_owned()))?;
-            new_sp.genus = genus.to_owned();
-
-            println!(
-                "Please enter family for {}, (type is {})",
-                new_sp.name, species_ty
-            );
-            let mut family = String::new();
-            stdin
-                .read_line(&mut family)
-                .map_err(|_| Error::InputErr("species family".to_owned()))?;
-            new_sp.family = family.to_owned();
-        }
-        new_species.push(new_sp);
+    fn load_old(species_dir_old: &Self::LoadArgs) -> Result<Vec<SpeciesJSON>, Error> {
+        let species_jsons = load_dir(species_dir_old)?;
+        Ok(species_jsons)
     }
-    Ok(new_species)
-}
 
-fn save_new_species(species: Vec<Species>, species_dir_new: &PathBuf) -> Result<(), Error> {
-    write_species(species, species_dir_new)?;
-    Ok(())
-}
+    fn convert(self, interactive: &Self::ConvertArgs) -> Result<Vec<Species>, Error> {
+        let mut new_species = vec![];
+        for old_species in self.into_iter() {
+            let species_ty = old_species.species_type.clone();
+            let mut new_sp: Species = old_species.try_into()?;
+            if interactive.to_owned() {
+                let stdin = io::stdin();
+                let mut genus = String::new();
+                println!(
+                    "Please enter genus for {}, (type is {})",
+                    new_sp.name, species_ty
+                );
+                stdin
+                    .read_line(&mut genus)
+                    .map_err(|_| Error::InputErr("species genus".to_owned()))?;
+                new_sp.genus = genus.to_owned();
 
-pub fn port_species(
-    species_dir_old: &PathBuf,
-    interactive: bool,
-    species_dir_new: &PathBuf,
-) -> Result<(), Error> {
-    let old_species = load_old_species(species_dir_old)?;
-    let new_species = convert_species(old_species, interactive)?;
-    save_new_species(new_species, species_dir_new)
+                println!(
+                    "Please enter family for {}, (type is {})",
+                    new_sp.name, species_ty
+                );
+                let mut family = String::new();
+                stdin
+                    .read_line(&mut family)
+                    .map_err(|_| Error::InputErr("species family".to_owned()))?;
+                new_sp.family = family.to_owned();
+            }
+            new_species.push(new_sp);
+        }
+        Ok(new_species)
+    }
+
+    fn save_new(species: Vec<Species>, species_dir_new: &PathBuf) -> Result<(), Error> {
+        write_species(species, species_dir_new)?;
+        Ok(())
+    }
 }
