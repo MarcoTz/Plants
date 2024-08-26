@@ -4,7 +4,7 @@ use chrono::NaiveDate;
 use database::file_backend::{load_csv::load_csv, write_csv::write_csv};
 use plants::{log_item::LogItem, serialize::date_serializer};
 use serde::Deserialize;
-use std::path::PathBuf;
+use std::{fs::File, path::PathBuf};
 
 #[derive(Deserialize, Clone)]
 pub struct LogCSV {
@@ -55,6 +55,10 @@ impl Port<Vec<LogItem>> for Vec<LogCSV> {
     }
 
     fn save_new(new_items: Vec<LogItem>, activities_file: &Self::SaveArgs) -> Result<(), Error> {
+        if !activities_file.exists() {
+            log::info!("Creating log file {activities_file:?}");
+            File::create(activities_file)?;
+        }
         write_csv(new_items, activities_file)?;
         Ok(())
     }

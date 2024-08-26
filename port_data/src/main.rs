@@ -14,7 +14,7 @@ use port::{
     activities::LogCSV, growth::GrowthCSV, images::OldImage, plants::PlantJSON,
     species::SpeciesJSON, Port,
 };
-use std::path::PathBuf;
+use std::{fs::create_dir, path::PathBuf, process::exit};
 
 const DATA_DIR_OLD: &str = "data_old";
 const DATA_DIR_NEW: &str = "data";
@@ -41,8 +41,22 @@ pub fn main() {
 
     let in_dir = PathBuf::from(DATA_DIR_OLD);
     let out_dir = PathBuf::from(DATA_DIR_NEW);
+    if !out_dir.exists() {
+        let create_res = create_dir(out_dir.clone());
+        if create_res.is_err() {
+            log::error!("Could not create data out dir");
+            exit(1)
+        }
+    }
     let log_path_in = in_dir.join(LOGS_DIR);
     let log_path_out = out_dir.join(LOGS_DIR);
+    if !log_path_out.exists() {
+        let create_res = create_dir(log_path_out.clone());
+        if create_res.is_err() {
+            log::error!("Could not create logs out dir");
+            exit(1)
+        }
+    }
 
     let plants_dir_in = in_dir.join(PLANTS_DIR);
     let plants_dir_out = out_dir.join(PLANTS_DIR);
