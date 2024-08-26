@@ -4,7 +4,7 @@ use chrono::NaiveDate;
 use database::file_backend::{load_csv::load_csv, write_csv::write_csv};
 use plants::{growth_item::GrowthItem, serialize::date_serializer};
 use serde::Deserialize;
-use std::path::PathBuf;
+use std::{fs::File, path::PathBuf};
 
 #[derive(Deserialize, Clone)]
 pub struct GrowthCSV {
@@ -59,6 +59,10 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
     }
 
     fn save_new(new: Vec<GrowthItem>, growth_file_out: &Self::SaveArgs) -> Result<(), Error> {
+        if !growth_file_out.exists() {
+            log::info!("Creating growth log");
+            File::create(growth_file_out)?;
+        }
         write_csv(new, growth_file_out)?;
         Ok(())
     }
