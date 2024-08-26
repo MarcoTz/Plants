@@ -1,5 +1,4 @@
 use super::{
-    csv_to_growth_item::GrowthCSV,
     csv_to_log_item::LogCSV,
     errors::{AccessType, CSVError, Error, SerializeError},
 };
@@ -8,7 +7,7 @@ use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogIt
 use serde::de::DeserializeOwned;
 use std::path::PathBuf;
 
-fn load_csv<T: DeserializeOwned>(file_path: &PathBuf) -> Result<Vec<T>, Error> {
+pub fn load_csv<T: DeserializeOwned>(file_path: &PathBuf) -> Result<Vec<T>, Error> {
     log::info!("Loading CSV {:?}", file_path);
     let mut csv_rows = vec![];
     let mut csv_reader = ReaderBuilder::new()
@@ -54,12 +53,7 @@ pub fn load_activities(activity_file: &PathBuf) -> Result<Vec<LogItem>, Error> {
 }
 
 pub fn load_growth(growth_file: &PathBuf) -> Result<Vec<GrowthItem>, Error> {
-    let growth_csv: Vec<GrowthCSV> = load_csv(growth_file)?;
-    let mut growth_conv = growth_csv
-        .iter()
-        .cloned()
-        .map(<GrowthCSV as Into<GrowthItem>>::into)
-        .collect::<Vec<GrowthItem>>();
-    growth_conv.sort();
-    Ok(growth_conv)
+    let mut growth_csv: Vec<GrowthItem> = load_csv(growth_file)?;
+    growth_csv.sort();
+    Ok(growth_csv)
 }

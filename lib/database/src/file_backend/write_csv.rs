@@ -4,7 +4,7 @@ use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogIt
 use serde::Serialize;
 use std::path::PathBuf;
 
-fn write_csv<T: Serialize + std::fmt::Debug>(
+pub fn write_csv<T: Serialize + std::fmt::Debug>(
     items: Vec<T>,
     file_path: &PathBuf,
 ) -> Result<(), Error> {
