@@ -2,8 +2,18 @@ mod errors;
 mod port;
 
 use database::file_backend::load_json::load_dir;
-use plants::{growth_item::GrowthItem, log_item::LogItem, plant::PlantInfo, species::Species};
-use port::{activities::LogCSV, growth::GrowthCSV, plants::PlantJSON, species::SpeciesJSON, Port};
+use log::Level;
+use logger::{file_logger::FileLogger, init::init_logger};
+use plants::{
+    growth_item::GrowthItem,
+    log_item::LogItem,
+    plant::{PlantImage, PlantInfo},
+    species::Species,
+};
+use port::{
+    activities::LogCSV, growth::GrowthCSV, images::OldImage, plants::PlantJSON,
+    species::SpeciesJSON, Port,
+};
 use std::path::PathBuf;
 
 const DATA_DIR_OLD: &str = "data_old";
@@ -17,7 +27,18 @@ const ACTIVITIES_CSV: &str = "Activities.csv";
 const DATE_FORMAT: &str = "%d.%m.%Y";
 const INTERACTIVE: bool = false;
 
+static LOGGER: FileLogger = FileLogger {
+    level: Level::Info,
+    file_path: "log.txt",
+};
+
 pub fn main() {
+    let log_res = init_logger(&LOGGER);
+    if log_res.is_err() {
+        println!("{}", log_res.unwrap_err());
+        std::process::exit(1);
+    }
+
     let in_dir = PathBuf::from(DATA_DIR_OLD);
     let out_dir = PathBuf::from(DATA_DIR_NEW);
     let log_path_in = in_dir.join(LOGS_DIR);
@@ -62,6 +83,16 @@ pub fn main() {
     match <Vec<LogCSV> as Port<Vec<LogItem>>>::port(&activities_file_in, &(), &activities_file_out)
     {
         Ok(()) => println!("Successfully ported activities"),
+        Err(err) => println!("{err:?}"),
+    }
+
+    let images_dir_in = in_dir.join("img");
+    match <Vec<OldImage> as Port<Vec<PlantImage>>>::port(
+        &images_dir_in,
+        &(plants_dir_out, "%d%m%Y".to_owned()),
+        &PathBuf::new(),
+    ) {
+        Ok(()) => println!("Successfully ported images"),
         Err(err) => println!("{err:?}"),
     }
 
