@@ -48,9 +48,9 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
                 .ok_or(Error::PlantNotFound(new_item.plant.clone()))?;
             let health = growth_plant.plant_health.parse::<i32>()?;
             if health > 5 || health < 0 {
-                Ok(())
-            } else {
                 Err(Error::BadHealth(health))
+            } else {
+                Ok(())
             }?;
             new_item.health = health;
             new_items.push(new_item);
