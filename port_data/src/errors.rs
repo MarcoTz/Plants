@@ -1,9 +1,10 @@
 use chrono::ParseError;
 use database::file_backend::errors::Error as DBError;
-use std::{fmt, str::ParseBoolError};
+use std::{fmt, num::ParseFloatError, str::ParseBoolError};
 
 pub enum Error {
     ParseError(String),
+    InputErr(String),
     DBError(DBError),
 }
 
@@ -11,6 +12,7 @@ impl fmt::Debug for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::ParseError(msg) => frmt.write_str(&format!("Could not parse {msg}")),
+            Error::InputErr(msg) => frmt.write_str(&format!("Could not read input {msg}")),
             Error::DBError(err) => err.fmt(frmt),
         }
     }
@@ -25,6 +27,12 @@ impl From<ParseBoolError> for Error {
 impl From<ParseError> for Error {
     fn from(_: ParseError) -> Error {
         Error::ParseError("date".to_owned())
+    }
+}
+
+impl From<ParseFloatError> for Error {
+    fn from(_: ParseFloatError) -> Error {
+        Error::ParseError("float".to_owned())
     }
 }
 
