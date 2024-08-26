@@ -1,7 +1,4 @@
-use super::{
-    csv_to_log_item::LogCSV,
-    errors::{AccessType, CSVError, Error, SerializeError},
-};
+use super::errors::{AccessType, CSVError, Error, SerializeError};
 use csv::ReaderBuilder;
 use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
 use serde::de::DeserializeOwned;
@@ -42,14 +39,9 @@ pub fn load_graveyard(graveyard_file: &PathBuf) -> Result<Vec<GraveyardPlant>, E
 }
 
 pub fn load_activities(activity_file: &PathBuf) -> Result<Vec<LogItem>, Error> {
-    let activities_csv: Vec<LogCSV> = load_csv(activity_file)?;
-    let mut activities_conv = activities_csv
-        .iter()
-        .cloned()
-        .flat_map(<LogCSV as Into<Vec<LogItem>>>::into)
-        .collect::<Vec<LogItem>>();
-    activities_conv.sort();
-    Ok(activities_conv)
+    let mut activities_csv: Vec<LogItem> = load_csv(activity_file)?;
+    activities_csv.sort();
+    Ok(activities_csv)
 }
 
 pub fn load_growth(growth_file: &PathBuf) -> Result<Vec<GrowthItem>, Error> {

@@ -2,8 +2,8 @@ mod errors;
 mod port;
 
 use database::file_backend::load_json::load_dir;
-use plants::{growth_item::GrowthItem, plant::PlantInfo, species::Species};
-use port::{growth::GrowthCSV, plants::PlantJSON, species::SpeciesJSON, Port};
+use plants::{growth_item::GrowthItem, log_item::LogItem, plant::PlantInfo, species::Species};
+use port::{activities::LogCSV, growth::GrowthCSV, plants::PlantJSON, species::SpeciesJSON, Port};
 use std::path::PathBuf;
 
 const DATA_DIR_OLD: &str = "data_old";
@@ -13,6 +13,7 @@ const SPECIES_DIR_IN: &str = "PlantSpecies";
 const SPECIES_DIR_OUT: &str = "Species";
 const LOGS_DIR: &str = "Logs";
 const GROWTH_CSV: &str = "Growth.csv";
+const ACTIVITIES_CSV: &str = "Activities.csv";
 const DATE_FORMAT: &str = "%d.%m.%Y";
 const INTERACTIVE: bool = false;
 
@@ -56,7 +57,14 @@ pub fn main() {
         Err(err) => println!("{err:?}"),
     };
 
-    //3. Add health to growth logs (currnent health for last log
+    let activities_file_in = log_path_in.join(ACTIVITIES_CSV);
+    let activities_file_out = log_path_out.join(ACTIVITIES_CSV);
+    match <Vec<LogCSV> as Port<Vec<LogItem>>>::port(&activities_file_in, &(), &activities_file_out)
+    {
+        Ok(()) => println!("Successfully ported activities"),
+        Err(err) => println!("{err:?}"),
+    }
+
     //4. All plant images need to be in a directory with the plants
     //  directory structure should be
     //      | - plants
@@ -69,13 +77,4 @@ pub fn main() {
     //              | - ...
     //
     //
-    /*let last_health = plant_json.plant_health.parse::<i32>()?;
-    let mut last_growth =
-        plant_growth
-            .pop()
-            .ok_or(Error::PlantError(plants::errors::Error::GrowthError(
-                plant_info.name.clone(),
-            )))?;
-    last_growth.health = last_health;
-    plant_growth.push(last_growth);*/
 }

@@ -1,3 +1,4 @@
+pub mod activities;
 pub mod growth;
 pub mod plants;
 pub mod species;
