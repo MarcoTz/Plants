@@ -106,7 +106,17 @@ pub fn load_images(image_dir: &PathBuf, plant_name: &str) -> Result<Vec<PlantIma
                 access: AccessType::Read,
             })?;
             let created = NaiveDate::parse_from_str(date_str, "%d%m%Y")?;
-            plant_images.push((created, file_name.to_owned()))
+            let file_path = path.parent().ok_or(FSError {
+                path: path.clone(),
+                err_msg: "Could not get parent".to_owned(),
+                access: AccessType::Read,
+            })?;
+            let image = PlantImage {
+                created,
+                file_name: file_name.to_owned(),
+                file_path: file_path.to_path_buf(),
+            };
+            plant_images.push(image)
         }
     }
     Ok(plant_images)

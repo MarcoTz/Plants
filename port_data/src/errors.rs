@@ -2,6 +2,7 @@ use chrono::ParseError;
 use database::file_backend::errors::Error as DBError;
 use std::{
     fmt,
+    io::Error as IOError,
     num::{ParseFloatError, ParseIntError},
     str::ParseBoolError,
 };
@@ -12,6 +13,9 @@ pub enum Error {
     DBError(DBError),
     BadHealth(i32),
     PlantNotFound(String),
+    FSError(IOError),
+    PathError(String),
+    FileNameError(String),
 }
 
 impl fmt::Debug for Error {
@@ -22,7 +26,16 @@ impl fmt::Debug for Error {
             Error::DBError(err) => err.fmt(frmt),
             Error::BadHealth(i) => frmt.write_str(&format!("{i} is not a valid value for health")),
             Error::PlantNotFound(name) => frmt.write_str(&format!("Plant {name} was not found")),
+            Error::FSError(ioerr) => ioerr.fmt(frmt),
+            Error::PathError(msg) => frmt.write_str(&format!("Could not get file name for {msg}")),
+            Error::FileNameError(msg) => frmt.write_str(&format!("Bad filename format {msg}")),
         }
+    }
+}
+
+impl From<IOError> for Error {
+    fn from(io_err: IOError) -> Error {
+        Error::FSError(io_err)
     }
 }
 

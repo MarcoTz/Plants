@@ -7,8 +7,14 @@ use super::{
 };
 use chrono::{Local, NaiveDate, TimeDelta};
 use serde::{Deserialize, Serialize};
-use std::cmp::max;
-pub type PlantImage = (NaiveDate, String);
+use std::{cmp::max, path::PathBuf};
+
+#[derive(Clone, Debug)]
+pub struct PlantImage {
+    pub created: NaiveDate,
+    pub file_name: String,
+    pub file_path: PathBuf,
+}
 
 #[derive(Clone, Debug)]
 pub enum PlantSpecies {
@@ -207,10 +213,8 @@ impl Plant {
     }
 
     pub fn get_preview_image_url(&self, base: &str) -> Option<String> {
-        let (_, file_name) = self.images.first().cloned()?;
-        let mut image_url = base.to_owned();
-        image_url.push('/');
-        image_url.push_str(&file_name);
+        let image = self.images.first().cloned()?;
+        let image_url = base.to_owned() + &image.file_name;
         Some(image_url)
     }
 }

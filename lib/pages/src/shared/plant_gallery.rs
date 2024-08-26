@@ -132,7 +132,7 @@ impl From<(&Plant, &str)> for PlantGallery {
             num_self: i,
         };
         let mut images_sorted = plant.images.clone();
-        images_sorted.sort_by(|img1, img2| img2.0.cmp(&img1.0));
+        images_sorted.sort_by(|img1, img2| img2.created.cmp(&img1.created));
         PlantGallery {
             plant_name: plant.info.name.clone(),
             plant_url: plant.get_url("plants"),
@@ -154,9 +154,9 @@ pub struct ImageInfo {
 impl From<ImageInfo> for PlantImg {
     fn from(info: ImageInfo) -> PlantImg {
         PlantImg {
-            img_url: info.image.1.clone(),
+            img_url: info.base_dir.clone() + &info.image.file_name,
             img_base: info.base_dir.clone(),
-            date: info.image.0,
+            date: info.image.created,
             num_images: info.num_images,
             num_self: info.num_self,
         }
