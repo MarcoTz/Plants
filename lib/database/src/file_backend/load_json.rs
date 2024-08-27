@@ -1,19 +1,14 @@
-use super::errors::{AccessType, Error, FSError, SerializeError};
+use super::errors::{Error, SerializeError};
 use plants::{plant::PlantInfo, species::Species};
 use serde::de::DeserializeOwned;
-use std::{fs, path::PathBuf};
+use std::{ffi::OsString, fs, fs::DirEntry, path::PathBuf};
 
 pub fn load_json<T: DeserializeOwned>(file_name: &PathBuf) -> Result<T, Error> {
     log::info!("Loading JSON {:?}", file_name);
-    let file_contents = fs::read_to_string(file_name).map_err(|err| FSError {
-        path: file_name.clone(),
-        err_msg: err.to_string(),
-        access: AccessType::Read,
-    })?;
+    let file_contents = fs::read_to_string(file_name)?;
     let res = serde_json::from_str(&file_contents).map_err(|err| SerializeError {
         path: file_name.clone(),
         err_msg: err.to_string(),
-        access: AccessType::Write,
     })?;
     Ok(res)
 }
@@ -21,20 +16,20 @@ pub fn load_json<T: DeserializeOwned>(file_name: &PathBuf) -> Result<T, Error> {
 pub fn load_dir<T: DeserializeOwned>(dir_path: &PathBuf) -> Result<Vec<T>, Error> {
     log::info!("Loading JSON from dir {:?}", dir_path);
     let mut struct_list = vec![];
-    for dir_entry in fs::read_dir(dir_path).map_err(|err| {
-        <FSError as Into<Error>>::into(FSError {
-            path: dir_path.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })
-    })? {
-        let entry = dir_entry.map_err(|err| FSError {
-            path: dir_path.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })?;
-        let json_contents: T = load_json(&entry.path())?;
-        struct_list.push(json_contents);
+    for dir_entry in fs::read_dir(dir_path)? {
+        let entry = dir_entry?;
+        let entry_contents = fs::read_dir(entry.path())?;
+        let content_paths = entry_contents
+            .map(|x| x.map_err(|err| err.into()))
+            .collect::<Result<Vec<DirEntry>, Error>>()?;
+        let json_files = content_paths
+            .into_iter()
+            .filter(|entry| entry.path().extension() == Some(&OsString::from("json")));
+
+        for json_file in json_files {
+            let json_contents = load_json(&json_file.path())?;
+            struct_list.push(json_contents);
+        }
     }
     Ok(struct_list)
 }

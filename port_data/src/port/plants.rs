@@ -1,10 +1,10 @@
 use super::Port;
 use crate::errors::Error;
 use chrono::NaiveDate;
-use database::file_backend::{load_json::load_dir, write_json::write_plants};
+use database::file_backend::{load_json::load_json, write_json::write_plants};
 use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
+use std::{fs::read_dir, path::PathBuf};
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct PlantJSON {
@@ -55,11 +55,19 @@ impl Port<Vec<PlantInfo>> for Vec<PlantJSON> {
     type ConvertArgs = String;
 
     fn load_old(plants_dir: &Self::LoadArgs) -> Result<Vec<PlantJSON>, Error> {
-        let plants: Vec<PlantJSON> = load_dir(plants_dir)?;
+        log::info!("Loading old plant infos");
+        let mut plants = vec![];
+        let contents = read_dir(plants_dir)?;
+        for plant_file in contents {
+            let file = plant_file?;
+            let plant: PlantJSON = load_json(&file.path())?;
+            plants.push(plant);
+        }
         Ok(plants)
     }
 
     fn convert(self, date_format: &Self::ConvertArgs) -> Result<Vec<PlantInfo>, Error> {
+        log::info!("Converting plant infos");
         let mut new_plants = vec![];
         for old_plant in self.into_iter() {
             let obtained = NaiveDate::parse_from_str(&old_plant.obtained, date_format)?;
@@ -79,6 +87,7 @@ impl Port<Vec<PlantInfo>> for Vec<PlantJSON> {
     }
 
     fn save_new(plants: Vec<PlantInfo>, plants_dir: &Self::SaveArgs) -> Result<(), Error> {
+        log::info!("Saving new Plants");
         write_plants(plants, plants_dir)?;
         Ok(())
     }

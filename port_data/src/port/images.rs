@@ -18,6 +18,7 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
     type ConvertArgs = (PathBuf, String);
 
     fn load_old(images_dir: &Self::LoadArgs) -> Result<Self, Error> {
+        log::info!("Loading old images");
         let mut images = vec![];
         let files = read_dir(images_dir)?;
         for file_res in files {
@@ -55,6 +56,7 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
         self,
         (plants_dir, date_format): &Self::ConvertArgs,
     ) -> Result<Vec<PlantImage>, Error> {
+        log::info!("Converting Images");
         let mut new_images = vec![];
         for image in self.iter() {
             for plant in image.plants.iter() {
@@ -90,61 +92,3 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
         Ok(())
     }
 }
-
-/*
- pub fn load_images(image_dir: &PathBuf, plant_name: &str) -> Result<Vec<PlantImage>, Error> {
-    let mut plant_images = vec![];
-    let dir_files = fs::read_dir(image_dir).map_err(|err| {
-        <FSError as Into<Error>>::into(FSError {
-            path: image_dir.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })
-    })?;
-    for dir_file in dir_files {
-        let dir_file = dir_file.map_err(|err| FSError {
-            path: image_dir.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })?;
-        let path = dir_file.path();
-        let file_base = path.file_name().ok_or(FSError {
-            path: path.clone(),
-            err_msg: "Could not find path".to_owned(),
-            access: AccessType::Read,
-        })?;
-        let file_name = file_base.to_str().ok_or(FSError {
-            path: image_dir.clone(),
-            err_msg: "Could not get name as string".to_owned(),
-            access: AccessType::Read,
-        })?;
-        if file_name.contains(plant_name) {
-            let file_end = file_name.split('_').last().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Filename did not contain date".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let parts = file_end.split('.').collect::<Vec<&str>>();
-
-            let date_str = parts.first().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Filename did not contain date".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let created = NaiveDate::parse_from_str(date_str, "%d%m%Y")?;
-            let file_path = path.parent().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Could not get parent".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let image = PlantImage {
-                created,
-                file_name: file_name.to_owned(),
-                file_path: file_path.to_path_buf(),
-            };
-            plant_images.push(image)
-        }
-    }
-    Ok(plant_images)
-}
- */

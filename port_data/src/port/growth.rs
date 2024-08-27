@@ -34,17 +34,19 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
     type ConvertArgs = Vec<PlantJSON>;
 
     fn load_old(growth_file: &Self::LoadArgs) -> Result<Vec<GrowthCSV>, Error> {
+        log::info!("Loading old growth");
         let old_growth = load_csv(growth_file)?;
         Ok(old_growth)
     }
 
     fn convert(self, plants: &Self::ConvertArgs) -> Result<Vec<GrowthItem>, Error> {
+        log::info!("Converting Growth");
         let mut new_items = vec![];
         for old_item in self.into_iter() {
             let mut new_item: GrowthItem = old_item.into();
             let growth_plant = plants
                 .iter()
-                .find(|pl| pl.plant_name == new_item.plant)
+                .find(|pl| pl.plant_name == new_item.plant.trim())
                 .ok_or(Error::PlantNotFound(new_item.plant.clone()))?;
             let health = growth_plant.plant_health.parse::<i32>()?;
             if health > 5 || health < 0 {
@@ -59,6 +61,7 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
     }
 
     fn save_new(new: Vec<GrowthItem>, growth_file_out: &Self::SaveArgs) -> Result<(), Error> {
+        log::info!("Saving new Growth");
         if !growth_file_out.exists() {
             log::info!("Creating growth log");
             File::create(growth_file_out)?;

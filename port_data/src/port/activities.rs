@@ -42,10 +42,12 @@ impl Port<Vec<LogItem>> for Vec<LogCSV> {
     type ConvertArgs = ();
 
     fn load_old(activities_file: &Self::LoadArgs) -> Result<Vec<LogCSV>, Error> {
+        log::info!("Loading old acttivities");
         let csv_items: Vec<LogCSV> = load_csv(activities_file)?;
         Ok(csv_items)
     }
     fn convert(self, _: &Self::ConvertArgs) -> Result<Vec<LogItem>, Error> {
+        log::info!("Converting activities");
         let mut new_items = vec![];
         for old_item in self.into_iter() {
             let new_item: Vec<LogItem> = old_item.into();
@@ -55,6 +57,7 @@ impl Port<Vec<LogItem>> for Vec<LogCSV> {
     }
 
     fn save_new(new_items: Vec<LogItem>, activities_file: &Self::SaveArgs) -> Result<(), Error> {
+        log::info!("Saving new activities");
         if !activities_file.exists() {
             log::info!("Creating log file {activities_file:?}");
             File::create(activities_file)?;
