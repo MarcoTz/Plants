@@ -8,7 +8,10 @@ bot:
 
 port:
 	- rm -r data_old
-	- rm -r data
+	- rm -r data/Plants
+	- rm -r data/Species
+	- rm -r data/Logs
+	- rm data/Locations.csv
 	- mkdir data_old
 	cp ../Plants/Plants data_old -r
 	cp ../Plants/PlantSpecies data_old -r 
