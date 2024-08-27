@@ -121,17 +121,4 @@ pub fn main() {
         Ok(()) => println!("Successfully ported locations"),
         Err(err) => println!("{err:?}"),
     }
-
-    //4. All plant images need to be in a directory with the plants
-    //  directory structure should be
-    //      | - plants
-    //          | - plant_name
-    //              | - image1.jpg
-    //              | - image2.jpg
-    //              | - ...
-    //              | - data.json
-    //          | - plant_name
-    //              | - ...
-    //
-    //
 }
