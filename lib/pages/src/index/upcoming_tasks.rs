@@ -26,8 +26,10 @@ pub struct TaskItem {
 impl PageComponent for TaskItem {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut task_content = vec![self.activity.clone().into(), HtmlElement::Br];
+        let mut plants_sorted = self.plants.clone();
+        plants_sorted.sort_by(|item1, item2| item1.plant_name.cmp(&item2.plant_name));
 
-        for (i, plant_link) in self.plants.iter().enumerate() {
+        for (i, plant_link) in plants_sorted.iter().enumerate() {
             task_content.push(plant_link.render(date_format));
             if i < self.plants.len() {
                 task_content.push(", ".to_owned().into());
