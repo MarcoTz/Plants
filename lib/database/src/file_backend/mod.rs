@@ -186,6 +186,13 @@ impl DatabaseManager for FileDB {
         Ok(species_plants)
     }
 
+    fn get_locations(&mut self) -> Result<Vec<Location>, crate::errors::Error> {
+        if self.location_cache.is_empty() {
+            self.load_locations()?;
+        }
+        Ok(self.location_cache.clone())
+    }
+
     fn get_location(&mut self, location_name: &str) -> Result<Location, crate::errors::Error> {
         if self.location_cache.is_empty() {
             self.load_locations()?;

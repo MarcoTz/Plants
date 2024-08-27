@@ -19,6 +19,7 @@ pub trait DatabaseManager {
     fn get_plants_species(&mut self, species_name: &str) -> Result<Vec<Plant>, Error>;
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Error>;
 
+    fn get_locations(&mut self) -> Result<Vec<Location>, Error>;
     fn get_location(&mut self, location_name: &str) -> Result<Location, Error>;
 
     fn plant_exists(&mut self, plant_name: &str) -> Result<bool, Error>;
