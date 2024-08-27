@@ -4,7 +4,10 @@ use html::{
     attribute::Attribute,
     elements::{Div, Figure, HeaderSize, Headline, HtmlElement, Img, A},
 };
-use plants::plant::{Plant, PlantImage};
+use plants::{
+    named::Named,
+    plant::{Plant, PlantImage},
+};
 use std::rc::Rc;
 
 #[derive(Clone)]
@@ -127,7 +130,7 @@ impl From<(&Plant, &str)> for PlantGallery {
     fn from((plant, img_base): (&Plant, &str)) -> PlantGallery {
         let get_info = |x: &PlantImage, i: i32| ImageInfo {
             image: x.clone(),
-            base_dir: img_base.to_owned(),
+            base_dir: img_base.to_owned() + "/" + &plant.get_name() + "/",
             num_images: plant.images.len() as i32,
             num_self: i,
         };
@@ -154,7 +157,7 @@ pub struct ImageInfo {
 impl From<ImageInfo> for PlantImg {
     fn from(info: ImageInfo) -> PlantImg {
         PlantImg {
-            img_url: info.base_dir.clone() + &info.image.file_name,
+            img_url: info.image.file_name,
             img_base: info.base_dir.clone(),
             date: info.image.created,
             num_images: info.num_images,

@@ -51,7 +51,7 @@ impl From<&[Plant]> for SpeciesGallery {
                 .collect::<Vec<String>>()
                 .join(", ")
         );
-        let img_base = "../img/plants";
+        let img_base = "../img/";
         let mut plant_galleries = vec![];
         for plant in plants.iter() {
             plant_galleries.push(PlantGallery::from((plant, img_base)))

@@ -1,5 +1,7 @@
 build:
+	- rm -r html_out/img
 	cargo run --bin plant_website_static
+	cp data/Plants/ html_out/img -r 
 
 bot:
 	cargo run --bin plant_updater_bot

@@ -146,17 +146,18 @@ impl PageComponent for PlantListItem {
 
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
+        let img_base = "img/".to_owned() + &plant.get_name() + "/";
         match &plant.info.species {
             PlantSpecies::Other(_) => PlantListItem {
                 plant_link: (plant, "plants").into(),
-                plant_preview_url: plant.get_preview_image_url("img/plants"),
+                plant_preview_url: plant.get_preview_image_url(&img_base),
                 temp_max: None,
                 temp_min: None,
                 species_link: None,
             },
             PlantSpecies::Species(sp) => PlantListItem {
                 plant_link: (plant, "plants").into(),
-                plant_preview_url: plant.get_preview_image_url("img/plants"),
+                plant_preview_url: plant.get_preview_image_url(&img_base),
                 temp_max: Some(sp.temp_max),
                 temp_min: Some(sp.temp_min),
                 species_link: Some((sp.as_ref(), "species").into()),

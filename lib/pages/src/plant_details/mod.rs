@@ -131,7 +131,7 @@ impl TryFrom<&Plant> for PlantDetails {
             name: plant.info.name.clone(),
             species_link,
             status,
-            gallery: PlantGallery::from((plant, "../img/plants")),
+            gallery: PlantGallery::from((plant, "../img")),
             growth: PlantGraphs::from(plant),
             activities: PlantActivities::from(plant),
         })
