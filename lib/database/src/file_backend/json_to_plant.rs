@@ -28,11 +28,24 @@ pub fn load_plants(
         log::info!("Loading plant {}", plant_info.name);
         let species_plant = species
             .iter()
-            .find(|sp| sp.name.to_lowercase().trim() == plant_info.species.get_name())
+            .find(|sp| sp.name.trim() == plant_info.species.get_name())
             .cloned()
             .map(|sp| PlantSpecies::Species(Box::new(sp)))
-            .unwrap_or(PlantSpecies::Other(plant_info.name.clone()));
-        log::info!("Found species {:?} for {}", species_plant, plant_info.name);
+            .unwrap_or(PlantSpecies::Other(plant_info.species.get_name()));
+        if let PlantSpecies::Species(_) = species_plant {
+            log::info!(
+                "Found species {} for {}",
+                species_plant.get_name(),
+                plant_info.name
+            );
+        } else {
+            log::warn!(
+                "Could not find species {} for {}",
+                species_plant.get_name(),
+                plant_info.name
+            );
+        }
+
         plant_info.species = species_plant;
 
         let plant_logs: Vec<LogItem> = logs
