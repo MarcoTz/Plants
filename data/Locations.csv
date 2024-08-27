@@ -3,7 +3,7 @@ Nursery;false
 Nursery;false
 West window;false
 Garage;false
-Garage;false
+Kitchen;false
 Garage;false
 South Window;false
 Nursery;false
@@ -14,7 +14,7 @@ Garage;false
 West Window;false
 South Window;false
 Nursery;false
-South Window;false
+East Window;false
 Garage;false
 South Window;false
 South window;false
@@ -55,7 +55,7 @@ South Window;false
 Garage;false
 South Window;false
 South Window;false
-West Window;false
+Living Room;false
 South Window;false
 Garage;false
 West Window;false
@@ -69,7 +69,7 @@ Nursery;false
 South Window;false
 Front Door;false
 Nursery;false
-South Window;false
+East Window;false
 South Window;false
 Front Door;false
 West Window;false
@@ -80,6 +80,7 @@ Garage;false
 Nursery;false
 Garage;false
 West Window;false
+Nursery;false
 Nursery;false
 Garage;false
 Nursery;false
