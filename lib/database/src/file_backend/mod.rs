@@ -22,7 +22,11 @@ use plants::{
     plant::{Plant, PlantInfo, PlantSpecies},
     species::Species,
 };
-use std::{fs::remove_file, io::Error as IOError, path::PathBuf};
+use std::{
+    fs::{remove_file, rename},
+    io::Error as IOError,
+    path::PathBuf,
+};
 
 pub struct FileDB {
     pub plants_dir: PathBuf,
@@ -274,8 +278,8 @@ impl DatabaseManager for FileDB {
             .filter(|pl| pl.info.name == name)
             .cloned()
             .collect();
-        //write plants
-
+        let dead_path = PathBuf::from("dead").join(name);
+        rename(plant_path, dead_path).map_err(|err| <IOError as Into<Error>>::into(err))?;
         Ok(())
     }
 }
