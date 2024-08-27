@@ -72,10 +72,7 @@ impl PageComponent for SpeciesListItem {
 
 impl From<&(&Species, Option<Plant>)> for SpeciesListItem {
     fn from((species, m_plant): &(&Species, Option<Plant>)) -> SpeciesListItem {
-        let species_preview_url = match m_plant
-            .clone()
-            .map(|p| p.get_preview_image_url("img/plants"))
-        {
+        let species_preview_url = match m_plant.clone().map(|p| p.get_preview_image_url("img/")) {
             None => None,
             Some(None) => None,
             Some(Some(url)) => Some(url),
