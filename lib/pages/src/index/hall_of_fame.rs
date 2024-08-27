@@ -194,8 +194,8 @@ impl TryFrom<&[Plant]> for HallOfFame {
             thinnest: ("Thinnest".to_owned(), by_width_items).into(),
             fastest_growing: ("Fastest Growing".to_owned(), by_speed_items_rev).into(),
             slowest_growing: ("Slowest Growing".to_owned(), by_speed_items).into(),
-            oldest: ("Oldest".to_owned(), by_age_items).into(),
-            youngest: ("Youngest".to_owned(), by_age_items_rev).into(),
+            oldest: ("Oldest".to_owned(), by_age_items_rev).into(),
+            youngest: ("Youngest".to_owned(), by_age_items).into(),
         })
     }
 }
