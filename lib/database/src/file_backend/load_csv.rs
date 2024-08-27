@@ -1,6 +1,8 @@
 use super::errors::{AccessType, CSVError, Error, SerializeError};
 use csv::ReaderBuilder;
-use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
+use plants::{
+    graveyard::GraveyardPlant, growth_item::GrowthItem, location::Location, log_item::LogItem,
+};
 use serde::de::DeserializeOwned;
 use std::path::PathBuf;
 
@@ -48,4 +50,9 @@ pub fn load_growth(growth_file: &PathBuf) -> Result<Vec<GrowthItem>, Error> {
     let mut growth_csv: Vec<GrowthItem> = load_csv(growth_file)?;
     growth_csv.sort();
     Ok(growth_csv)
+}
+
+pub fn load_locations(location_file: &PathBuf) -> Result<Vec<Location>, Error> {
+    let locations: Vec<Location> = load_csv(location_file)?;
+    Ok(locations)
 }

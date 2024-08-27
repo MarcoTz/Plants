@@ -2,7 +2,7 @@ use super::{input_handlers::input_species, Action, BotAction};
 use crate::errors::Error;
 use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
-use plants::plant::{PlantInfo, PlantSpecies};
+use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 
 #[derive(PartialEq, Eq)]
 enum Step {
@@ -25,7 +25,7 @@ pub struct NewPlant {
     species_name: Option<String>,
     height: Option<f32>,
     width: Option<f32>,
-    location: Option<String>,
+    location: Option<PlantLocation>,
     autowatered: Option<bool>,
     origin: Option<String>,
     obtained: Option<NaiveDate>,
@@ -99,7 +99,13 @@ impl Action for NewPlant {
                 todo!("")
             }
             Step::Location => {
-                self.location = Some(input.trim().to_owned());
+                match db_man.get_location(input.trim()) {
+                    Ok(loc) => self.location = Some(PlantLocation::Location(Box::new(loc))),
+                    Err(_) => {
+                        log::warn!("Could not find location {input}");
+                        self.location = Some(PlantLocation::Other(input.trim().to_owned()))
+                    }
+                }
                 self.current_step = Step::AutoWatered;
                 Ok(())
             }

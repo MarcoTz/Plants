@@ -36,3 +36,23 @@ pub mod species_serializer {
         Ok(sp)
     }
 }
+
+pub mod location_serializer {
+    use crate::{named::Named, plant::PlantLocation};
+    use serde::{Deserialize, Deserializer, Serializer};
+
+    pub fn serialize<S: Serializer>(
+        location: &PlantLocation,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(&location.get_name())
+    }
+
+    pub fn deserialize<'de, D: Deserializer<'de>>(
+        deserializer: D,
+    ) -> Result<PlantLocation, D::Error> {
+        let s = String::deserialize(deserializer)?;
+        let loc = PlantLocation::Other(s);
+        Ok(loc)
+    }
+}
