@@ -31,7 +31,7 @@ impl Page for PlantOverview {
     }
 
     fn get_head(&self, date_format: &str) -> HtmlHead {
-        let scripts = vec!["js/main.js".to_owned()];
+        let scripts = vec!["js/main.js".to_owned(), "js/plant_filter.js".to_owned()];
         HtmlHead {
             title: self.get_title(),
             styles: PageCss::PlantOverview,
