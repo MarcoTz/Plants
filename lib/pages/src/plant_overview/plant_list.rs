@@ -146,7 +146,7 @@ impl PageComponent for PlantListItem {
 
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
-        let img_base = "img/".to_owned() + &plant.get_name() + "/";
+        let img_base = "img/".to_owned();
         match &plant.info.species {
             PlantSpecies::Other(_) => PlantListItem {
                 plant_link: (plant, "plants").into(),

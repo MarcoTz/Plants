@@ -60,7 +60,6 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
         let mut new_images = vec![];
         for image in self.iter() {
             for plant in image.plants.iter() {
-                let plant_dir_name = plant.replace(' ', "");
                 let ext = image
                     .file_path
                     .extension()
@@ -69,7 +68,7 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
                     .to_str()
                     .ok_or(Error::FileNameError("No extension".to_owned()))?;
                 let new_file_name = image.created.format(&date_format).to_string() + "." + ext_str;
-                let new_path_base = plants_dir.join(plant_dir_name);
+                let new_path_base = plants_dir.join(plant);
                 if !new_path_base.exists() {
                     log::warn!("Could not find {new_path_base:?}");
                     continue;

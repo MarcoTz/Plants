@@ -3,6 +3,7 @@ use super::{
     growth_item::GrowthItem,
     location::Location,
     log_item::LogItem,
+    named::Named,
     serialize::{date_serializer, location_serializer, species_serializer},
     species::Species,
 };
@@ -223,7 +224,8 @@ impl Plant {
 
     pub fn get_preview_image_url(&self, base: &str) -> Option<String> {
         let image = self.images.first().cloned()?;
-        let image_url = base.to_owned() + &image.file_name;
+        let name = self.get_name().replace(' ', "");
+        let image_url = base.to_owned() + &name + "/" + &image.file_name;
         Some(image_url)
     }
 }

@@ -21,7 +21,7 @@ pub fn write_json<T: Serialize>(item: T, out_filepath: &PathBuf) -> Result<(), E
 
 pub fn write_vec<T: Serialize + Named>(items: Vec<T>, out_path: &PathBuf) -> Result<(), Error> {
     for item in items.iter() {
-        let item_name = &item.get_name();
+        let item_name = &item.get_name().replace(' ', "");
         let file_name = format!("{item_name}.json");
         let out_dir = Path::new(out_path).join(item_name);
         create_dir_all(out_dir.clone())?;
