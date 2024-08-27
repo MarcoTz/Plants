@@ -5,6 +5,7 @@ mod new_activity;
 mod new_growth;
 mod new_plant;
 mod new_species;
+mod rain;
 mod update_plant;
 mod update_species;
 mod water_location;
@@ -18,6 +19,7 @@ use new_activity::NewActivity;
 use new_growth::NewGrowth;
 use new_plant::NewPlant;
 use new_species::NewSpecies;
+use rain::Rain;
 use update_plant::UpdatePlant;
 use update_species::UpdateSpecies;
 use water_location::WaterLocation;
@@ -27,7 +29,7 @@ pub enum BotAction {
     Idle,
     WaterPlants(WaterPlants),
     WaterLocation(WaterLocation),
-    Rain,
+    Rain(Rain),
     FertilizePlants(FertilizePlants),
     NewGrowth(NewGrowth),
     NewActivity(NewActivity),
@@ -59,7 +61,7 @@ impl Action for BotAction {
             BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.handle_input(input, db_man),
             BotAction::WaterLocation(water) => water.handle_input(input, db_man),
-            BotAction::Rain => todo!("Cannot check locations for inside/outside"),
+            BotAction::Rain(rain) => rain.handle_input(input, db_man),
             BotAction::FertilizePlants(fert) => fert.handle_input(input, db_man),
             BotAction::NewGrowth(growth) => growth.handle_input(input, db_man),
             BotAction::NewActivity(act) => act.handle_input(input, db_man),
@@ -75,7 +77,7 @@ impl Action for BotAction {
             BotAction::Idle => true,
             BotAction::WaterPlants(water) => water.is_done(),
             BotAction::WaterLocation(water) => water.is_done(),
-            BotAction::Rain => todo!("Cannot check locations for inside/outside"),
+            BotAction::Rain(rain) => rain.is_done(),
             BotAction::FertilizePlants(fert) => fert.is_done(),
             BotAction::NewGrowth(growth) => growth.is_done(),
             BotAction::NewActivity(act) => act.is_done(),
@@ -91,7 +93,7 @@ impl Action for BotAction {
             BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.write_result(db_man),
             BotAction::WaterLocation(water) => water.write_result(db_man),
-            BotAction::Rain => todo!("Cannot check locations for inside/outside"),
+            BotAction::Rain(rain) => rain.write_result(db_man),
             BotAction::FertilizePlants(fert) => fert.write_result(db_man),
             BotAction::NewGrowth(growth) => growth.write_result(db_man),
             BotAction::NewActivity(act) => act.write_result(db_man),
@@ -108,7 +110,7 @@ impl Action for BotAction {
             BotAction::Idle => Err(Error::NoActionRunning),
             BotAction::WaterPlants(water) => water.get_next_prompt(),
             BotAction::WaterLocation(water) => water.get_next_prompt(),
-            BotAction::Rain => todo!("Cannot check locations for inside/outside"),
+            BotAction::Rain(rain) => rain.get_next_prompt(),
             BotAction::FertilizePlants(fert) => fert.get_next_prompt(),
             BotAction::NewGrowth(growth) => growth.get_next_prompt(),
             BotAction::NewActivity(act) => act.get_next_prompt(),
