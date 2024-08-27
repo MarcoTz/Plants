@@ -5,7 +5,7 @@ pub mod load_json;
 pub mod write_csv;
 pub mod write_json;
 
-use errors::{AccessType, Error, FSError};
+use errors::Error;
 use json_to_plant::load_plants;
 use load_csv::{load_graveyard, load_locations};
 use load_json::load_species;
@@ -22,7 +22,7 @@ use plants::{
     plant::{Plant, PlantInfo, PlantSpecies},
     species::Species,
 };
-use std::{fs::remove_file, path::PathBuf};
+use std::{fs::remove_file, io::Error as IOError, path::PathBuf};
 
 pub struct FileDB {
     pub plants_dir: PathBuf,
@@ -260,13 +260,7 @@ impl DatabaseManager for FileDB {
         write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
         let plant_filename = name.replace(' ', "") + ".json";
         let plant_path = PathBuf::from(&self.plants_dir).join(plant_filename.clone());
-        remove_file(plant_path.clone()).map_err(|_| {
-            Error::FSError(FSError {
-                path: plant_path,
-                err_msg: "Could not remove file".to_owned(),
-                access: AccessType::Write,
-            })
-        })?;
+        remove_file(plant_path.clone()).map_err(|err| <IOError as Into<Error>>::into(err))?;
         self.plants_cache = self
             .plants_cache
             .iter()

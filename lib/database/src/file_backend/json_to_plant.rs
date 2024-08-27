@@ -1,5 +1,5 @@
 use super::{
-    errors::{AccessType, Error, FSError},
+    errors::{Error, IOErr, ParseError},
     load_csv::{load_activities, load_growth},
     load_json::{load_plant_infos, load_species},
 };
@@ -10,7 +10,7 @@ use plants::{
     named::Named,
     plant::{Plant, PlantImage, PlantSpecies},
 };
-use std::{fs, path::PathBuf};
+use std::{ffi::OsString, fs, path::PathBuf};
 
 pub fn load_plants(
     plants_dir: &PathBuf,
@@ -32,6 +32,7 @@ pub fn load_plants(
             .cloned()
             .map(|sp| PlantSpecies::Species(Box::new(sp)))
             .unwrap_or(PlantSpecies::Other(plant_info.name.clone()));
+        log::info!("Found species {:?} for {}", species_plant, plant_info.name);
         plant_info.species = species_plant;
 
         let plant_logs: Vec<LogItem> = logs
@@ -39,6 +40,7 @@ pub fn load_plants(
             .filter(|log| log.plant == plant_info.name)
             .cloned()
             .collect();
+        log::info!("Loaded logs for plant {}", plant_info.name);
         if plant_logs.is_empty() {
             log::warn!("No logs for plant {}", plant_info.name);
         }
@@ -48,9 +50,11 @@ pub fn load_plants(
             .filter(|growth| growth.plant == plant_info.name)
             .cloned()
             .collect();
+        log::info!("Loaded growth for plant {}", plant_info.name);
 
-        let img_dir = plants_dir.join(plant_info.name.replace(' ', ""));
-        let images = load_images(&img_dir, &plant_info.name)?;
+        let img_dir = plants_dir.join(plant_info.name.clone());
+        let images = load_images(&img_dir)?;
+        log::info!("Loaded images for plant {}", plant_info.name);
         if images.is_empty() {
             log::warn!("No images for plant {}", plant_info.name);
         }
@@ -66,58 +70,37 @@ pub fn load_plants(
     Ok(plants)
 }
 
-pub fn load_images(image_dir: &PathBuf, plant_name: &str) -> Result<Vec<PlantImage>, Error> {
+pub fn load_images(image_dir: &PathBuf) -> Result<Vec<PlantImage>, Error> {
     let mut plant_images = vec![];
-    let dir_files = fs::read_dir(image_dir).map_err(|err| {
-        <FSError as Into<Error>>::into(FSError {
-            path: image_dir.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })
-    })?;
+    let dir_files = fs::read_dir(image_dir)?;
     for dir_file in dir_files {
-        let dir_file = dir_file.map_err(|err| FSError {
-            path: image_dir.clone(),
-            err_msg: err.to_string(),
-            access: AccessType::Read,
-        })?;
+        let dir_file = dir_file?;
         let path = dir_file.path();
-        let file_base = path.file_name().ok_or(FSError {
-            path: path.clone(),
-            err_msg: "Could not find path".to_owned(),
-            access: AccessType::Read,
-        })?;
-        let file_name = file_base.to_str().ok_or(FSError {
-            path: image_dir.clone(),
-            err_msg: "Could not get name as string".to_owned(),
-            access: AccessType::Read,
-        })?;
-        if file_name.contains(plant_name) {
-            let file_end = file_name.split('_').last().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Filename did not contain date".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let parts = file_end.split('.').collect::<Vec<&str>>();
-
-            let date_str = parts.first().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Filename did not contain date".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let created = NaiveDate::parse_from_str(date_str, "%d%m%Y")?;
-            let file_path = path.parent().ok_or(FSError {
-                path: path.clone(),
-                err_msg: "Could not get parent".to_owned(),
-                access: AccessType::Read,
-            })?;
-            let image = PlantImage {
-                created,
-                file_name: file_name.to_owned(),
-                file_path: file_path.to_path_buf(),
-            };
-            plant_images.push(image)
+        if path.extension() != Some(&OsString::from("jpg")) {
+            continue;
         }
+
+        let stem = path.file_stem().ok_or(IOErr {
+            kind: "Get File Stem".to_owned(),
+        })?;
+        let stem_str = stem.to_str().ok_or(IOErr {
+            kind: "Convert from OS String".to_owned(),
+        })?;
+
+        let created = NaiveDate::parse_from_str(stem_str, "%d%m%Y").map_err(|_| ParseError {
+            ty: "Date".to_owned(),
+            input: stem_str.to_owned().to_owned(),
+        })?;
+        let file_path = path.parent().ok_or(IOErr {
+            kind: "Get Path Parent".to_owned(),
+        })?;
+        let image = PlantImage {
+            created,
+            file_name: stem_str.to_owned() + ".jpg",
+            file_path: file_path.to_path_buf(),
+        };
+        plant_images.push(image)
     }
+
     Ok(plant_images)
 }

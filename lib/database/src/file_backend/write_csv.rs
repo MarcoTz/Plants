@@ -1,4 +1,4 @@
-use super::errors::{AccessType, CSVError, Error, FSError, SerializeError};
+use super::errors::{CSVError, Error, SerializeError};
 use csv::WriterBuilder;
 use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
 use serde::Serialize;
@@ -21,14 +21,9 @@ pub fn write_csv<T: Serialize + std::fmt::Debug>(
         writer.serialize(item).map_err(|err| SerializeError {
             path: file_path.clone(),
             err_msg: err.to_string(),
-            access: AccessType::Write,
         })?;
     }
-    writer.flush().map_err(|err| FSError {
-        path: file_path.clone(),
-        err_msg: err.to_string(),
-        access: AccessType::Write,
-    })?;
+    writer.flush()?;
     Ok(())
 }
 

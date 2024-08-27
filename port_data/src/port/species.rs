@@ -1,9 +1,9 @@
 use super::Port;
 use crate::errors::Error;
-use database::file_backend::{load_json::load_dir, write_json::write_species};
+use database::file_backend::{load_json::load_json, write_json::write_species};
 use plants::species::Species;
 use serde::Deserialize;
-use std::{io, path::PathBuf, str::FromStr};
+use std::{fs::read_dir, io, path::PathBuf, str::FromStr};
 
 #[derive(Deserialize, Clone)]
 #[serde(untagged)]
@@ -115,11 +115,19 @@ impl Port<Vec<Species>> for Vec<SpeciesJSON> {
     type ConvertArgs = bool;
 
     fn load_old(species_dir_old: &Self::LoadArgs) -> Result<Vec<SpeciesJSON>, Error> {
-        let species_jsons = load_dir(species_dir_old)?;
+        log::info!("Loading old species");
+        let mut species_jsons = vec![];
+        let dir_contents = read_dir(species_dir_old)?;
+        for species_file in dir_contents {
+            let file = species_file?;
+            let species_json: SpeciesJSON = load_json(&file.path())?;
+            species_jsons.push(species_json);
+        }
         Ok(species_jsons)
     }
 
     fn convert(self, interactive: &Self::ConvertArgs) -> Result<Vec<Species>, Error> {
+        log::info!("Converting Species");
         let mut new_species = vec![];
         for old_species in self.into_iter() {
             let species_ty = old_species.species_type.clone();
@@ -152,6 +160,7 @@ impl Port<Vec<Species>> for Vec<SpeciesJSON> {
     }
 
     fn save_new(species: Vec<Species>, species_dir_new: &PathBuf) -> Result<(), Error> {
+        log::info!("Saving new Species");
         write_species(species, species_dir_new)?;
         Ok(())
     }

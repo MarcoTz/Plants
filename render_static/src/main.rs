@@ -4,7 +4,7 @@ use logger::{file_logger::FileLogger, init::init_logger};
 use render_html::{renderer::Renderer, write_html::write_all};
 
 static LOGGER: FileLogger = FileLogger {
-    level: Level::Warn,
+    level: Level::Info,
     file_path: "log.txt",
 };
 

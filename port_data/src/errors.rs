@@ -4,6 +4,7 @@ use std::{
     fmt,
     io::Error as IOError,
     num::{ParseFloatError, ParseIntError},
+    path::PathBuf,
     str::ParseBoolError,
 };
 
@@ -16,6 +17,7 @@ pub enum Error {
     FSError(IOError),
     PathError(String),
     FileNameError(String),
+    MissingFiles(PathBuf),
 }
 
 impl fmt::Debug for Error {
@@ -29,6 +31,7 @@ impl fmt::Debug for Error {
             Error::FSError(ioerr) => ioerr.fmt(frmt),
             Error::PathError(msg) => frmt.write_str(&format!("Could not get file name for {msg}")),
             Error::FileNameError(msg) => frmt.write_str(&format!("Bad filename format {msg}")),
+            Error::MissingFiles(files) => frmt.write_str(&format!("Files {files:?} do not exist")),
         }
     }
 }

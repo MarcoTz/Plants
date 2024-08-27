@@ -10,10 +10,12 @@ impl Port<Vec<Location>> for Vec<PlantJSON> {
     type ConvertArgs = bool;
 
     fn load_old(args: &Self::LoadArgs) -> Result<Self, Error> {
+        log::info!("Loading old Locations");
         <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::load_old(args)
     }
 
     fn convert(self, interactive: &Self::ConvertArgs) -> Result<Vec<Location>, Error> {
+        log::info!("Converting Locations");
         let mut locations = vec![];
         for plant in self.iter() {
             let mut new_location = Location {
@@ -46,6 +48,7 @@ impl Port<Vec<Location>> for Vec<PlantJSON> {
     }
 
     fn save_new(locations: Vec<Location>, location_file: &Self::SaveArgs) -> Result<(), Error> {
+        log::info!("Saving new Locations");
         write_csv(locations, location_file)?;
         Ok(())
     }

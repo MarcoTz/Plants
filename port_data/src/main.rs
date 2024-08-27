@@ -1,7 +1,8 @@
+mod dir_check;
 mod errors;
 mod port;
 
-use database::file_backend::load_json::load_dir;
+use dir_check::Directories;
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
 use plants::{
@@ -15,15 +16,9 @@ use port::{
     activities::LogCSV, growth::GrowthCSV, images::OldImage, plants::PlantJSON,
     species::SpeciesJSON, Port,
 };
-use std::{fs::create_dir, path::PathBuf, process::exit};
+use std::{path::PathBuf, process::exit};
 
-const DATA_DIR_OLD: &str = "data_old";
-const DATA_DIR_NEW: &str = "data";
-const PLANTS_DIR: &str = "Plants";
-const SPECIES_DIR_IN: &str = "PlantSpecies";
-const SPECIES_DIR_OUT: &str = "Species";
 const LOCATIONS_CSV: &str = "Locations.csv";
-const LOGS_DIR: &str = "Logs";
 const GROWTH_CSV: &str = "Growth.csv";
 const ACTIVITIES_CSV: &str = "Activities.csv";
 const DATE_FORMAT: &str = "%d.%m.%Y";
@@ -38,87 +33,105 @@ pub fn main() {
     let log_res = init_logger(&LOGGER);
     if log_res.is_err() {
         println!("{}", log_res.unwrap_err());
-        std::process::exit(1);
+        exit(1);
     }
 
-    let in_dir = PathBuf::from(DATA_DIR_OLD);
-    let out_dir = PathBuf::from(DATA_DIR_NEW);
-    if !out_dir.exists() {
-        let create_res = create_dir(out_dir.clone());
-        if create_res.is_err() {
-            log::error!("Could not create data out dir");
-            exit(1)
-        }
-    }
-    let log_path_in = in_dir.join(LOGS_DIR);
-    let log_path_out = out_dir.join(LOGS_DIR);
-    if !log_path_out.exists() {
-        let create_res = create_dir(log_path_out.clone());
-        if create_res.is_err() {
-            log::error!("Could not create logs out dir");
+    log::info!("Checking directories");
+    let dirs = Directories::default();
+    match dirs.ensure_exists() {
+        Ok(()) => println!("Successfully checked all directories"),
+        Err(err) => {
+            println!("{err:?}");
             exit(1)
         }
     }
 
-    let plants_dir_in = in_dir.join(PLANTS_DIR);
-    let plants_dir_out = out_dir.join(PLANTS_DIR);
+    log::info!("Porting Plants");
     match <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::port(
-        &plants_dir_in,
+        &dirs.plants_dir_in,
         &DATE_FORMAT.to_string(),
-        &plants_dir_out,
+        &dirs.plants_dir_out,
     ) {
         Ok(()) => println!("Successfully ported plants"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     };
 
-    let species_dir_in = in_dir.join(SPECIES_DIR_IN);
-    let species_dir_out = out_dir.join(SPECIES_DIR_OUT);
+    log::info!("Porting Species");
     match <Vec<SpeciesJSON> as Port<Vec<Species>>>::port(
-        &species_dir_in,
+        &dirs.species_dir_in,
         &INTERACTIVE,
-        &species_dir_out,
+        &dirs.species_dir_out,
     ) {
         Ok(()) => println!("Successfully ported species"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     }
 
-    let growth_file_in = log_path_in.join(GROWTH_CSV);
-    let growth_file_out = log_path_out.join(GROWTH_CSV);
-    let plant_jsons: Vec<PlantJSON> = load_dir(&plants_dir_in).unwrap_or(vec![]);
+    log::info!("Porting Growth");
+    let growth_file_in = dirs.logs_dir_in.join(GROWTH_CSV);
+    let growth_file_out = dirs.logs_dir_out.join(GROWTH_CSV);
+    let plant_jsons: Vec<PlantJSON> =
+        match <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::load_old(&dirs.plants_dir_in) {
+            Ok(jsons) => jsons,
+            Err(err) => {
+                println!("{err:?}");
+                exit(1);
+            }
+        };
     match <Vec<GrowthCSV> as Port<Vec<GrowthItem>>>::port(
         &growth_file_in,
         &plant_jsons,
         &growth_file_out,
     ) {
         Ok(()) => println!("Successfully ported growth"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     };
 
-    let activities_file_in = log_path_in.join(ACTIVITIES_CSV);
-    let activities_file_out = log_path_out.join(ACTIVITIES_CSV);
+    log::info!("Porting Activities");
+    let activities_file_in = dirs.logs_dir_in.join(ACTIVITIES_CSV);
+    let activities_file_out = dirs.logs_dir_out.join(ACTIVITIES_CSV);
     match <Vec<LogCSV> as Port<Vec<LogItem>>>::port(&activities_file_in, &(), &activities_file_out)
     {
         Ok(()) => println!("Successfully ported activities"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     }
 
-    let images_dir_in = in_dir.join("img");
+    log::info!("Porting Images");
+    let images_dir_in = dirs.data_dir_in.join("img");
     match <Vec<OldImage> as Port<Vec<PlantImage>>>::port(
         &images_dir_in,
-        &(plants_dir_out, "%d%m%Y".to_owned()),
+        &(dirs.plants_dir_out, "%d%m%Y".to_owned()),
         &PathBuf::new(),
     ) {
         Ok(()) => println!("Successfully ported images"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     }
 
-    let locations_file_out = out_dir.join(LOCATIONS_CSV);
+    log::info!("Porting Locations");
+    let locations_file_out = dirs.data_dir_out.join(LOCATIONS_CSV);
     match <Vec<PlantJSON> as Port<Vec<Location>>>::port(
-        &plants_dir_in,
+        &dirs.plants_dir_in,
         &INTERACTIVE,
         &locations_file_out,
     ) {
         Ok(()) => println!("Successfully ported locations"),
-        Err(err) => println!("{err:?}"),
+        Err(err) => {
+            println!("{err:?}");
+            exit(1)
+        }
     }
 }

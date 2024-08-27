@@ -1,4 +1,4 @@
-use super::errors::{AccessType, CSVError, Error, SerializeError};
+use super::errors::{CSVError, Error, SerializeError};
 use csv::ReaderBuilder;
 use plants::{
     graveyard::GraveyardPlant, growth_item::GrowthItem, location::Location, log_item::LogItem,
@@ -22,12 +22,10 @@ pub fn load_csv<T: DeserializeOwned>(file_path: &PathBuf) -> Result<Vec<T>, Erro
         let csv_record = csv_line.map_err(|err| SerializeError {
             path: file_path.clone(),
             err_msg: err.to_string(),
-            access: AccessType::Read,
         })?;
         let csv_item: T = csv_record.deserialize(None).map_err(|err| SerializeError {
             path: file_path.clone(),
             err_msg: err.to_string(),
-            access: AccessType::Read,
         })?;
         csv_rows.push(csv_item);
     }
