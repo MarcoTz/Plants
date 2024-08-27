@@ -40,7 +40,6 @@ impl From<(&[Species], &[Plant])> for SpeciesOverview {
             .iter()
             .map(|sp| (sp, sp.get_plants(plants)))
             .collect();
-        //println!("{species_plants:?}");
         SpeciesOverview {
             species_list: SpeciesList::from(
                 species_plants
