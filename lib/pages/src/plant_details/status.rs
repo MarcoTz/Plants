@@ -4,7 +4,7 @@ use html::{
     attribute::Attribute,
     elements::{Div, HtmlElement, A},
 };
-use plants::plant::Plant;
+use plants::{named::Named, plant::Plant};
 use std::rc::Rc;
 
 pub struct Status {
@@ -175,7 +175,7 @@ impl TryFrom<&Plant> for Status {
             current_width,
             growth_speed,
             is_autowatered: plant.info.auto_water,
-            current_location: plant.info.location.clone(),
+            current_location: plant.info.location.get_name(),
             origin: plant.info.origin.clone(),
             age,
             notes: plant.info.notes.join(", ").clone(),

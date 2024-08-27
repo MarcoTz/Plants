@@ -6,6 +6,7 @@ use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
 use plants::{
     growth_item::GrowthItem,
+    location::Location,
     log_item::LogItem,
     plant::{PlantImage, PlantInfo},
     species::Species,
@@ -21,6 +22,7 @@ const DATA_DIR_NEW: &str = "data";
 const PLANTS_DIR: &str = "Plants";
 const SPECIES_DIR_IN: &str = "PlantSpecies";
 const SPECIES_DIR_OUT: &str = "Species";
+const LOCATIONS_CSV: &str = "Locations.csv";
 const LOGS_DIR: &str = "Logs";
 const GROWTH_CSV: &str = "Growth.csv";
 const ACTIVITIES_CSV: &str = "Activities.csv";
@@ -107,6 +109,16 @@ pub fn main() {
         &PathBuf::new(),
     ) {
         Ok(()) => println!("Successfully ported images"),
+        Err(err) => println!("{err:?}"),
+    }
+
+    let locations_file_out = out_dir.join(LOCATIONS_CSV);
+    match <Vec<PlantJSON> as Port<Vec<Location>>>::port(
+        &plants_dir_in,
+        &INTERACTIVE,
+        &locations_file_out,
+    ) {
+        Ok(()) => println!("Successfully ported locations"),
         Err(err) => println!("{err:?}"),
     }
 

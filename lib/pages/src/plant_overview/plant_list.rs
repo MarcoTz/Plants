@@ -7,7 +7,10 @@ use html::{
     attribute::Attribute,
     elements::{Div, HeaderSize, Headline, HtmlElement, Img},
 };
-use plants::plant::{Plant, PlantSpecies};
+use plants::{
+    named::Named,
+    plant::{Plant, PlantSpecies},
+};
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
@@ -167,7 +170,7 @@ impl TryFrom<&[Plant]> for LocationGroup {
     fn try_from(plants: &[Plant]) -> Result<LocationGroup, Self::Error> {
         let mut locations = HashSet::new();
         for plant in plants.iter() {
-            locations.insert(plant.info.location.clone());
+            locations.insert(plant.info.location.get_name());
         }
         let locations_vec: Vec<String> = locations.iter().cloned().collect();
         if locations_vec.len() != 1 {
@@ -204,9 +207,9 @@ impl TryFrom<&[Plant]> for PlantList {
         log::info!("Loading Plant List");
         let mut by_location: HashMap<String, Vec<Plant>> = HashMap::new();
         for plant in plants.iter() {
-            match by_location.get_mut(&plant.info.location) {
+            match by_location.get_mut(&plant.info.location.get_name()) {
                 None => {
-                    by_location.insert(plant.info.location.to_owned(), vec![plant.clone()]);
+                    by_location.insert(plant.info.location.get_name(), vec![plant.clone()]);
                 }
                 Some(location_vec) => {
                     location_vec.push(plant.clone());

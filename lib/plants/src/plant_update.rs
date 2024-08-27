@@ -1,10 +1,15 @@
-use super::{errors::Error, plant::Plant, plant::PlantSpecies};
+use super::{
+    errors::Error,
+    plant::PlantSpecies,
+    plant::{Plant, PlantLocation},
+};
 use chrono::NaiveDate;
 use std::{fmt, str::FromStr};
 
 #[derive(Clone)]
 pub enum UpdateValue {
     Str(String),
+    Location(PlantLocation),
     Species(Box<PlantSpecies>),
     Date(NaiveDate),
     Bool(bool),
@@ -26,6 +31,7 @@ impl UpdateField {
     pub fn fields_strs() -> Vec<String> {
         let mut all_fields = UpdateField::get_str_fields();
         all_fields.extend(UpdateField::get_species_fields());
+        all_fields.extend(UpdateField::get_location_fields());
         all_fields.extend(UpdateField::get_date_fields());
         all_fields.extend(UpdateField::get_note_fields());
         all_fields.extend(UpdateField::get_bool_fields());
@@ -33,11 +39,10 @@ impl UpdateField {
     }
 
     pub fn get_str_fields() -> Vec<UpdateField> {
-        vec![
-            UpdateField::Name,
-            UpdateField::Location,
-            UpdateField::Origin,
-        ]
+        vec![UpdateField::Name, UpdateField::Origin]
+    }
+    pub fn get_location_fields() -> Vec<UpdateField> {
+        vec![UpdateField::Location]
     }
     pub fn get_species_fields() -> Vec<UpdateField> {
         vec![UpdateField::Species]
@@ -99,16 +104,20 @@ pub fn update_plant(
                 plant.info.name = st;
                 Ok(())
             }
-            UpdateField::Location => {
-                plant.info.location = st;
-                Ok(())
-            }
             UpdateField::Origin => {
                 plant.info.origin = st;
                 Ok(())
             }
             _ => Err(field_err),
         },
+        UpdateValue::Location(loc) => {
+            if let UpdateField::Location = field {
+                plant.info.location = loc;
+                Ok(())
+            } else {
+                Err(Error::FieldError(field.to_string()))
+            }
+        }
         UpdateValue::Species(sp) => {
             if let UpdateField::Species = field {
                 plant.info.species = *sp;

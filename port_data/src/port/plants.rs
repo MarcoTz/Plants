@@ -1,9 +1,8 @@
 use super::Port;
 use crate::errors::Error;
-use crate::DATE_FORMAT;
 use chrono::NaiveDate;
 use database::file_backend::{load_json::load_dir, write_json::write_plants};
-use plants::plant::{PlantInfo, PlantSpecies};
+use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 
@@ -50,24 +49,6 @@ impl TryInto<bool> for BoolOrString {
     }
 }
 
-impl TryInto<PlantInfo> for PlantJSON {
-    type Error = Error;
-    fn try_into(self: PlantJSON) -> Result<PlantInfo, Self::Error> {
-        let obtained = NaiveDate::parse_from_str(&self.obtained, DATE_FORMAT)?;
-        let auto_water = self.auto_watering.try_into()?;
-
-        Ok(PlantInfo {
-            name: self.plant_name,
-            species: PlantSpecies::Other(self.species_name),
-            location: self.current_location,
-            origin: self.origin,
-            obtained,
-            auto_water,
-            notes: self.plant_notes,
-        })
-    }
-}
-
 impl Port<Vec<PlantInfo>> for Vec<PlantJSON> {
     type LoadArgs = PathBuf;
     type SaveArgs = PathBuf;
@@ -86,7 +67,7 @@ impl Port<Vec<PlantInfo>> for Vec<PlantJSON> {
             let new_plant = PlantInfo {
                 name: old_plant.plant_name,
                 species: PlantSpecies::Other(old_plant.species_name),
-                location: old_plant.current_location,
+                location: PlantLocation::Other(old_plant.current_location),
                 origin: old_plant.origin,
                 obtained,
                 auto_water,

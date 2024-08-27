@@ -1,6 +1,7 @@
 pub mod activities;
 pub mod growth;
 pub mod images;
+pub mod locations;
 pub mod plants;
 pub mod species;
 use crate::errors::Error;

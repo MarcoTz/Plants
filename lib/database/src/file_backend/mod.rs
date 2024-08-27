@@ -7,7 +7,7 @@ pub mod write_json;
 
 use errors::{AccessType, Error, FSError};
 use json_to_plant::load_plants;
-use load_csv::load_graveyard;
+use load_csv::{load_graveyard, load_locations};
 use load_json::load_species;
 use write_csv::{write_activities, write_graveyard, write_growth};
 use write_json::{write_plants, write_species};
@@ -16,7 +16,9 @@ use crate::database_manager::DatabaseManager;
 use plants::{
     graveyard::GraveyardPlant,
     growth_item::GrowthItem,
+    location::Location,
     log_item::LogItem,
+    named::Named,
     plant::{Plant, PlantInfo, PlantSpecies},
     species::Species,
 };
@@ -25,6 +27,7 @@ use std::{fs::remove_file, path::PathBuf};
 pub struct FileDB {
     pub plants_dir: PathBuf,
     pub species_dir: PathBuf,
+    pub location_file: PathBuf,
     logs_dir: PathBuf,
     graveyard_csv: String,
     growth_csv: String,
@@ -34,6 +37,7 @@ pub struct FileDB {
     pub plants_cache: Vec<Plant>,
     pub graveyard_cache: Vec<GraveyardPlant>,
     pub species_cache: Vec<Species>,
+    pub location_cache: Vec<Location>,
 }
 
 impl Default for FileDB {
@@ -42,6 +46,7 @@ impl Default for FileDB {
         FileDB {
             plants_dir: data_dir.join("Plants"),
             species_dir: data_dir.join("Species"),
+            location_file: data_dir.join("Locations.csv"),
             logs_dir: data_dir.join("Logs"),
             graveyard_csv: "Graveyard.csv".to_owned(),
             growth_csv: "Growth.csv".to_owned(),
@@ -50,6 +55,7 @@ impl Default for FileDB {
             plants_cache: vec![],
             graveyard_cache: vec![],
             species_cache: vec![],
+            location_cache: vec![],
         }
     }
 }
@@ -93,6 +99,13 @@ impl FileDB {
         let graveyard_file = self.get_graveyard_filepath();
         let graveyard = load_graveyard(&graveyard_file)?;
         self.graveyard_cache = graveyard;
+        Ok(())
+    }
+
+    fn load_locations(&mut self) -> Result<(), Error> {
+        log::info!("Loading Locations from csv");
+        let locations = load_locations(&self.location_file)?;
+        self.location_cache = locations;
         Ok(())
     }
 }
@@ -173,6 +186,21 @@ impl DatabaseManager for FileDB {
         Ok(species_plants)
     }
 
+    fn get_location(&mut self, location_name: &str) -> Result<Location, crate::errors::Error> {
+        if self.location_cache.is_empty() {
+            self.load_locations()?;
+        }
+        let err: crate::errors::Error = Error::LocationNotFound(location_name.to_owned()).into();
+        self.location_cache
+            .iter()
+            .filter(|loc| loc.get_name() == location_name)
+            .cloned()
+            .collect::<Vec<Location>>()
+            .first()
+            .cloned()
+            .ok_or(err)
+    }
+
     fn plant_exists(&mut self, plant_name: &str) -> Result<bool, crate::errors::Error> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
@@ -207,7 +235,7 @@ impl DatabaseManager for FileDB {
         Ok(self
             .plants_cache
             .iter()
-            .filter(|pl| pl.info.location == location)
+            .filter(|pl| pl.info.location.get_name() == location)
             .cloned()
             .collect())
     }
