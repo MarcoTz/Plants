@@ -48,7 +48,7 @@ pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
 
     log::info!("Saving species htmls");
     for species_html in html_content.species_htmls.iter() {
-        log::info!("Saving {}.html", species_html.page_name);
+        log::info!("Saving {}", species_html.page_name);
         write_html(
             species_html.page_html.clone(),
             &(out_prefix.clone() + &species_html.page_name),

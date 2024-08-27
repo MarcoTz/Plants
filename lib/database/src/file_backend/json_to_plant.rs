@@ -52,7 +52,7 @@ pub fn load_plants(
             .collect();
         log::info!("Loaded growth for plant {}", plant_info.name);
 
-        let img_dir = plants_dir.join(plant_info.name.clone());
+        let img_dir = plants_dir.join(plant_info.name.replace(' ', ""));
         let images = load_images(&img_dir)?;
         log::info!("Loaded images for plant {}", plant_info.name);
         if images.is_empty() {

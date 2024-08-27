@@ -130,7 +130,7 @@ impl From<(&Plant, &str)> for PlantGallery {
     fn from((plant, img_base): (&Plant, &str)) -> PlantGallery {
         let get_info = |x: &PlantImage, i: i32| ImageInfo {
             image: x.clone(),
-            base_dir: img_base.to_owned() + "/" + &plant.get_name() + "/",
+            base_dir: img_base.to_owned() + "/" + &plant.get_name().replace(' ', "") + "/",
             num_images: plant.images.len() as i32,
             num_self: i,
         };
