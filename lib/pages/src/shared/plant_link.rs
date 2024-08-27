@@ -15,7 +15,10 @@ pub struct PlantLink {
 impl PageComponent for PlantLink {
     fn render(&self, _: &str) -> HtmlElement {
         A {
-            attributes: vec![Attribute::Href(self.plant_url.clone())],
+            attributes: vec![
+                Attribute::Href(self.plant_url.clone()),
+                Attribute::Class(vec!["plant_link".to_owned()]),
+            ],
             content: Rc::new(self.plant_name.clone().into()),
         }
         .into()
