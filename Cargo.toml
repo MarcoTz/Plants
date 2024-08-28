@@ -6,6 +6,7 @@ members = [
   "lib/pages",
   "lib/render_html",
   "lib/logger",
+  "lib/bot_api",
   "render_static",
   "telegram_bot",
   "port_data"

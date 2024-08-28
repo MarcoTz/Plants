@@ -9,7 +9,9 @@ path="src/main.rs"
 
 [dependencies]
 database = {path="../lib/database"}
+bot_api = {path="../lib/bot_api"}
 plants = {path="../lib/plants"}
+logger = {path="../lib/logger"}
 chrono = "0.4.38"
 tokio={version="1.39.2",features = ["rt-multi-thread", "macros"] }
 log = "0.4.22"
