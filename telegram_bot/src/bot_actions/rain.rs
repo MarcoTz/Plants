@@ -1,9 +1,10 @@
-use super::Action;
+use super::{Action, BotAction};
 use crate::errors::Error;
 use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::{location::Location, log_item::LogItem, named::Named};
 
+#[derive(Default)]
 pub struct Rain;
 
 impl Action for Rain {
@@ -48,5 +49,11 @@ impl Action for Rain {
 
     fn get_next_prompt(&self) -> Result<String, Error> {
         Err(Error::ActionAlreadyDone("Rain".to_owned()))
+    }
+}
+
+impl From<Rain> for BotAction {
+    fn from(rain: Rain) -> BotAction {
+        BotAction::Rain(rain)
     }
 }

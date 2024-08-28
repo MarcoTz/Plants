@@ -6,6 +6,7 @@ pub enum Error {
     DBError(DBError),
     PlantError(PlantError),
     NoActionRunning,
+    ActionAlreadyRunning(String),
     ActionAlreadyDone(String),
     NoPlantsLocation(String),
     PlantDoesNotExist(String),
@@ -25,6 +26,9 @@ impl fmt::Debug for Error {
             Error::NoActionRunning => {
                 frmt.write_str("Currently there is no active action, please try again")
             }
+            Error::ActionAlreadyRunning(action) => frmt.write_str(&format!(
+                "Action {action} is already running, please either complete or abort"
+            )),
             Error::ActionAlreadyDone(action) => frmt.write_str(&format!(
                 "Action {action} is already done, cannot handle more input"
             )),

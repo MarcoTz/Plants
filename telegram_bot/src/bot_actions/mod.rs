@@ -13,17 +13,18 @@ mod water_plants;
 
 use crate::errors::Error;
 use database::database_manager::DatabaseManager;
-use fertilize_plants::FertilizePlants;
-use move_to_graveyard::MoveToGraveyard;
-use new_activity::NewActivity;
-use new_growth::NewGrowth;
-use new_plant::NewPlant;
-use new_species::NewSpecies;
-use rain::Rain;
-use update_plant::UpdatePlant;
-use update_species::UpdateSpecies;
-use water_location::WaterLocation;
-use water_plants::WaterPlants;
+
+pub use fertilize_plants::FertilizePlants;
+pub use move_to_graveyard::MoveToGraveyard;
+pub use new_activity::NewActivity;
+pub use new_growth::NewGrowth;
+pub use new_plant::NewPlant;
+pub use new_species::NewSpecies;
+pub use rain::Rain;
+pub use update_plant::UpdatePlant;
+pub use update_species::UpdateSpecies;
+pub use water_location::WaterLocation;
+pub use water_plants::WaterPlants;
 
 pub enum BotAction {
     Idle,
@@ -40,6 +41,28 @@ pub enum BotAction {
     MoveToGraveyard(MoveToGraveyard),
 }
 
+impl PartialEq for BotAction {
+    fn eq(&self, other: &BotAction) -> bool {
+        match (self, other) {
+            (BotAction::Idle, BotAction::Idle) => true,
+            (BotAction::WaterPlants(_), BotAction::WaterPlants(_)) => true,
+            (BotAction::WaterLocation(_), BotAction::WaterLocation(_)) => true,
+            (BotAction::Rain(_), BotAction::Rain(_)) => true,
+            (BotAction::FertilizePlants(_), BotAction::FertilizePlants(_)) => true,
+            (BotAction::NewGrowth(_), BotAction::NewGrowth(_)) => true,
+            (BotAction::NewActivity(_), BotAction::NewActivity(_)) => true,
+            (BotAction::NewPlant(_), BotAction::NewPlant(_)) => true,
+            (BotAction::NewSpecies(_), BotAction::NewSpecies(_)) => true,
+            (BotAction::UpdateSpecies(_), BotAction::UpdateSpecies(_)) => true,
+            (BotAction::UpdatePlant(_), BotAction::UpdatePlant(_)) => true,
+            (BotAction::MoveToGraveyard(_), BotAction::MoveToGraveyard(_)) => true,
+            _ => false,
+        }
+    }
+}
+
+impl Eq for BotAction {}
+
 pub trait Action {
     fn handle_input<T: DatabaseManager>(
         &mut self,
@@ -49,6 +72,25 @@ pub trait Action {
     fn is_done(&self) -> bool;
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error>;
     fn get_next_prompt(&self) -> Result<String, Error>;
+}
+
+impl ToString for BotAction {
+    fn to_string(&self) -> String {
+        match self {
+            BotAction::Idle => "Idle".to_owned(),
+            BotAction::WaterPlants(_) => "Water Plants".to_owned(),
+            BotAction::WaterLocation(_) => "Water Location".to_owned(),
+            BotAction::Rain(_) => "Rain".to_owned(),
+            BotAction::FertilizePlants(_) => "Fertilize Plants".to_owned(),
+            BotAction::NewGrowth(_) => "New Growth".to_owned(),
+            BotAction::NewActivity(_) => "New Activity".to_owned(),
+            BotAction::NewPlant(_) => "New Plant".to_owned(),
+            BotAction::NewSpecies(_) => "New Species".to_owned(),
+            BotAction::UpdateSpecies(_) => "Update Species".to_owned(),
+            BotAction::UpdatePlant(_) => "Update Plant".to_owned(),
+            BotAction::MoveToGraveyard(_) => "Move To Graveyard".to_owned(),
+        }
+    }
 }
 
 impl Action for BotAction {
