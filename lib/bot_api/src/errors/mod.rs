@@ -8,23 +8,40 @@ pub use parse_error::ParseError;
 pub use request_error::RequestError;
 pub use serialize_error::SerializeError;
 
+use super::{message::Message, update::Update};
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Error {
     RequestError(RequestError),
     ParseError(ParseError),
     SerializeError(SerializeError),
     BadResponse(BadResponse),
+    MessageIsCommand(Message),
+    CommandIsMessage(Message),
+    EmptyMessage(Message),
+    NoMessage(Update),
 }
 
-impl fmt::Debug for Error {
+impl std::error::Error for Error {}
+
+impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::RequestError(req_err) => req_err.fmt(frmt),
             Error::ParseError(parse_err) => parse_err.fmt(frmt),
             Error::SerializeError(ser_err) => ser_err.fmt(frmt),
             Error::BadResponse(bad_resp) => bad_resp.fmt(frmt),
+            Error::MessageIsCommand(msg) => frmt.write_str(&format!(
+                "Message {msg:?} is a command and cannot be handled with message handler"
+            )),
+            Error::CommandIsMessage(msg) => frmt.write_str(&format!(
+                "Message {msg:?} is message and cannot be handled with command handler"
+            )),
+            Error::EmptyMessage(msg) => frmt.write_str(&format!("Message {msg:?} is empty")),
+            Error::NoMessage(update) => {
+                frmt.write_str(&format!("No message for update {update:?}"))
+            }
         }
     }
 }

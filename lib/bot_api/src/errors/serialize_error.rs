@@ -1,6 +1,6 @@
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct SerializeError {
     line: i32,
     column: i32,
@@ -8,7 +8,7 @@ pub struct SerializeError {
     reason: String,
 }
 
-impl fmt::Debug for SerializeError {
+impl fmt::Display for SerializeError {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         let msg = format!(
             "Could not deserialize\n Error io kind: {}, Category: {} at line {}, column {}",

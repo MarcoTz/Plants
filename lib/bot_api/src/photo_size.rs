@@ -4,9 +4,12 @@ use super::{
 };
 use serde_json::Value;
 
+#[derive(Debug, Clone)]
 pub struct Photo {
     sizes: Vec<PhotoSize>,
 }
+
+#[derive(Debug, Clone)]
 pub struct PhotoSize {
     file_id: String,
     file_unique_id: String,

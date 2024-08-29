@@ -5,15 +5,28 @@ use super::{
 };
 use serde_json::Value;
 
+#[derive(Debug)]
 pub struct Updates {
-    updates: Vec<Update>,
+    pub updates: Vec<Update>,
 }
 
+#[derive(Debug, Clone)]
 pub struct Update {
     pub update_id: i64,
     pub content: Option<UpdateContent>,
 }
 
+impl Update {
+    pub fn get_message(&self) -> Result<Message, Error> {
+        if let Some(UpdateContent::Message(msg)) = &self.content {
+            Ok(msg.to_owned())
+        } else {
+            Err(Error::NoMessage(self.to_owned()))
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub enum UpdateContent {
     Message(Message),
     EditedMessage(Message),

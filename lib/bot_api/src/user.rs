@@ -4,6 +4,7 @@ use super::{
 };
 use serde_json::Value;
 
+#[derive(Debug, Clone)]
 pub struct User {
     id: i64,
     is_bot: bool,

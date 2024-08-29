@@ -1,11 +1,11 @@
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ParseError {
     ty: String,
 }
 
-impl fmt::Debug for ParseError {
+impl fmt::Display for ParseError {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         frmt.write_str("")
     }
