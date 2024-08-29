@@ -37,14 +37,14 @@ impl Message {
         if self.is_command() {
             Ok(())
         } else {
-            Err(Error::CommandIsMessage(self.to_owned()))
+            Err(Error::CommandIsMessage(Box::new(self.clone())))
         }
     }
 
     pub fn get_text(&self) -> Result<String, Error> {
         self.text
             .clone()
-            .ok_or(Error::EmptyMessage(self.to_owned()))
+            .ok_or(Error::EmptyMessage(Box::new(self.clone())))
     }
 
     pub fn get_command<'a, U: Command + 'a>(&self) -> Result<U, Box<dyn std::error::Error + 'a>> {
@@ -53,20 +53,20 @@ impl Message {
         let cmd = msg_text
             .split(' ')
             .next()
-            .ok_or(Error::CommandIsMessage(self.to_owned()))?;
+            .ok_or(Error::CommandIsMessage(Box::new(self.clone())))?;
         U::parse(cmd).map_err(|err| err.into())
     }
 }
 
 #[derive(Debug, Clone)]
 pub struct MessageEntity {
-    ty: String,
-    offset: i64,
-    length: i64,
-    url: Option<String>,
-    user: Option<User>,
-    language: Option<String>,
-    custom_emoji_id: Option<String>,
+    pub ty: String,
+    pub offset: i64,
+    pub length: i64,
+    pub url: Option<String>,
+    pub user: Option<User>,
+    pub language: Option<String>,
+    pub custom_emoji_id: Option<String>,
 }
 
 impl TryFrom<Value> for Message {

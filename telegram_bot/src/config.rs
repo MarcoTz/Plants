@@ -11,7 +11,7 @@ pub struct BotConfig {
 
 pub fn load_config() -> Result<BotConfig, Error> {
     let config_path = PathBuf::from("bot_conf.json");
-    let conf: BotConfig = load_json(&config_path)
-        .map_err(|err| <DBError as Into<database::errors::Error>>::into(err))?;
+    let conf: BotConfig =
+        load_json(&config_path).map_err(<DBError as Into<database::errors::Error>>::into)?;
     Ok(conf)
 }

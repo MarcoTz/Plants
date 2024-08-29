@@ -4,7 +4,7 @@ use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
 use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 enum Step {
     PlantName,
     SpeciesName,
@@ -18,6 +18,7 @@ enum Step {
     Done,
 }
 
+#[derive(Clone)]
 pub struct NewPlant {
     current_step: Step,
     date_format: String,

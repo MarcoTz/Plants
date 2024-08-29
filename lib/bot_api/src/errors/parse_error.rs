@@ -7,7 +7,7 @@ pub struct ParseError {
 
 impl fmt::Display for ParseError {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
-        frmt.write_str("")
+        frmt.write_str(&format!("Could not parse {}", self.ty))
     }
 }
 

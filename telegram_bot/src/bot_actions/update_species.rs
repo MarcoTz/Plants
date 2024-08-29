@@ -3,7 +3,7 @@ use crate::errors::Error;
 use database::database_manager::DatabaseManager;
 use plants::species_update::{update_species, UpdateField, UpdateValue};
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Clone)]
 enum Step {
     SpeciesName,
     UpdateField,
@@ -11,6 +11,7 @@ enum Step {
     Done,
 }
 
+#[derive(Clone)]
 pub struct UpdateSpecies {
     current_step: Step,
     species_name: Option<String>,

@@ -30,7 +30,7 @@ pub enum Command {
 }
 
 pub enum CommandRes {
-    NewAction(BotAction),
+    NewAction(Box<BotAction>),
     NewInput(String),
     ImmediateAction(ImmediateAction),
     Message(String),
@@ -72,20 +72,28 @@ impl Command {
             Command::Today => {
                 CommandRes::NewInput(Local::now().date_naive().format("%d.%m.%Y").to_string())
             }
-            Command::Abort => CommandRes::NewAction(BotAction::Idle),
+            Command::Abort => CommandRes::NewAction(Box::new(BotAction::Idle)),
             Command::Push => CommandRes::ImmediateAction(ImmediateAction::Push),
             Command::CheckLogs => CommandRes::ImmediateAction(ImmediateAction::CheckLogs),
-            Command::Water => CommandRes::NewAction(WaterPlants::default().into()),
-            Command::WaterLocation => CommandRes::NewAction(WaterLocation::default().into()),
-            Command::Fertilize => CommandRes::NewAction(FertilizePlants::default().into()),
-            Command::Rain => CommandRes::NewAction(Rain::default().into()),
-            Command::NewGrowth => CommandRes::NewAction(NewGrowth::default().into()),
-            Command::NewPlant => CommandRes::NewAction(NewPlant::default().into()),
-            Command::NewSpecies => CommandRes::NewAction(NewSpecies::default().into()),
-            Command::NewActivity => CommandRes::NewAction(NewActivity::default().into()),
-            Command::UpdateSpecies => CommandRes::NewAction(UpdateSpecies::default().into()),
-            Command::UpdatePlant => CommandRes::NewAction(UpdatePlant::default().into()),
-            Command::MoveToGraveyard => CommandRes::NewAction(MoveToGraveyard::default().into()),
+            Command::Water => CommandRes::NewAction(Box::new(WaterPlants::default().into())),
+            Command::WaterLocation => {
+                CommandRes::NewAction(Box::new(WaterLocation::default().into()))
+            }
+            Command::Fertilize => {
+                CommandRes::NewAction(Box::new(FertilizePlants::default().into()))
+            }
+            Command::Rain => CommandRes::NewAction(Box::new(Rain.into())),
+            Command::NewGrowth => CommandRes::NewAction(Box::new(NewGrowth::default().into())),
+            Command::NewPlant => CommandRes::NewAction(Box::new(NewPlant::default().into())),
+            Command::NewSpecies => CommandRes::NewAction(Box::new(NewSpecies::default().into())),
+            Command::NewActivity => CommandRes::NewAction(Box::new(NewActivity::default().into())),
+            Command::UpdateSpecies => {
+                CommandRes::NewAction(Box::new(UpdateSpecies::default().into()))
+            }
+            Command::UpdatePlant => CommandRes::NewAction(Box::new(UpdatePlant::default().into())),
+            Command::MoveToGraveyard => {
+                CommandRes::NewAction(Box::new(MoveToGraveyard::default().into()))
+            }
         }
     }
 }

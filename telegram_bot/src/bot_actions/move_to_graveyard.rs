@@ -4,13 +4,15 @@ use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
 use plants::{graveyard::GraveyardPlant, named::Named};
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 enum Step {
     PlantName,
     DiedDate,
     Reason,
     Done,
 }
+
+#[derive(Clone)]
 pub struct MoveToGraveyard {
     current_step: Step,
     date_format: String,

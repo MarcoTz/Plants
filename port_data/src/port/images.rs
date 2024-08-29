@@ -24,17 +24,13 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
         for file_res in files {
             let file = file_res?;
             let path = file.path();
-            let file_name = path
-                .file_stem()
-                .ok_or(Error::PathError("images".to_owned()))?;
-            let file_name_str = file_name
-                .to_str()
-                .ok_or(Error::PathError("images".to_owned()))?;
-            let parts = file_name_str.split("_");
+            let file_name = path.file_stem().ok_or(Error::Path("images".to_owned()))?;
+            let file_name_str = file_name.to_str().ok_or(Error::Path("images".to_owned()))?;
+            let parts = file_name_str.split('_');
             let last = parts
                 .clone()
                 .last()
-                .ok_or(Error::FileNameError(file_name_str.to_owned()))?;
+                .ok_or(Error::FileName(file_name_str.to_owned()))?;
             let mut plants = vec![];
             let created = NaiveDate::parse_from_str(last, "%d%m%Y")?;
             for part in parts {
@@ -63,11 +59,11 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
                 let ext = image
                     .file_path
                     .extension()
-                    .ok_or(Error::PathError("No extension".to_owned()))?;
+                    .ok_or(Error::Path("No extension".to_owned()))?;
                 let ext_str = ext
                     .to_str()
-                    .ok_or(Error::FileNameError("No extension".to_owned()))?;
-                let new_file_name = image.created.format(&date_format).to_string() + "." + ext_str;
+                    .ok_or(Error::FileName("No extension".to_owned()))?;
+                let new_file_name = image.created.format(date_format).to_string() + "." + ext_str;
                 let new_path_base = plants_dir.join(plant);
                 if !new_path_base.exists() {
                     log::warn!("Could not find {new_path_base:?}");

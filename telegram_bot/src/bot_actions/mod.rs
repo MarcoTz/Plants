@@ -13,6 +13,7 @@ mod water_plants;
 
 use crate::errors::Error;
 use database::database_manager::DatabaseManager;
+use std::fmt;
 
 pub use fertilize_plants::FertilizePlants;
 pub use move_to_graveyard::MoveToGraveyard;
@@ -26,6 +27,7 @@ pub use update_species::UpdateSpecies;
 pub use water_location::WaterLocation;
 pub use water_plants::WaterPlants;
 
+#[derive(Clone)]
 pub enum BotAction {
     Idle,
     WaterPlants(WaterPlants),
@@ -43,21 +45,21 @@ pub enum BotAction {
 
 impl PartialEq for BotAction {
     fn eq(&self, other: &BotAction) -> bool {
-        match (self, other) {
-            (BotAction::Idle, BotAction::Idle) => true,
-            (BotAction::WaterPlants(_), BotAction::WaterPlants(_)) => true,
-            (BotAction::WaterLocation(_), BotAction::WaterLocation(_)) => true,
-            (BotAction::Rain(_), BotAction::Rain(_)) => true,
-            (BotAction::FertilizePlants(_), BotAction::FertilizePlants(_)) => true,
-            (BotAction::NewGrowth(_), BotAction::NewGrowth(_)) => true,
-            (BotAction::NewActivity(_), BotAction::NewActivity(_)) => true,
-            (BotAction::NewPlant(_), BotAction::NewPlant(_)) => true,
-            (BotAction::NewSpecies(_), BotAction::NewSpecies(_)) => true,
-            (BotAction::UpdateSpecies(_), BotAction::UpdateSpecies(_)) => true,
-            (BotAction::UpdatePlant(_), BotAction::UpdatePlant(_)) => true,
-            (BotAction::MoveToGraveyard(_), BotAction::MoveToGraveyard(_)) => true,
-            _ => false,
-        }
+        matches!(
+            (self, other),
+            (BotAction::Idle, BotAction::Idle)
+                | (BotAction::WaterPlants(_), BotAction::WaterPlants(_))
+                | (BotAction::WaterLocation(_), BotAction::WaterLocation(_))
+                | (BotAction::Rain(_), BotAction::Rain(_))
+                | (BotAction::FertilizePlants(_), BotAction::FertilizePlants(_))
+                | (BotAction::NewGrowth(_), BotAction::NewGrowth(_))
+                | (BotAction::NewActivity(_), BotAction::NewActivity(_))
+                | (BotAction::NewPlant(_), BotAction::NewPlant(_))
+                | (BotAction::NewSpecies(_), BotAction::NewSpecies(_))
+                | (BotAction::UpdateSpecies(_), BotAction::UpdateSpecies(_))
+                | (BotAction::UpdatePlant(_), BotAction::UpdatePlant(_))
+                | (BotAction::MoveToGraveyard(_), BotAction::MoveToGraveyard(_))
+        )
     }
 }
 
@@ -74,21 +76,21 @@ pub trait Action {
     fn get_next_prompt(&self) -> Result<String, Error>;
 }
 
-impl ToString for BotAction {
-    fn to_string(&self) -> String {
+impl fmt::Display for BotAction {
+    fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            BotAction::Idle => "Idle".to_owned(),
-            BotAction::WaterPlants(_) => "Water Plants".to_owned(),
-            BotAction::WaterLocation(_) => "Water Location".to_owned(),
-            BotAction::Rain(_) => "Rain".to_owned(),
-            BotAction::FertilizePlants(_) => "Fertilize Plants".to_owned(),
-            BotAction::NewGrowth(_) => "New Growth".to_owned(),
-            BotAction::NewActivity(_) => "New Activity".to_owned(),
-            BotAction::NewPlant(_) => "New Plant".to_owned(),
-            BotAction::NewSpecies(_) => "New Species".to_owned(),
-            BotAction::UpdateSpecies(_) => "Update Species".to_owned(),
-            BotAction::UpdatePlant(_) => "Update Plant".to_owned(),
-            BotAction::MoveToGraveyard(_) => "Move To Graveyard".to_owned(),
+            BotAction::Idle => frmt.write_str("Idle"),
+            BotAction::WaterPlants(_) => frmt.write_str("Water Plants"),
+            BotAction::WaterLocation(_) => frmt.write_str("Water Location"),
+            BotAction::Rain(_) => frmt.write_str("Rain"),
+            BotAction::FertilizePlants(_) => frmt.write_str("Fertilize Plants"),
+            BotAction::NewGrowth(_) => frmt.write_str("New Growth"),
+            BotAction::NewActivity(_) => frmt.write_str("New Activity"),
+            BotAction::NewPlant(_) => frmt.write_str("New Plant"),
+            BotAction::NewSpecies(_) => frmt.write_str("New Species"),
+            BotAction::UpdateSpecies(_) => frmt.write_str("Update Species"),
+            BotAction::UpdatePlant(_) => frmt.write_str("Update Plant"),
+            BotAction::MoveToGraveyard(_) => frmt.write_str("Move To Graveyard"),
         }
     }
 }

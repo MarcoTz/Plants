@@ -9,7 +9,7 @@ pub struct RequestError {
 
 impl From<RequestError> for Error {
     fn from(req_err: RequestError) -> Error {
-        Error::RequestError(req_err)
+        Error::Request(req_err)
     }
 }
 

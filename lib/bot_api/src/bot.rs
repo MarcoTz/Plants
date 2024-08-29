@@ -1,10 +1,6 @@
 use super::{
     bot_methods::{BotMethod, GetUpdates, SendMessage},
-    commands::Command,
     errors::Error,
-    handlers::{CommandHandler, MessageHandler},
-    message::Message,
-    update::Update,
     update::Updates,
 };
 
@@ -36,11 +32,7 @@ impl Bot {
         };
         let mut updates = update.perform(&self.api_key).await?;
 
-        updates.updates = updates
-            .updates
-            .into_iter()
-            .filter(|upd| upd.update_id > self.last_update)
-            .collect();
+        updates.updates.retain(|upd| upd.update_id > self.last_update);
 
         self.last_update = updates
             .updates

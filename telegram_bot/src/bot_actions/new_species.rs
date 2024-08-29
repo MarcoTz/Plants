@@ -3,7 +3,7 @@ use crate::errors::Error;
 use database::database_manager::DatabaseManager;
 use plants::species::{Species, SunlightRequirement};
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 enum Step {
     SpeciesName,
     ScientificName,
@@ -26,6 +26,8 @@ enum Step {
     Notes,
     Done,
 }
+
+#[derive(Clone)]
 pub struct NewSpecies {
     current_step: Step,
     species_name: Option<String>,

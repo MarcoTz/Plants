@@ -6,16 +6,16 @@ use serde_json::Value;
 
 #[derive(Debug, Clone)]
 pub struct Photo {
-    sizes: Vec<PhotoSize>,
+    pub sizes: Vec<PhotoSize>,
 }
 
 #[derive(Debug, Clone)]
 pub struct PhotoSize {
-    file_id: String,
-    file_unique_id: String,
-    width: i64,
-    height: i64,
-    file_size: Option<i64>,
+    pub file_id: String,
+    pub file_unique_id: String,
+    pub width: i64,
+    pub height: i64,
+    pub file_size: Option<i64>,
 }
 
 impl TryFrom<Value> for PhotoSize {
