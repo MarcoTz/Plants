@@ -48,6 +48,21 @@ pub fn get_array(val_map: &mut Map<String, Value>, field_name: &str) -> Result<V
     }
 }
 
+pub fn get_option_array(
+    val_map: &mut Map<String, Value>,
+    field_name: &str,
+) -> Result<Option<Vec<Value>>, Error> {
+    match val_map.remove(field_name) {
+        None => Ok(None),
+        Some(Value::Array(vals)) => Ok(Some(vals)),
+        Some(val) => Err(BadValue {
+            val,
+            field: field_name.to_owned(),
+        }
+        .into()),
+    }
+}
+
 pub fn get_i64(val_map: &mut Map<String, Value>, field_name: &str) -> Result<i64, Error> {
     let field_val = get_val(val_map, field_name)?;
     if let Value::Number(num_val) = field_val {

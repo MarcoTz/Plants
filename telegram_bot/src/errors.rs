@@ -2,6 +2,7 @@ use database::errors::Error as DBError;
 use plants::errors::Error as PlantError;
 use std::fmt;
 
+#[derive(Debug)]
 pub enum Error {
     DBError(DBError),
     PlantError(PlantError),
@@ -18,11 +19,13 @@ pub enum Error {
     SpeciesExists(String),
 }
 
-impl fmt::Debug for Error {
+impl std::error::Error for Error {}
+
+impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::DBError(db_err) => db_err.fmt(frmt),
-            Error::PlantError(plant_err) => plant_err.fmt(frmt),
+            Error::DBError(db_err) => frmt.write_str(&format!("{db_err:?}")),
+            Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err:?}")),
             Error::NoActionRunning => {
                 frmt.write_str("Currently there is no active action, please try again")
             }

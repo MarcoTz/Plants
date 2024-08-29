@@ -4,6 +4,7 @@ use super::{
 };
 use serde_json::Value;
 
+#[derive(Debug, Clone)]
 pub struct Chat {
     id: i64,
     ty: String,

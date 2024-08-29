@@ -1,7 +1,7 @@
 use super::Error;
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct RequestError {
     pub url: Option<String>,
     pub status: Option<u16>,
@@ -21,7 +21,7 @@ impl From<reqwest::Error> for RequestError {
         }
     }
 }
-impl fmt::Debug for RequestError {
+impl fmt::Display for RequestError {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         let url_str = match &self.url {
             None => "".to_owned(),

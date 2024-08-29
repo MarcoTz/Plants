@@ -2,26 +2,26 @@ use super::Error;
 use serde_json::Value;
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct WrongType {
     pub field_name: String,
     pub field_type: String,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct BadValue {
     pub field: String,
     pub val: Value,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum BadResponse {
     MissingField(String),
     BadValue(BadValue),
     WrongType(WrongType),
 }
 
-impl fmt::Debug for WrongType {
+impl fmt::Display for WrongType {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         frmt.write_str(&format!(
             "Wrong Type for feld {}, expected {}",
@@ -30,7 +30,7 @@ impl fmt::Debug for WrongType {
     }
 }
 
-impl fmt::Debug for BadValue {
+impl fmt::Display for BadValue {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         frmt.write_str(&format!(
             "Unexpeced value {} for field {}",
@@ -39,7 +39,7 @@ impl fmt::Debug for BadValue {
     }
 }
 
-impl fmt::Debug for BadResponse {
+impl fmt::Display for BadResponse {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             BadResponse::MissingField(field_name) => {
