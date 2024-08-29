@@ -6,12 +6,12 @@ use serde_json::Value;
 
 #[derive(Debug, Clone)]
 pub struct Chat {
-    id: i64,
-    ty: String,
-    title: Option<String>,
-    username: Option<String>,
-    first_name: Option<String>,
-    last_name: Option<String>,
+    pub id: i64,
+    pub ty: String,
+    pub title: Option<String>,
+    pub username: Option<String>,
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
 }
 
 impl TryFrom<Value> for Chat {

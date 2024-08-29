@@ -1,19 +1,14 @@
-pub mod bot;
+pub mod action_handler;
 pub mod bot_actions;
 pub mod commands;
 pub mod config;
+pub mod error_handler;
 pub mod errors;
-pub mod fsm;
 
-use bot_api::{
-    bot::Bot,
-    commands::Command,
-    handlers::{CommandHandler, ErrorHandler, MessageHandler},
-    message::Message,
-    run_bot,
-};
+use action_handler::ActionHandler;
+use bot_api::{bot::Bot, run_bot};
 use config::load_config;
-use errors::Error;
+use error_handler::ErrHandler;
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
 use std::process::exit;
@@ -22,36 +17,6 @@ static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
     file_path: "log.txt",
 };
-
-#[derive(Clone, Debug)]
-struct Handler;
-
-impl Command for Handler {
-    type Error = Error;
-    fn from_str(_: &str) -> Result<Handler, Error> {
-        Ok(Handler {})
-    }
-}
-
-impl MessageHandler for Handler {
-    type Error = Error;
-    fn handle(&self, _: &Bot, msg: Message) -> Result<(), Error> {
-        println!("{msg:?}");
-        Ok(())
-    }
-}
-impl CommandHandler<Handler> for Handler {
-    type Error = Error;
-    fn handle(&self, _: &Bot, cmd: Handler) -> Result<(), Error> {
-        println!("{cmd:?}");
-        Ok(())
-    }
-}
-impl<'a> ErrorHandler<'a> for Handler {
-    fn handle_error(&self, err: Box<dyn std::error::Error + 'a>) {
-        println!("{err:?}")
-    }
-}
 
 #[tokio::main]
 async fn main() {
@@ -69,5 +34,7 @@ async fn main() {
     };
 
     let mut bot = Bot::new(conf.api_key);
-    run_bot(&mut bot, &Handler {}, &Handler {}, &Handler {}).await;
+    let mut handler = ActionHandler::default();
+    let err_handler = ErrHandler {};
+    run_bot(&mut bot, &mut handler, &err_handler).await;
 }

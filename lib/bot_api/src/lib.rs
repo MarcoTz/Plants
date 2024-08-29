@@ -12,21 +12,19 @@ pub mod user;
 
 use bot::Bot;
 use commands::Command;
-use errors::Error;
 use handlers::{CommandHandler, ErrorHandler, MessageHandler};
 
-async fn handle_updates<'a, V: Command + 'a, T: MessageHandler + 'a, U: CommandHandler<V> + 'a>(
+async fn handle_updates<'a, V: Command + 'a, T: MessageHandler + 'a + CommandHandler<V>>(
     bot: &mut Bot,
-    msg_handler: &T,
-    cmd_handler: &U,
+    handler: &mut T,
 ) -> Result<(), Box<dyn std::error::Error + 'a>> {
     let updates = bot.get_all_updates().await?;
     for update in updates.updates {
         let msg = update.get_message()?;
         if msg.is_command() {
-            cmd_handler.handle_command(msg, bot)?;
+            handler.handle_command(msg, bot).await?;
         } else {
-            msg_handler.handle_message(msg, bot)?;
+            handler.handle_message(msg, bot).await?;
         }
     }
     Ok(())
@@ -35,17 +33,15 @@ async fn handle_updates<'a, V: Command + 'a, T: MessageHandler + 'a, U: CommandH
 pub async fn run_bot<
     'a,
     W: ErrorHandler<'a>,
-    V: Command + 'a,
-    T: MessageHandler + 'a,
-    U: CommandHandler<V> + 'a,
+    U: Command + 'a,
+    T: MessageHandler + 'a + CommandHandler<U>,
 >(
     bot: &mut Bot,
-    msg_handler: &T,
-    cmd_handler: &U,
+    handler: &mut T,
     err_handler: &W,
 ) {
     loop {
-        if let Err(err) = handle_updates(bot, msg_handler, cmd_handler).await {
+        if let Err(err) = handle_updates(bot, handler).await {
             err_handler.handle_error(err)
         }
     }

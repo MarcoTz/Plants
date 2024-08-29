@@ -54,7 +54,7 @@ impl Message {
             .split(' ')
             .next()
             .ok_or(Error::CommandIsMessage(self.to_owned()))?;
-        U::from_str(cmd).map_err(|err| err.into())
+        U::parse(cmd).map_err(|err| err.into())
     }
 }
 
