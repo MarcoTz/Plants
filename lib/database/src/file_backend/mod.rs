@@ -279,7 +279,7 @@ impl DatabaseManager for FileDB {
             .cloned()
             .collect();
         let dead_path = PathBuf::from("dead").join(name);
-        rename(plant_path, dead_path).map_err(|err| <IOError as Into<Error>>::into(err))?;
+        rename(plant_path, dead_path).map_err(<IOError as Into<Error>>::into)?;
         Ok(())
     }
 }
