@@ -16,7 +16,7 @@ pub trait MessageHandler {
             let handle_res = self.handle(bot, message).await;
             handle_res.map_err(|err| err.into())
         } else {
-            Err(Error::MessageIsCommand(message).into())
+            Err(Error::MessageIsCommand(Box::new(message)).into())
         }
     }
 }

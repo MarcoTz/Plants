@@ -1,6 +1,6 @@
 use super::{
     errors::Error,
-    parse_json::{get_i64, get_map, get_option_bool, get_option_str, get_str},
+    parse_json::{get_i64, get_map, get_option_str, get_str},
 };
 use serde_json::Value;
 

@@ -49,7 +49,7 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
                 .find(|pl| pl.plant_name == new_item.plant.trim())
                 .ok_or(Error::PlantNotFound(new_item.plant.clone()))?;
             let health = growth_plant.plant_health.parse::<i32>()?;
-            if health > 5 || health < 0 {
+            if !(0..=5).contains(&health) {
                 Err(Error::BadHealth(health))
             } else {
                 Ok(())

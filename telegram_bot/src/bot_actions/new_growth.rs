@@ -7,7 +7,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::growth_item::GrowthItem;
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 enum Step {
     PlantName,
     Height,
@@ -17,6 +17,7 @@ enum Step {
     Done,
 }
 
+#[derive(Clone)]
 pub struct NewGrowth {
     current_step: Step,
     name: Option<String>,

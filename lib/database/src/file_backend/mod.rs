@@ -271,7 +271,7 @@ impl DatabaseManager for FileDB {
         write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
         let plant_filename = name.replace(' ', "") + ".json";
         let plant_path = PathBuf::from(&self.plants_dir).join(plant_filename.clone());
-        remove_file(plant_path.clone()).map_err(|err| <IOError as Into<Error>>::into(err))?;
+        remove_file(plant_path.clone()).map_err(<IOError as Into<Error>>::into)?;
         self.plants_cache = self
             .plants_cache
             .iter()

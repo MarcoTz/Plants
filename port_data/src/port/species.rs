@@ -21,7 +21,7 @@ impl TryInto<i32> for FloatOrIntOrString {
             FloatOrIntOrString::Str(st) => st.parse::<i32>(),
             FloatOrIntOrString::Float(f) => Ok(f as i32),
         }
-        .map_err(|_| Error::ParseError("Int".to_owned()))?;
+        .map_err(|_| Error::Parse("Int".to_owned()))?;
         Ok(new_int)
     }
 }
@@ -33,7 +33,7 @@ impl TryInto<f32> for FloatOrIntOrString {
             FloatOrIntOrString::Str(st) => st.parse::<f32>(),
             FloatOrIntOrString::Float(f) => Ok(f),
         }
-        .map_err(|_| Error::ParseError("Float".to_owned()))?;
+        .map_err(|_| Error::Parse("Float".to_owned()))?;
         Ok(new_fl)
     }
 }
@@ -84,7 +84,7 @@ impl TryInto<Species> for SpeciesJSON {
         let new_avg_water = option_try(self.avg_watering_days)?;
         let new_avg_fertilizing = option_try(self.avg_fertilizing_days)?;
         let new_sunlight = FromStr::from_str(&self.sunlight_requirements)
-            .map_err(|_| Error::ParseError("Sunlight".to_owned()))?;
+            .map_err(|_| Error::Parse("Sunlight".to_owned()))?;
         Ok(Species {
             name: self.name,
             scientific_name: self.scientific_name,
@@ -141,8 +141,8 @@ impl Port<Vec<Species>> for Vec<SpeciesJSON> {
                 );
                 stdin
                     .read_line(&mut genus)
-                    .map_err(|_| Error::InputErr("species genus".to_owned()))?;
-                new_sp.genus = genus.to_owned();
+                    .map_err(|_| Error::Input("species genus".to_owned()))?;
+                genus.clone_into(&mut new_sp.genus);
 
                 println!(
                     "Please enter family for {}, (type is {})",
@@ -151,8 +151,8 @@ impl Port<Vec<Species>> for Vec<SpeciesJSON> {
                 let mut family = String::new();
                 stdin
                     .read_line(&mut family)
-                    .map_err(|_| Error::InputErr("species family".to_owned()))?;
-                new_sp.family = family.to_owned();
+                    .map_err(|_| Error::Input("species family".to_owned()))?;
+                family.clone_into(&mut new_sp.family);
             }
             new_species.push(new_sp);
         }

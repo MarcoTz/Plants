@@ -21,7 +21,7 @@ impl Update {
         if let Some(UpdateContent::Message(msg)) = &self.content {
             Ok(msg.to_owned())
         } else {
-            Err(Error::NoMessage(self.to_owned()))
+            Err(Error::NoMessage(Box::new(self.clone())))
         }
     }
 }

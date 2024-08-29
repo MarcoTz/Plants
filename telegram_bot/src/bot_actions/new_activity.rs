@@ -4,7 +4,7 @@ use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
-#[derive(PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 enum Step {
     Date,
     Activity,
@@ -13,6 +13,7 @@ enum Step {
     Done,
 }
 
+#[derive(Clone)]
 pub struct NewActivity {
     current_step: Step,
     date_format: String,

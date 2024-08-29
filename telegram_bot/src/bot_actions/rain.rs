@@ -4,7 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::{location::Location, log_item::LogItem, named::Named};
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Rain;
 
 impl Action for Rain {

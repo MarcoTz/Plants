@@ -13,14 +13,14 @@ use std::fmt;
 
 #[derive(Clone, Debug)]
 pub enum Error {
-    RequestError(RequestError),
-    ParseError(ParseError),
-    SerializeError(SerializeError),
+    Request(RequestError),
+    Parse(ParseError),
+    Serialize(SerializeError),
     BadResponse(BadResponse),
-    MessageIsCommand(Message),
-    CommandIsMessage(Message),
-    EmptyMessage(Message),
-    NoMessage(Update),
+    MessageIsCommand(Box<Message>),
+    CommandIsMessage(Box<Message>),
+    EmptyMessage(Box<Message>),
+    NoMessage(Box<Update>),
 }
 
 impl std::error::Error for Error {}
@@ -28,9 +28,9 @@ impl std::error::Error for Error {}
 impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::RequestError(req_err) => req_err.fmt(frmt),
-            Error::ParseError(parse_err) => parse_err.fmt(frmt),
-            Error::SerializeError(ser_err) => ser_err.fmt(frmt),
+            Error::Request(req_err) => req_err.fmt(frmt),
+            Error::Parse(parse_err) => parse_err.fmt(frmt),
+            Error::Serialize(ser_err) => ser_err.fmt(frmt),
             Error::BadResponse(bad_resp) => bad_resp.fmt(frmt),
             Error::MessageIsCommand(msg) => frmt.write_str(&format!(
                 "Message {msg:?} is a command and cannot be handled with message handler"
@@ -48,19 +48,19 @@ impl fmt::Display for Error {
 
 impl From<reqwest::Error> for Error {
     fn from(req_err: reqwest::Error) -> Error {
-        Error::RequestError(req_err.into())
+        Error::Request(req_err.into())
     }
 }
 
 impl From<url::ParseError> for Error {
     fn from(parse_err: url::ParseError) -> Error {
-        Error::ParseError(parse_err.into())
+        Error::Parse(parse_err.into())
     }
 }
 
 impl From<serde_json::Error> for Error {
     fn from(serde_err: serde_json::Error) -> Error {
-        Error::SerializeError(serde_err.into())
+        Error::Serialize(serde_err.into())
     }
 }
 

@@ -58,9 +58,9 @@ impl<T: DatabaseManager> ActionHandler<T> {
         }
     }
 
-    pub fn new_action(&mut self, new_action: BotAction) -> Result<String, Error> {
+    pub fn new_action(&mut self, new_action: &BotAction) -> Result<String, Error> {
         if self.current_action == BotAction::Idle {
-            self.current_action = new_action;
+            self.current_action = new_action.clone();
             if let Some(ret_msg) = self.check_action()? {
                 Ok(ret_msg)
             } else {
@@ -75,7 +75,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
     fn process_command(&mut self, cmd: Command) -> Result<String, Error> {
         match cmd.get_res() {
             CommandRes::Message(msg) => Ok(msg),
-            CommandRes::NewAction(action) => self.new_action(action),
+            CommandRes::NewAction(action) => self.new_action(&action),
             CommandRes::NewInput(inp) => self.handle_input(Some(&inp)),
             CommandRes::ImmediateAction(act) => self.handle_immediate(&act),
         }
@@ -91,8 +91,7 @@ impl<T: DatabaseManager> CommandHandler<Command> for ActionHandler<T> {
         message: Message,
     ) -> Result<(), Self::Error> {
         let ret_msg = self.process_command(cmd)?;
-        let send_res = bot
-            .send_message(message.chat.id.to_string(), ret_msg)
+        bot.send_message(message.chat.id.to_string(), ret_msg)
             .await?;
         Ok(())
     }

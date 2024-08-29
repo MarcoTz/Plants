@@ -9,6 +9,7 @@ pub enum ConversionType {
     Date,
 }
 
+#[derive(Debug)]
 pub enum Error {
     ParseError(ParseError),
     IOErr(IOErr),
@@ -20,19 +21,24 @@ pub enum Error {
     PlantNotFound(String),
 }
 
+#[derive(Debug)]
 pub struct IOErr {
     pub kind: String,
 }
+
+#[derive(Debug)]
 pub struct ParseError {
     pub ty: String,
     pub input: String,
 }
 
+#[derive(Debug)]
 pub struct CSVError {
     pub path: PathBuf,
     pub err_msg: String,
 }
 
+#[derive(Debug)]
 pub struct SerializeError {
     pub path: PathBuf,
     pub err_msg: String,
@@ -77,7 +83,7 @@ impl From<plant_err::Error> for Error {
     }
 }
 
-impl fmt::Debug for Error {
+impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::IOErr(IOErr { kind }) => frmt.write_str(&format!("IO Error: {kind}")),
@@ -103,3 +109,5 @@ impl fmt::Debug for Error {
         }
     }
 }
+
+impl std::error::Error for Error {}

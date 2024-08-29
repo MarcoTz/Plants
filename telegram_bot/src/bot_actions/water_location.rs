@@ -4,6 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
+#[derive(Clone)]
 pub struct WaterLocation {
     watered_plants: Option<Vec<String>>,
     done: bool,

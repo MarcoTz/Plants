@@ -1,5 +1,8 @@
 use super::errors::Error;
-use std::{fs::create_dir, path::PathBuf};
+use std::{
+    fs::create_dir,
+    path::{Path, PathBuf},
+};
 
 const DATA_DIR_OLD: &str = "data_old";
 const DATA_DIR_NEW: &str = "data";
@@ -51,17 +54,17 @@ impl Directories {
         Ok(())
     }
 
-    fn ensure_in_exists(&self, dir: &PathBuf) -> Result<(), Error> {
+    fn ensure_in_exists(&self, dir: &Path) -> Result<(), Error> {
         if !dir.exists() {
-            Err(Error::MissingFiles(dir.clone()))
+            Err(Error::MissingFiles(dir.to_path_buf()))
         } else {
             Ok(())
         }
     }
 
-    fn ensure_out_exists(&self, dir: &PathBuf) -> Result<(), Error> {
+    fn ensure_out_exists(&self, dir: &Path) -> Result<(), Error> {
         if !dir.exists() {
-            create_dir(dir.clone())?;
+            create_dir(dir)?;
         }
         Ok(())
     }

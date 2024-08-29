@@ -32,13 +32,13 @@ impl Port<Vec<Location>> for Vec<PlantJSON> {
                 );
                 stdin
                     .read_line(&mut outside)
-                    .map_err(|_| Error::InputErr("location outside".to_owned()))?;
+                    .map_err(|_| Error::Input("location outside".to_owned()))?;
                 let outside_bool = if outside.trim().to_lowercase() == "y" {
                     Ok(true)
                 } else if outside.trim().to_lowercase() == "n" {
                     Ok(false)
                 } else {
-                    Err(Error::ParseError("boolean (location outside".to_owned()))
+                    Err(Error::Parse("boolean (location outside".to_owned()))
                 }?;
                 new_location.outside = outside_bool;
             }
