@@ -96,7 +96,7 @@ impl Action for NewPlant {
                     .map_err(|_| Error::ParseError("Width".to_owned()))?;
                 self.width = Some(width);
                 self.current_step = Step::Location;
-                todo!("")
+                Ok(())
             }
             Step::Location => {
                 match db_man.get_location(input.trim()) {

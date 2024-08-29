@@ -2,10 +2,10 @@ use super::{bot::Bot, commands::Command, errors::Error, message::Message};
 
 pub trait MessageHandler {
     type Error: std::error::Error;
-    fn handle(&self, bot: &Bot, message: Message) -> Result<(), Self::Error>;
+    async fn handle(&mut self, bot: &Bot, message: Message) -> Result<(), Self::Error>;
 
-    fn handle_message<'a>(
-        &self,
+    async fn handle_message<'a>(
+        &mut self,
         message: Message,
         bot: &Bot,
     ) -> Result<(), Box<dyn std::error::Error + 'a>>
@@ -13,7 +13,7 @@ pub trait MessageHandler {
         Self: 'a,
     {
         if !message.is_command() {
-            let handle_res = self.handle(bot, message);
+            let handle_res = self.handle(bot, message).await;
             handle_res.map_err(|err| err.into())
         } else {
             Err(Error::MessageIsCommand(message).into())
@@ -23,10 +23,10 @@ pub trait MessageHandler {
 
 pub trait CommandHandler<T: Command> {
     type Error: std::error::Error;
-    fn handle(&self, bot: &Bot, cmd: T) -> Result<(), Self::Error>;
+    async fn handle(&mut self, bot: &Bot, cmd: T, message: Message) -> Result<(), Self::Error>;
 
-    fn handle_command<'a>(
-        &self,
+    async fn handle_command<'a>(
+        &mut self,
         message: Message,
         bot: &Bot,
     ) -> Result<(), Box<dyn std::error::Error + 'a>>
@@ -35,7 +35,7 @@ pub trait CommandHandler<T: Command> {
         T: 'a,
     {
         let cmd = message.get_command::<T>()?;
-        let handle_res = self.handle(bot, cmd);
+        let handle_res = self.handle(bot, cmd, message).await;
         handle_res.map_err(|err| err.into())
     }
 }

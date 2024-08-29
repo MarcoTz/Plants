@@ -1,3 +1,4 @@
+use bot_api::errors::Error as BotError;
 use database::errors::Error as DBError;
 use plants::errors::Error as PlantError;
 use std::fmt;
@@ -6,6 +7,7 @@ use std::fmt;
 pub enum Error {
     DBError(DBError),
     PlantError(PlantError),
+    BotError(BotError),
     NoActionRunning,
     ActionAlreadyRunning(String),
     ActionAlreadyDone(String),
@@ -26,6 +28,7 @@ impl fmt::Display for Error {
         match self {
             Error::DBError(db_err) => frmt.write_str(&format!("{db_err:?}")),
             Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err:?}")),
+            Error::BotError(bot_err) => frmt.write_str(&format!("{bot_err:?}")),
             Error::NoActionRunning => {
                 frmt.write_str("Currently there is no active action, please try again")
             }
@@ -66,5 +69,11 @@ impl From<DBError> for Error {
 impl From<PlantError> for Error {
     fn from(plant_err: PlantError) -> Error {
         Error::PlantError(plant_err)
+    }
+}
+
+impl From<BotError> for Error {
+    fn from(bot_err: BotError) -> Error {
+        Error::BotError(bot_err)
     }
 }
