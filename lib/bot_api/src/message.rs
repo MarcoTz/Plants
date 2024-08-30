@@ -6,7 +6,7 @@ use super::{
     photo_size::Photo,
     user::User,
 };
-use serde_json::Value;
+use serde_json::{Map, Value};
 
 #[derive(Debug, Clone)]
 pub struct Message {
@@ -54,7 +54,7 @@ impl Message {
             .split(' ')
             .next()
             .ok_or(Error::CommandIsMessage(Box::new(self.clone())))?;
-        U::parse(cmd).map_err(|err| err.into())
+        U::parse(&cmd.replace('/', "")).map_err(|err| err.into())
     }
 }
 
@@ -73,7 +73,6 @@ impl TryFrom<Value> for Message {
     type Error = Error;
     fn try_from(val: Value) -> Result<Message, Self::Error> {
         let mut val_map = get_map(val)?;
-
         let id = get_i64(&mut val_map, "message_id")?;
 
         let mut from = None;

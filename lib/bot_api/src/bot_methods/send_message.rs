@@ -1,5 +1,5 @@
 use super::BotMethod;
-use crate::{errors::Error, message::Message};
+use crate::{errors::Error, message::Message, parse_json::check_ok};
 use reqwest::Client;
 use serde_json::Value;
 
@@ -22,6 +22,7 @@ impl BotMethod for SendMessage {
         let resp = client.post(url).form(&params).send().await?;
         self.check_status(&resp)?;
         let resp_json: Value = resp.json().await?;
-        resp_json.try_into()
+        let resp_ok = check_ok(resp_json)?;
+        resp_ok.try_into()
     }
 }

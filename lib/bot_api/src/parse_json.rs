@@ -13,13 +13,15 @@ pub fn get_map(val: Value) -> Result<Map<String, Value>, Error> {
     }
 }
 
-pub fn check_ok(val: Value) -> Result<Map<String, Value>, Error> {
+pub fn check_ok(val: Value) -> Result<Value, Error> {
     let mut val_map = get_map(val.clone())?;
 
     let ok_val = get_val(&mut val_map, "ok")?;
 
     if let Value::Bool(true) = ok_val {
-        Ok(val_map)
+        val_map
+            .remove("result")
+            .ok_or(BadResponse::MissingField("result".to_owned()).into())
     } else {
         Err(BadValue {
             field: "ok".to_owned(),

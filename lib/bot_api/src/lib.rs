@@ -12,37 +12,45 @@ pub mod user;
 
 use bot::Bot;
 use commands::Command;
-use handlers::{CommandHandler, ErrorHandler, MessageHandler};
+use handlers::Handler;
+use update::Update;
 
-async fn handle_updates<'a, V: Command + 'a, T: MessageHandler + 'a + CommandHandler<V>>(
+pub async fn run_bot<'a, U: Command + 'a, T: Handler<U> + 'a>(
     bot: &mut Bot,
     handler: &mut T,
 ) -> Result<(), Box<dyn std::error::Error + 'a>> {
-    let updates = bot.get_all_updates().await?;
-    for update in updates.updates {
-        let msg = update.get_message()?;
-        if msg.is_command() {
-            handler.handle_command(msg, bot).await?;
-        } else {
-            handler.handle_message(msg, bot).await?;
+    loop {
+        let updates = bot.get_all_updates().await?;
+
+        for update in updates.updates {
+            let id = update.update_id;
+            match handle_update(bot, handler, update).await {
+                Ok(_) => {
+                    bot.last_update = id;
+                    log::info!("updated last processed update to {id}");
+                }
+                Err(err) => {
+                    bot.last_update = id;
+                    log::error!("Bot encountered error: {err}");
+                }
+            }
         }
     }
-    Ok(())
 }
 
-pub async fn run_bot<
-    'a,
-    W: ErrorHandler<'a>,
-    U: Command + 'a,
-    T: MessageHandler + 'a + CommandHandler<U>,
->(
+pub async fn handle_update<'a, U: Command + 'a, T: Handler<U> + 'a>(
     bot: &mut Bot,
     handler: &mut T,
-    err_handler: &W,
-) {
-    loop {
-        if let Err(err) = handle_updates(bot, handler).await {
-            err_handler.handle_error(err)
-        }
+    update: Update,
+) -> Result<(), Box<dyn std::error::Error + 'a>> {
+    log::info!("handling update (id {})", update.update_id);
+    let msg = update.get_message()?;
+    if msg.is_command() {
+        let cmd = msg.get_command::<U>()?;
+        handler.handle_command(bot, cmd, msg).await?;
+    } else {
+        handler.handle_message(bot, msg).await?;
     }
+
+    Ok(())
 }
