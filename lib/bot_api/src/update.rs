@@ -1,5 +1,5 @@
 use super::{
-    errors::Error,
+    errors::{Error, WrongType},
     message::Message,
     parse_json::{check_ok, get_array, get_i64, get_map},
 };
@@ -60,9 +60,16 @@ impl TryFrom<Value> for Update {
 impl TryFrom<Value> for Updates {
     type Error = Error;
     fn try_from(val: Value) -> Result<Updates, Self::Error> {
-        let mut val_map = check_ok(val)?;
+        let ok_val = check_ok(val)?;
 
-        let update_vals = get_array(&mut val_map, "result")?;
+        let update_vals = if let Value::Array(vals) = ok_val {
+            Ok(vals)
+        } else {
+            Err(WrongType {
+                field_name: "response".to_owned(),
+                field_type: "array".to_owned(),
+            })
+        }?;
 
         let mut updates: Vec<Update> = vec![];
         for update_val in update_vals {

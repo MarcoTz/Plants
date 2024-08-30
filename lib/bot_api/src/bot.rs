@@ -19,32 +19,26 @@ impl Bot {
 
     pub async fn get_updates(
         &mut self,
-        offset: Option<i32>,
         limit: Option<i32>,
         timeout: Option<i32>,
         allowed_updates: Option<Vec<String>>,
     ) -> Result<Updates, Error> {
         let update = GetUpdates {
-            offset,
+            offset: Some(self.last_update),
             limit,
             timeout,
             allowed_updates,
         };
         let mut updates = update.perform(&self.api_key).await?;
-
-        updates.updates.retain(|upd| upd.update_id > self.last_update);
-
-        self.last_update = updates
+        updates
             .updates
-            .last()
-            .map(|upd| upd.update_id)
-            .unwrap_or(self.last_update);
-        log::info!("updated last processed update to {}", self.last_update);
+            .retain(|upd| upd.update_id > self.last_update);
+
         Ok(updates)
     }
 
     pub async fn get_all_updates(&mut self) -> Result<Updates, Error> {
-        self.get_updates(None, None, None, None).await
+        self.get_updates(None, Some(0), None).await
     }
 
     pub async fn send_message(&self, chat_id: String, text: String) -> Result<(), Error> {

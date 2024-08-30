@@ -3,11 +3,7 @@ use super::{
     commands::{Command, CommandRes},
     errors::Error,
 };
-use bot_api::{
-    bot::Bot,
-    handlers::{CommandHandler, MessageHandler},
-    message::Message,
-};
+use bot_api::{bot::Bot, handlers::Handler, message::Message};
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
 
 pub enum ImmediateAction {
@@ -38,7 +34,15 @@ impl<T: DatabaseManager> ActionHandler<T> {
             Ok(None)
         }
     }
-    pub fn handle_input(&mut self, new_input: Option<&str>) -> Result<String, Error> {
+
+    pub fn handle_message(&mut self, message: Message) -> String {
+        match self.handle_input(message.text) {
+            Ok(ret_msg) => ret_msg,
+            Err(err) => format!("{err}"),
+        }
+    }
+
+    pub fn handle_input(&mut self, new_input: Option<String>) -> Result<String, Error> {
         let input = new_input.ok_or(Error::MissingInput("Message".to_owned()))?;
         if let Some(ret_msg) = self.check_action()? {
             Ok(ret_msg)
@@ -72,37 +76,40 @@ impl<T: DatabaseManager> ActionHandler<T> {
         }
     }
 
-    fn process_command(&mut self, cmd: Command) -> Result<String, Error> {
-        match cmd.get_res() {
+    fn process_command(&mut self, cmd: Command) -> String {
+        let action_res = match cmd.get_res() {
             CommandRes::Message(msg) => Ok(msg),
             CommandRes::NewAction(action) => self.new_action(&action),
-            CommandRes::NewInput(inp) => self.handle_input(Some(&inp)),
+            CommandRes::NewInput(inp) => self.handle_input(Some(inp)),
             CommandRes::ImmediateAction(act) => self.handle_immediate(&act),
+        };
+        match action_res {
+            Ok(res_msg) => res_msg,
+            Err(err) => format!("{err}"),
         }
     }
 }
 
-impl<T: DatabaseManager> CommandHandler<Command> for ActionHandler<T> {
+impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
     type Error = Error;
-    async fn handle(
+    async fn handle_command(
         &mut self,
         bot: &Bot,
         cmd: Command,
         message: Message,
     ) -> Result<(), Self::Error> {
-        let ret_msg = self.process_command(cmd)?;
+        log::info!("Handling Command {cmd}");
+        let ret_msg = self.process_command(cmd);
         bot.send_message(message.chat.id.to_string(), ret_msg)
             .await?;
         Ok(())
     }
-}
 
-impl<T: DatabaseManager> MessageHandler for ActionHandler<T> {
-    type Error = Error;
-    async fn handle(&mut self, bot: &Bot, msg: Message) -> Result<(), Self::Error> {
-        let msg_text = msg.get_text()?;
-        let ret_msg = self.handle_input(Some(&msg_text))?;
-        bot.send_message(msg.chat.id.to_string(), ret_msg).await?;
+    async fn handle_message(&mut self, bot: &Bot, msg: Message) -> Result<(), Error> {
+        log::info!("Handling message");
+        let chat_id = msg.chat.id.to_string();
+        let ret_msg = self.handle_message(msg);
+        bot.send_message(chat_id, ret_msg).await?;
         Ok(())
     }
 }
