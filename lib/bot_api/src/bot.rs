@@ -24,7 +24,7 @@ impl Bot {
         allowed_updates: Option<Vec<String>>,
     ) -> Result<Updates, Error> {
         let update = GetUpdates {
-            offset: Some(self.last_update),
+            offset: Some(self.last_update + 1),
             limit,
             timeout,
             allowed_updates,
@@ -38,7 +38,7 @@ impl Bot {
     }
 
     pub async fn get_all_updates(&mut self) -> Result<Updates, Error> {
-        self.get_updates(None, Some(0), None).await
+        self.get_updates(None, Some(1), None).await
     }
 
     pub async fn send_message(&self, chat_id: String, text: String) -> Result<(), Error> {
