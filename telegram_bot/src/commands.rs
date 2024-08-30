@@ -27,6 +27,7 @@ pub enum Command {
     Abort,
     Push,
     CheckLogs,
+    Exit,
 }
 
 pub enum CommandRes {
@@ -55,6 +56,7 @@ impl Command {
             Command::Abort,
             Command::Push,
             Command::CheckLogs,
+            Command::Exit,
         ]
     }
 
@@ -64,7 +66,7 @@ impl Command {
                 let all_commands = Command::get_all();
                 let help_lines: Vec<String> = all_commands
                     .iter()
-                    .map(|cmd| cmd.to_string() + " == " + &cmd.get_description())
+                    .map(|cmd| cmd.to_string() + " -- " + &cmd.get_description())
                     .collect();
                 let help_str = format!("Possible commands: \n\n {}", help_lines.join("\n"));
                 CommandRes::Message(help_str)
@@ -94,6 +96,7 @@ impl Command {
             Command::MoveToGraveyard => {
                 CommandRes::NewAction(Box::new(MoveToGraveyard::default().into()))
             }
+            Command::Exit => CommandRes::ImmediateAction(ImmediateAction::Exit),
         }
     }
 }
@@ -117,6 +120,7 @@ impl fmt::Display for Command {
             Command::UpdateSpecies => frmt.write_str("update_species"),
             Command::UpdatePlant => frmt.write_str("update_plant"),
             Command::MoveToGraveyard => frmt.write_str("move_to_graveyard"),
+            Command::Exit => frmt.write_str("exit"),
         }
     }
 }
@@ -141,6 +145,7 @@ impl str::FromStr for Command {
             "update_species" => Ok(Command::UpdateSpecies),
             "update_plant" => Ok(Command::UpdatePlant),
             "move_to_graveyard" => Ok(Command::MoveToGraveyard),
+            "exit" => Ok(Command::Exit),
             _ => Err(Error::ParseError(format!("Command {s}"))),
         }
     }
@@ -169,6 +174,7 @@ impl BotCommand for Command {
             Command::Abort => "Abort the current action".to_owned(),
             Command::Push => "Push local changes to github".to_owned(),
             Command::CheckLogs => "Check warnings generated from build".to_owned(),
+            Command::Exit => "Exit the bot".to_owned(),
         }
     }
 }
