@@ -5,10 +5,12 @@ use super::{
 };
 use bot_api::{bot::Bot, handlers::Handler, message::Message};
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
+use std::process::exit;
 
 pub enum ImmediateAction {
     Push,
     CheckLogs,
+    Exit,
 }
 pub struct ActionHandler<T: DatabaseManager> {
     pub current_action: BotAction,
@@ -59,6 +61,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
         match action {
             ImmediateAction::Push => Ok("Not yet implemented".to_owned()),
             ImmediateAction::CheckLogs => Ok("Not yet implemented".to_owned()),
+            ImmediateAction::Exit => exit(0),
         }
     }
 
