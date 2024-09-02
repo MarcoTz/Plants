@@ -1,16 +1,16 @@
 use super::{
     errors::{Error, WrongType},
     message::Message,
-    parse_json::{check_ok, get_array, get_i64, get_map},
+    parse_json::{check_ok, get_i64, get_map},
 };
 use serde_json::Value;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Updates {
     pub updates: Vec<Update>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Update {
     pub update_id: i64,
     pub content: Option<UpdateContent>,
@@ -26,7 +26,7 @@ impl Update {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum UpdateContent {
     Message(Message),
     EditedMessage(Message),

@@ -21,6 +21,17 @@ port:
 	cargo run --bin port_data
 	cp ../Plants/Logs/Graveyard.csv data/Logs
 
+
 check:
 	cargo clippy 
 	cargo fmt --all -- --check
+
+.PHONY: test
+test:
+	cargo test --all --no-fail-fast
+
+.PHONY: coverage
+coverage:
+	@echo "Make sure to install via cargo install cargo-llvm-cov first"
+	cargo llvm-cov --workspace --html
+	cargo llvm-cov --workspace --open

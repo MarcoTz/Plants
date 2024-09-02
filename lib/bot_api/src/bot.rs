@@ -4,6 +4,7 @@ use super::{
     update::Updates,
 };
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Bot {
     pub api_key: String,
     pub last_update: i64,
@@ -44,5 +45,89 @@ impl Bot {
     pub async fn send_message(&self, chat_id: String, text: String) -> Result<(), Error> {
         SendMessage { chat_id, text }.perform(&self.api_key).await?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod bot_tests {
+    use super::Bot;
+    use serde::Deserialize;
+    use serde_json::from_str;
+    use std::{fs, path::PathBuf};
+
+    #[derive(Deserialize)]
+    struct JSONData {
+        api_key: String,
+        white_list: Vec<i64>,
+    }
+
+    fn load_config() -> JSONData {
+        let config_path = PathBuf::from("../../testing/bot_conf.json");
+        let file_contents = fs::read_to_string(config_path).unwrap();
+        let res: JSONData = from_str(&file_contents).unwrap();
+        res
+    }
+
+    #[test]
+    fn new_bot() {
+        let data = load_config();
+        let result = Bot::new(data.api_key.clone());
+        assert_eq!(
+            result,
+            Bot {
+                api_key: data.api_key,
+                last_update: 0
+            }
+        )
+    }
+
+    #[tokio::test]
+    async fn bot_updates() {
+        let data = load_config();
+        Bot::new(data.api_key)
+            .get_updates(None, None, None)
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn update_fail() {
+        let result = Bot::new("".to_owned()).get_updates(None, None, None).await;
+        assert!(result.is_err())
+    }
+
+    #[tokio::test]
+    async fn all_updates() {
+        let data = load_config();
+        let mut bot = Bot::new(data.api_key);
+        let result = bot.get_all_updates().await.unwrap();
+        let expected = bot.get_updates(None, None, None).await.unwrap();
+        assert_eq!(result, expected)
+    }
+
+    #[tokio::test]
+    async fn all_updates_fail() {
+        let result = Bot::new("".to_owned()).get_all_updates().await;
+        assert!(result.is_err())
+    }
+
+    #[tokio::test]
+    async fn send_message() {
+        let data = load_config();
+        let bot = Bot::new(data.api_key);
+        let chat_id = data.white_list.get(0).unwrap();
+        bot.send_message(chat_id.to_string(), "Running Tests".to_owned())
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn message_fail() {
+        let data = load_config();
+        let bot = Bot::new(data.api_key);
+        let res = bot
+            .send_message("not a real chat".to_owned(), "Running Tests".to_owned())
+            .await;
+        assert!(res.is_err())
     }
 }

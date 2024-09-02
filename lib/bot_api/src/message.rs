@@ -6,9 +6,9 @@ use super::{
     photo_size::Photo,
     user::User,
 };
-use serde_json::{Map, Value};
+use serde_json::Value;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Message {
     pub id: i64,
     pub date: i64,
@@ -58,7 +58,7 @@ impl Message {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MessageEntity {
     pub ty: String,
     pub offset: i64,
