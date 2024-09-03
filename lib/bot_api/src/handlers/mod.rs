@@ -42,73 +42,9 @@ mod handler_tests {
     use crate::{
         bot::Bot,
         chat::Chat,
-        commands::Command,
         message::{Message, MessageEntity},
+        test_common::ExampleHandler,
     };
-    use std::fmt;
-
-    struct ExampleHandler;
-    enum ExampleCommand {
-        Succ,
-        Error,
-    }
-    #[derive(Debug)]
-    struct ExampleError;
-    impl fmt::Display for ExampleError {
-        fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
-            frmt.write_str("example")
-        }
-    }
-
-    #[test]
-    fn display_example_err() {
-        let result = format!("{}", ExampleError {});
-        let expected = "example";
-        assert_eq!(result, expected)
-    }
-
-    impl std::error::Error for ExampleError {}
-
-    impl Command for ExampleCommand {
-        type Error = ExampleError;
-        fn parse(s: &str) -> Result<ExampleCommand, ExampleError> {
-            match s {
-                "succ" => Ok(ExampleCommand::Succ),
-                "err" => Ok(ExampleCommand::Error),
-                _ => Err(ExampleError),
-            }
-        }
-        fn get_description(&self) -> String {
-            panic!("not implemented")
-        }
-    }
-
-    #[test]
-    #[should_panic]
-    fn example_command_description() {
-        ExampleCommand::Succ.get_description();
-    }
-
-    impl Handler<ExampleCommand> for ExampleHandler {
-        type Error = ExampleError;
-        async fn handle_message(&mut self, _: &Bot, msg: Message) -> Result<(), ExampleError> {
-            match msg.get_text() {
-                Ok(_) => Ok(()),
-                Err(_) => Err(ExampleError),
-            }
-        }
-        async fn handle_command(
-            &mut self,
-            _: &Bot,
-            cmd: ExampleCommand,
-            _: Message,
-        ) -> Result<(), ExampleError> {
-            match cmd {
-                ExampleCommand::Succ => Ok(()),
-                ExampleCommand::Error => Err(ExampleError),
-            }
-        }
-    }
 
     #[tokio::test]
     async fn handle_message() {
