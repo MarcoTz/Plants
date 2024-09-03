@@ -35,3 +35,227 @@ pub trait Handler<T: Command> {
         }
     }
 }
+
+#[cfg(test)]
+mod handler_tests {
+    use super::Handler;
+    use crate::{
+        bot::Bot,
+        chat::Chat,
+        commands::Command,
+        message::{Message, MessageEntity},
+    };
+    use std::fmt;
+
+    struct ExampleHandler;
+    enum ExampleCommand {
+        Succ,
+        Error,
+    }
+    #[derive(Debug)]
+    struct ExampleError;
+    impl fmt::Display for ExampleError {
+        fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
+            frmt.write_str("example")
+        }
+    }
+
+    #[test]
+    fn display_example_err() {
+        let result = format!("{}", ExampleError {});
+        let expected = "example";
+        assert_eq!(result, expected)
+    }
+
+    impl std::error::Error for ExampleError {}
+
+    impl Command for ExampleCommand {
+        type Error = ExampleError;
+        fn parse(s: &str) -> Result<ExampleCommand, ExampleError> {
+            match s {
+                "succ" => Ok(ExampleCommand::Succ),
+                "err" => Ok(ExampleCommand::Error),
+                _ => Err(ExampleError),
+            }
+        }
+        fn get_description(&self) -> String {
+            panic!("not implemented")
+        }
+    }
+
+    #[test]
+    #[should_panic]
+    fn example_command_description() {
+        ExampleCommand::Succ.get_description();
+    }
+
+    impl Handler<ExampleCommand> for ExampleHandler {
+        type Error = ExampleError;
+        async fn handle_message(&mut self, _: &Bot, msg: Message) -> Result<(), ExampleError> {
+            match msg.get_text() {
+                Ok(_) => Ok(()),
+                Err(_) => Err(ExampleError),
+            }
+        }
+        async fn handle_command(
+            &mut self,
+            _: &Bot,
+            cmd: ExampleCommand,
+            _: Message,
+        ) -> Result<(), ExampleError> {
+            match cmd {
+                ExampleCommand::Succ => Ok(()),
+                ExampleCommand::Error => Err(ExampleError),
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn handle_message() {
+        let example_message = Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "message".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: Some("test".to_owned()),
+            photo: None,
+            entities: None,
+        };
+        let mut handler = ExampleHandler {};
+        let bot = Bot::new("sample_key".to_owned());
+
+        let result = handler.handle(example_message, &bot).await;
+        assert!(result.is_ok())
+    }
+
+    #[tokio::test]
+    async fn handle_command() {
+        let example_message = Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "message".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: Some("/succ".to_owned()),
+            photo: None,
+            entities: Some(vec![MessageEntity {
+                ty: "bot_command".to_string(),
+                offset: 1,
+                length: 1,
+                url: None,
+                user: None,
+                language: None,
+                custom_emoji_id: None,
+            }]),
+        };
+        let mut handler = ExampleHandler {};
+        let bot = Bot::new("sample_key".to_owned());
+
+        let result = handler.handle(example_message, &bot).await;
+        assert!(result.is_ok())
+    }
+
+    #[tokio::test]
+    async fn handle_command_no_parse() {
+        let example_message = Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "message".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: Some("/something".to_owned()),
+            photo: None,
+            entities: Some(vec![MessageEntity {
+                ty: "bot_command".to_string(),
+                offset: 1,
+                length: 1,
+                url: None,
+                user: None,
+                language: None,
+                custom_emoji_id: None,
+            }]),
+        };
+        let mut handler = ExampleHandler {};
+        let bot = Bot::new("sample_key".to_owned());
+
+        let result = handler.handle(example_message, &bot).await;
+        assert!(result.is_ok())
+    }
+
+    #[tokio::test]
+    async fn handle_command_handle_err() {
+        let example_message = Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "message".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: Some("/err".to_owned()),
+            photo: None,
+            entities: Some(vec![MessageEntity {
+                ty: "bot_command".to_string(),
+                offset: 1,
+                length: 1,
+                url: None,
+                user: None,
+                language: None,
+                custom_emoji_id: None,
+            }]),
+        };
+        let mut handler = ExampleHandler {};
+        let bot = Bot::new("sample_key".to_owned());
+
+        let result = handler.handle(example_message, &bot).await;
+        assert!(result.is_err())
+    }
+
+    #[tokio::test]
+    async fn handle_message_err() {
+        let example_message = Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "message".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: None,
+            photo: None,
+            entities: None,
+        };
+        let mut handler = ExampleHandler {};
+        let bot = Bot::new("sample_key".to_owned());
+
+        let result = handler.handle(example_message, &bot).await;
+        assert!(result.is_err())
+    }
+}
