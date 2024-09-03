@@ -141,7 +141,7 @@ pub mod test_common {
 
 #[cfg(test)]
 mod api_tests {
-    use super::handle_update;
+    use super::{handle_update, run_bot};
     use crate::{
         bot::Bot,
         chat::Chat,
@@ -318,5 +318,12 @@ mod api_tests {
         };
         let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
         assert!(result.is_err())
+    }
+
+    #[tokio::test]
+    async fn run_err() {
+        let mut bot = Bot::new("not a valid key".to_owned());
+        let res = run_bot(&mut bot, &mut ExampleHandler {}).await;
+        assert!(res.is_err())
     }
 }

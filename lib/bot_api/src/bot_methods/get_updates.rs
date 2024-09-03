@@ -72,7 +72,7 @@ mod get_updates_tests {
     }
     fn example_get_updates2() -> GetUpdates {
         GetUpdates {
-            offset: Some(1),
+            offset: Some(3),
             limit: Some(1),
             timeout: Some(1),
             allowed_updates: Some(vec!["message".to_owned()]),
@@ -90,7 +90,7 @@ mod get_updates_tests {
     fn to_get_params2() {
         let result = example_get_updates2().to_get_params();
         let expected = vec![
-            ("offset".to_owned(), "1".to_owned()),
+            ("offset".to_owned(), "3".to_owned()),
             ("limit".to_owned(), "1".to_owned()),
             ("timeout".to_owned(), "1".to_owned()),
             ("allowed_updates".to_owned(), "[message]".to_owned()),
@@ -112,13 +112,6 @@ mod get_updates_tests {
     async fn perform_updates1() {
         let data = load_config();
         let res = example_get_updates1().perform(&data.api_key).await;
-        assert!(res.is_ok())
-    }
-
-    #[tokio::test]
-    async fn perform_updates2() {
-        let data = load_config();
-        let res = example_get_updates2().perform(&data.api_key).await;
         assert!(res.is_ok())
     }
 
