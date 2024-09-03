@@ -122,7 +122,7 @@ pub fn load_images(image_dir: &PathBuf) -> Result<Vec<PlantImage>, Error> {
 #[cfg(test)]
 mod json_to_plant_tests {
     use super::{load_images, load_plants};
-    use chrono::NaiveDate;
+    use crate::file_backend::test_common::dummy_date;
     use plants::{
         growth_item::GrowthItem,
         log_item::LogItem,
@@ -135,10 +135,6 @@ mod json_to_plant_tests {
     const DUMMY_SPECIES_PATH: &str = "../../testing/species/";
     const DUMMY_ACTIVITY_FILE: &str = "../../testing/Logs/Activities.csv";
     const DUMMY_GROWTH_FILE: &str = "../../testing/Logs/Growth.csv";
-
-    fn dummy_date() -> NaiveDate {
-        NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap()
-    }
 
     fn dummy_species() -> Species {
         Species {
