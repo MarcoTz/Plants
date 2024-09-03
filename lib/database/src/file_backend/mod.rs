@@ -286,3 +286,12 @@ impl DatabaseManager for FileDB {
         Ok(())
     }
 }
+
+#[cfg(test)]
+pub mod test_common {
+    use chrono::NaiveDate;
+
+    pub fn dummy_date() -> NaiveDate {
+        NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap()
+    }
+}
