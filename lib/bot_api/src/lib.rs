@@ -76,6 +76,7 @@ pub mod test_common {
     }
 
     pub struct ExampleHandler;
+    #[derive(Debug, PartialEq, Eq)]
     pub enum ExampleCommand {
         Succ,
         Error,
