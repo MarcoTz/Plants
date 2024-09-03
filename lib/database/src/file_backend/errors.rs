@@ -20,6 +20,7 @@ pub enum Error {
     LocationNotFound(String),
     PlantNotFound(String),
 }
+impl std::error::Error for Error {}
 
 #[derive(Debug)]
 pub struct IOErr {
@@ -109,5 +110,3 @@ impl fmt::Display for Error {
         }
     }
 }
-
-impl std::error::Error for Error {}

@@ -115,21 +115,21 @@ impl FileDB {
 }
 
 impl DatabaseManager for FileDB {
-    fn get_all_plants(&mut self) -> Result<Vec<Plant>, crate::errors::Error> {
+    fn get_all_plants(&mut self) -> Result<Vec<Plant>, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.clone())
     }
 
-    fn get_num_plants(&mut self) -> Result<i32, crate::errors::Error> {
+    fn get_num_plants(&mut self) -> Result<i32, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
         Ok(self.plants_cache.len() as i32)
     }
 
-    fn get_plant(&mut self, plant_name: &str) -> Result<Plant, crate::errors::Error> {
+    fn get_plant(&mut self, plant_name: &str) -> Result<Plant, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
@@ -143,14 +143,14 @@ impl DatabaseManager for FileDB {
             .ok_or(Error::PlantNotFound(plant_name.to_owned()).into())
     }
 
-    fn get_all_species(&mut self) -> Result<Vec<Species>, crate::errors::Error> {
+    fn get_all_species(&mut self) -> Result<Vec<Species>, Box<dyn std::error::Error>> {
         if self.species_cache.is_empty() {
             self.load_species()?;
         }
         Ok(self.species_cache.clone())
     }
 
-    fn get_species(&mut self, species_name: &str) -> Result<Species, crate::errors::Error> {
+    fn get_species(&mut self, species_name: &str) -> Result<Species, Box<dyn std::error::Error>> {
         if self.species_cache.is_empty() {
             self.load_species()?;
         }
@@ -164,7 +164,7 @@ impl DatabaseManager for FileDB {
             .ok_or(Error::SpeciesNotFound(species_name.to_owned()).into())
     }
 
-    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, crate::errors::Error> {
+    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn std::error::Error>> {
         if self.graveyard_cache.is_empty() {
             self.load_graveyard()?;
         }
@@ -174,7 +174,7 @@ impl DatabaseManager for FileDB {
     fn get_plants_species(
         &mut self,
         species_name: &str,
-    ) -> Result<Vec<Plant>, crate::errors::Error> {
+    ) -> Result<Vec<Plant>, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
@@ -190,18 +190,21 @@ impl DatabaseManager for FileDB {
         Ok(species_plants)
     }
 
-    fn get_locations(&mut self) -> Result<Vec<Location>, crate::errors::Error> {
+    fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn std::error::Error>> {
         if self.location_cache.is_empty() {
             self.load_locations()?;
         }
         Ok(self.location_cache.clone())
     }
 
-    fn get_location(&mut self, location_name: &str) -> Result<Location, crate::errors::Error> {
+    fn get_location(
+        &mut self,
+        location_name: &str,
+    ) -> Result<Location, Box<dyn std::error::Error>> {
         if self.location_cache.is_empty() {
             self.load_locations()?;
         }
-        let err: crate::errors::Error = Error::LocationNotFound(location_name.to_owned()).into();
+        let err = Error::LocationNotFound(location_name.to_owned()).into();
         self.location_cache
             .iter()
             .filter(|loc| loc.get_name() == location_name)
@@ -212,7 +215,7 @@ impl DatabaseManager for FileDB {
             .ok_or(err)
     }
 
-    fn plant_exists(&mut self, plant_name: &str) -> Result<bool, crate::errors::Error> {
+    fn plant_exists(&mut self, plant_name: &str) -> Result<bool, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
@@ -223,14 +226,14 @@ impl DatabaseManager for FileDB {
             .any(|pl| pl.info.name == plant_name))
     }
 
-    fn species_exists(&mut self, species_name: &str) -> Result<bool, crate::errors::Error> {
+    fn species_exists(&mut self, species_name: &str) -> Result<bool, Box<dyn std::error::Error>> {
         if self.species_cache.is_empty() {
             self.load_species()?;
         }
         Ok(self.species_cache.iter().any(|sp| sp.name == species_name))
     }
 
-    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), crate::errors::Error> {
+    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn std::error::Error>> {
         write_activities(logs, &self.get_activities_filepath())?;
         Ok(())
     }
@@ -238,7 +241,7 @@ impl DatabaseManager for FileDB {
     fn get_plants_by_location(
         &mut self,
         location: String,
-    ) -> Result<Vec<Plant>, crate::errors::Error> {
+    ) -> Result<Vec<Plant>, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
@@ -251,22 +254,22 @@ impl DatabaseManager for FileDB {
             .collect())
     }
 
-    fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), crate::errors::Error> {
+    fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn std::error::Error>> {
         write_growth(growth, &self.get_growth_filepath())?;
         Ok(())
     }
 
-    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), crate::errors::Error> {
+    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn std::error::Error>> {
         write_plants(vec![plant], &self.plants_dir)?;
         Ok(())
     }
 
-    fn write_species(&mut self, species: Species) -> Result<(), crate::errors::Error> {
+    fn write_species(&mut self, species: Species) -> Result<(), Box<dyn std::error::Error>> {
         write_species(vec![species], &self.species_dir)?;
         Ok(())
     }
 
-    fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), crate::errors::Error> {
+    fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn std::error::Error>> {
         let name = plant.name.clone();
         write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
         let plant_filename = name.replace(' ', "") + ".json";

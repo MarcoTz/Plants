@@ -1,4 +1,6 @@
 use std::fmt;
+
+#[derive(Debug)]
 pub enum Error {
     PlantError(plants::errors::Error),
     LocationError(Vec<String>),
@@ -10,7 +12,7 @@ impl From<plants::errors::Error> for Error {
     }
 }
 
-impl fmt::Debug for Error {
+impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::PlantError(plant_err) => plant_err.fmt(frmt),

@@ -1,11 +1,9 @@
 use bot_api::errors::Error as BotError;
-use database::errors::Error as DBError;
 use plants::errors::Error as PlantError;
 use std::fmt;
 
 #[derive(Debug)]
 pub enum Error {
-    DBError(DBError),
     PlantError(PlantError),
     BotError(BotError),
     NoActionRunning,
@@ -19,6 +17,7 @@ pub enum Error {
     PlantExists(String),
     SpeciesDoesNotExist(String),
     SpeciesExists(String),
+    Other(Box<dyn std::error::Error>),
 }
 
 impl std::error::Error for Error {}
@@ -26,7 +25,6 @@ impl std::error::Error for Error {}
 impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::DBError(db_err) => frmt.write_str(&format!("{db_err:?}")),
             Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err:?}")),
             Error::BotError(bot_err) => frmt.write_str(&format!("{bot_err:?}")),
             Error::NoActionRunning => {
@@ -56,13 +54,14 @@ impl fmt::Display for Error {
                 frmt.write_str(&format!("Species {name} does not exist"))
             }
             Error::SpeciesExists(name) => frmt.write_str(&format!("Species {name} already exists")),
+            Error::Other(err) => err.fmt(frmt),
         }
     }
 }
 
-impl From<DBError> for Error {
-    fn from(db_err: DBError) -> Error {
-        Error::DBError(db_err)
+impl From<Box<dyn std::error::Error>> for Error {
+    fn from(err: Box<dyn std::error::Error>) -> Error {
+        Error::Other(err)
     }
 }
 
