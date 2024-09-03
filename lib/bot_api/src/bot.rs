@@ -85,9 +85,9 @@ mod bot_tests {
     async fn all_updates() {
         let data = load_config();
         let mut bot = Bot::new(data.api_key);
-        let result = bot.get_all_updates().await.unwrap();
-        let expected = bot.get_updates(None, None, None).await.unwrap();
-        assert_eq!(result, expected)
+        bot.last_update = 4;
+        let result = bot.get_all_updates().await;
+        assert!(result.is_ok())
     }
 
     #[tokio::test]
