@@ -60,3 +60,124 @@ impl TryFrom<Value> for Photo {
         }
     }
 }
+
+#[cfg(test)]
+mod photo_tests {
+
+    use super::{Photo, PhotoSize};
+    use serde_json::{Map, Number, Value};
+
+    fn example_photo_size_val() -> Map<String, Value> {
+        let mut val_map = Map::new();
+        val_map.insert("file_id".to_owned(), Value::String("id".to_owned()));
+        val_map.insert(
+            "file_unique_id".to_owned(),
+            Value::String("unique_id".to_owned()),
+        );
+        val_map.insert("width".to_owned(), Value::Number(Number::from(1)));
+        val_map.insert("height".to_owned(), Value::Number(Number::from(1)));
+        val_map.insert("file_size".to_owned(), Value::Number(Number::from(1)));
+        val_map
+    }
+
+    fn example_photo_size_parsed() -> PhotoSize {
+        PhotoSize {
+            file_id: "id".to_owned(),
+            file_unique_id: "unique_id".to_owned(),
+            width: 1,
+            height: 1,
+            file_size: Some(1),
+        }
+    }
+
+    #[test]
+    fn size_from_val() {
+        let result =
+            <Value as TryInto<PhotoSize>>::try_into(Value::Object(example_photo_size_val()))
+                .unwrap();
+        let expected = example_photo_size_parsed();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn size_from_val_no_size() {
+        let mut val_map = example_photo_size_val();
+        val_map.remove("file_size");
+        let mut expected = example_photo_size_parsed();
+        expected.file_size = None;
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map)).unwrap();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn size_from_val_no_id() {
+        let mut val_map = example_photo_size_val();
+        val_map.remove("file_id");
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn size_from_val_no_unique_id() {
+        let mut val_map = example_photo_size_val();
+        val_map.remove("file_unique_id");
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn size_from_val_no_width() {
+        let mut val_map = example_photo_size_val();
+        val_map.remove("width");
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn size_from_val_no_height() {
+        let mut val_map = example_photo_size_val();
+        val_map.remove("height");
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn size_from_val_bad_filesize() {
+        let mut val_map = example_photo_size_val();
+        val_map.insert("file_size".to_owned(), Value::Bool(false));
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn size_from_val_no_map() {
+        let result = <Value as TryInto<PhotoSize>>::try_into(Value::String("bad value".to_owned()));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn photo_from_val() {
+        let val = Value::Array(vec![Value::Object(example_photo_size_val())]);
+        let result = <Value as TryInto<Photo>>::try_into(val).unwrap();
+        assert_eq!(
+            result,
+            Photo {
+                sizes: vec![example_photo_size_parsed()]
+            }
+        )
+    }
+
+    #[test]
+    fn photo_from_val_bad_size() {
+        let val = Value::Array(vec![Value::String("bad value".to_owned())]);
+        let result = <Value as TryInto<Photo>>::try_into(val);
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn photo_from_val_wrong_type() {
+        let val = Value::String("Bad value".to_owned());
+        let result = <Value as TryInto<Photo>>::try_into(val);
+        assert!(result.is_err())
+    }
+}
