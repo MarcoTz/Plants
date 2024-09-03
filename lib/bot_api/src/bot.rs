@@ -51,22 +51,7 @@ impl Bot {
 #[cfg(test)]
 mod bot_tests {
     use super::Bot;
-    use serde::Deserialize;
-    use serde_json::from_str;
-    use std::{fs, path::PathBuf};
-
-    #[derive(Deserialize)]
-    struct JSONData {
-        api_key: String,
-        white_list: Vec<i64>,
-    }
-
-    fn load_config() -> JSONData {
-        let config_path = PathBuf::from("../../testing/bot_conf.json");
-        let file_contents = fs::read_to_string(config_path).unwrap();
-        let res: JSONData = from_str(&file_contents).unwrap();
-        res
-    }
+    use crate::test_common::load_config;
 
     #[test]
     fn new_bot() {
@@ -116,9 +101,10 @@ mod bot_tests {
         let data = load_config();
         let bot = Bot::new(data.api_key);
         let chat_id = data.white_list.get(0).unwrap();
-        bot.send_message(chat_id.to_string(), "Running Tests".to_owned())
-            .await
-            .unwrap();
+        let res = bot
+            .send_message(chat_id.to_string(), "Running Tests".to_owned())
+            .await;
+        assert!(res.is_ok())
     }
 
     #[tokio::test]
