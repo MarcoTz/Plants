@@ -2,7 +2,7 @@ use std::fmt;
 
 #[derive(Clone, Debug)]
 pub struct ParseError {
-    ty: String,
+    pub ty: String,
 }
 
 impl fmt::Display for ParseError {
@@ -16,5 +16,22 @@ impl From<url::ParseError> for ParseError {
         ParseError {
             ty: parse_err.to_string(),
         }
+    }
+}
+
+#[cfg(test)]
+mod parse_err_tests {
+    use super::ParseError;
+
+    #[test]
+    fn display_parse_err() {
+        let result = format!(
+            "{}",
+            ParseError {
+                ty: "test".to_owned()
+            }
+        );
+        let expected = "Could not parse test";
+        assert_eq!(result, expected)
     }
 }

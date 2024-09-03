@@ -54,3 +54,22 @@ pub async fn handle_update<'a, U: Command + 'a, T: Handler<U> + 'a>(
 
     Ok(())
 }
+
+pub mod test_common {
+    use serde::Deserialize;
+    use serde_json::from_str;
+    use std::{fs, path::PathBuf};
+
+    #[derive(Deserialize)]
+    pub struct JSONData {
+        pub api_key: String,
+        pub white_list: Vec<i64>,
+    }
+
+    pub fn load_config() -> JSONData {
+        let config_path = PathBuf::from("../../testing/bot_conf.json");
+        let file_contents = fs::read_to_string(config_path).unwrap();
+        let res: JSONData = from_str(&file_contents).unwrap();
+        res
+    }
+}
