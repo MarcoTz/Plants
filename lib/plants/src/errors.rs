@@ -1,5 +1,6 @@
 use std::fmt;
 
+#[derive(Debug)]
 pub enum Error {
     SunlightError(String),
     GrowthError(String),
@@ -8,7 +9,7 @@ pub enum Error {
     WrongType(String),
 }
 
-impl fmt::Debug for Error {
+impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::SunlightError(msg) => frmt.write_str(msg),
