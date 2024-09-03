@@ -155,3 +155,261 @@ pub fn get_option_bool(
         .into()),
     }
 }
+
+#[cfg(test)]
+mod parse_json_tests {
+    use super::{
+        check_ok, get_array, get_bool, get_i64, get_map, get_option_array, get_option_bool,
+        get_option_i64, get_option_str, get_str, get_val,
+    };
+    use serde_json::{Map, Number, Value};
+
+    #[test]
+    fn map_value() {
+        let result = get_map(Value::Object(Map::new())).unwrap();
+        assert_eq!(result, Map::new())
+    }
+
+    #[test]
+    fn map_value_fail() {
+        let result = get_map(Value::String("bad map".to_owned()));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn check_ok_ok() {
+        let mut val_map = Map::new();
+        val_map.insert("ok".to_owned(), Value::Bool(true));
+        val_map.insert("result".to_owned(), Value::Bool(true));
+        let result = check_ok(Value::Object(val_map)).unwrap();
+        assert_eq!(result, Value::Bool(true))
+    }
+
+    #[test]
+    fn check_ok_no_map() {
+        let result = check_ok(Value::Bool(false));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn check_ok_no_ok() {
+        let result = check_ok(Value::Object(Map::new()));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn check_ok_no_result() {
+        let mut val_map = Map::new();
+        val_map.insert("ok".to_owned(), Value::Bool(true));
+        let result = check_ok(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn check_ok_no_bool() {
+        let mut val_map = Map::new();
+        val_map.insert("ok".to_owned(), Value::String("bad value".to_owned()));
+        let result = check_ok(Value::Object(val_map));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_val_ok() {
+        let mut val_map = Map::new();
+        val_map.insert("field".to_owned(), Value::Bool(true));
+        let result = get_val(&mut val_map, "field").unwrap();
+        assert_eq!(result, Value::Bool(true))
+    }
+
+    #[test]
+    fn get_val_missing() {
+        let result = get_val(&mut Map::new(), "something");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_array_ok() {
+        let mut val_map = Map::new();
+        val_map.insert("array".to_owned(), Value::Array(vec![Value::Bool(true)]));
+        let result = get_array(&mut val_map, "array").unwrap();
+        assert_eq!(result, vec![Value::Bool(true)])
+    }
+
+    #[test]
+    fn get_array_no_field() {
+        let result = get_array(&mut Map::new(), "array");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_array_no_array() {
+        let mut val_map = Map::new();
+        val_map.insert("array".to_owned(), Value::Bool(false));
+        let result = get_array(&mut val_map, "array");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_option_array_some() {
+        let mut val_map = Map::new();
+        val_map.insert("array".to_owned(), Value::Array(vec![Value::Bool(true)]));
+        let result = get_option_array(&mut val_map, "array").unwrap();
+        assert_eq!(result, Some(vec![Value::Bool(true)]))
+    }
+
+    #[test]
+    fn get_option_array_none() {
+        let result = get_option_array(&mut Map::new(), "array").unwrap();
+        assert_eq!(result, None)
+    }
+
+    #[test]
+    fn get_option_array_fail() {
+        let mut val_map = Map::new();
+        val_map.insert("array".to_owned(), Value::Bool(true));
+        let result = get_option_array(&mut val_map, "array");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_int() {
+        let mut val_map = Map::new();
+        val_map.insert("int".to_owned(), Value::Number(Number::from(1)));
+        let result = get_i64(&mut val_map, "int").unwrap();
+        assert_eq!(result, 1)
+    }
+
+    #[test]
+    fn get_int_no_field() {
+        let result = get_i64(&mut Map::new(), "int");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_int_float() {
+        let mut val_map = Map::new();
+        let num = Number::from_f64(2.5).unwrap();
+        val_map.insert("int".to_owned(), Value::Number(num));
+        let result = get_i64(&mut val_map, "int");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_option_i64_some() {
+        let mut val_map = Map::new();
+        val_map.insert("int".to_owned(), Value::Number(Number::from(1)));
+        let result = get_option_i64(&mut val_map, "int").unwrap();
+        assert_eq!(result, Some(1));
+    }
+
+    #[test]
+    fn get_option_i64_none() {
+        let result = get_option_i64(&mut Map::new(), "int").unwrap();
+        assert_eq!(result, None);
+    }
+
+    #[test]
+    fn get_option_i64_wrong_type() {
+        let mut val_map = Map::new();
+        val_map.insert("int".to_owned(), Value::Bool(false));
+        let result = get_option_i64(&mut val_map, "int");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_option_i64_float() {
+        let mut val_map = Map::new();
+        let num = Number::from_f64(2.4).unwrap();
+        val_map.insert("int".to_owned(), Value::Number(num));
+        let result = get_option_i64(&mut val_map, "int");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_str_ok() {
+        let mut val_map = Map::new();
+        val_map.insert("str".to_owned(), Value::String("str".to_owned()));
+        let result = get_str(&mut val_map, "str").unwrap();
+        assert_eq!(result, "str")
+    }
+
+    #[test]
+    fn get_str_missing() {
+        let result = get_str(&mut Map::new(), "str");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_str_wrong_type() {
+        let mut val_map = Map::new();
+        val_map.insert("str".to_owned(), Value::Bool(false));
+        let result = get_str(&mut val_map, "str");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_option_str_some() {
+        let mut val_map = Map::new();
+        val_map.insert("str".to_owned(), Value::String("str".to_owned()));
+        let result = get_option_str(&mut val_map, "str").unwrap();
+        assert_eq!(result, Some("str".to_owned()))
+    }
+
+    #[test]
+    fn get_option_str_none() {
+        let result = get_option_str(&mut Map::new(), "str").unwrap();
+        assert_eq!(result, None)
+    }
+
+    #[test]
+    fn get_option_str_wrong_type() {
+        let mut val_map = Map::new();
+        val_map.insert("str".to_owned(), Value::Bool(false));
+        let result = get_option_str(&mut val_map, "str");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_bool_ok() {
+        let mut val_map = Map::new();
+        val_map.insert("bool".to_owned(), Value::Bool(true));
+        let result = get_bool(&mut val_map, "bool").unwrap();
+        assert!(result)
+    }
+
+    #[test]
+    fn get_bool_missing() {
+        let result = get_bool(&mut Map::new(), "bool");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_bool_wrong_type() {
+        let mut val_map = Map::new();
+        val_map.insert("bool".to_owned(), Value::String("bad value".to_owned()));
+        let result = get_bool(&mut val_map, "bool");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_option_bool_some() {
+        let mut val_map = Map::new();
+        val_map.insert("bool".to_owned(), Value::Bool(true));
+        let result = get_option_bool(&mut val_map, "bool").unwrap();
+        assert_eq!(result, Some(true))
+    }
+
+    #[test]
+    fn get_option_bool_none() {
+        let result = get_option_bool(&mut Map::new(), "bool").unwrap();
+        assert_eq!(result, None)
+    }
+
+    #[test]
+    fn get_option_bool_wrong_type() {
+        let mut val_map = Map::new();
+        val_map.insert("bool".to_owned(), Value::String("bad value".to_owned()));
+        let result = get_option_bool(&mut val_map, "bool");
+        assert!(result.is_err())
+    }
+}
