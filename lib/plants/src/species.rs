@@ -6,7 +6,7 @@ use chrono::TimeDelta;
 use serde::{Deserialize, Serialize};
 use std::{fmt, str::FromStr};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, PartialEq, Deserialize, Clone, Debug)]
 pub enum SunlightRequirement {
     Direct,
     Indirect,
@@ -35,7 +35,7 @@ impl fmt::Display for SunlightRequirement {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, PartialEq, Deserialize, Clone, Debug)]
 pub struct Species {
     pub name: String,
     pub scientific_name: String,

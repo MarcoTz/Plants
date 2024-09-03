@@ -11,26 +11,26 @@ use chrono::{Local, NaiveDate, TimeDelta};
 use serde::{Deserialize, Serialize};
 use std::{cmp::max, path::PathBuf};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct PlantImage {
     pub created: NaiveDate,
     pub file_name: String,
     pub file_path: PathBuf,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, PartialEq, Debug)]
 pub enum PlantSpecies {
     Species(Box<Species>),
     Other(String),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PlantLocation {
     Location(Box<Location>),
     Other(String),
 }
 
-#[derive(Serialize, Clone, Deserialize, Debug)]
+#[derive(Serialize, Clone, Deserialize, Debug, PartialEq)]
 pub struct PlantInfo {
     pub name: String,
     #[serde(with = "species_serializer")]
@@ -44,7 +44,7 @@ pub struct PlantInfo {
     pub notes: Vec<String>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Plant {
     pub info: PlantInfo,
     pub growth: Vec<GrowthItem>,
