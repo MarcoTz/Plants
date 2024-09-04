@@ -75,6 +75,11 @@ pub mod test_common {
         res
     }
 
+    #[test]
+    fn load_config_test() {
+        load_config();
+    }
+
     pub struct ExampleHandler;
     #[derive(Debug, PartialEq, Eq)]
     pub enum ExampleCommand {
