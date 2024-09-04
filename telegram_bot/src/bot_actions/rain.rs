@@ -20,7 +20,7 @@ impl Action for Rain {
             locations.into_iter().filter(|loc| loc.outside).collect();
         let mut outside_plants = vec![];
         for outside_location in outside_locations.iter() {
-            let location_plants = db_man.get_plants_by_location(outside_location.get_name())?;
+            let location_plants = db_man.get_plants_by_location(&outside_location.get_name())?;
             outside_plants.extend(location_plants);
         }
 

@@ -28,6 +28,7 @@ use std::{
     path::PathBuf,
 };
 
+#[derive(Debug, PartialEq)]
 pub struct FileDB {
     pub plants_dir: PathBuf,
     pub species_dir: PathBuf,
@@ -240,7 +241,7 @@ impl DatabaseManager for FileDB {
 
     fn get_plants_by_location(
         &mut self,
-        location: String,
+        location: &str,
     ) -> Result<Vec<Plant>, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
@@ -291,7 +292,9 @@ impl DatabaseManager for FileDB {
 pub mod test_common {
     use chrono::NaiveDate;
     use plants::{
+        graveyard::GraveyardPlant,
         growth_item::GrowthItem,
+        location::Location,
         log_item::LogItem,
         plant::{Plant, PlantImage, PlantInfo, PlantLocation, PlantSpecies},
         species::{Species, SunlightRequirement},
@@ -316,6 +319,7 @@ pub mod test_common {
 
     pub const DUMMY_PLANT_PATH: &str = "../../testing/plants/";
     pub const DUMMY_SPECIES_PATH: &str = "../../testing/species/";
+    pub const DUMMY_LOGS_PATH: &str = "../../testing/Logs/";
 
     pub const FILE_DOES_NOT_EXIST: &str = "../../testing/notaflie";
 
@@ -344,6 +348,47 @@ pub mod test_common {
             pruning_notes: vec!["".to_owned()],
             companions: vec!["".to_owned()],
             additional_notes: vec![],
+        }
+    }
+
+    pub fn dummy_location1() -> Location {
+        Location {
+            name: "test outside".to_owned(),
+            outside: true,
+        }
+    }
+
+    pub fn dummy_location2() -> Location {
+        Location {
+            name: "test inside".to_owned(),
+            outside: false,
+        }
+    }
+
+    pub fn dummy_location3() -> Location {
+        Location {
+            name: "test location".to_owned(),
+            outside: false,
+        }
+    }
+
+    pub fn dummy_graveyard1() -> GraveyardPlant {
+        GraveyardPlant {
+            name: "Dummy1".to_owned(),
+            species: "test species".to_owned(),
+            planted: dummy_date(),
+            died: NaiveDate::parse_from_str("02.01.1970", "%d.%m.%Y").unwrap(),
+            reason: "testing".to_owned(),
+        }
+    }
+
+    pub fn dummy_graveyard2() -> GraveyardPlant {
+        GraveyardPlant {
+            name: "Dummy2".to_owned(),
+            species: "testing species".to_owned(),
+            planted: dummy_date(),
+            died: NaiveDate::parse_from_str("02.01.1970", "%d.%m.%Y").unwrap(),
+            reason: "testing".to_owned(),
         }
     }
 
@@ -385,7 +430,7 @@ pub mod test_common {
             info: PlantInfo {
                 name: "Dummy2".to_owned(),
                 species: PlantSpecies::Other("a different species".to_owned()),
-                location: PlantLocation::Other("test location".to_owned()),
+                location: PlantLocation::Other("a different test location".to_owned()),
                 origin: "test origin".to_owned(),
                 obtained: dummy_date(),
                 auto_water: true,
@@ -466,9 +511,282 @@ pub mod test_common {
     fn ensure_plant_pahts_exist() {
         let plant_path = Path::new(DUMMY_PLANT_PATH);
         let species_path = Path::new(DUMMY_SPECIES_PATH);
+        let logs_path = Path::new(DUMMY_LOGS_PATH);
         assert!(plant_path.exists());
         assert!(plant_path.is_dir());
         assert!(species_path.exists());
         assert!(species_path.is_dir());
+        assert!(logs_path.exists());
+        assert!(logs_path.is_dir());
     }
+}
+
+#[cfg(test)]
+mod file_backend_tests {
+    use super::{
+        test_common::{
+            dummy_graveyard1, dummy_graveyard2, dummy_location1, dummy_location2, dummy_location3,
+            dummy_plant1, dummy_plant2, dummy_species, ACTIVITIES_DUMMY, DUMMY_LOGS_PATH,
+            DUMMY_PLANT_PATH, DUMMY_SPECIES_PATH, GRAVEYARD_DUMMY, GROWTH_DUMMY, LOCATIONS_DUMMY,
+        },
+        FileDB,
+    };
+    use crate::database_manager::DatabaseManager;
+    use plants::named::Named;
+    use std::path::PathBuf;
+
+    fn dummy_db() -> FileDB {
+        FileDB {
+            plants_dir: PathBuf::from(DUMMY_PLANT_PATH),
+            species_dir: PathBuf::from(DUMMY_SPECIES_PATH),
+            location_file: PathBuf::from(LOCATIONS_DUMMY),
+            logs_dir: PathBuf::from(DUMMY_LOGS_PATH),
+            graveyard_csv: "Graveyard.csv".to_owned(),
+            growth_csv: "Growth.csv".to_owned(),
+            activities_csv: "Activities.csv".to_owned(),
+            date_format: "%d.%m.%Y".to_owned(),
+            plants_cache: vec![],
+            species_cache: vec![],
+            graveyard_cache: vec![],
+            location_cache: vec![],
+        }
+    }
+
+    #[test]
+    fn default_backend() {
+        let result = FileDB::default();
+
+        let data_dir: PathBuf = "data".into();
+        let expected = FileDB {
+            plants_dir: data_dir.join("Plants"),
+            species_dir: data_dir.join("Species"),
+            location_file: data_dir.join("Locations.csv"),
+            logs_dir: data_dir.join("Logs"),
+            graveyard_csv: "Graveyard.csv".to_owned(),
+            growth_csv: "Growth.csv".to_owned(),
+            activities_csv: "Activities.csv".to_owned(),
+            date_format: "%d.%m.%Y".to_owned(),
+            plants_cache: vec![],
+            graveyard_cache: vec![],
+            species_cache: vec![],
+            location_cache: vec![],
+        };
+
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn activities_file_path() {
+        let result = FileDB::default().get_activities_filepath();
+        let expected = PathBuf::from("data/Logs/Activities.csv");
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn activities_path_dummy() {
+        let result = dummy_db().get_activities_filepath();
+        let expected = PathBuf::from(&ACTIVITIES_DUMMY);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn graveyard_file_path() {
+        let result = FileDB::default().get_graveyard_filepath();
+        let expected = PathBuf::from("data/Logs/Graveyard.csv");
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn graveyard_path_dummy() {
+        let result = dummy_db().get_graveyard_filepath();
+        let expected = PathBuf::from(&GRAVEYARD_DUMMY);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn growth_file_path() {
+        let result = FileDB::default().get_growth_filepath();
+        let expected = PathBuf::from("data/Logs/Growth.csv");
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn growth_path_dummy() {
+        let result = dummy_db().get_growth_filepath();
+        let expected = PathBuf::from(&GROWTH_DUMMY);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn load_plants() {
+        let mut db = dummy_db();
+        db.load_plants().unwrap();
+        db.plants_cache
+            .sort_by(|plant1, plant2| plant1.info.name.cmp(&plant2.info.name));
+        let mut expected = vec![dummy_plant1(), dummy_plant2()];
+        expected.sort_by(|plant1, plant2| plant1.info.name.cmp(&plant2.info.name));
+        assert_eq!(db.plants_cache, expected)
+    }
+
+    #[test]
+    fn load_species() {
+        let mut db = dummy_db();
+        db.load_species().unwrap();
+        db.species_cache
+            .sort_by(|species1, species2| species1.name.cmp(&species2.name));
+        let mut expected = vec![dummy_species()];
+        expected.sort_by(|species1, species2| species1.name.cmp(&species2.name));
+        assert_eq!(db.species_cache, expected)
+    }
+
+    #[test]
+    fn load_graveyard() {
+        let mut db = dummy_db();
+        db.load_graveyard().unwrap();
+        db.graveyard_cache
+            .sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
+        let mut expected = vec![dummy_graveyard1(), dummy_graveyard2()];
+        expected.sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
+        assert_eq!(db.graveyard_cache, expected)
+    }
+
+    #[test]
+    fn load_locations() {
+        let mut db = dummy_db();
+        db.load_locations().unwrap();
+        db.location_cache
+            .sort_by(|loc1, loc2| loc1.get_name().cmp(&loc2.get_name()));
+        let mut expected = vec![dummy_location1(), dummy_location2(), dummy_location3()];
+        expected.sort_by(|loc1, loc2| loc1.get_name().cmp(&loc2.get_name()));
+        assert_eq!(db.location_cache, expected)
+    }
+
+    #[test]
+    fn db_man_get_all_plants() {
+        let mut db = dummy_db();
+        let mut result = db.get_all_plants().unwrap();
+        result.sort_by(|plant1, plant2| plant1.info.name.cmp(&plant2.info.name));
+        let mut expected = vec![dummy_plant1(), dummy_plant2()];
+        expected.sort_by(|plant1, plant2| plant1.info.name.cmp(&plant2.info.name));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_num_plants() {
+        let mut db = dummy_db();
+        let result = db.get_num_plants().unwrap();
+        let expected = 2;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_plant() {
+        let mut db = dummy_db();
+        let result = db.get_plant("Dummy1").unwrap();
+        let expected = dummy_plant1();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_all_species() {
+        let mut db = dummy_db();
+        let mut result = db.get_all_species().unwrap();
+        result.sort_by(|species1, species2| species1.name.cmp(&species2.name));
+        let mut expected = vec![dummy_species()];
+        expected.sort_by(|species1, species2| species1.name.cmp(&species2.name));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_species() {
+        let mut db = dummy_db();
+        let result = db.get_species("test species").unwrap();
+        let expected = dummy_species();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_graveyard() {
+        let mut db = dummy_db();
+        let mut result = db.get_graveyard().unwrap();
+        result.sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
+        let mut expected = vec![dummy_graveyard1(), dummy_graveyard2()];
+        expected.sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_plants_species() {
+        let mut db = dummy_db();
+        let result = db.get_plants_species("test species").unwrap();
+        let expected = vec![dummy_plant1()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_locations() {
+        let mut db = dummy_db();
+        let mut result = db.get_locations().unwrap();
+        result.sort_by(|loc1, loc2| loc1.get_name().cmp(&loc2.get_name()));
+        let mut expected = vec![dummy_location1(), dummy_location2(), dummy_location3()];
+        expected.sort_by(|loc1, loc2| loc1.get_name().cmp(&loc2.get_name()));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_get_location() {
+        let mut db = dummy_db();
+        let expected = dummy_location1();
+        let result = db.get_location(&expected.get_name()).unwrap();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_plant_exists() {
+        let mut db = dummy_db();
+        let result = db.plant_exists("Dummy1").unwrap();
+        assert!(result)
+    }
+
+    #[test]
+    fn db_man_plant_not_exists() {
+        let mut db = dummy_db();
+        let result = db.plant_exists("not a plant").unwrap();
+        assert!(!result)
+    }
+
+    #[test]
+    fn db_man_species_exists() {
+        let mut db = dummy_db();
+        let result = db.species_exists("test species").unwrap();
+        assert!(result)
+    }
+
+    #[test]
+    fn db_man_species_not_exists() {
+        let mut db = dummy_db();
+        let result = db.species_exists("not a species").unwrap();
+        assert!(!result)
+    }
+
+    #[test]
+    fn db_man_get_plants_by_location() {
+        let mut db = dummy_db();
+        let result = db.get_plants_by_location("test location").unwrap();
+        let expected = vec![dummy_plant1()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_write_growth() {}
+    #[test]
+    fn db_man_write_growths() {}
+
+    #[test]
+    fn db_man_write_species() {}
+    #[test]
+    fn db_man_write_plant() {}
+
+    #[test]
+    fn db_man_kill_plant() {}
 }

@@ -31,7 +31,7 @@ impl Action for WaterLocation {
         input: String,
         db_man: &mut T,
     ) -> Result<(), Error> {
-        let location_plants = db_man.get_plants_by_location(input.trim().to_owned())?;
+        let location_plants = db_man.get_plants_by_location(input.trim())?;
         if location_plants.is_empty() {
             Err(Error::NoPlantsLocation(input))
         } else {

@@ -59,14 +59,12 @@ pub fn load_locations(location_file: &PathBuf) -> Result<Vec<Location>, Error> {
 mod load_csv_tests {
     use super::{load_activities, load_csv, load_graveyard, load_growth, load_locations};
     use crate::file_backend::test_common::{
-        dummy_date, ACTIVITIES_DUMMY, CSV_DUMMY, CSV_DUMMY_BAD_LINES, CSV_DUMMY_DESERIALIZE,
+        dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_location1, dummy_location2,
+        dummy_location3, ACTIVITIES_DUMMY, CSV_DUMMY, CSV_DUMMY_BAD_LINES, CSV_DUMMY_DESERIALIZE,
         FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY, GROWTH_DUMMY, LOCATIONS_DUMMY,
     };
     use chrono::NaiveDate;
-    use plants::{
-        graveyard::GraveyardPlant, growth_item::GrowthItem, location::Location, log_item::LogItem,
-        serialize::date_serializer,
-    };
+    use plants::{growth_item::GrowthItem, log_item::LogItem, serialize::date_serializer};
     use serde::Deserialize;
     use std::path::PathBuf;
 
@@ -114,22 +112,7 @@ mod load_csv_tests {
     #[test]
     fn test_load_graveyad() {
         let result = load_graveyard(&PathBuf::from(&GRAVEYARD_DUMMY)).unwrap();
-        let expected = vec![
-            GraveyardPlant {
-                name: "Dummy1".to_owned(),
-                species: "test species".to_owned(),
-                planted: dummy_date(),
-                died: NaiveDate::parse_from_str("02.01.1970", "%d.%m.%Y").unwrap(),
-                reason: "testing".to_owned(),
-            },
-            GraveyardPlant {
-                name: "Dummy2".to_owned(),
-                species: "testing species".to_owned(),
-                planted: dummy_date(),
-                died: NaiveDate::parse_from_str("02.01.1970", "%d.%m.%Y").unwrap(),
-                reason: "testing".to_owned(),
-            },
-        ];
+        let expected = vec![dummy_graveyard1(), dummy_graveyard2()];
         assert_eq!(result, expected)
     }
 
@@ -153,7 +136,7 @@ mod load_csv_tests {
 
     #[test]
     fn test_activities_fail() {
-        let result = load_graveyard(&PathBuf::from(&FILE_DOES_NOT_EXIST));
+        let result = load_activities(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 
@@ -180,16 +163,7 @@ mod load_csv_tests {
     #[test]
     fn test_locations() {
         let result = load_locations(&PathBuf::from(&LOCATIONS_DUMMY)).unwrap();
-        let expected = vec![
-            Location {
-                name: "test outside".to_owned(),
-                outside: true,
-            },
-            Location {
-                name: "test inside".to_owned(),
-                outside: false,
-            },
-        ];
+        let expected = vec![dummy_location1(), dummy_location2(), dummy_location3()];
         assert_eq!(result, expected)
     }
 
