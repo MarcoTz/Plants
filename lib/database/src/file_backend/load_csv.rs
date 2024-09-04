@@ -58,7 +58,10 @@ pub fn load_locations(location_file: &PathBuf) -> Result<Vec<Location>, Error> {
 #[cfg(test)]
 mod load_csv_tests {
     use super::{load_activities, load_csv, load_graveyard, load_growth, load_locations};
-    use crate::file_backend::test_common::dummy_date;
+    use crate::file_backend::test_common::{
+        dummy_date, ACTIVITIES_DUMMY, CSV_DUMMY, CSV_DUMMY_BAD_LINES, CSV_DUMMY_DESERIALIZE,
+        FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY, GROWTH_DUMMY, LOCATIONS_DUMMY,
+    };
     use chrono::NaiveDate;
     use plants::{
         graveyard::GraveyardPlant, growth_item::GrowthItem, location::Location, log_item::LogItem,
@@ -66,14 +69,6 @@ mod load_csv_tests {
     };
     use serde::Deserialize;
     use std::path::PathBuf;
-
-    const CSV_DUMMY: &str = "../../testing/dummy.csv";
-    const CSV_DUMMY_BAD_LINES: &str = "../../testing/dummy_badlines.csv";
-    const CSV_DUMMY_DESERIALIZE: &str = "../../testing/dummy_deserialize.csv";
-    const GRAVEYARD_DUMMY: &str = "../../testing/Logs/Graveyard.csv";
-    const ACTIVITIES_DUMMY: &str = "../../testing/Logs/Activities.csv";
-    const GROWTH_DUMMY: &str = "../../testing/Logs/Growth.csv";
-    const LOCATIONS_DUMMY: &str = "../../testing/Locations.csv";
 
     #[derive(Deserialize, Debug, PartialEq, Eq)]
     struct CSVDummy {
@@ -140,7 +135,7 @@ mod load_csv_tests {
 
     #[test]
     fn test_graveyard_fail() {
-        let result = load_graveyard(&PathBuf::from("../../testing/notafile"));
+        let result = load_graveyard(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 
@@ -158,7 +153,7 @@ mod load_csv_tests {
 
     #[test]
     fn test_activities_fail() {
-        let result = load_graveyard(&PathBuf::from("../../testing/notafile"));
+        let result = load_graveyard(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 
@@ -178,7 +173,7 @@ mod load_csv_tests {
 
     #[test]
     fn test_growth_file() {
-        let result = load_growth(&PathBuf::from("../../testing/notafile"));
+        let result = load_growth(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 
@@ -200,7 +195,7 @@ mod load_csv_tests {
 
     #[test]
     fn test_locations_fail() {
-        let result = load_locations(&PathBuf::from("../../testing/notafile"));
+        let result = load_locations(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 }

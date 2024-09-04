@@ -1,0 +1,7 @@
+{
+  "field1": "a string",
+  "field2": 10,
+  "field3": "invalid date",
+  "field4": ["value1", "value2", "value3", "value4"],
+  "field5": {"key1":"value1","key2":"value2"}
+}
