@@ -1,6 +1,6 @@
 use super::{
     errors::{Error, IOErr, ParseError},
-    load_csv::{load_activities, load_growth},
+    load_csv::{load_activities, load_growth, load_locations},
     load_json::{load_plant_infos, load_species},
 };
 use chrono::NaiveDate;
@@ -8,7 +8,7 @@ use plants::{
     growth_item::GrowthItem,
     log_item::LogItem,
     named::Named,
-    plant::{Plant, PlantImage, PlantSpecies},
+    plant::{Plant, PlantImage, PlantLocation, PlantSpecies},
 };
 use std::{ffi::OsString, fs, path::PathBuf};
 
@@ -17,10 +17,13 @@ pub fn load_plants(
     species_dir: &PathBuf,
     activity_file: &PathBuf,
     growth_file: &PathBuf,
+    locations_file: &PathBuf,
 ) -> Result<Vec<Plant>, Error> {
     log::info!("Loading plants");
     let mut plant_infos = load_plant_infos(plants_dir)?;
     let species = load_species(species_dir)?;
+    let locations = load_locations(locations_file)?;
+    println!("loaded locations {locations:?}");
     let logs = load_activities(activity_file)?;
     let growth = load_growth(growth_file)?;
     let mut plants = vec![];
@@ -42,6 +45,40 @@ pub fn load_plants(
             log::warn!(
                 "Could not find species {} for {}",
                 species_plant.get_name(),
+                plant_info.name
+            );
+        }
+
+        let location_plant = locations
+            .iter()
+            .find(|loc| loc.get_name() == plant_info.location.get_name())
+            .cloned()
+            .map(|loc| PlantLocation::Location(Box::new(loc)))
+            .unwrap_or(PlantLocation::Other(plant_info.location.get_name()));
+
+        plant_info.location = location_plant;
+
+        if let PlantLocation::Location(_) = plant_info.location {
+            println!(
+                "found location {} for {}",
+                plant_info.location.get_name(),
+                plant_info.name
+            );
+            log::info!(
+                "Found location {} for {}",
+                plant_info.location.get_name(),
+                plant_info.name
+            );
+        } else {
+            println!(
+                "did not find location {} for {}",
+                plant_info.location.get_name(),
+                plant_info.name
+            );
+
+            log::warn!(
+                "Could not find location {} for {}",
+                plant_info.location.get_name(),
                 plant_info.name
             );
         }
@@ -124,17 +161,18 @@ mod json_to_plant_tests {
     use super::{load_images, load_plants};
     use crate::file_backend::test_common::{
         dummy_plant1, dummy_plant2, ACTIVITIES_DUMMY, DUMMY_PLANT_PATH, DUMMY_SPECIES_PATH,
-        FILE_DOES_NOT_EXIST, GROWTH_DUMMY, TESTING_BASE,
+        FILE_DOES_NOT_EXIST, GROWTH_DUMMY, LOCATIONS_DUMMY, TESTING_BASE,
     };
     use std::path::PathBuf;
 
     #[test]
-    fn load_dummy_plant() {
+    fn load_dummy_plants() {
         let mut result = load_plants(
             &PathBuf::from(&DUMMY_PLANT_PATH),
             &PathBuf::from(&DUMMY_SPECIES_PATH),
             &PathBuf::from(&ACTIVITIES_DUMMY),
             &PathBuf::from(&GROWTH_DUMMY),
+            &PathBuf::from(&LOCATIONS_DUMMY),
         )
         .unwrap();
         result.sort_by(|plant1, plant2| plant1.info.name.cmp(&plant2.info.name));
@@ -150,6 +188,7 @@ mod json_to_plant_tests {
             &PathBuf::from(&DUMMY_SPECIES_PATH),
             &PathBuf::from(&ACTIVITIES_DUMMY),
             &PathBuf::from(&GROWTH_DUMMY),
+            &PathBuf::from(&LOCATIONS_DUMMY),
         );
         assert!(result.is_err())
     }
@@ -161,6 +200,7 @@ mod json_to_plant_tests {
             &PathBuf::from(&FILE_DOES_NOT_EXIST),
             &PathBuf::from(&ACTIVITIES_DUMMY),
             &PathBuf::from(&GROWTH_DUMMY),
+            &PathBuf::from(&LOCATIONS_DUMMY),
         );
         assert!(result.is_err())
     }
@@ -172,6 +212,7 @@ mod json_to_plant_tests {
             &PathBuf::from(&DUMMY_SPECIES_PATH),
             &PathBuf::from(&FILE_DOES_NOT_EXIST),
             &PathBuf::from(&GROWTH_DUMMY),
+            &PathBuf::from(&LOCATIONS_DUMMY),
         );
         assert!(result.is_err())
     }
@@ -182,6 +223,19 @@ mod json_to_plant_tests {
             &PathBuf::from(&DUMMY_PLANT_PATH),
             &PathBuf::from(&DUMMY_SPECIES_PATH),
             &PathBuf::from(&ACTIVITIES_DUMMY),
+            &PathBuf::from(&FILE_DOES_NOT_EXIST),
+            &PathBuf::from(&LOCATIONS_DUMMY),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn load_bad_locations_file() {
+        let result = load_plants(
+            &PathBuf::from(&DUMMY_PLANT_PATH),
+            &PathBuf::from(&DUMMY_SPECIES_PATH),
+            &PathBuf::from(&ACTIVITIES_DUMMY),
+            &PathBuf::from(&GROWTH_DUMMY),
             &PathBuf::from(&FILE_DOES_NOT_EXIST),
         );
         assert!(result.is_err())
