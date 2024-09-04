@@ -33,10 +33,10 @@ pub struct FileDB {
     pub plants_dir: PathBuf,
     pub species_dir: PathBuf,
     pub location_file: PathBuf,
-    logs_dir: PathBuf,
-    graveyard_csv: String,
-    growth_csv: String,
-    activities_csv: String,
+    pub logs_dir: PathBuf,
+    pub graveyard_csv: String,
+    pub growth_csv: String,
+    pub activities_csv: String,
     pub date_format: String,
 
     pub plants_cache: Vec<Plant>,
@@ -87,6 +87,7 @@ impl FileDB {
             &self.species_dir,
             &activity_file,
             &growth_file,
+            &self.location_file,
         )?;
         self.plants_cache = plants;
         Ok(())
@@ -397,7 +398,7 @@ pub mod test_common {
             info: PlantInfo {
                 name: "Dummy1".to_owned(),
                 species: PlantSpecies::Species(Box::new(dummy_species())),
-                location: PlantLocation::Other("test location".to_owned()),
+                location: PlantLocation::Location(Box::new(dummy_location3())),
                 origin: "test origin".to_owned(),
                 obtained: dummy_date(),
                 auto_water: true,

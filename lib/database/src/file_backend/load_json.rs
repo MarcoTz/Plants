@@ -53,7 +53,10 @@ mod load_json_tests {
         JSON_DUMMY_DIR, JSON_DUMMY_NO_SUBDIR,
     };
     use chrono::NaiveDate;
-    use plants::{plant::PlantSpecies, serialize::date_serializer};
+    use plants::{
+        plant::{PlantLocation, PlantSpecies},
+        serialize::date_serializer,
+    };
     use serde::Deserialize;
     use std::path::PathBuf;
 
@@ -141,6 +144,7 @@ mod load_json_tests {
         result.sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
         let mut plant1 = dummy_plant1().info;
         plant1.species = PlantSpecies::Other("test species".to_owned());
+        plant1.location = PlantLocation::Other("test location".to_owned());
         let mut expected = vec![plant1, dummy_plant2().info];
         expected.sort_by(|plant1, plant2| plant1.name.cmp(&plant2.name));
         assert_eq!(result, expected)
