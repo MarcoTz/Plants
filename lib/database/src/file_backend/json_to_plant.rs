@@ -23,7 +23,6 @@ pub fn load_plants(
     let mut plant_infos = load_plant_infos(plants_dir)?;
     let species = load_species(species_dir)?;
     let locations = load_locations(locations_file)?;
-    println!("loaded locations {locations:?}");
     let logs = load_activities(activity_file)?;
     let growth = load_growth(growth_file)?;
     let mut plants = vec![];
@@ -59,23 +58,12 @@ pub fn load_plants(
         plant_info.location = location_plant;
 
         if let PlantLocation::Location(_) = plant_info.location {
-            println!(
-                "found location {} for {}",
-                plant_info.location.get_name(),
-                plant_info.name
-            );
             log::info!(
                 "Found location {} for {}",
                 plant_info.location.get_name(),
                 plant_info.name
             );
         } else {
-            println!(
-                "did not find location {} for {}",
-                plant_info.location.get_name(),
-                plant_info.name
-            );
-
             log::warn!(
                 "Could not find location {} for {}",
                 plant_info.location.get_name(),
@@ -121,7 +109,6 @@ pub fn load_plants(
 }
 
 pub fn load_images(image_dir: &PathBuf) -> Result<Vec<PlantImage>, Error> {
-    println!("loading images from dir {image_dir:?}");
     let mut plant_images = vec![];
     let dir_files = fs::read_dir(image_dir)?;
     for dir_file in dir_files {
@@ -130,7 +117,6 @@ pub fn load_images(image_dir: &PathBuf) -> Result<Vec<PlantImage>, Error> {
         if path.extension() != Some(&OsString::from("jpg")) {
             continue;
         }
-        println!("Found jpg file {path:?}");
         let stem = path.file_stem().ok_or(IOErr {
             kind: "Get File Stem".to_owned(),
         })?;
