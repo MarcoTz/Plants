@@ -7,7 +7,7 @@ pub mod write_json;
 
 use errors::Error;
 use json_to_plant::load_plants;
-use load_csv::{load_graveyard, load_locations};
+use load_csv::{load_activities, load_graveyard, load_growth, load_locations};
 use load_json::load_species;
 use write_csv::{write_activities, write_graveyard, write_growth};
 use write_json::{write_plants, write_species};
@@ -23,7 +23,7 @@ use plants::{
     species::Species,
 };
 use std::{
-    fs::{remove_file, rename},
+    fs::{create_dir_all, remove_file, rename},
     io::Error as IOError,
     path::PathBuf,
 };
@@ -43,6 +43,8 @@ pub struct FileDB {
     pub graveyard_cache: Vec<GraveyardPlant>,
     pub species_cache: Vec<Species>,
     pub location_cache: Vec<Location>,
+    pub logs_cache: Vec<LogItem>,
+    pub growth_cache: Vec<GrowthItem>,
 }
 
 impl Default for FileDB {
@@ -61,6 +63,8 @@ impl Default for FileDB {
             graveyard_cache: vec![],
             species_cache: vec![],
             location_cache: vec![],
+            logs_cache: vec![],
+            growth_cache: vec![],
         }
     }
 }
@@ -112,6 +116,20 @@ impl FileDB {
         log::info!("Loading Locations from csv");
         let locations = load_locations(&self.location_file)?;
         self.location_cache = locations;
+        Ok(())
+    }
+
+    fn load_logs(&mut self) -> Result<(), Error> {
+        log::info!("Loading activities from csv");
+        let logs = load_activities(&self.get_activities_filepath())?;
+        self.logs_cache = logs;
+        Ok(())
+    }
+
+    fn load_growth(&mut self) -> Result<(), Error> {
+        log::info!("Loading growth from csv");
+        let growth = load_growth(&self.get_growth_filepath())?;
+        self.growth_cache = growth;
         Ok(())
     }
 }
@@ -235,6 +253,13 @@ impl DatabaseManager for FileDB {
         Ok(self.species_cache.iter().any(|sp| sp.name == species_name))
     }
 
+    fn get_logs(&mut self) -> Result<Vec<LogItem>, Box<dyn std::error::Error>> {
+        if self.logs_cache.is_empty() {
+            self.load_logs()?;
+        }
+        Ok(self.logs_cache.clone())
+    }
+
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn std::error::Error>> {
         write_activities(logs, &self.get_activities_filepath())?;
         Ok(())
@@ -256,13 +281,20 @@ impl DatabaseManager for FileDB {
             .collect())
     }
 
+    fn get_growth(&mut self) -> Result<Vec<GrowthItem>, Box<dyn std::error::Error>> {
+        if self.growth_cache.is_empty() {
+            self.load_growth()?;
+        }
+        Ok(self.growth_cache.clone())
+    }
+
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn std::error::Error>> {
         write_growth(growth, &self.get_growth_filepath())?;
         Ok(())
     }
 
-    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn std::error::Error>> {
-        write_plants(vec![plant], &self.plants_dir)?;
+    fn write_plants(&mut self, plants: Vec<PlantInfo>) -> Result<(), Box<dyn std::error::Error>> {
+        write_plants(plants, &self.plants_dir)?;
         Ok(())
     }
 
@@ -272,19 +304,71 @@ impl DatabaseManager for FileDB {
     }
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn std::error::Error>> {
+        // Enter new graveyard plant
+        println!("entering new graveyard plant");
         let name = plant.name.clone();
         write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
+
+        // remove plant json
+        println!("removing plant json");
         let plant_filename = name.replace(' ', "") + ".json";
-        let plant_path = PathBuf::from(&self.plants_dir).join(plant_filename.clone());
-        remove_file(plant_path.clone()).map_err(<IOError as Into<Error>>::into)?;
-        self.plants_cache = self
+        let plant_path = PathBuf::from(&self.plants_dir).join(name.clone());
+        remove_file(plant_path.clone().join(plant_filename))
+            .map_err(<IOError as Into<Error>>::into)?;
+
+        // remove plant from cache
+        println!("removing plant from cache");
+        if self.plants_cache.is_empty() {
+            self.load_plants()?;
+        }
+        let new_plants: Vec<PlantInfo> = self
             .plants_cache
             .iter()
-            .filter(|pl| pl.info.name == name)
+            .filter(|pl| pl.info.name != name)
+            .cloned()
+            .map(|plant| plant.info)
+            .collect();
+        self.write_plants(new_plants)?;
+        self.load_plants()?;
+
+        //remove plant activitites
+        println!("Removing plant activities");
+        if self.logs_cache.is_empty() {
+            self.load_logs()?;
+        }
+        let new_logs: Vec<LogItem> = self
+            .logs_cache
+            .iter()
+            .filter(|log| log.plant != name)
             .cloned()
             .collect();
-        let dead_path = PathBuf::from("dead").join(name);
+        println!("{name}, {:?}", new_logs);
+        self.logs_cache = new_logs.clone();
+        self.write_logs(new_logs)?;
+
+        //remove plant growth
+        println!("Removing plant growth");
+        if self.growth_cache.is_empty() {
+            self.load_growth()?;
+        }
+        let new_growth: Vec<GrowthItem> = self
+            .growth_cache
+            .iter()
+            .filter(|growth| growth.plant != name)
+            .cloned()
+            .collect();
+        self.growth_cache = new_growth.clone();
+        self.write_growths(new_growth)?;
+
+        // move images to dead dir
+        println!("moving plant dir");
+        let dead_dir = self.plants_dir.join("dead");
+        if !dead_dir.exists() {
+            create_dir_all(dead_dir.clone())?;
+        }
+        let dead_path = dead_dir.join(name);
         rename(plant_path, dead_path).map_err(<IOError as Into<Error>>::into)?;
+
         Ok(())
     }
 }
@@ -321,6 +405,18 @@ pub mod test_common {
     pub const DUMMY_PLANT_PATH: &str = "../../testing/plants/";
     pub const DUMMY_SPECIES_PATH: &str = "../../testing/species/";
     pub const DUMMY_LOGS_PATH: &str = "../../testing/Logs/";
+
+    pub const GROWTH_DUMMY_OUT: &str = "Growth_test.csv";
+    pub const GROWTHS_DUMMY_OUT: &str = "Growth_test2.csv";
+    pub const ACTIVITIES_DUMMY_OUT: &str = "Activities_test.csv";
+    pub const ACTIVITIES_DUMMY_OUT2: &str = "Activities_test2.csv";
+    pub const SPECIES_DUMMY_OUT: &str = "../../testing/species_test";
+    pub const PLANTS_DUMMY_OUT: &str = "../../testing/plants_test";
+    pub const PLANTS_DUMMY_OUT2: &str = "../../testing/plants_test2";
+    pub const PLANTS_DEATH_DUMMY_OUT: &str = "../../testing/plants_kill_test";
+    pub const GRAVEYARD_DUMMY_OUT: &str = "Graveyard_test.csv";
+    pub const GROWTH_DEATH_DUMMY_OUT: &str = "Growth_kill_test.csv";
+    pub const ACTIVITIES_DEATH_DUMMY_OUT: &str = "Activities_kill_test.csv";
 
     pub const FILE_DOES_NOT_EXIST: &str = "../../testing/notaflie";
 
@@ -485,6 +581,64 @@ pub mod test_common {
     }
 
     #[test]
+    fn ensure_out_not_exist() {
+        let base_dir = Path::new(DUMMY_LOGS_PATH);
+        let growth_csv = base_dir.join(GROWTH_DUMMY_OUT);
+        let growth_csv2 = base_dir.join(GROWTHS_DUMMY_OUT);
+        let graveyard_csv = base_dir.join(GRAVEYARD_DUMMY_OUT);
+        let activities_csv = base_dir.join(ACTIVITIES_DUMMY_OUT);
+        let activities_csv2 = base_dir.join(ACTIVITIES_DUMMY_OUT2);
+
+        if growth_csv.exists() {
+            std::fs::remove_file(growth_csv.clone()).unwrap()
+        }
+        if growth_csv2.exists() {
+            std::fs::remove_file(growth_csv2.clone()).unwrap()
+        }
+        if graveyard_csv.exists() {
+            std::fs::remove_file(graveyard_csv.clone()).unwrap()
+        }
+        if activities_csv.exists() {
+            std::fs::remove_file(activities_csv.clone()).unwrap();
+        }
+        if activities_csv2.exists() {
+            std::fs::remove_file(activities_csv2.clone()).unwrap();
+        }
+
+        assert!(!growth_csv.exists());
+        assert!(!growth_csv2.exists());
+        assert!(!graveyard_csv.exists());
+        assert!(!activities_csv.exists());
+        assert!(!activities_csv2.exists());
+    }
+
+    #[test]
+    fn ensure_out_dirs_exist() {
+        let species_out_dir = Path::new(SPECIES_DUMMY_OUT);
+        let plants_out_dir = Path::new(PLANTS_DUMMY_OUT);
+        let plants_out_dir2 = Path::new(PLANTS_DUMMY_OUT2);
+        let graveyard_out_dir = Path::new(GRAVEYARD_DUMMY_OUT);
+
+        if !species_out_dir.exists() {
+            std::fs::create_dir_all(species_out_dir).unwrap()
+        }
+        if !plants_out_dir.exists() {
+            std::fs::create_dir_all(plants_out_dir).unwrap();
+        }
+        if !plants_out_dir2.exists() {
+            std::fs::create_dir_all(plants_out_dir2).unwrap();
+        }
+        if !graveyard_out_dir.exists() {
+            std::fs::create_dir_all(graveyard_out_dir).unwrap();
+        }
+
+        assert!(species_out_dir.exists());
+        assert!(plants_out_dir.exists());
+        assert!(plants_out_dir2.exists());
+        assert!(graveyard_out_dir.exists());
+    }
+
+    #[test]
     fn ensure_does_not_exist() {
         assert!(!Path::new(FILE_DOES_NOT_EXIST).exists());
     }
@@ -526,16 +680,22 @@ pub mod test_common {
 mod file_backend_tests {
     use super::{
         test_common::{
-            dummy_graveyard1, dummy_graveyard2, dummy_location1, dummy_location2, dummy_location3,
-            dummy_plant1, dummy_plant2, dummy_species, ACTIVITIES_DUMMY, DUMMY_LOGS_PATH,
+            dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_location1, dummy_location2,
+            dummy_location3, dummy_plant1, dummy_plant2, dummy_species, ACTIVITIES_DEATH_DUMMY_OUT,
+            ACTIVITIES_DUMMY, ACTIVITIES_DUMMY_OUT, ACTIVITIES_DUMMY_OUT2, DUMMY_LOGS_PATH,
             DUMMY_PLANT_PATH, DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY,
-            GROWTH_DUMMY, LOCATIONS_DUMMY,
+            GRAVEYARD_DUMMY_OUT, GROWTHS_DUMMY_OUT, GROWTH_DEATH_DUMMY_OUT, GROWTH_DUMMY,
+            GROWTH_DUMMY_OUT, LOCATIONS_DUMMY, PLANTS_DEATH_DUMMY_OUT, PLANTS_DUMMY_OUT,
+            PLANTS_DUMMY_OUT2, SPECIES_DUMMY_OUT,
         },
         FileDB,
     };
     use crate::database_manager::DatabaseManager;
-    use plants::named::Named;
-    use std::path::PathBuf;
+    use chrono::NaiveDate;
+    use plants::{
+        graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, named::Named,
+    };
+    use std::{fs, path::PathBuf};
 
     fn dummy_db() -> FileDB {
         FileDB {
@@ -551,6 +711,38 @@ mod file_backend_tests {
             species_cache: vec![],
             graveyard_cache: vec![],
             location_cache: vec![],
+            logs_cache: vec![],
+            growth_cache: vec![],
+        }
+    }
+
+    fn dummy_activity() -> LogItem {
+        LogItem {
+            activity: "Watering".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            plant: "Dummy1".to_owned(),
+            note: None,
+        }
+    }
+
+    fn dummy_growth1() -> GrowthItem {
+        GrowthItem {
+            plant: "Dummy1".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            height_cm: 10.0,
+            width_cm: 10.0,
+            note: None,
+            health: 3,
+        }
+    }
+    fn dummy_growth2() -> GrowthItem {
+        GrowthItem {
+            plant: "Dummy1".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            height_cm: 15.0,
+            width_cm: 15.0,
+            note: None,
+            health: 4,
         }
     }
 
@@ -572,6 +764,8 @@ mod file_backend_tests {
             graveyard_cache: vec![],
             species_cache: vec![],
             location_cache: vec![],
+            logs_cache: vec![],
+            growth_cache: vec![],
         };
 
         assert_eq!(result, expected)
@@ -692,6 +886,38 @@ mod file_backend_tests {
         let mut db = dummy_db();
         db.location_file = PathBuf::from(&FILE_DOES_NOT_EXIST);
         let result = db.load_locations();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn load_logs() {
+        let mut db = dummy_db();
+        db.load_logs().unwrap();
+        let expected = vec![dummy_activity()];
+        assert_eq!(db.logs_cache, expected);
+    }
+
+    #[test]
+    fn load_logs_bad_file() {
+        let mut db = dummy_db();
+        db.activities_csv = FILE_DOES_NOT_EXIST.to_owned();
+        let result = db.load_logs();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn load_growth() {
+        let mut db = dummy_db();
+        db.load_growth().unwrap();
+        let expected = vec![dummy_growth1()];
+        assert_eq!(db.growth_cache, expected)
+    }
+
+    #[test]
+    fn load_growth_bad_dir() {
+        let mut db = dummy_db();
+        db.growth_csv = FILE_DOES_NOT_EXIST.to_owned();
+        let result = db.load_growth();
         assert!(result.is_err())
     }
 
@@ -914,6 +1140,50 @@ mod file_backend_tests {
     }
 
     #[test]
+    fn db_man_load_logs() {
+        let mut db = dummy_db();
+        let result = db.get_logs().unwrap();
+        let expected = vec![dummy_activity()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn db_man_load_logs_bad_dir() {
+        let mut db = dummy_db();
+        db.logs_dir = PathBuf::from(FILE_DOES_NOT_EXIST);
+        let result = db.get_logs();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn db_man_write_log() {
+        let mut db = dummy_db();
+        db.activities_csv = ACTIVITIES_DUMMY_OUT.to_owned();
+        let log = dummy_activity();
+        db.write_log(log).unwrap();
+        let result = db.get_logs().unwrap();
+        let expected = vec![dummy_activity()];
+        assert_eq!(result, expected);
+        let new_file = db.get_activities_filepath();
+        std::fs::remove_file(new_file.clone()).unwrap();
+        assert!(!new_file.exists())
+    }
+
+    #[test]
+    fn db_man_write_logs() {
+        let mut db = dummy_db();
+        db.activities_csv = ACTIVITIES_DUMMY_OUT2.to_owned();
+        let logs = vec![dummy_activity(), dummy_activity()];
+        db.write_logs(logs).unwrap();
+        let result = db.get_logs().unwrap();
+        let expected = vec![dummy_activity(), dummy_activity()];
+        assert_eq!(result, expected);
+        let new_file = db.get_activities_filepath();
+        std::fs::remove_file(new_file.clone()).unwrap();
+        assert!(!new_file.exists())
+    }
+
+    #[test]
     fn db_man_get_plants_by_location() {
         let mut db = dummy_db();
         let result = db.get_plants_by_location("test location").unwrap();
@@ -930,15 +1200,177 @@ mod file_backend_tests {
     }
 
     #[test]
-    fn db_man_write_growth() {}
-    #[test]
-    fn db_man_write_growths() {}
+    fn db_man_get_growth() {
+        let mut db = dummy_db();
+        let result = db.get_growth().unwrap();
+        let expected = vec![dummy_growth1()];
+        assert_eq!(result, expected)
+    }
 
     #[test]
-    fn db_man_write_species() {}
-    #[test]
-    fn db_man_write_plant() {}
+    fn db_man_get_growth_bad_file() {
+        let mut db = dummy_db();
+        db.growth_csv = FILE_DOES_NOT_EXIST.to_owned();
+        let result = db.get_growth();
+        assert!(result.is_err())
+    }
 
     #[test]
-    fn db_man_kill_plant() {}
+    fn db_man_write_growth() {
+        let mut db = dummy_db();
+        db.growth_csv = GROWTH_DUMMY_OUT.to_owned();
+        let growth = dummy_growth2();
+        db.write_growth(growth).unwrap();
+        let result = db.get_growth().unwrap();
+        let expected = vec![dummy_growth2()];
+        assert_eq!(result, expected);
+        let new_path = db.get_growth_filepath();
+        fs::remove_file(new_path.clone()).unwrap();
+        assert!(!new_path.exists())
+    }
+
+    #[test]
+    fn db_man_write_growths() {
+        let mut db = dummy_db();
+        db.growth_csv = GROWTHS_DUMMY_OUT.to_owned();
+        let growth = vec![dummy_growth2()];
+        db.write_growths(growth).unwrap();
+        let result = db.get_growth().unwrap();
+        let expected = vec![dummy_growth2()];
+        assert_eq!(result, expected);
+        let new_path = db.get_growth_filepath();
+        fs::remove_file(new_path.clone()).unwrap();
+        assert!(!new_path.exists())
+    }
+
+    #[test]
+    fn db_man_write_species() {
+        let mut db = dummy_db();
+        db.species_dir = PathBuf::from(SPECIES_DUMMY_OUT);
+        let species = dummy_species();
+        db.write_species(species.clone()).unwrap();
+        let species_name = species.get_name();
+        let result = db.get_species(&species_name).unwrap();
+        let file_name = species_name.replace(' ', "");
+        let out_path = PathBuf::from(SPECIES_DUMMY_OUT).join(file_name.clone());
+        let out_file = out_path.join(file_name + ".json");
+
+        assert_eq!(result, species);
+        assert!(out_path.exists());
+        assert!(out_file.exists());
+
+        fs::remove_dir_all(SPECIES_DUMMY_OUT).unwrap();
+        assert!(!PathBuf::from(SPECIES_DUMMY_OUT).exists())
+    }
+
+    #[test]
+    fn db_man_write_plant() {
+        let mut db = dummy_db();
+        db.plants_dir = PathBuf::from(PLANTS_DUMMY_OUT);
+        let mut plant = dummy_plant1();
+        db.write_plant(plant.info.clone()).unwrap();
+        let plant_name = dummy_plant1().get_name();
+        let result = db.get_plant(&plant_name).unwrap();
+        let file_name = plant_name.replace(' ', "");
+        let out_path = PathBuf::from(PLANTS_DUMMY_OUT).join(file_name.clone());
+        let out_file = out_path.join(file_name + ".json");
+        plant.images = vec![];
+
+        assert_eq!(result, plant);
+        assert!(out_path.exists());
+        assert!(out_file.exists());
+
+        fs::remove_dir_all(PLANTS_DUMMY_OUT).unwrap();
+        assert!(!PathBuf::from(PLANTS_DUMMY_OUT).exists())
+    }
+
+    #[test]
+    fn db_man_write_plants() {
+        let mut db = dummy_db();
+        db.plants_dir = PathBuf::from(PLANTS_DUMMY_OUT2);
+        let mut plant1 = dummy_plant1();
+        let mut plant2 = dummy_plant2();
+        db.write_plants(vec![plant1.info.clone(), plant2.info.clone()])
+            .unwrap();
+        let plant1_name = dummy_plant1().get_name();
+        let plant2_name = dummy_plant2().get_name();
+        let result1 = db.get_plant(&plant1_name).unwrap();
+        let result2 = db.get_plant(&plant2_name).unwrap();
+        let file_name1 = plant1_name.replace(' ', "");
+        let file_name2 = plant2_name.replace(' ', "");
+        let out_path1 = PathBuf::from(PLANTS_DUMMY_OUT2).join(file_name1.clone());
+        let out_path2 = PathBuf::from(PLANTS_DUMMY_OUT2).join(file_name2.clone());
+        let out_file1 = out_path1.join(file_name1 + ".json");
+        let out_file2 = out_path2.join(file_name2 + ".json");
+        plant1.images = vec![];
+        plant2.images = vec![];
+
+        assert_eq!(result1, plant1);
+        assert_eq!(result2, plant2);
+        assert!(out_path1.exists());
+        assert!(out_path2.exists());
+        assert!(out_file1.exists());
+        assert!(out_file2.exists());
+
+        fs::remove_dir_all(PLANTS_DUMMY_OUT2).unwrap();
+        assert!(!PathBuf::from(PLANTS_DUMMY_OUT2).exists())
+    }
+
+    #[test]
+    fn db_man_kill_plant() {
+        let mut db = dummy_db();
+        db.plants_dir = PathBuf::from(PLANTS_DEATH_DUMMY_OUT);
+        db.graveyard_csv = GRAVEYARD_DUMMY_OUT.to_owned();
+        db.growth_csv = GROWTH_DEATH_DUMMY_OUT.to_owned();
+        db.activities_csv = ACTIVITIES_DEATH_DUMMY_OUT.to_owned();
+
+        let mut plant = dummy_plant1();
+        db.write_plant(plant.info.clone()).unwrap();
+        db.write_growths(plant.growth.clone()).unwrap();
+        db.write_logs(plant.activities.clone()).unwrap();
+
+        let plant_name = plant.get_name();
+        let file_name = plant_name.clone().replace(' ', "");
+        let out_dir = db.plants_dir.join(file_name.clone());
+        let out_file = out_dir.join(file_name + ".json");
+        let result = db.get_plant(&plant_name).unwrap();
+        plant.images = vec![];
+
+        assert_eq!(result, plant);
+        assert!(out_dir.exists());
+        assert!(out_file.exists());
+
+        let kill_plant = GraveyardPlant {
+            name: plant_name.clone(),
+            species: plant.info.species.get_name(),
+            planted: dummy_date(),
+            died: dummy_date(),
+            reason: "testing".to_owned(),
+        };
+        db.kill_plant(kill_plant).unwrap();
+        let result = db.get_plant(&plant_name);
+        let logs = db.get_logs().unwrap();
+        let logs_filtered: Vec<&LogItem> =
+            logs.iter().filter(|log| log.plant == plant_name).collect();
+        let growth = db.get_growth().unwrap();
+        let growth_filtered: Vec<&GrowthItem> = growth
+            .iter()
+            .filter(|growth| growth.plant == plant_name)
+            .collect();
+        let new_activities_path = db.get_activities_filepath();
+        let new_growth_path = db.get_growth_filepath();
+        std::fs::remove_file(new_activities_path.clone()).unwrap();
+        std::fs::remove_file(new_growth_path.clone()).unwrap();
+
+        println!("{:?}", logs_filtered);
+        assert!(logs_filtered.is_empty());
+        assert!(growth_filtered.is_empty());
+        assert!(result.is_err());
+        assert!(!out_dir.exists());
+        assert!(!out_file.exists());
+        assert!(!new_activities_path.exists());
+        assert!(!new_growth_path.exists());
+        fs::remove_dir_all(PLANTS_DEATH_DUMMY_OUT).unwrap();
+        assert!(!PathBuf::from(PLANTS_DEATH_DUMMY_OUT).exists());
+    }
 }
