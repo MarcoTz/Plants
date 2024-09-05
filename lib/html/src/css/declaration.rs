@@ -30,3 +30,41 @@ impl From<(Property, Value)> for Declaration {
         }
     }
 }
+
+#[cfg(test)]
+mod css_declaration_tests {
+    use super::{Declaration, Render};
+    use crate::css::{property::Property, value::Keyword};
+
+    #[test]
+    fn render_unimportant() {
+        let result = Declaration {
+            property: Property::TextAlign,
+            value: Keyword::Center.into(),
+            important: false,
+        }
+        .render();
+        let expected = "text-align:center;";
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn render_important() {
+        let result = Declaration {
+            property: Property::Cursor,
+            value: Keyword::Pointer.into(),
+            important: true,
+        }
+        .render();
+        let expected = "cursor:pointer!important;";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_from() {
+        let decl: Declaration = (Property::Float, Keyword::Left.into()).into();
+        let result = decl.render();
+        let expected = "float:left;";
+        assert_eq!(result, expected)
+    }
+}

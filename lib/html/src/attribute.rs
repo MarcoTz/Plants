@@ -34,3 +34,85 @@ impl Render for Attribute {
         }
     }
 }
+
+#[cfg(test)]
+mod attribute_tests {
+    use super::{Attribute, Render};
+
+    #[test]
+    fn render_id() {
+        let result = Attribute::Id("test_id".to_owned()).render();
+        let expected = "id=\"test_id\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_class() {
+        let result = Attribute::Class(vec!["class1".to_owned(), "class2".to_owned()]).render();
+        let expected = "class=\"class1 class2\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_src() {
+        let result = Attribute::Src("file.jpg".to_owned()).render();
+        let expected = "src=\"file.jpg\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_style() {
+        let result = Attribute::Style("height:100%;".to_owned()).render();
+        let expected = "style=\"height:100%;\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_href() {
+        let result = Attribute::Href("index.html".to_owned()).render();
+        let expected = "href=\"index.html\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_rel() {
+        let result = Attribute::Rel("stylesheet".to_owned()).render();
+        let expected = "rel=\"stylesheet\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_type() {
+        let result = Attribute::Type("javascript".to_owned()).render();
+        let expected = "type=\"javascript\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_onchange() {
+        let result = Attribute::OnChange("alert()".to_owned()).render();
+        let expected = "onChange=\"alert()\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_onload() {
+        let result = Attribute::OnLoad("alert()".to_owned()).render();
+        let expected = "onLoad=\"alert()\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_onkeyup() {
+        let result = Attribute::OnKeyUp("alert()".to_owned()).render();
+        let expected = "onKeyUp=\"alert()\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_onclick() {
+        let result = Attribute::OnClick("alert()".to_owned()).render();
+        let expected = "onClick=\"alert()\"";
+        assert_eq!(result, expected)
+    }
+}

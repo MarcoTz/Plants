@@ -17,3 +17,29 @@ impl From<Link> for HtmlElement {
         HtmlElement::Link(lnk)
     }
 }
+
+#[cfg(test)]
+mod link_tests {
+
+    use super::{Attribute, HtmlElement, Link, Render};
+
+    fn example_link() -> Link {
+        Link {
+            attributes: vec![Attribute::Id("link".to_owned())],
+        }
+    }
+
+    #[test]
+    fn render_link() {
+        let result = example_link().render();
+        let expected = "<link id=\"link\"/>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Link as Into<HtmlElement>>::into(example_link()).render();
+        let expected = example_link().render();
+        assert_eq!(result, expected)
+    }
+}

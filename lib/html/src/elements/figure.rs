@@ -22,3 +22,33 @@ impl From<Figure> for HtmlElement {
         HtmlElement::Figure(fig)
     }
 }
+
+#[cfg(test)]
+mod figure_tests {
+
+    use super::{Attribute, Figure, HtmlElement, Render};
+    use std::rc::Rc;
+
+    fn example_figure() -> Figure {
+        Figure {
+            attributes: vec![Attribute::Id("fig".to_owned())],
+            content: Rc::new("a figure".to_owned().into()),
+            caption: Rc::new("a caption".to_owned().into()),
+        }
+    }
+
+    #[test]
+    fn render_figure() {
+        let result = example_figure().render();
+        let expected =
+            "<figure id=\"fig\">\n\ta figure\n\t<figcaption>\n\t\ta caption\n\t</figcaption>\n</figure>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Figure as Into<HtmlElement>>::into(example_figure()).render();
+        let expected = example_figure().render();
+        assert_eq!(result, expected)
+    }
+}

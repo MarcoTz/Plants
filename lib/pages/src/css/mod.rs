@@ -12,7 +12,7 @@ mod tags;
 mod upcoming_tasks;
 
 use crate::page::{CssComponent, PageComponent};
-use html::elements::{HtmlElement, Style};
+use html::elements::HtmlElement;
 
 use classes::Classes;
 use footer::Footer;
@@ -42,95 +42,81 @@ pub enum PageCss {
 impl PageComponent for PageCss {
     fn render(&self, _: &str) -> HtmlElement {
         match self {
-            PageCss::Activities => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                ],
-            }
+            PageCss::Activities => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+            ]
             .into(),
-            PageCss::Gallery => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    Gallery {}.render(),
-                ],
-            }
+
+            PageCss::Gallery => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                Gallery {}.render().into(),
+            ]
             .into(),
-            PageCss::Graveyard => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                ],
-            }
+            PageCss::Graveyard => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+            ]
             .into(),
-            PageCss::Index => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    HallOfFame {}.render(),
-                    UpcomingTasks {}.render(),
-                ],
-            }
+            PageCss::Index => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                HallOfFame {}.render().into(),
+                UpcomingTasks {}.render().into(),
+            ]
             .into(),
-            PageCss::PlantDetails => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    Gallery {}.render(),
-                    PlantDetails {}.render(),
-                ],
-            }
+
+            PageCss::PlantDetails => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                Gallery {}.render().into(),
+                PlantDetails {}.render().into(),
+            ]
             .into(),
-            PageCss::PlantOverview => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    PlantSearch {}.render(),
-                    PlantList {}.render(),
-                ],
-            }
+            PageCss::PlantOverview => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                PlantSearch {}.render().into(),
+                PlantList {}.render().into(),
+            ]
             .into(),
-            PageCss::SpeciesDetails => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    Gallery {}.render(),
-                    SpeciesDetails {}.render(),
-                ],
-            }
+            PageCss::SpeciesDetails => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                Gallery {}.render().into(),
+                SpeciesDetails {}.render().into(),
+            ]
             .into(),
-            PageCss::SpeciesOverview => Style {
-                styles: vec![
-                    Classes {}.render(),
-                    Tags {}.render(),
-                    Root {}.render(),
-                    Header {}.render(),
-                    Footer {}.render(),
-                    PlantList {}.render(),
-                ],
-            }
+            PageCss::SpeciesOverview => vec![
+                Classes {}.render().into(),
+                Tags {}.render().into(),
+                Root {}.render().into(),
+                Header {}.render().into(),
+                Footer {}.render().into(),
+                PlantList {}.render().into(),
+            ]
             .into(),
         }
     }

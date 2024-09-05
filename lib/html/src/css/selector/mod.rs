@@ -22,3 +22,31 @@ impl Render for Selector {
         format!("{top_str}{sub_str}")
     }
 }
+
+#[cfg(test)]
+mod selector_tests {
+
+    use super::{Render, Selector, SubSelector, TopSelector};
+
+    #[test]
+    fn render_top_only() {
+        let result = Selector {
+            top: TopSelector::All,
+            sub: None,
+        }
+        .render();
+        let expected = "*";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_top_sub() {
+        let result = Selector {
+            top: TopSelector::Id("ident".to_owned()),
+            sub: Some(SubSelector::Visited),
+        }
+        .render();
+        let expected = "#ident:visited";
+        assert_eq!(result, expected)
+    }
+}

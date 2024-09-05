@@ -23,3 +23,30 @@ impl From<Color> for Value {
         Value::Color(color)
     }
 }
+
+#[cfg(test)]
+mod color_tests {
+
+    use super::{Color, Render, Value};
+
+    #[test]
+    fn render_rgb() {
+        let result = Color::Rgb(5, 10, 16).render();
+        let expected = "#050a10";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_rgba() {
+        let result = Color::Rgba(10, 15, 20, 10.581).render();
+        let expected = "rgba(10,15,20,10.58)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Color as Into<Value>>::into(Color::Rgb(10, 10, 10)).render();
+        let expected = Color::Rgb(10, 10, 10).render();
+        assert_eq!(result, expected)
+    }
+}
