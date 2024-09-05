@@ -343,7 +343,7 @@ impl DatabaseManager for FileDB {
             .cloned()
             .collect();
         println!("{name}, {:?}", new_logs);
-        self.logs_cache = new_logs.clone();
+        self.logs_cache.clone_from(&new_logs);
         self.write_logs(new_logs)?;
 
         //remove plant growth
@@ -357,7 +357,7 @@ impl DatabaseManager for FileDB {
             .filter(|growth| growth.plant != name)
             .cloned()
             .collect();
-        self.growth_cache = new_growth.clone();
+        self.growth_cache.clone_from(&new_growth);
         self.write_growths(new_growth)?;
 
         // move images to dead dir
