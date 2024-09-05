@@ -17,3 +17,29 @@ impl From<Canvas> for HtmlElement {
         HtmlElement::Canvas(canvas)
     }
 }
+
+#[cfg(test)]
+mod canvas_tests {
+
+    use super::{Attribute, Canvas, HtmlElement, Render};
+
+    fn example_canvas() -> Canvas {
+        Canvas {
+            attributes: vec![Attribute::Id("canvas".to_owned())],
+        }
+    }
+
+    #[test]
+    fn render_canvas() {
+        let result = example_canvas().render();
+        let expected = "<canvas id=\"canvas\"></canvas>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Canvas as Into<HtmlElement>>::into(example_canvas()).render();
+        let expected = example_canvas().render();
+        assert_eq!(result, expected)
+    }
+}

@@ -20,3 +20,30 @@ impl Render for Head {
         format!("<head>\n\t<title>\n\t\t{title}\n\t</title>\n\t{content_str}\n</head>")
     }
 }
+
+#[cfg(test)]
+mod head_tests {
+    use super::{Head, HtmlElement, Render};
+    use std::rc::Rc;
+
+    fn example_head() -> Head {
+        Head {
+            title: "a page".to_owned(),
+            content: Rc::new("no other loads".to_owned().into()),
+        }
+    }
+
+    #[test]
+    fn render_head() {
+        let result = example_head().render();
+        let expected = "<head>\n\t<title>\n\t\ta page\n\t</title>\n\tno other loads\n</head>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Head as Into<HtmlElement>>::into(example_head()).render();
+        let expected = example_head().render();
+        assert_eq!(result, expected)
+    }
+}

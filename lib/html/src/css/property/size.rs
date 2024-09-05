@@ -25,3 +25,44 @@ impl From<Size> for Property {
         Property::Size(size)
     }
 }
+
+#[cfg(test)]
+mod size_tests {
+
+    use super::{Property, Render, Size};
+
+    #[test]
+    fn render_width() {
+        let result = Size::Width.render();
+        let expected = "width";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_maxwidth() {
+        let result = Size::MaxWidth.render();
+        let expected = "max-width";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_height() {
+        let result = Size::Height.render();
+        let expected = "height";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_maxheight() {
+        let result = Size::MaxHeight.render();
+        let expected = "max-height";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Size as Into<Property>>::into(Size::Height).render();
+        let expected = Size::Height.render();
+        assert_eq!(result, expected)
+    }
+}

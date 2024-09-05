@@ -37,3 +37,50 @@ impl From<(f32, Unit)> for Value {
         Value::Measurement(val, unit)
     }
 }
+
+#[cfg(test)]
+mod value_tests {
+    use super::{Color, Keyword, Render, Unit, Value};
+
+    #[test]
+    fn render_color() {
+        let result = Value::Color(Color::Rgb(1, 2, 3)).render();
+        let expected = "#010203";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_str() {
+        let result = Value::Str("value".to_owned()).render();
+        let expected = "\"value\"";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_var() {
+        let result = Value::Var("bg-color".to_owned()).render();
+        let expected = "var(--bg-color)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_measurement() {
+        let result = Value::Measurement(1.0, Unit::Em).render();
+        let expected = "1em";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_keyword() {
+        let result = Value::Keyword(Keyword::Center).render();
+        let expected = "center";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <(f32, Unit) as Into<Value>>::into((1.0, Unit::Em)).render();
+        let expected = Value::Measurement(1.0, Unit::Em).render();
+        assert_eq!(result, expected)
+    }
+}

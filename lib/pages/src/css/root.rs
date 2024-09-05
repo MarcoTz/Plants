@@ -8,7 +8,7 @@ pub struct Root {}
 impl CssComponent for Root {
     fn render(&self) -> CssDocument {
         log::info!("Loading root css");
-        CssBlock {
+        vec![CssBlock {
             selector: TopSelector::Pseudo("root".to_owned()).into(),
             decls: vec![
                 (
@@ -82,7 +82,7 @@ impl CssComponent for Root {
                 )
                     .into(),
             ],
-        }
+        }]
         .into()
     }
 }

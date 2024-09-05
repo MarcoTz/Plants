@@ -29,3 +29,40 @@ impl Render for Body {
         format!("<body {attr_str}>\n\t{content_str}\n</body>")
     }
 }
+
+#[cfg(test)]
+mod body_tests {
+
+    use super::{Attribute, Body, HtmlElement, Render};
+    use std::rc::Rc;
+
+    fn example_body() -> Body {
+        Body {
+            attributes: vec![Attribute::Id("body".to_owned())],
+            content: Rc::new("a html body".to_owned().into()),
+        }
+    }
+
+    #[test]
+    fn render_body() {
+        let result = example_body().render();
+        let expected = "<body id=\"body\">\n\ta html body\n</body>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Body as Into<HtmlElement>>::into(example_body()).render();
+        let expected = example_body().render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_from() {
+        let elem: HtmlElement = "an element".to_owned().into();
+        let body: Body = elem.into();
+        let result = body.render();
+        let expected = "<body >\n\tan element\n</body>";
+        assert_eq!(result, expected)
+    }
+}

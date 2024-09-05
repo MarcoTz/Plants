@@ -43,3 +43,73 @@ impl Render for HeaderSize {
         }
     }
 }
+
+#[cfg(test)]
+mod headline_tests {
+    use super::{Attribute, HeaderSize, Headline, HtmlElement, Render};
+    use std::rc::Rc;
+
+    fn example_headline() -> Headline {
+        Headline {
+            size: HeaderSize::H1,
+            attributes: vec![Attribute::Id("header".to_owned())],
+            content: Rc::new("A big headline".to_owned().into()),
+        }
+    }
+
+    #[test]
+    fn render_header() {
+        let result = example_headline().render();
+        let expected = "<h1 id=\"header\">\n\tA big headline\n</h1>";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Headline as Into<HtmlElement>>::into(example_headline()).render();
+        let expected = example_headline().render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h1() {
+        let result = HeaderSize::H1.render();
+        let expected = "h1";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h2() {
+        let result = HeaderSize::H2.render();
+        let expected = "h2";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h3() {
+        let result = HeaderSize::H3.render();
+        let expected = "h3";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h4() {
+        let result = HeaderSize::H4.render();
+        let expected = "h4";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h5() {
+        let result = HeaderSize::H5.render();
+        let expected = "h5";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_h6() {
+        let result = HeaderSize::H6.render();
+        let expected = "h6";
+        assert_eq!(result, expected)
+    }
+}

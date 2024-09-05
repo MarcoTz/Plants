@@ -31,3 +31,65 @@ impl From<Flex> for Property {
         Property::Flex(flex)
     }
 }
+
+#[cfg(test)]
+mod flex_tests {
+
+    use super::{Flex, Property, Render};
+
+    #[test]
+    fn render_wrap() {
+        let result = Flex::FlexWrap.render();
+        let expected = "flex-wrap";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_direction() {
+        let result = Flex::FlexDirection.render();
+        let expected = "flex-direction";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_alignself() {
+        let result = Flex::AlignSelf.render();
+        let expected = "align-self";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_aligncontent() {
+        let result = Flex::AlignContent.render();
+        let expected = "align-content";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_alignitems() {
+        let result = Flex::AlignItems.render();
+        let expected = "align-items";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_justify() {
+        let result = Flex::JustifyContent.render();
+        let expected = "justify-content";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_gap() {
+        let result = Flex::Gap.render();
+        let expected = "gap";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_into() {
+        let result = <Flex as Into<Property>>::into(Flex::Gap).render();
+        let expected = Flex::Gap.render();
+        assert_eq!(result, expected)
+    }
+}
