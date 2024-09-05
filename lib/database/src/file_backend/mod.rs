@@ -381,9 +381,12 @@ pub mod test_common {
         growth_item::GrowthItem,
         location::Location,
         log_item::LogItem,
+        named::Named,
         plant::{Plant, PlantImage, PlantInfo, PlantLocation, PlantSpecies},
+        serialize::date_serializer,
         species::{Species, SunlightRequirement},
     };
+    use serde::{Deserialize, Serialize};
     use std::path::{Path, PathBuf};
 
     pub const TESTING_BASE: &str = "../../testing";
@@ -391,6 +394,11 @@ pub mod test_common {
     pub const CSV_DUMMY: &str = "../../testing/dummy.csv";
     pub const CSV_DUMMY_BAD_LINES: &str = "../../testing/dummy_badlines.csv";
     pub const CSV_DUMMY_DESERIALIZE: &str = "../../testing/dummy_deserialize.csv";
+    pub const CSV_DUMMY_OUT: &str = "../../testing/dummy_write_csv.csv";
+    pub const GRAVEYARD_CSV_DUMMY_OUT: &str = "../../testing/dummy_write_graveyard.csv";
+    pub const ACTIVITIES_CSV_DUMMY_OUT: &str = "../../testing/dummy_write_activities.csv";
+    pub const GROWTH_CSV_DUMMY_OUT: &str = "../../testing/dummy_write_growth.csv";
+
     pub const GRAVEYARD_DUMMY: &str = "../../testing/Logs/Graveyard.csv";
     pub const ACTIVITIES_DUMMY: &str = "../../testing/Logs/Activities.csv";
     pub const GROWTH_DUMMY: &str = "../../testing/Logs/Growth.csv";
@@ -401,6 +409,10 @@ pub mod test_common {
     pub const JSON_DUMMY_DIR: &str = "../../testing/json_dir";
     pub const JSON_DUMMY_NO_SUBDIR: &str = "../../testing/json_dir_no_subdir";
     pub const JSON_DUMMY_DIR_BAD_JSON: &str = "../../testing/json_dir_bad_json";
+    pub const JSON_DUMMY_OUT: &str = "../../testing/dummy_write_json.json";
+    pub const JSON_DUMMY_OUT_DIR: &str = "../../testing/write_json_dir";
+    pub const JSON_DUMMY_PLANT_OUT_DIR: &str = "../../testing/write_plants_dir";
+    pub const JSON_DUMMY_SPECIES_OUT_DIR: &str = "../../testing/write_species_dir";
 
     pub const DUMMY_PLANT_PATH: &str = "../../testing/plants/";
     pub const DUMMY_SPECIES_PATH: &str = "../../testing/species/";
@@ -419,6 +431,72 @@ pub mod test_common {
     pub const ACTIVITIES_DEATH_DUMMY_OUT: &str = "Activities_kill_test.csv";
 
     pub const FILE_DOES_NOT_EXIST: &str = "../../testing/notaflie";
+
+    #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+    pub struct DummyJSON {
+        pub field1: String,
+        pub field2: i64,
+        #[serde(with = "date_serializer")]
+        pub field3: NaiveDate,
+        pub field4: Vec<String>,
+        pub field5: DummyJSONInner,
+    }
+    impl Named for DummyJSON {
+        fn get_name(&self) -> String {
+            self.field1.clone()
+        }
+    }
+
+    #[derive(Debug, PartialEq, Eq, Serialize, Clone, Deserialize)]
+    pub struct DummyJSONInner {
+        pub key1: String,
+        pub key2: String,
+    }
+
+    pub fn example_json1() -> DummyJSON {
+        DummyJSON {
+            field1: "a string".to_owned(),
+            field2: 10,
+            field3: dummy_date(),
+            field4: vec![
+                "value1".to_owned(),
+                "value2".to_owned(),
+                "value3".to_owned(),
+                "value4".to_owned(),
+            ],
+            field5: DummyJSONInner {
+                key1: "value1".to_owned(),
+                key2: "value2".to_owned(),
+            },
+        }
+    }
+
+    pub fn example_json2() -> DummyJSON {
+        DummyJSON {
+            field1: "a different string".to_owned(),
+            field2: 10,
+            field3: dummy_date(),
+            field4: vec![
+                "value1".to_owned(),
+                "value2".to_owned(),
+                "value3".to_owned(),
+                "value4".to_owned(),
+            ],
+            field5: DummyJSONInner {
+                key1: "value1".to_owned(),
+                key2: "value2".to_owned(),
+            },
+        }
+    }
+
+    #[derive(PartialEq, Debug, Deserialize, Serialize)]
+    pub struct DummyCSV {
+        pub key1: String,
+        pub key2: i64,
+        #[serde(with = "date_serializer")]
+        pub key3: NaiveDate,
+        pub key4: f32,
+    }
 
     pub fn dummy_date() -> NaiveDate {
         NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap()
@@ -466,6 +544,37 @@ pub mod test_common {
         Location {
             name: "test location".to_owned(),
             outside: false,
+        }
+    }
+
+    pub fn dummy_growth1() -> GrowthItem {
+        GrowthItem {
+            plant: "Dummy1".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            height_cm: 10.0,
+            width_cm: 10.0,
+            note: None,
+            health: 3,
+        }
+    }
+
+    pub fn dummy_growth2() -> GrowthItem {
+        GrowthItem {
+            plant: "Dummy1".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            height_cm: 15.0,
+            width_cm: 15.0,
+            note: None,
+            health: 4,
+        }
+    }
+
+    pub fn dummy_activity() -> LogItem {
+        LogItem {
+            activity: "Watering".to_owned(),
+            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
+            plant: "Dummy1".to_owned(),
+            note: None,
         }
     }
 
@@ -581,6 +690,31 @@ pub mod test_common {
     }
 
     #[test]
+    fn ensure_csv_not_exist() {
+        let csv_out = Path::new(CSV_DUMMY_OUT);
+        let graveyard_out = Path::new(GRAVEYARD_CSV_DUMMY_OUT);
+        let activities_out = Path::new(ACTIVITIES_CSV_DUMMY_OUT);
+        let growth_out = Path::new(GROWTH_CSV_DUMMY_OUT);
+
+        if csv_out.exists() {
+            std::fs::remove_file(csv_out).unwrap();
+        }
+        if graveyard_out.exists() {
+            std::fs::remove_file(graveyard_out).unwrap();
+        }
+        if activities_out.exists() {
+            std::fs::remove_file(activities_out).unwrap();
+        }
+        if growth_out.exists() {
+            std::fs::remove_file(growth_out).unwrap();
+        }
+        assert!(!csv_out.exists());
+        assert!(!graveyard_out.exists());
+        assert!(!activities_out.exists());
+        assert!(!growth_out.exists());
+    }
+
+    #[test]
     fn ensure_out_not_exist() {
         let base_dir = Path::new(DUMMY_LOGS_PATH);
         let growth_csv = base_dir.join(GROWTH_DUMMY_OUT);
@@ -663,7 +797,37 @@ pub mod test_common {
     }
 
     #[test]
-    fn ensure_plant_pahts_exist() {
+    fn ensure_json_not_exist() {
+        let json_out = Path::new(JSON_DUMMY_OUT);
+        if json_out.exists() {
+            std::fs::remove_file(json_out).unwrap();
+        }
+        assert!(!json_out.exists());
+    }
+
+    #[test]
+    fn ensure_json_out_exists() {
+        let json_out_dir = Path::new(JSON_DUMMY_OUT_DIR);
+        let plant_out_dir = Path::new(JSON_DUMMY_PLANT_OUT_DIR);
+        let species_out_dir = Path::new(JSON_DUMMY_SPECIES_OUT_DIR);
+
+        if !json_out_dir.exists() {
+            std::fs::create_dir_all(json_out_dir).unwrap();
+        }
+        if !plant_out_dir.exists() {
+            std::fs::create_dir_all(plant_out_dir).unwrap();
+        }
+        if !species_out_dir.exists() {
+            std::fs::create_dir_all(species_out_dir).unwrap();
+        }
+
+        assert!(json_out_dir.exists());
+        assert!(plant_out_dir.exists());
+        assert!(species_out_dir.exists());
+    }
+
+    #[test]
+    fn ensure_plant_paths_exist() {
         let plant_path = Path::new(DUMMY_PLANT_PATH);
         let species_path = Path::new(DUMMY_SPECIES_PATH);
         let logs_path = Path::new(DUMMY_LOGS_PATH);
@@ -680,18 +844,18 @@ pub mod test_common {
 mod file_backend_tests {
     use super::{
         test_common::{
-            dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_location1, dummy_location2,
-            dummy_location3, dummy_plant1, dummy_plant2, dummy_species, ACTIVITIES_DEATH_DUMMY_OUT,
-            ACTIVITIES_DUMMY, ACTIVITIES_DUMMY_OUT, ACTIVITIES_DUMMY_OUT2, DUMMY_LOGS_PATH,
-            DUMMY_PLANT_PATH, DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY,
-            GRAVEYARD_DUMMY_OUT, GROWTHS_DUMMY_OUT, GROWTH_DEATH_DUMMY_OUT, GROWTH_DUMMY,
-            GROWTH_DUMMY_OUT, LOCATIONS_DUMMY, PLANTS_DEATH_DUMMY_OUT, PLANTS_DUMMY_OUT,
-            PLANTS_DUMMY_OUT2, SPECIES_DUMMY_OUT,
+            dummy_activity, dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_growth1,
+            dummy_growth2, dummy_location1, dummy_location2, dummy_location3, dummy_plant1,
+            dummy_plant2, dummy_species, ACTIVITIES_DEATH_DUMMY_OUT, ACTIVITIES_DUMMY,
+            ACTIVITIES_DUMMY_OUT, ACTIVITIES_DUMMY_OUT2, DUMMY_LOGS_PATH, DUMMY_PLANT_PATH,
+            DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY, GRAVEYARD_DUMMY_OUT,
+            GROWTHS_DUMMY_OUT, GROWTH_DEATH_DUMMY_OUT, GROWTH_DUMMY, GROWTH_DUMMY_OUT,
+            LOCATIONS_DUMMY, PLANTS_DEATH_DUMMY_OUT, PLANTS_DUMMY_OUT, PLANTS_DUMMY_OUT2,
+            SPECIES_DUMMY_OUT,
         },
         FileDB,
     };
     use crate::database_manager::DatabaseManager;
-    use chrono::NaiveDate;
     use plants::{
         graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, named::Named,
     };
@@ -713,36 +877,6 @@ mod file_backend_tests {
             location_cache: vec![],
             logs_cache: vec![],
             growth_cache: vec![],
-        }
-    }
-
-    fn dummy_activity() -> LogItem {
-        LogItem {
-            activity: "Watering".to_owned(),
-            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
-            plant: "Dummy1".to_owned(),
-            note: None,
-        }
-    }
-
-    fn dummy_growth1() -> GrowthItem {
-        GrowthItem {
-            plant: "Dummy1".to_owned(),
-            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
-            height_cm: 10.0,
-            width_cm: 10.0,
-            note: None,
-            health: 3,
-        }
-    }
-    fn dummy_growth2() -> GrowthItem {
-        GrowthItem {
-            plant: "Dummy1".to_owned(),
-            date: NaiveDate::parse_from_str("01.01.1970", "%d.%m.%Y").unwrap(),
-            height_cm: 15.0,
-            width_cm: 15.0,
-            note: None,
-            health: 4,
         }
     }
 
