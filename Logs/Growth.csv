@@ -48,6 +48,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Cerberus;10.0;8.0;
 02.08.2024;Cerberus;12.0;10.0;DOne
 15.08.2024;Cerberus;9.0;8.5;
+30.08.2024;Cerberus;11.0;12.0;
 08.04.2024;Elvis;10.0;20.0;
 14.04.2024;Elvis;10.0;30.0;
 03.05.2024;Elvis;12.0;32.0;
@@ -72,6 +73,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Eva Longoria;92.0;39.0;seems a bit stressed
 31.07.2024;Eva Longoria;58.0;42.0;
 15.08.2024;Eva Longoria;57.0;44.0;
+04.09.2024;Eva Longoria;45.0;41.0;
 08.04.2024;Findus;70.0;40.0;
 03.05.2024;Findus;70.0;40.0;
 20.05.2024;Findus;80.0;50.0;
@@ -82,6 +84,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Findus;78.0;72.0;
 31.07.2024;Findus;77.0;76.0;DOne
 15.08.2024;Findus;80.0;72.0;
+04.09.2024;Findus;65.0;75.0;
 14.04.2024;Jerry;7.0;4.0;
 03.05.2024;Jerry;11.0;10.0;
 17.05.2024;Jerry;17.0;22.0;
@@ -130,6 +133,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Liliana;25.0;30.0;
 31.07.2024;Liliana;24.0;30.0;
 15.08.2024;Liliana;27.0;28.0;
+03.09.2024;Liliana;28.0;32.0;
 07.04.2024;Lucy;6.0;4.0;
 14.04.2024;Lucy;8.0;4.0;
 24.04.2024;Lucy;11.0;9.0;
@@ -197,6 +201,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Pepe;3.0;5.0;
 02.08.2024;Pepe;7.0;4.5;
 15.08.2024;Pepe;2.5;4.0;
+30.08.2024;Pepe;2.0;4.0;
 08.04.2024;Peppa;4.0;10.0;
 14.04.2024;Peppa;4.0;13.0;
 03.05.2024;Peppa;5.0;26.0;
@@ -208,6 +213,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Peppa;7.0;16.0;
 31.07.2024;Peppa;11.0;13.0;
 15.08.2024;Peppa;20.0;4.0;
+04.09.2024;Peppa;6.0;19.0;
 08.04.2024;Rosy;45.0;40.0;
 03.05.2024;Rosy;35.0;35.0;
 20.05.2024;Rosy;44.0;35.0;
@@ -239,6 +245,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Darryl;36.0;11.0;
 02.08.2024;Darryl;33.0;14.0;
 15.08.2024;Darryl;33.0;13.0;
+30.08.2024;Darryl;36.0;15.0;
 03.05.2024;Zane;7.0;5.0;
 20.05.2024;Zane;11.5;10.0;
 04.06.2024;Zane;16.0;25.0;
@@ -257,6 +264,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Ivan;10.0;10.0;
 02.08.2024;Ivan;10.0;8.0;
 15.08.2024;Ivan;10.0;10.0;
+30.08.2024;Ivan;11.0;11.0;
 03.05.2024;Tom;11.0;8.0;
 17.05.2024;Tom;15.5;17.0;
 20.05.2024;Tom;16.0;17.0;
@@ -296,6 +304,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Martha;19.0;32.0;
 31.07.2024;Martha;24.0;30.0;
 15.08.2024;Martha;24.0;43.0;
+22.08.2024;Martha;36.0;28.0;
 05.05.2024;Dirk;3.0;1.0;
 20.05.2024;Dirk;5.0;2.0;
 04.06.2024;Dirk;4.0;3.0;
@@ -354,6 +363,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Sam;2.0;3.0;
 02.08.2024;Sam;2.0;3.0;
 15.08.2024;Sam;2.5;3.0;
+30.08.2024;Sam;3.0;5.0;
 19.05.2024;Tony;14.0;8.0;Added during plant creation
 04.06.2024;Tony;21.0;16.0;
 10.06.2024;Tony;25.0;13.0;
@@ -512,23 +522,27 @@ Date;Plant;Height;Width;Note
 16.07.2024;Mrs Sprout;29.0;18.0;
 31.07.2024;Mrs Sprout;24.0;21.0;
 15.08.2024;Mrs Sprout;30.0;24.0;
+04.09.2024;Mrs Sprout;30.0;30.0;
 10.06.2024;Fuchur;53.0;39.0;Added during plant creation
 25.06.2024;Fuchur;50.0;32.0;
 03.07.2024;Fuchur;52.0;36.0;
 16.07.2024;Fuchur;51.0;43.0;
 31.07.2024;Fuchur;46.0;46.0;Fell over, not sure if he will survive, but now separated into two plants
 15.08.2024;Fuchur;48.0;39.0;
+05.09.2024;Fuchur;50.0;51.0;
 10.06.2024;Timon;16.0;20.0;Added during plant creation
 25.06.2024;Timon;19.0;19.0;
 03.07.2024;Timon;17.0;22.0;
 16.07.2024;Timon;22.0;21.0;
 31.07.2024;Timon;19.0;21.0;
 15.08.2024;Timon;22.0;26.0;
+03.09.2024;Timon;16.0;29.0;
 10.06.2024;Pumbaa;21.0;29.0;Added during plant creation
 25.06.2024;Pumbaa;22.0;26.0;standing a bit tilted
 16.07.2024;Pumbaa;29.0;29.0;
 31.07.2024;Pumbaa;22.0;26.0;
 15.08.2024;Pumbaa;22.0;27.0;
+30.08.2024;Pumbaa;24.0;28.0;
 26.06.2024;Rihanna;44.0;30.0;Added during plant creation
 26.06.2024;Jay;19.0;23.0;Added during plant creation
 26.06.2024;Avi;0.1;0.1;Added during plant creation
@@ -537,11 +551,13 @@ Date;Plant;Height;Width;Note
 23.07.2024;Avi;11.5;1.0;
 02.08.2024;Avi;22.0;9.0;
 15.08.2024;Avi;26.0;21.0;
+30.08.2024;Avi;21.0;21.0;
 26.06.2024;Albus;0.1;0.1;Added during plant creation
 03.07.2024;Albus;1.2;0.5;
 23.07.2024;Albus;11.0;1.0;
 02.08.2024;Albus;20.0;7.0;
 15.08.2024;Albus;24.0;16.0;
+30.08.2024;Albus;21.0;21.0;
 26.06.2024;Jenn;3.5;3.5;Added during plant creation
 26.06.2024;Jenn;2.5;6.0;Added during plant creation
 03.07.2024;Jenn;3.0;5.0;
@@ -558,26 +574,24 @@ Date;Plant;Height;Width;Note
 16.07.2024;Jack;1.0;2.0;
 02.08.2024;Jack;1.0;3.0;
 15.08.2024;Jack;0.5;2.0;
+30.08.2024;Jack;1.0;3.0;
 26.06.2024;Jane;0.5;4.0;Added during plant creation
 03.07.2024;Jane;0.5;4.0;
 16.07.2024;Jane;1.5;3.5;
 02.08.2024;Jane;1.0;4.0;
 15.08.2024;Jane;1.0;4.0;
+30.08.2024;Jane;2.0;4.0;Dome
 26.06.2024;Bubba;51.0;34.0;Added during plant creation
 03.07.2024;Bubba;51.0;43.0;
 16.07.2024;Bubba;58.0;47.0;First new leaf
 31.07.2024;Bubba;59.0;45.0;
 15.08.2024;Bubba;58.0;37.0;
+28.08.2024;Bubba;64.0;48.0;
 28.06.2024;Tupac;2.0;10.0;Added during plant creation
 03.07.2024;Tupac;7.0;10.0;
 16.07.2024;Tupac;5.0;9.0;Lost a leaf but got two new ones
 31.07.2024;Tupac;5.0;6.0;Leaf got burned from the sun
 15.08.2024;Tupac;3.0;4.0;Severe sunburn
-28.06.2024;Smaug;14.0;13.0;Added during plant creation
-03.07.2024;Smaug;15.0;12.0;
-16.07.2024;Smaug;14.0;13.0;
-02.08.2024;Smaug;13.5;9.0;
-15.08.2024;Smaug;13.0;11.0;Overwatered
 03.07.2024;Gabrielle;25.0;30.0;Added during plant creation
 03.07.2024;Jill;3.0;4.0;Added during plant creation
 16.07.2024;Jill;3.5;3.0;Still no new growth
@@ -589,63 +603,47 @@ Date;Plant;Height;Width;Note
 16.07.2024;Anya;7.5;10.0;Added during plant creation
 31.07.2024;Anya;5.0;8.0;
 15.08.2024;Anya;9.0;9.0;
+04.09.2024;Anya;8.0;10.0;
 16.07.2024;Tito;3.0;3.0;Added during plant creation
 02.08.2024;Tito;3.0;3.0;
 15.08.2024;Tito;3.0;3.0;
+30.08.2024;Tito;2.0;3.0;
 16.07.2024;Tigger;4.0;5.0;Added during plant creation
 02.08.2024;Tigger;5.0;6.5;
 15.08.2024;Tigger;5.0;6.0;
+30.08.2024;Tigger;6.0;7.0;
 24.07.2024;Jesus;14.0;12.0;Added during plant creation
 31.07.2024;Jesus;15.0;13.0;Fell over, might survive
 15.08.2024;Jesus;16.0;9.0;
+05.09.2024;Jesus;2.5;6.0;
 09.08.2024;Mufasa;103.0;96.0;Added during plant creation
 15.08.2024;Mufasa;95.0;93.0;
+21.08.2024;Mufasa;78.0;84.0;
 09.08.2024;Selene;25.0;14.0;Added during plant creation
 09.08.2024;Sting;3.0;7.0;Added during plant creation
 15.08.2024;Sting;5.0;8.0;
 12.08.2024;Al;10.0;11.0;Added during plant creation
-20.08.2024;Behemoth;10;23;Added during plant creation
-20.08.2024;Aurora;38;26;Added during plant creation
-20.08.2024;Dewdrop;1;8;Added during plant creation
-21.08.2024;Sarabi;99;62;Added during plant creation
-21.08.2024;Mufasa;78;84;
-21.08.2024;Scar;58;68;Added during plant creation
-22.08.2024;Martha;36;28;
-22.08.2024;Magdalena;21;19;Added during plant creation
-22.08.2024;Larry;26;15;Added during plant creation
-23.08.2024;Simba;27;18;Added during plant creation
-23.08.2024;Gabby;16;24;Added during plant creation
-23.08.2024;Roselyn;23;24;Added during plant creation
-27.08.2024;Ron;9;2.45;Added during plant creation
-28.08.2024;Al;5;11;
-28.08.2024;Bubba;64;48;
-29.08.2024;Kaa;25;13;Added during plant creation
-29.08.2024;Francis;29;25;Added during plant creation
-29.08.2024;Peter;12;19;Added during plant creation
-29.08.2024;Gabriel;102;18;Added during plant creation
-30.08.2024;Darryl;36;15;
-30.08.2024;Cerberus;11;12;
-30.08.2024;Pepe;2;4;
-30.08.2024;Tito;2;3;
-30.08.2024;Avi;21;21;
-30.08.2024;Albus;21;21;
-30.08.2024;Rain;26;30;Added during plant creation
-30.08.2024;Mist;27;28;Added during plant creation
-30.08.2024;Sunshine;25;22;Added during plant creation
-30.08.2024;Pumbaa;24;28;
-30.08.2024;Dewdrop;4;11;
-30.08.2024;Tigger;6;7;
-30.08.2024;Ivan;11;11;
-30.08.2024;Jack;1;3;
-30.08.2024;Sam;3;5;
-30.08.2024;Jane;2;4;Dome
-30.08.2024;Al;5;11;
-03.09.2024;Magdalena;22;23;
-03.09.2024;Timon;16;29;
-03.09.2024;Peter;12;20;
-03.09.2024;Liliana;28;32;
-04.09.2024;Findus;65;75;
-04.09.2024;Eva Longoria;45;41;
-04.09.2024;Mrs Sprout;30;30;
-04.09.2024;Peppa;6;19;
-04.09.2024;Anya;8;10;
+28.08.2024;Al;5.0;11.0;
+30.08.2024;Al;5.0;11.0;
+20.08.2024;Behemoth;10.0;23.0;Added during plant creation
+20.08.2024;Aurora;38.0;26.0;Added during plant creation
+20.08.2024;Dewdrop;1.0;8.0;Added during plant creation
+30.08.2024;Dewdrop;4.0;11.0;
+21.08.2024;Sarabi;99.0;62.0;Added during plant creation
+21.08.2024;Scar;58.0;68.0;Added during plant creation
+22.08.2024;Magdalena;21.0;19.0;Added during plant creation
+03.09.2024;Magdalena;22.0;23.0;
+22.08.2024;Larry;26.0;15.0;Added during plant creation
+23.08.2024;Simba;27.0;18.0;Added during plant creation
+23.08.2024;Gabby;16.0;24.0;Added during plant creation
+23.08.2024;Roselyn;23.0;24.0;Added during plant creation
+27.08.2024;Ron;9.0;2.45;Added during plant creation
+29.08.2024;Kaa;25.0;13.0;Added during plant creation
+29.08.2024;Francis;29.0;25.0;Added during plant creation
+29.08.2024;Peter;12.0;19.0;Added during plant creation
+03.09.2024;Peter;12.0;20.0;
+29.08.2024;Gabriel;102.0;18.0;Added during plant creation
+30.08.2024;Rain;26.0;30.0;Added during plant creation
+30.08.2024;Mist;27.0;28.0;Added during plant creation
+30.08.2024;Sunshine;25.0;22.0;Added during plant creation
+05.09.2024;Maria;39;24;
