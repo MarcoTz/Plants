@@ -48,56 +48,17 @@ mod load_json_tests {
 
     use super::{load_dir, load_json, load_plant_infos, load_species};
     use crate::file_backend::test_common::{
-        dummy_date, dummy_plant1, dummy_plant2, dummy_species, DUMMY_PLANT_PATH,
+        dummy_plant1, dummy_plant2, dummy_species, example_json1, DummyJSON, DUMMY_PLANT_PATH,
         DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST, JSON_DUMMY, JSON_DUMMY_DESERIALIZE,
         JSON_DUMMY_DIR, JSON_DUMMY_NO_SUBDIR,
     };
-    use chrono::NaiveDate;
-    use plants::{
-        plant::{PlantLocation, PlantSpecies},
-        serialize::date_serializer,
-    };
-    use serde::Deserialize;
+    use plants::plant::{PlantLocation, PlantSpecies};
     use std::path::PathBuf;
-
-    #[derive(Debug, PartialEq, Eq, Deserialize)]
-    struct DummyJSON {
-        field1: String,
-        field2: i64,
-        #[serde(with = "date_serializer")]
-        field3: NaiveDate,
-        field4: Vec<String>,
-        field5: DummyJSONInner,
-    }
-
-    #[derive(Debug, PartialEq, Eq, Deserialize)]
-    struct DummyJSONInner {
-        key1: String,
-        key2: String,
-    }
-
-    fn example_json() -> DummyJSON {
-        DummyJSON {
-            field1: "a string".to_owned(),
-            field2: 10,
-            field3: dummy_date(),
-            field4: vec![
-                "value1".to_owned(),
-                "value2".to_owned(),
-                "value3".to_owned(),
-                "value4".to_owned(),
-            ],
-            field5: DummyJSONInner {
-                key1: "value1".to_owned(),
-                key2: "value2".to_owned(),
-            },
-        }
-    }
 
     #[test]
     fn load_dummy_json() {
         let result = load_json::<DummyJSON>(&PathBuf::from(&JSON_DUMMY)).unwrap();
-        let expected = example_json();
+        let expected = example_json1();
         assert_eq!(result, expected)
     }
 
@@ -117,11 +78,11 @@ mod load_json_tests {
     fn load_json_dir() {
         let result = load_dir::<DummyJSON>(&PathBuf::from(&JSON_DUMMY_DIR)).unwrap();
         let expected = vec![
-            example_json(),
-            example_json(),
-            example_json(),
-            example_json(),
-            example_json(),
+            example_json1(),
+            example_json1(),
+            example_json1(),
+            example_json1(),
+            example_json1(),
         ];
         assert_eq!(result, expected)
     }

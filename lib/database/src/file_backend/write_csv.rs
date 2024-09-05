@@ -4,10 +4,7 @@ use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogIt
 use serde::Serialize;
 use std::path::PathBuf;
 
-pub fn write_csv<T: Serialize + std::fmt::Debug>(
-    items: Vec<T>,
-    file_path: &PathBuf,
-) -> Result<(), Error> {
+pub fn write_csv<T: Serialize>(items: Vec<T>, file_path: &PathBuf) -> Result<(), Error> {
     log::info!("Writing CSV {:?}", file_path);
     let mut writer = WriterBuilder::new()
         .delimiter(b';')
@@ -38,4 +35,75 @@ pub fn write_graveyard(
     graveyard_out: &PathBuf,
 ) -> Result<(), Error> {
     write_csv(graveyard, graveyard_out)
+}
+
+#[cfg(test)]
+mod write_csv_tests {
+    use super::{write_activities, write_csv, write_graveyard, write_growth};
+    use crate::file_backend::{
+        load_csv::{load_activities, load_csv, load_graveyard, load_growth},
+        test_common::{
+            dummy_activity, dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_growth1,
+            dummy_growth2, DummyCSV, ACTIVITIES_CSV_DUMMY_OUT, CSV_DUMMY_OUT,
+            GRAVEYARD_CSV_DUMMY_OUT, GROWTH_CSV_DUMMY_OUT,
+        },
+    };
+    use std::path::PathBuf;
+
+    fn csv_dummy() -> DummyCSV {
+        DummyCSV {
+            key1: "test".to_owned(),
+            key2: 1,
+            key3: dummy_date(),
+            key4: 1.0,
+        }
+    }
+
+    #[test]
+    fn write_dummy_csv() {
+        let values = vec![csv_dummy(), csv_dummy()];
+        let csv_file = PathBuf::from(CSV_DUMMY_OUT);
+        write_csv(values, &csv_file).unwrap();
+        let result: Vec<DummyCSV> = load_csv(&csv_file).unwrap();
+        let expected = vec![csv_dummy(), csv_dummy()];
+        assert_eq!(result, expected);
+        std::fs::remove_file(csv_file.clone()).unwrap();
+        assert!(!csv_file.exists())
+    }
+
+    #[test]
+    fn write_dummy_activities() {
+        let values = vec![dummy_activity(), dummy_activity()];
+        let csv_file = PathBuf::from(ACTIVITIES_CSV_DUMMY_OUT);
+        write_activities(values, &csv_file).unwrap();
+        let result = load_activities(&csv_file).unwrap();
+        let expected = vec![dummy_activity(), dummy_activity()];
+        assert_eq!(result, expected);
+        std::fs::remove_file(csv_file.clone()).unwrap();
+        assert!(!csv_file.exists());
+    }
+
+    #[test]
+    fn write_dummy_growth() {
+        let values = vec![dummy_growth1(), dummy_growth2()];
+        let csv_file = PathBuf::from(GROWTH_CSV_DUMMY_OUT);
+        write_growth(values, &csv_file).unwrap();
+        let result = load_growth(&csv_file).unwrap();
+        let expected = vec![dummy_growth1(), dummy_growth2()];
+        assert_eq!(result, expected);
+        std::fs::remove_file(csv_file.clone()).unwrap();
+        assert!(!csv_file.exists())
+    }
+
+    #[test]
+    fn write_dummy_graveyard() {
+        let values = vec![dummy_graveyard1(), dummy_graveyard2()];
+        let csv_file = PathBuf::from(GRAVEYARD_CSV_DUMMY_OUT);
+        write_graveyard(values, &csv_file).unwrap();
+        let result = load_graveyard(&csv_file).unwrap();
+        let expected = vec![dummy_graveyard1(), dummy_graveyard2()];
+        assert_eq!(result, expected);
+        std::fs::remove_file(csv_file.clone()).unwrap();
+        assert!(!csv_file.exists())
+    }
 }
