@@ -6,6 +6,7 @@ use html::{
 };
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Footer {
     pub num_plants: i32,
     pub last_build: NaiveDate,

@@ -117,7 +117,11 @@ impl Plant {
     }
 
     pub fn get_next_watering(&self) -> Option<NaiveDate> {
-        self.get_next_activity_date("watering")
+        if self.info.auto_water {
+            None
+        } else {
+            self.get_next_activity_date("watering")
+        }
     }
 
     pub fn get_next_fertilizing(&self) -> Option<NaiveDate> {

@@ -12,6 +12,7 @@ use super::{
 use html::elements::HtmlElement;
 use plants::plant::Plant;
 
+#[derive(Debug, PartialEq)]
 pub struct Index {
     pub next_activities: UpcomingTasks,
     pub autowatered: AutoWatered,
@@ -53,5 +54,74 @@ impl TryFrom<&[Plant]> for Index {
             autowatered: AutoWatered::from(plants),
             hall_of_fame,
         })
+    }
+}
+
+#[cfg(test)]
+mod index_tests {
+    use super::{
+        AutoWatered, HallOfFame, HtmlHead, Index, Page, PageComponent, PageCss, UpcomingTasks,
+    };
+    use crate::test_common::{example_plant1, example_plant2, example_plant3, DATE_FORMAT};
+    use plants::plant::Plant;
+
+    fn example_index() -> Index {
+        Index {
+            next_activities: UpcomingTasks::from(example_plants().as_slice()),
+            autowatered: AutoWatered::from(example_plants().as_slice()),
+            hall_of_fame: HallOfFame::try_from(example_plants().as_slice()).unwrap(),
+        }
+    }
+
+    fn example_plants() -> Vec<Plant> {
+        vec![example_plant1(), example_plant2(), example_plant3()]
+    }
+
+    #[test]
+    fn index_title() {
+        let result = example_index().get_title();
+        let expected = "Dashboard".to_owned();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn index_content() {
+        let result = example_index().get_content(DATE_FORMAT);
+        let expected = vec![
+            UpcomingTasks::from(example_plants().as_slice()).render(DATE_FORMAT),
+            AutoWatered::from(example_plants().as_slice()).render(DATE_FORMAT),
+            HallOfFame::try_from(example_plants().as_slice())
+                .unwrap()
+                .render(DATE_FORMAT),
+        ]
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn index_head() {
+        let result = example_index().get_head(DATE_FORMAT);
+        let expected = HtmlHead {
+            title: "Dashboard".to_owned(),
+            styles: PageCss::Index,
+            scripts: vec!["js/main.js".to_owned()],
+            date_format: DATE_FORMAT.to_owned(),
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn index_into() {
+        let result = Index::try_from(example_plants().as_slice()).unwrap();
+        let expected = example_index();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn index_into_fail() {
+        let mut plant = example_plant1();
+        plant.growth = vec![];
+        let result = Index::try_from(vec![plant].as_slice());
+        assert!(result.is_err())
     }
 }

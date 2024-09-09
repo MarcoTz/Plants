@@ -160,6 +160,20 @@ mod pagecss_tests {
     }
 
     #[test]
+    fn render_graveyard() {
+        let result = PageCss::Graveyard.render(DATE_FORMAT);
+        let expected = vec![
+            Classes {}.render().into(),
+            Tags {}.render().into(),
+            Root {}.render().into(),
+            Header {}.render().into(),
+            Footer {}.render().into(),
+        ]
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
     fn render_index() {
         let result = PageCss::Index.render(DATE_FORMAT);
         let expected = vec![
