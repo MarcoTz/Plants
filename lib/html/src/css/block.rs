@@ -2,7 +2,7 @@ use super::CssDocument;
 use super::{declaration::Declaration, selector::Selector};
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct CssBlock {
     pub selector: Selector,
     pub decls: Vec<Declaration>,

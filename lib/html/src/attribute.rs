@@ -1,5 +1,6 @@
 use super::render::Render;
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum Attribute {
     Id(String),
     Class(Vec<String>),

@@ -2,10 +2,13 @@ use super::HtmlElement;
 use crate::{attribute::Attribute, render::Render};
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq)]
 pub struct SelectOption {
     pub value: String,
     pub content: Rc<HtmlElement>,
 }
+
+#[derive(Debug, PartialEq)]
 pub struct Select {
     pub attributes: Vec<Attribute>,
     pub options: Vec<SelectOption>,

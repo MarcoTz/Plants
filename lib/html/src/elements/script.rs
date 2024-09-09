@@ -1,6 +1,7 @@
 use super::HtmlElement;
 use crate::{attribute::Attribute, render::Render};
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Script {
     pub attributes: Vec<Attribute>,
     pub content: String,

@@ -7,7 +7,7 @@ pub use color::Color;
 pub use keyword::Keyword;
 pub use unit::Unit;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Debug)]
 pub enum Value {
     Color(Color),
     Str(String),

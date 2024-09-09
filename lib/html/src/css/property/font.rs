@@ -1,7 +1,7 @@
 use super::Property;
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Font {
     Weight,
     Family,

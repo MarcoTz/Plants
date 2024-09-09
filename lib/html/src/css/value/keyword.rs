@@ -1,7 +1,7 @@
 use super::Value;
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Keyword {
     Center,
     FlexStart,

@@ -1,7 +1,7 @@
 use super::Selector;
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum TopSelector {
     Class(String),
     Id(String),

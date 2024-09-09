@@ -5,7 +5,7 @@ use html::{
 };
 use std::rc::Rc;
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct HtmlHead {
     pub title: String,
     pub styles: PageCss,

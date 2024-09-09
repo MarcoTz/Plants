@@ -2,6 +2,7 @@ use super::HtmlElement;
 use crate::render::Render;
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq)]
 pub struct Head {
     pub title: String,
     pub content: Rc<HtmlElement>,

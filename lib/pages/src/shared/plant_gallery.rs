@@ -10,7 +10,7 @@ use plants::{
 };
 use std::rc::Rc;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PlantImg {
     img_base: String,
     img_url: String,
@@ -19,7 +19,7 @@ pub struct PlantImg {
     num_self: i32,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PlantGallery {
     pub plant_name: String,
     plant_url: String,
@@ -165,3 +165,21 @@ impl From<ImageInfo> for PlantImg {
         }
     }
 }
+
+/*
+ *                PlantGallery {
+                    plant_name: "Plant1".to_owned(),
+                    plant_url: "plants/Plant1.html".to_owned(),
+                    plant_images: vec![],
+                },
+                PlantGallery {
+                    plant_name: "Plant2".to_owned(),
+                    plant_url: "plants/Plant2.html".to_owned(),
+                    plant_images: vec![],
+                },
+                PlantGallery {
+                    plant_name: "Plant3".to_owned(),
+                    plant_url: "plants/Plant3.html".to_owned(),
+                    plant_images: vec![],
+                },
+*/
