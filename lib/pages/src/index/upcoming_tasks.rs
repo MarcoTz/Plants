@@ -8,16 +8,17 @@ use plants::plant::Plant;
 use std::collections::HashMap;
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct UpcomingTasks {
     tasks: Vec<TaskBlock>,
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TaskBlock {
     date: NaiveDate,
     items: Vec<TaskItem>,
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TaskItem {
     activity: String,
     plants: Vec<PlantLink>,
@@ -112,11 +113,6 @@ impl From<&[Plant]> for UpcomingTasks {
                 }
             };
         for plant in plants.iter() {
-            if plant.info.auto_water {
-                log::info!("Skipping plant {} in upcoming tasks", plant.info.name);
-                continue;
-            }
-
             let next_watering = plant.get_next_watering();
             let next_fertilizing = plant.get_next_fertilizing();
             let plant_link: PlantLink = (plant, "plants").into();
@@ -220,5 +216,328 @@ impl From<(&str, &[PlantLink])> for TaskItem {
             activity: activity_str.to_owned(),
             plants: plants.to_vec(),
         }
+    }
+}
+
+#[cfg(test)]
+mod upcoming_tasks_tests {
+    use super::{PageComponent, PlantLink, TaskBlock, TaskItem, UpcomingTasks};
+    use crate::test_common::{
+        example_plant1, example_plant2, example_plant3, example_plantlink1, example_plantlink2,
+        example_plantlink3, example_species, DATE_FORMAT,
+    };
+    use chrono::{Datelike, Local};
+    use html::{
+        attribute::Attribute,
+        elements::{Div, HeaderSize, Headline, HtmlElement, A},
+    };
+    use plants::plant::PlantSpecies;
+    use std::rc::Rc;
+
+    fn example_upcoming_tasks() -> UpcomingTasks {
+        UpcomingTasks {
+            tasks: vec![TaskBlock {
+                date: Local::now().date_naive(),
+                items: vec![
+                    TaskItem {
+                        activity: "🌊 Watering 🌊".to_owned(),
+                        plants: vec![example_plantlink1()],
+                    },
+                    TaskItem {
+                        activity: "💩 Fertilizing 💩".to_owned(),
+                        plants: vec![example_plantlink2()],
+                    },
+                    TaskItem {
+                        activity: "🌊 Watering+Fertilizing 💩".to_owned(),
+                        plants: vec![example_plantlink3()],
+                    },
+                    TaskItem {
+                        activity: "📏 Growth 📏".to_owned(),
+                        plants: vec![
+                            example_plantlink1(),
+                            example_plantlink2(),
+                            example_plantlink3(),
+                        ],
+                    },
+                ],
+            }],
+        }
+    }
+
+    fn example_task_block() -> TaskBlock {
+        TaskBlock {
+            date: Local::now().date_naive(),
+            items: vec![example_task_item()],
+        }
+    }
+
+    fn example_task_item() -> TaskItem {
+        TaskItem {
+            activity: "📏 Growth 📏".to_string(),
+            plants: vec![PlantLink::from((&example_plant3(), "plants"))],
+        }
+    }
+
+    #[test]
+    fn render_task_item() {
+        let result = example_task_item().render(DATE_FORMAT);
+        let expected = Div {
+            attributes: vec![Attribute::Class(vec!["upcoming_task".to_owned()])],
+            content: Rc::new(
+                vec![
+                    "📏 Growth 📏".to_owned().into(),
+                    HtmlElement::Br,
+                    A {
+                        attributes: vec![
+                            Attribute::Href("plants/Plant3.html".to_owned()),
+                            Attribute::Class(vec!["plant_link".to_owned()]),
+                        ],
+                        content: Rc::new("Plant3".to_owned().into()),
+                    }
+                    .into(),
+                    ", ".to_owned().into(),
+                ]
+                .into(),
+            ),
+        }
+        .into();
+
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_task_block() {
+        let result = example_task_block().render(DATE_FORMAT);
+        let today = Local::now().date_naive();
+
+        let expected = Div {
+            attributes: vec![Attribute::Class(vec!["task_block".to_owned()])],
+            content: Rc::new(
+                vec![
+                    (today.weekday().to_string() + ", " + &today.format(DATE_FORMAT).to_string())
+                        .into(),
+                    HtmlElement::Br,
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["upcoming_task".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "📏 Growth 📏".to_owned().into(),
+                                HtmlElement::Br,
+                                A {
+                                    attributes: vec![
+                                        Attribute::Href("plants/Plant3.html".to_owned()),
+                                        Attribute::Class(vec!["plant_link".to_owned()]),
+                                    ],
+                                    content: Rc::new("Plant3".to_owned().into()),
+                                }
+                                .into(),
+                                ", ".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                ]
+                .into(),
+            ),
+        }
+        .into();
+
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_upcoming_tasks() {
+        let result = example_upcoming_tasks().render(DATE_FORMAT);
+        let today = Local::now().date_naive();
+        let expected = vec![
+            Headline {
+                size: HeaderSize::H1,
+                attributes: vec![],
+                content: Rc::new("Upcoming Tasks".to_owned().into()),
+            }
+            .into(),
+            Div {
+                attributes: vec![
+                    Attribute::Id("tasks_container".to_owned()),
+                    Attribute::Class(vec![
+                        "flex_container".to_owned(),
+                        "alternating_children".to_owned(),
+                    ]),
+                ],
+                content: Rc::new(
+                    vec![Div {
+                        attributes: vec![Attribute::Class(vec!["task_block".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                (today.weekday().to_string()
+                                    + ", "
+                                    + &today.format(DATE_FORMAT).to_string())
+                                    .into(),
+                                HtmlElement::Br,
+                                Div {
+                                    attributes: vec![Attribute::Class(vec![
+                                        "upcoming_task".to_owned()
+                                    ])],
+                                    content: Rc::new(
+                                        vec![
+                                            "🌊 Watering 🌊".to_owned().into(),
+                                            HtmlElement::Br,
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant1.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant1".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                        ]
+                                        .into(),
+                                    ),
+                                }
+                                .into(),
+                                Div {
+                                    attributes: vec![Attribute::Class(vec![
+                                        "upcoming_task".to_owned()
+                                    ])],
+                                    content: Rc::new(
+                                        vec![
+                                            "💩 Fertilizing 💩".to_owned().into(),
+                                            HtmlElement::Br,
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant2.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant2".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                        ]
+                                        .into(),
+                                    ),
+                                }
+                                .into(),
+                                Div {
+                                    attributes: vec![Attribute::Class(vec![
+                                        "upcoming_task".to_owned()
+                                    ])],
+                                    content: Rc::new(
+                                        vec![
+                                            "🌊 Watering+Fertilizing 💩".to_owned().into(),
+                                            HtmlElement::Br,
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant3.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant3".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                        ]
+                                        .into(),
+                                    ),
+                                }
+                                .into(),
+                                Div {
+                                    attributes: vec![Attribute::Class(vec![
+                                        "upcoming_task".to_owned()
+                                    ])],
+                                    content: Rc::new(
+                                        vec![
+                                            "📏 Growth 📏".to_owned().into(),
+                                            HtmlElement::Br,
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant1.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant1".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant2.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant2".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                            A {
+                                                attributes: vec![
+                                                    Attribute::Href(
+                                                        "plants/Plant3.html".to_owned(),
+                                                    ),
+                                                    Attribute::Class(vec!["plant_link".to_owned()]),
+                                                ],
+                                                content: Rc::new("Plant3".to_owned().into()),
+                                            }
+                                            .into(),
+                                            ", ".to_owned().into(),
+                                        ]
+                                        .into(),
+                                    ),
+                                }
+                                .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into()]
+                    .into(),
+                ),
+            }
+            .into(),
+        ]
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn item_into() {
+        let result = TaskItem::from((
+            "📏 Growth 📏",
+            vec![PlantLink::from((&example_plant3(), "plants"))].as_slice(),
+        ));
+        let expected = example_task_item();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn block_into() {
+        let result = TaskBlock::from((
+            &Local::now().date_naive(),
+            vec![example_task_item()].as_slice(),
+        ));
+        let expected = example_task_block();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn tasks_into() {
+        let mut watering_plant = example_plant1();
+        let mut watering_species = example_species();
+        watering_species.avg_fertilizing_days = None;
+        watering_plant.info.species = PlantSpecies::Species(Box::new(watering_species));
+
+        let result = UpcomingTasks::from(
+            vec![watering_plant, example_plant2(), example_plant3()].as_slice(),
+        );
+        let expected = example_upcoming_tasks();
+        assert_eq!(result, expected)
     }
 }

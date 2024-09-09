@@ -5,6 +5,7 @@ use html::{
 };
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Header {
     pub dashboard_url: String,
     pub plants_url: String,

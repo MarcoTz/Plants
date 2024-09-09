@@ -3,6 +3,7 @@ use super::{
     render::Render,
 };
 
+#[derive(Debug, PartialEq)]
 pub struct HtmlDocument {
     pub head: Head,
     pub body: Body,
