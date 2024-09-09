@@ -1,6 +1,7 @@
 use crate::elements::HtmlElement;
 use crate::{css::CssDocument, render::Render};
 
+#[derive(Debug, PartialEq)]
 pub struct Style {
     pub style: CssDocument,
 }

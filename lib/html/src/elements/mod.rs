@@ -32,6 +32,7 @@ pub use table::{Table, Td, Tr};
 
 use crate::render::Render;
 
+#[derive(Debug, PartialEq)]
 pub enum HtmlElement {
     Head(Head),
     Body(Body),

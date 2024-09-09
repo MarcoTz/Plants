@@ -18,7 +18,7 @@ pub use size::Size;
 
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Property {
     TextAlign,
     Cursor,
@@ -37,7 +37,7 @@ pub enum Property {
     Border(Border),
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Direction {
     Top,
     Bottom,

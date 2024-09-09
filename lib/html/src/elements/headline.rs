@@ -2,6 +2,7 @@ use super::HtmlElement;
 use crate::{attribute::Attribute, render::Render};
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum HeaderSize {
     H1,
     H2,
@@ -11,6 +12,7 @@ pub enum HeaderSize {
     H6,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Headline {
     pub size: HeaderSize,
     pub attributes: Vec<Attribute>,

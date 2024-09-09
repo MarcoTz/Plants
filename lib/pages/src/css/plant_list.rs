@@ -72,3 +72,75 @@ impl CssComponent for PlantList {
         }
     }
 }
+
+#[cfg(test)]
+mod plant_list_tests {
+    use super::{CssComponent, PlantList};
+    use html::css::{
+        block::CssBlock,
+        declaration::Declaration,
+        property::{Color, Direction, Margin, Padding, Property, Size},
+        selector::TopSelector,
+        value::{Keyword, Unit},
+        CssDocument,
+    };
+
+    #[test]
+    fn render_plant_list() {
+        let result = PlantList {}.render();
+        let expected = CssDocument {
+            decls: vec![
+                CssBlock {
+                    selector: TopSelector::Class("plant_list_item".to_owned()).into(),
+                    decls: vec![
+                        (Size::Height.into(), (9.0, Unit::Em).into()).into(),
+                        (Size::Width.into(), (10.0, Unit::Em).into()).into(),
+                        (Property::TextAlign, Keyword::Center.into()).into(),
+                        (Property::Overflow, Keyword::Hidden.into()).into(),
+                    ],
+                },
+                CssBlock {
+                    selector: TopSelector::Class("plant_preview".to_owned()).into(),
+                    decls: vec![
+                        (Size::Height.into(), (40.0, Unit::Percent).into()).into(),
+                        (
+                            Margin {
+                                dir: Direction::Top,
+                            }
+                            .into(),
+                            (0.5, Unit::Em).into(),
+                        )
+                            .into(),
+                    ],
+                },
+                CssBlock {
+                    selector: TopSelector::Multiple(vec![
+                        TopSelector::Class("temp_max".to_owned()),
+                        TopSelector::Class("temp_min".to_owned()),
+                    ])
+                    .into(),
+                    decls: vec![(Property::Display, Keyword::Non.into()).into()],
+                },
+                CssBlock {
+                    selector: TopSelector::Class("location_header".to_owned()).into(),
+                    decls: vec![
+                        Declaration {
+                            property: Color::Background.into(),
+                            value: Keyword::Transparent.into(),
+                            important: true,
+                        },
+                        (
+                            Padding {
+                                dir: Direction::All,
+                            }
+                            .into(),
+                            (0.0, Unit::Em).into(),
+                        )
+                            .into(),
+                    ],
+                },
+            ],
+        };
+        assert_eq!(result, expected)
+    }
+}

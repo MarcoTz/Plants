@@ -2,14 +2,14 @@ use super::Selector;
 use crate::render::Render;
 use std::rc::Rc;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum SubSelector {
     Visited,
     NthChild(ChildSelector),
     ChildCombinator(Rc<Selector>),
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum ChildSelector {
     Odd,
     Even,

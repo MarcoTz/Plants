@@ -1,7 +1,7 @@
 use super::{Direction, Property};
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Padding {
     pub dir: Direction,
 }

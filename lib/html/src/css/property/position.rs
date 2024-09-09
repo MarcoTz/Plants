@@ -1,7 +1,7 @@
 use super::Property;
 use crate::render::Render;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Position {
     Position,
     Top,

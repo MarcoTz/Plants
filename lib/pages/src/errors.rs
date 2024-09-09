@@ -22,3 +22,38 @@ impl fmt::Display for Error {
         }
     }
 }
+
+#[cfg(test)]
+mod error_tests {
+    use super::Error;
+    use plants::errors::Error as PlantError;
+
+    fn example_plant_err() -> PlantError {
+        PlantError::SunlightError("light".to_owned())
+    }
+
+    #[test]
+    fn display_plant_err() {
+        let result = format!("{}", Error::PlantError(example_plant_err()));
+        let expected = "light";
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn display_into() {
+        let result = format!("{}", <PlantError as Into<Error>>::into(example_plant_err()));
+        let expected = format!("{}", example_plant_err());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_location() {
+        let result = format!(
+            "{}",
+            Error::LocationError(vec!["Location1".to_owned(), "Location2".to_owned()])
+        );
+        let expected =
+            "Cannot create location group for multiple locations [\"Location1\", \"Location2\"]";
+        assert_eq!(result, expected)
+    }
+}

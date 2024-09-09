@@ -5,7 +5,8 @@ pub use sub_selector::{ChildSelector, SubSelector};
 pub use top_selector::TopSelector;
 
 use crate::render::Render;
-#[derive(Clone)]
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Selector {
     pub top: TopSelector,
     pub sub: Option<SubSelector>,

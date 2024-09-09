@@ -10,7 +10,7 @@ use crate::{
 };
 use block::CssBlock;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct CssDocument {
     pub decls: Vec<CssBlock>,
 }

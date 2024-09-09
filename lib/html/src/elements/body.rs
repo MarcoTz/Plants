@@ -2,6 +2,7 @@ use super::HtmlElement;
 use crate::{attribute::Attribute, render::Render};
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq)]
 pub struct Body {
     pub attributes: Vec<Attribute>,
     pub content: Rc<HtmlElement>,
