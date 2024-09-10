@@ -24,6 +24,16 @@ pub enum PlantSpecies {
     Other(String),
 }
 
+impl TryFrom<PlantSpecies> for Species {
+    type Error = Error;
+    fn try_from(pl_sp: PlantSpecies) -> Result<Species, Self::Error> {
+        match pl_sp {
+            PlantSpecies::Species(sp) => Ok(*sp),
+            PlantSpecies::Other(sp) => Err(Error::SpeciesNotFound(sp)),
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PlantLocation {
     Location(Box<Location>),

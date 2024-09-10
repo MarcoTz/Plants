@@ -37,7 +37,7 @@ pub mod test_common {
         NaiveDate::parse_from_str("03.01.1970", DATE_FORMAT).unwrap()
     }
 
-    fn example_activity1(plant: String, note: String) -> LogItem {
+    pub fn example_activity1(plant: String, note: String) -> LogItem {
         LogItem {
             activity: "Watering".to_owned(),
             date: sample_date1(),
@@ -46,7 +46,7 @@ pub mod test_common {
         }
     }
 
-    fn example_activity2(plant: String) -> LogItem {
+    pub fn example_activity2(plant: String) -> LogItem {
         LogItem {
             activity: "Fertilizing".to_owned(),
             date: sample_date2(),
@@ -73,7 +73,7 @@ pub mod test_common {
             height_cm: 50.0,
             width_cm: 25.0,
             note: None,
-            health: 3,
+            health: 4,
         }
     }
 

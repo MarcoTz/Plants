@@ -6,7 +6,7 @@ use html::{
 use plants::species::Species;
 use std::rc::Rc;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SpeciesLink {
     pub species_name: String,
     pub species_url: String,
