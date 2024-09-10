@@ -1035,61 +1035,6 @@ Date;Activity;Plants;Note
 05.09.2024;Watering;Zane;
 07.09.2024;Watering;Zane;
 09.09.2024;Watering;Zane;
-02.05.2024;Repot;Klaus;
-07.05.2024;Watering;Klaus;
-10.05.2024;Watering;Klaus;
-12.05.2024;Watering;Klaus;
-13.05.2024;Watering;Klaus;
-14.05.2024;Watering;Klaus;
-18.05.2024;Repot;Klaus;
-18.05.2024;Watering;Klaus;
-20.05.2024;Watering;Klaus;
-21.05.2024;Watering;Klaus;Rain Water
-24.05.2024;Fertilizing;Klaus;
-26.05.2024;Watering;Klaus;
-28.05.2024;Watering;Klaus;
-01.06.2024;Watering;Klaus;Rain Water
-03.06.2024;Watering;Klaus;Rain Water
-05.06.2024;Watering;Klaus;
-08.06.2024;Watering;Klaus;
-10.06.2024;Watering;Klaus;
-10.06.2024;Repot;Klaus;
-11.06.2024;Watering;Klaus;
-13.06.2024;Watering;Klaus;
-15.06.2024;Fertilizing;Klaus;
-15.06.2024;Watering;Klaus;
-18.06.2024;Watering;Klaus;
-19.06.2024;Watering;Klaus;
-25.06.2024;Watering;Klaus;
-28.06.2024;Watering;Klaus;
-02.07.2024;Fertilizing;Klaus;
-02.07.2024;Watering;Klaus;
-06.07.2024;Watering;Klaus;
-15.07.2024;Watering;Klaus;
-16.07.2024;Fertilizing;Klaus;
-16.07.2024;Watering;Klaus;
-19.07.2024;Watering;Klaus;
-21.07.2024;Watering;Klaus;
-26.07.2024;Watering;Klaus;
-31.07.2024;Watering;Klaus;
-01.08.2024;Watering;Klaus;Rain Water
-03.08.2024;Watering;Klaus;Rain Water
-05.08.2024;Watering;Klaus;
-07.08.2024;Fertilizing;Klaus;
-07.08.2024;Watering;Klaus;
-09.08.2024;Watering;Klaus;
-11.08.2024;Watering;Klaus;
-12.08.2024;Watering;Klaus;
-15.08.2024;Watering;Klaus;
-18.08.2024;Watering;Klaus;Rain Water
-20.08.2024;Watering;Klaus;
-21.08.2024;Watering;Klaus;
-23.08.2024;Fertilizing;Klaus;
-23.08.2024;Watering;Klaus;
-30.08.2024;Watering;Klaus;
-02.09.2024;Watering;Klaus;
-07.09.2024;Watering;Klaus;
-09.09.2024;Watering;Klaus;
 02.05.2024;Repot;Chrom;
 07.05.2024;Watering;Chrom;
 10.05.2024;Watering;Chrom;
@@ -2709,3 +2654,8 @@ Date;Activity;Plants;Note
 02.09.2024;Watering;Sunshine;
 08.09.2024;Repot;Atuin;
 08.09.2024;Watering;Atuin;
+10.09.2024;Watering;Liliana;
+10.09.2024;Watering;Mufasa, Sarabi;
+10.09.2024;Watering;Mrs Sprout, Peppa, Leela;
+10.09.2024;Fertilizing;Mrs Sprout, Peppa, Leela;
+10.09.2024;Fertilizing;Mufasa, Sarabi;
