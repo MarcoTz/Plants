@@ -45,7 +45,7 @@ impl TryFrom<&[Plant]> for PlantOverview {
     type Error = Error;
     fn try_from(plants: &[Plant]) -> Result<PlantOverview, Self::Error> {
         log::info!("loading plant overview");
-        let plant_list = PlantList::try_from(plants)?;
+        let plant_list = PlantList::from(plants);
         Ok(PlantOverview {
             search: PlantSearch {},
             plant_list,

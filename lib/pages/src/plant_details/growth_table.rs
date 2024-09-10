@@ -6,10 +6,12 @@ use html::{
 use plants::growth_item::GrowthItem;
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 struct GrowthRow {
     growth: GrowthItem,
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct GrowthTable {
     growth_rows: Vec<GrowthRow>,
 }

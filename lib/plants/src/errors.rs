@@ -7,6 +7,7 @@ pub enum Error {
     EmptyVec(String),
     FieldError(String),
     WrongType(String),
+    SpeciesNotFound(String),
 }
 
 impl fmt::Display for Error {
@@ -19,6 +20,7 @@ impl fmt::Display for Error {
             Error::EmptyVec(msg) => frmt.write_str(&format!("No plants provided, message; {msg}")),
             Error::FieldError(field) => frmt.write_str(&format!("Cannot update {field}")),
             Error::WrongType(field) => frmt.write_str(&format!("Wrong type for {field}")),
+            Error::SpeciesNotFound(name) => write!(frmt, "Could not find species {name}"),
         }
     }
 }

@@ -7,6 +7,7 @@ use html::{
 use plants::{named::Named, plant::Plant};
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq)]
 pub struct Status {
     health: i32,
     next_watering: Option<NaiveDate>,
@@ -158,9 +159,10 @@ impl TryFrom<&Plant> for Status {
         let last_fertilizing = plant.get_last_fertilizing().map(|log| log.date);
         let watering_frequency = plant.get_watering_frequency();
         let fertilizing_frequency = plant.get_fertilizing_frequency();
+        //if we can get height, width and speed can never fail
         let current_height = plant.get_height()?;
-        let current_width = plant.get_width()?;
-        let growth_speed = plant.get_growth_speed()?;
+        let current_width = plant.get_width().unwrap();
+        let growth_speed = plant.get_growth_speed().unwrap();
         let age = plant.get_age_days();
 
         Ok(Status {
@@ -180,5 +182,280 @@ impl TryFrom<&Plant> for Status {
             age,
             notes: plant.info.notes.join(", ").clone(),
         })
+    }
+}
+
+#[cfg(test)]
+mod status_tests {
+    use super::{PageComponent, Status};
+    use crate::test_common::{
+        example_plant3, sample_date1, sample_date2, sample_date3, DATE_FORMAT,
+    };
+    use chrono::Local;
+    use html::{
+        attribute::Attribute,
+        elements::{Div, HtmlElement, A},
+    };
+    use std::rc::Rc;
+
+    fn example_status() -> Status {
+        Status {
+            health: 3,
+            next_watering: Some(Local::now().date_naive()),
+            next_fertilizing: Some(Local::now().date_naive()),
+            last_watering: Some(sample_date1()),
+            last_fertilizing: Some(sample_date2()),
+            watering_frequency: Some(0.0),
+            fertilizing_frequency: Some(0.0),
+            current_height: 34.2,
+            current_width: 83.4,
+            growth_speed: 54.15,
+            is_autowatered: false,
+            current_location: "test location".to_owned(),
+            origin: "test origin".to_owned(),
+            age: (Local::now().date_naive() - sample_date3()).num_days(),
+            notes: "".to_owned(),
+        }
+    }
+
+    #[test]
+    fn render_status() {
+        let result = example_status().render(DATE_FORMAT);
+        let expected = Div {
+            attributes: vec![
+                Attribute::Id("plant_status".to_owned()),
+                Attribute::Class(vec![
+                    "flex_container".to_owned(),
+                    "alternating_children".to_owned(),
+                ]),
+            ],
+            content: Rc::new(
+                vec![
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Health".to_owned().into(),
+                                HtmlElement::Br,
+                                Div {
+                                    attributes: vec![Attribute::Class(vec![
+                                        "health".to_owned(),
+                                        "health3".to_owned(),
+                                    ])],
+                                    content: Rc::new("3".to_owned().into()),
+                                }
+                                .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Next Watering".to_owned().into(),
+                                HtmlElement::Br,
+                                Local::now()
+                                    .date_naive()
+                                    .format(DATE_FORMAT)
+                                    .to_string()
+                                    .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Next Fertilizing".to_owned().into(),
+                                HtmlElement::Br,
+                                Local::now()
+                                    .date_naive()
+                                    .format(DATE_FORMAT)
+                                    .to_string()
+                                    .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Last Watering".to_owned().into(),
+                                HtmlElement::Br,
+                                sample_date1().format(DATE_FORMAT).to_string().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Last Fertilizing".to_owned().into(),
+                                HtmlElement::Br,
+                                sample_date2().format(DATE_FORMAT).to_string().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Watering Frequency".to_owned().into(),
+                                HtmlElement::Br,
+                                "0.00 days/watering".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Fertilizing Frequency".to_owned().into(),
+                                HtmlElement::Br,
+                                "0.00 days/fertilizing".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Current Height".to_owned().into(),
+                                HtmlElement::Br,
+                                "34.2cm".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Current Width".to_owned().into(),
+                                HtmlElement::Br,
+                                "83.4cm".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Growth Speed".to_owned().into(),
+                                HtmlElement::Br,
+                                "54.15 cm/day".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Is Autowatered".to_owned().into(),
+                                HtmlElement::Br,
+                                "❌".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Location".to_owned().into(),
+                                HtmlElement::Br,
+                                A {
+                                    attributes: vec![Attribute::Href(
+                                        "../plant_overview.html#test location".to_owned(),
+                                    )],
+                                    content: Rc::new("test location".to_owned().into()),
+                                }
+                                .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Origin".to_owned().into(),
+                                HtmlElement::Br,
+                                "test origin".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Age".to_owned().into(),
+                                HtmlElement::Br,
+                                ((Local::now().date_naive() - sample_date3())
+                                    .num_days()
+                                    .to_string()
+                                    + " days")
+                                    .into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Class(vec!["status_item".to_owned()])],
+                        content: Rc::new(
+                            vec![
+                                "Notes".to_owned().into(),
+                                HtmlElement::Br,
+                                "".to_owned().into(),
+                            ]
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                ]
+                .into(),
+            ),
+        }
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn status_into() {
+        let result = Status::try_from(&example_plant3()).unwrap();
+        let expected = example_status();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn status_into_fail() {
+        let mut plant = example_plant3();
+        plant.growth = vec![];
+        let result = Status::try_from(&plant);
+        assert!(result.is_err())
     }
 }
