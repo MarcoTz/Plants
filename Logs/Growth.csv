@@ -175,6 +175,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Maria;16.0;10.0;
 31.07.2024;Maria;13.0;18.0;Fell over, but recovered
 15.08.2024;Maria;20.0;23.0;
+05.09.2024;Maria;39.0;24.0;
 08.04.2024;Nadja;10.0;5.0;
 14.04.2024;Nadja;12.0;5.0;
 24.04.2024;Nadja;15.0;5.0;
@@ -276,15 +277,6 @@ Date;Plant;Height;Width;Note
 16.07.2024;Tom;38.0;47.0;Almost died from heat
 31.07.2024;Tom;34.0;56.0;
 15.08.2024;Tom;35.0;53.0;
-05.05.2024;Hella;32.0;28.0;
-20.05.2024;Hella;13.0;36.0;
-04.06.2024;Hella;20.0;42.0;
-10.06.2024;Hella;21.0;30.0;
-14.06.2024;Hella;22.0;46.0;
-25.06.2024;Hella;22.0;43.0;Some leaves burnt from heavy sun
-16.07.2024;Hella;25.0;41.0;Too many burned leaves
-31.07.2024;Hella;36.0;15.0;
-15.08.2024;Hella;33.0;20.0;Hasn't recovered
 03.05.2024;Terry;5.0;9.0;
 26.05.2024;Terry;13.0;10.0;
 04.06.2024;Terry;18.0;15.0;
@@ -314,6 +306,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Dirk;4.0;4.0;
 02.08.2024;Dirk;4.0;3.5;
 15.08.2024;Dirk;5.0;3.0;
+08.09.2024;Dirk;4.0;2.0;
 03.05.2024;Klaus;15.0;5.0;
 18.05.2024;Klaus;22.0;23.0;
 20.05.2024;Klaus;20.0;15.0;
@@ -564,11 +557,13 @@ Date;Plant;Height;Width;Note
 16.07.2024;Jenn;4.5;5.0;
 02.08.2024;Jenn;3.0;6.5;
 15.08.2024;Jenn;6.0;7.0;
+08.09.2024;Jenn;3.0;7.0;
 26.06.2024;Joe;2.5;5.5;Added during plant creation
 03.07.2024;Joe;3.0;6.0;
 16.07.2024;Joe;4.5;5.0;
 02.08.2024;Joe;3.0;6.0;
 15.08.2024;Joe;5.0;6.0;
+08.09.2024;Joe;5.0;7.0;
 26.06.2024;Jack;0.5;2.5;Added during plant creation
 03.07.2024;Jack;0.5;3.0;
 16.07.2024;Jack;1.0;2.0;
@@ -597,6 +592,7 @@ Date;Plant;Height;Width;Note
 16.07.2024;Jill;3.5;3.0;Still no new growth
 02.08.2024;Jill;3.0;3.0;
 15.08.2024;Jill;4.0;4.0;
+08.09.2024;Jill;3.0;3.0;
 16.07.2024;Leela;10.0;25.0;Added during plant creation
 31.07.2024;Leela;14.0;25.0;
 15.08.2024;Leela;21.0;30.0;
@@ -626,7 +622,9 @@ Date;Plant;Height;Width;Note
 28.08.2024;Al;5.0;11.0;
 30.08.2024;Al;5.0;11.0;
 20.08.2024;Behemoth;10.0;23.0;Added during plant creation
+07.09.2024;Behemoth;12.5;22.5;
 20.08.2024;Aurora;38.0;26.0;Added during plant creation
+07.09.2024;Aurora;44.0;36.0;
 20.08.2024;Dewdrop;1.0;8.0;Added during plant creation
 30.08.2024;Dewdrop;4.0;11.0;
 21.08.2024;Sarabi;99.0;62.0;Added during plant creation
@@ -634,10 +632,12 @@ Date;Plant;Height;Width;Note
 22.08.2024;Magdalena;21.0;19.0;Added during plant creation
 03.09.2024;Magdalena;22.0;23.0;
 22.08.2024;Larry;26.0;15.0;Added during plant creation
+08.09.2024;Larry;23.0;19.0;
 23.08.2024;Simba;27.0;18.0;Added during plant creation
 23.08.2024;Gabby;16.0;24.0;Added during plant creation
 23.08.2024;Roselyn;23.0;24.0;Added during plant creation
 27.08.2024;Ron;9.0;2.45;Added during plant creation
+08.09.2024;Ron;6.0;7.0;
 29.08.2024;Kaa;25.0;13.0;Added during plant creation
 29.08.2024;Francis;29.0;25.0;Added during plant creation
 29.08.2024;Peter;12.0;19.0;Added during plant creation
@@ -646,13 +646,4 @@ Date;Plant;Height;Width;Note
 30.08.2024;Rain;26.0;30.0;Added during plant creation
 30.08.2024;Mist;27.0;28.0;Added during plant creation
 30.08.2024;Sunshine;25.0;22.0;Added during plant creation
-05.09.2024;Maria;39;24;
-07.09.2024;Aurora;44;36;
-07.09.2024;Behemoth;12.5;22.5;
-08.09.2024;Atuin;3;10;Added during plant creation
-08.09.2024;Ron;6;7;
-08.09.2024;Larry;23;19;
-08.09.2024;Dirk;4;2;
-08.09.2024;Jenn;3;7;
-08.09.2024;Joe;5;7;
-08.09.2024;Jill;3;3;
+08.09.2024;Atuin;3.0;10.0;Added during plant creation
