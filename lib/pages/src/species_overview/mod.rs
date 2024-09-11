@@ -9,6 +9,7 @@ use species_list::SpeciesList;
 use html::elements::HtmlElement;
 use plants::{plant::Plant, species::Species};
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct SpeciesOverview {
     pub species_list: SpeciesList,
 }
@@ -49,5 +50,57 @@ impl From<(&[Species], &[Plant])> for SpeciesOverview {
                     .as_slice(),
             ),
         }
+    }
+}
+
+#[cfg(test)]
+mod species_overiew_tests {
+    use super::{HtmlHead, Page, PageComponent, PageCss, SpeciesList, SpeciesOverview};
+    use crate::test_common::{example_plant1, example_species, DATE_FORMAT};
+
+    fn example_overview() -> SpeciesOverview {
+        SpeciesOverview {
+            species_list: SpeciesList::from(
+                vec![(&example_species(), Some(example_plant1()))].as_slice(),
+            ),
+        }
+    }
+
+    #[test]
+    fn overview_title() {
+        let result = example_overview().get_title();
+        let expected = "Species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn overview_content() {
+        let result = example_overview().get_content(DATE_FORMAT);
+        let expected =
+            SpeciesList::from(vec![(&example_species(), Some(example_plant1()))].as_slice())
+                .render(DATE_FORMAT);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn overview_head() {
+        let result = example_overview().get_head(DATE_FORMAT);
+        let expected = HtmlHead {
+            title: "Species".to_owned(),
+            styles: PageCss::SpeciesOverview,
+            scripts: vec!["js/main.js".to_owned()],
+            date_format: DATE_FORMAT.to_owned(),
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn overview_into() {
+        let result = SpeciesOverview::from((
+            vec![example_species()].as_slice(),
+            vec![example_plant1()].as_slice(),
+        ));
+        let expected = example_overview();
+        assert_eq!(result, expected)
     }
 }
