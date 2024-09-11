@@ -37,3 +37,62 @@ impl PageComponent for HtmlHead {
         Head::from(self).into()
     }
 }
+
+#[cfg(test)]
+mod html_head_tests {
+
+    use super::{HtmlHead, PageComponent, PageCss};
+    use crate::test_common::DATE_FORMAT;
+    use html::{
+        attribute::Attribute,
+        elements::{Head, Script},
+    };
+    use std::rc::Rc;
+
+    fn example_html_head() -> HtmlHead {
+        HtmlHead {
+            title: "Testing".to_owned(),
+            styles: PageCss::Index,
+            scripts: vec!["js/main.js".to_owned(), "js/test.js".to_owned()],
+            date_format: DATE_FORMAT.to_owned(),
+        }
+    }
+
+    fn example_head() -> Head {
+        Head {
+            title: "Testing".to_owned(),
+            content: Rc::new(
+                vec![
+                    PageCss::Index.render(DATE_FORMAT),
+                    vec![
+                        Script {
+                            attributes: vec![Attribute::Src("js/main.js".to_owned())],
+                            content: "".to_owned(),
+                        }
+                        .into(),
+                        Script {
+                            attributes: vec![Attribute::Src("js/test.js".to_owned())],
+                            content: "".to_owned(),
+                        }
+                        .into(),
+                    ]
+                    .into(),
+                ]
+                .into(),
+            ),
+        }
+    }
+    #[test]
+    fn head_into() {
+        let result = <&HtmlHead as Into<Head>>::into(&example_html_head());
+        let expected = example_head();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_head() {
+        let result = example_html_head().render(DATE_FORMAT);
+        let expected = example_head().into();
+        assert_eq!(result, expected)
+    }
+}

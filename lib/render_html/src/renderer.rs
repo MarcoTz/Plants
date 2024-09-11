@@ -41,7 +41,7 @@ impl<T: DatabaseManager> Renderer<T> {
     pub fn render_plant_overview(&mut self) -> Result<String, Error> {
         log::info!("Building plant overview");
         let plants = self.database_manager.get_all_plants()?;
-        let plant_overview = PlantOverview::try_from(plants.as_slice())?;
+        let plant_overview = PlantOverview::from(plants.as_slice());
         Ok(plant_overview
             .render(&self.date_format, false, plants.len() as i32)
             .render())

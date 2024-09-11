@@ -7,10 +7,13 @@ use html::{
 use plants::{plant::Plant, species::Species};
 use std::rc::Rc;
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct SpeciesInfoItem {
     name: String,
     value: String,
 }
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct SpeciesInfo {
     scientific_name: SpeciesInfoItem,
     genus: SpeciesInfoItem,
@@ -122,7 +125,7 @@ impl From<(&Species, &[Plant])> for SpeciesInfo {
             genus: ("Genus", species.genus.as_str()).into(),
             family: ("Family", species.family.as_str()).into(),
             sunlight: (
-                "Sunglight Requirements",
+                "Sunlight Requirements",
                 species.sunlight.to_string().as_str(),
             )
                 .into(),
@@ -149,5 +152,134 @@ impl From<(&Species, &[Plant])> for SpeciesInfo {
             notes: ("Notes", species.additional_notes.join(", ").as_str()).into(),
             species_plants: ("Plants of Species", plant_strs.join(", ").as_str()).into(),
         }
+    }
+}
+
+#[cfg(test)]
+mod species_info_tests {
+    use super::{PageComponent, SpeciesInfo, SpeciesInfoItem};
+    use crate::test_common::{
+        example_plant1, example_plant2, example_plant3, example_species, DATE_FORMAT,
+    };
+    use html::elements::{Div, Td, Tr};
+    use html::{
+        attribute::Attribute,
+        elements::{Table, A},
+        render::Render,
+    };
+    use std::rc::Rc;
+
+    fn example_info() -> SpeciesInfo {
+        let links = vec![
+            A {
+                attributes: vec![Attribute::Href(example_plant1().get_url("../plants/"))],
+                content: Rc::new("Plant1".to_owned().into()),
+            }
+            .render(),
+            A {
+                attributes: vec![Attribute::Href(example_plant2().get_url("../plants/"))],
+                content: Rc::new("Plant2".to_owned().into()),
+            }
+            .render(),
+            A {
+                attributes: vec![Attribute::Href(example_plant3().get_url("../plants/"))],
+                content: Rc::new("Plant3".to_owned().into()),
+            }
+            .render(),
+        ];
+        SpeciesInfo {
+            scientific_name: ("Scientific Name", "dummy").into(),
+            genus: ("Genus", "dummy").into(),
+            family: ("Family", "dummy").into(),
+            sunlight: ("Sunlight Requirements", "Direct").into(),
+            temp_range: ("Temperature Range", "0-100").into(),
+            opt_temp_range: ("Optimal Temperature Range", "0-100").into(),
+            plant_distance: None,
+            ph_range: ("pH Range", "0-10").into(),
+            watering_notes: ("Watering Notes", "").into(),
+            watering_days: Some(("Average Watering Days", "1").into()),
+            fertilizing_notes: ("Fertilizing Notes", "").into(),
+            fertilizing_days: Some(("Average Fertilizing Days", "1").into()),
+            pruning_notes: ("Pruning Notes", "").into(),
+            companions: ("Companions", "").into(),
+            notes: ("Notes", "").into(),
+            species_plants: ("Plants of Species", links.join(", ").as_str()).into(),
+        }
+    }
+
+    #[test]
+    fn render_info() {
+        let info = example_info();
+        let result = info.render(DATE_FORMAT);
+        let expected = Div {
+            attributes: vec![Attribute::Id("species_details_container".to_owned())],
+            content: Rc::new(
+                Table {
+                    attributes: vec![],
+                    rows: vec![
+                        info.scientific_name.render(DATE_FORMAT),
+                        info.genus.render(DATE_FORMAT),
+                        info.family.render(DATE_FORMAT),
+                        info.sunlight.render(DATE_FORMAT),
+                        info.temp_range.render(DATE_FORMAT),
+                        info.opt_temp_range.render(DATE_FORMAT),
+                        info.ph_range.render(DATE_FORMAT),
+                        info.watering_notes.render(DATE_FORMAT),
+                        info.watering_days.unwrap().render(DATE_FORMAT),
+                        info.fertilizing_notes.render(DATE_FORMAT),
+                        info.fertilizing_days.unwrap().render(DATE_FORMAT),
+                        info.pruning_notes.render(DATE_FORMAT),
+                        info.companions.render(DATE_FORMAT),
+                        info.notes.render(DATE_FORMAT),
+                        info.species_plants.render(DATE_FORMAT),
+                    ],
+                }
+                .into(),
+            ),
+        }
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn render_item() {
+        let result = SpeciesInfoItem {
+            name: "Name".to_owned(),
+            value: "test species".to_owned(),
+        }
+        .render(DATE_FORMAT);
+        let expected = Tr {
+            attributes: vec![],
+            cols: vec![
+                Td {
+                    content: Rc::new("Name".to_owned().into()),
+                },
+                Td {
+                    content: Rc::new("test species".to_owned().into()),
+                },
+            ],
+        }
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn info_into() {
+        let result = SpeciesInfo::from((
+            &example_species(),
+            vec![example_plant1(), example_plant2(), example_plant3()].as_slice(),
+        ));
+        let expected = example_info();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn item_into() {
+        let result = SpeciesInfoItem::from(("Name", "test species"));
+        let expected = SpeciesInfoItem {
+            name: "Name".to_owned(),
+            value: "test species".to_owned(),
+        };
+        assert_eq!(result, expected)
     }
 }
