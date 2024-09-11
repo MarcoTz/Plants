@@ -30,3 +30,36 @@ impl From<(&Species, &str)> for SpeciesLink {
         }
     }
 }
+
+#[cfg(test)]
+mod species_link_tests {
+    use super::{PageComponent, SpeciesLink};
+    use crate::test_common::{example_species, DATE_FORMAT};
+    use html::{attribute::Attribute, elements::A};
+    use std::rc::Rc;
+
+    fn example_link() -> SpeciesLink {
+        SpeciesLink {
+            species_name: "test species".to_owned(),
+            species_url: "species/testspecies.html".to_owned(),
+        }
+    }
+
+    #[test]
+    fn render_link() {
+        let result = example_link().render(DATE_FORMAT);
+        let expected = A {
+            attributes: vec![Attribute::Href("species/testspecies.html".to_owned())],
+            content: Rc::new("test species".to_owned().into()),
+        }
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn link_from() {
+        let result = SpeciesLink::from((&example_species(), "species"));
+        let expected = example_link();
+        assert_eq!(result, expected)
+    }
+}

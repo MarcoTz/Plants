@@ -85,3 +85,99 @@ impl From<i32> for Footer {
         }
     }
 }
+
+#[cfg(test)]
+mod footer_tests {
+
+    use super::{Footer, PageComponent};
+    use crate::test_common::DATE_FORMAT;
+    use chrono::Local;
+    use html::{
+        attribute::Attribute,
+        elements::{Div, Img, A},
+    };
+    use std::rc::Rc;
+
+    fn example_footer() -> Footer {
+        Footer {
+            num_plants: 10,
+            last_build: Local::now().date_naive(),
+        }
+    }
+
+    #[test]
+    fn render_footer() {
+        let result = example_footer().render(DATE_FORMAT);
+        let expected = Div {
+            attributes: vec![Attribute::Id("footer".to_owned())],
+            content: Rc::new(
+                vec![
+                    Div {
+                        attributes: vec![Attribute::Id("github_link".to_owned())],
+                        content: Rc::new(
+                            A {
+                                attributes: vec![Attribute::Href(
+                                    "https://github.com/MarcoTz/Plants".to_owned(),
+                                )],
+                                content: Rc::new("Github".to_owned().into()),
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Id("num_plants".to_owned())],
+                        content: Rc::new(format!("Number of plants: 10").into()),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![Attribute::Id("last_build".to_owned())],
+                        content: Rc::new(
+                            format!(
+                                "Last build: {}",
+                                Local::now().date_naive().format(DATE_FORMAT).to_string()
+                            )
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                    Div {
+                        attributes: vec![
+                            Attribute::Id("image_viewer".to_owned()),
+                            Attribute::OnClick("close_image_viewer();".to_owned()),
+                            Attribute::Style("display:none;".to_owned()),
+                        ],
+                        content: Rc::new(
+                            Div {
+                                attributes: vec![
+                                    Attribute::Id("image_box".to_owned()),
+                                    Attribute::OnClick("close_image_viewer();".to_owned()),
+                                ],
+                                content: Rc::new(
+                                    Img {
+                                        attributes: vec![Attribute::Id(
+                                            "image_viewer_image".to_owned(),
+                                        )],
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                ]
+                .into(),
+            ),
+        }
+        .into();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn footer_into() {
+        let result = Footer::from(10);
+        let expected = example_footer();
+        assert_eq!(result, expected)
+    }
+}

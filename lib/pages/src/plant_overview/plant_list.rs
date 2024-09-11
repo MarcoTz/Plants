@@ -37,9 +37,7 @@ pub struct PlantList {
 impl PageComponent for PlantList {
     fn render(&self, date_format: &str) -> HtmlElement {
         let mut location_divs = vec![];
-        let mut locations_ordered = self.locations.clone();
-        locations_ordered.sort_by(|loc1, loc2| loc1.location.cmp(&loc2.location));
-        for location in locations_ordered.iter() {
+        for location in self.locations.iter() {
             location_divs.push(location.render(date_format));
         }
         Div {
@@ -220,11 +218,12 @@ impl From<&[Plant]> for PlantList {
             };
         }
 
-        let location_groups = by_location
+        let mut location_groups = by_location
             .values()
             .map(|plants| plants.as_slice().try_into())
             .collect::<Result<Vec<LocationGroup>, Error>>()
             .unwrap();
+        location_groups.sort_by(|loc1, loc2| loc1.location.cmp(&loc2.location));
 
         PlantList {
             locations: location_groups,
@@ -236,14 +235,14 @@ impl From<&[Plant]> for PlantList {
 mod plant_list_tests {
     use super::{LocationGroup, PageComponent, PlantLink, PlantList, PlantListItem, SpeciesLink};
     use crate::test_common::{
-        example_plant1, example_plant2, example_plant3, example_species, DATE_FORMAT,
+        example_plant1, example_plant2, example_plant3, example_species, sample_date1, DATE_FORMAT,
     };
     use html::{
         attribute::Attribute,
         elements::{Div, HeaderSize, Headline, HtmlElement},
     };
-    use plants::plant::PlantLocation;
-    use std::rc::Rc;
+    use plants::plant::{PlantImage, PlantLocation};
+    use std::{path::PathBuf, rc::Rc};
 
     fn example_list() -> PlantList {
         PlantList {
@@ -463,6 +462,20 @@ mod plant_list_tests {
     }
 
     #[test]
+    fn item_from_plant_with_url() {
+        let mut plant = example_plant1();
+        plant.images.push(PlantImage {
+            created: sample_date1(),
+            file_name: "image.jpg".to_owned(),
+            file_path: PathBuf::from("./"),
+        });
+        let mut expected = example_list_item1();
+        expected.plant_preview_url = plant.get_preview_image_url("img/");
+        let result = PlantListItem::from(&plant).render(DATE_FORMAT);
+        assert_eq!(result, expected.render(DATE_FORMAT));
+    }
+
+    #[test]
     fn item_from_plant2() {
         let result = PlantListItem::from(&example_plant2());
         let expected = example_list_item2();
@@ -495,11 +508,23 @@ mod plant_list_tests {
     }
 
     #[test]
+    fn list_from_multiple_loc() {
+        let mut plant2 = example_plant2();
+        plant2.info.location = PlantLocation::Other("another location".to_owned());
+        let result = PlantList::from(vec![example_plant1(), plant2.clone()].as_slice());
+        let expected = PlantList {
+            locations: vec![
+                LocationGroup::try_from(vec![plant2].as_slice()).unwrap(),
+                LocationGroup::try_from(vec![example_plant1()].as_slice()).unwrap(),
+            ],
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
     fn list_from_plants() {
-        let result = PlantList::try_from(
-            vec![example_plant1(), example_plant2(), example_plant3()].as_slice(),
-        )
-        .unwrap();
+        let result =
+            PlantList::from(vec![example_plant1(), example_plant2(), example_plant3()].as_slice());
         let expected = example_list();
         assert_eq!(result, expected)
     }
