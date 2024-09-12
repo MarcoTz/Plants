@@ -23,3 +23,16 @@ impl Ord for LogItem {
         self.date.cmp(&other.date)
     }
 }
+
+#[cfg(test)]
+mod location_tests {
+    use crate::test_common::{example_activity1, example_activity2};
+    use std::cmp::Ordering;
+
+    #[test]
+    fn compare_items() {
+        let result = example_activity1().cmp(&example_activity2());
+        let expected = Ordering::Less;
+        assert_eq!(result, expected)
+    }
+}

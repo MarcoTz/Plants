@@ -73,10 +73,8 @@ pub fn str_to_value<T: DatabaseManager>(
     } else if UpdateField::get_species_fields().contains(field) {
         let species = db_man.get_species(input.trim());
         match species {
-            Ok(sp) => Ok(UpdateValue::Species(Box::new(PlantSpecies::Species(
-                Box::new(sp),
-            )))),
-            Err(_) => Ok(UpdateValue::Species(Box::new(PlantSpecies::Other(input)))),
+            Ok(sp) => Ok(UpdateValue::Species(PlantSpecies::Species(Box::new(sp)))),
+            Err(_) => Ok(UpdateValue::Species(PlantSpecies::Other(input))),
         }
     } else if UpdateField::get_date_fields().contains(field) {
         let date = NaiveDate::parse_from_str(&input, date_format).map_err(|_| ty_err)?;

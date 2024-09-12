@@ -27,3 +27,16 @@ impl Ord for GrowthItem {
         self.date.cmp(&other.date)
     }
 }
+
+#[cfg(test)]
+mod growth_item_test {
+    use crate::test_common::{example_growth1, example_growth2};
+    use std::cmp::Ordering;
+
+    #[test]
+    fn cmp_items() {
+        let result = example_growth1().cmp(&example_growth2());
+        let expected = Ordering::Less;
+        assert_eq!(result, expected)
+    }
+}

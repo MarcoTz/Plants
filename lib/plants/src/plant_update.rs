@@ -10,13 +10,13 @@ use std::{fmt, str::FromStr};
 pub enum UpdateValue {
     Str(String),
     Location(PlantLocation),
-    Species(Box<PlantSpecies>),
+    Species(PlantSpecies),
     Date(NaiveDate),
     Bool(bool),
     Note(Vec<String>, bool),
 }
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum UpdateField {
     Name,
     Species,
@@ -120,7 +120,7 @@ pub fn update_plant(
         }
         UpdateValue::Species(sp) => {
             if let UpdateField::Species = field {
-                plant.info.species = *sp;
+                plant.info.species = sp;
                 Ok(())
             } else {
                 Err(Error::FieldError(field.to_string()))
@@ -154,5 +154,294 @@ pub fn update_plant(
                 Err(field_err)
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod plant_udpate_tests {
+    use super::{update_plant, UpdateField, UpdateValue};
+    use crate::{
+        plant::{PlantLocation, PlantSpecies},
+        test_common::{example_date2, example_plant},
+    };
+    use std::str::FromStr;
+
+    #[test]
+    fn field_strs() {
+        let result = UpdateField::fields_strs();
+        let expected = vec![
+            "Name".to_owned(),
+            "Origin".to_owned(),
+            "Species".to_owned(),
+            "Location".to_owned(),
+            "Obtained".to_owned(),
+            "Notes".to_owned(),
+            "Auto Watered".to_owned(),
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn str_fields() {
+        let result = UpdateField::get_str_fields();
+        let expected = vec![UpdateField::Name, UpdateField::Origin];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn location_fields() {
+        let result = UpdateField::get_location_fields();
+        let expected = vec![UpdateField::Location];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn species_fields() {
+        let result = UpdateField::get_species_fields();
+        let expected = vec![UpdateField::Species];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn date_fields() {
+        let result = UpdateField::get_date_fields();
+        let expected = vec![UpdateField::Obtained];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn bool_fields() {
+        let result = UpdateField::get_bool_fields();
+        let expected = vec![UpdateField::AutoWater];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn note_fields() {
+        let result = UpdateField::get_note_fields();
+        let expected = vec![UpdateField::Notes];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn name_field() {
+        let result = UpdateField::from_str("name").unwrap();
+        let expected = UpdateField::Name;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn species_field() {
+        let result = UpdateField::from_str("species").unwrap();
+        let expected = UpdateField::Species;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn location_field() {
+        let result = UpdateField::from_str("location").unwrap();
+        let expected = UpdateField::Location;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn origin_field() {
+        let result = UpdateField::from_str("origin").unwrap();
+        let expected = UpdateField::Origin;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn obtained_field() {
+        let result = UpdateField::from_str("obtained").unwrap();
+        let expected = UpdateField::Obtained;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn autowater_field() {
+        let result = UpdateField::from_str("auto watered").unwrap();
+        let expected = UpdateField::AutoWater;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn notes_field() {
+        let result = UpdateField::from_str("notes").unwrap();
+        let expected = UpdateField::Notes;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn str_fail() {
+        let result = UpdateField::from_str("other");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_name() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Name,
+            UpdateValue::Str("new name".to_owned()),
+        )
+        .unwrap();
+        expected.info.name = "new name".to_owned();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_origin() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Origin,
+            UpdateValue::Str("new origin".to_owned()),
+        )
+        .unwrap();
+        expected.info.origin = "new origin".to_owned();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_str_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::Name,
+            UpdateValue::Bool(false),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_loc() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Location,
+            UpdateValue::Location(PlantLocation::Other("new location".to_owned())),
+        )
+        .unwrap();
+        expected.info.location = PlantLocation::Other("new location".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_loc_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::Location,
+            UpdateValue::Bool(false),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_species() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Species,
+            UpdateValue::Species(PlantSpecies::Other("new species".to_owned())),
+        )
+        .unwrap();
+        expected.info.species = PlantSpecies::Other("new species".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_species_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::Species,
+            UpdateValue::Bool(false),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_obtained() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Obtained,
+            UpdateValue::Date(example_date2()),
+        )
+        .unwrap();
+        expected.info.obtained = example_date2();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_obtained_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::Obtained,
+            UpdateValue::Bool(false),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_auto_water() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(&mut result, UpdateField::AutoWater, UpdateValue::Bool(true)).unwrap();
+        expected.info.auto_water = true;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_auto_water_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::AutoWater,
+            UpdateValue::Str("".to_owned()),
+        );
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn update_notes_append() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Notes,
+            UpdateValue::Note(vec!["new note".to_owned()], true),
+        )
+        .unwrap();
+        expected.info.notes.push("new note".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_notes_replace() {
+        let mut result = example_plant();
+        let mut expected = example_plant();
+        update_plant(
+            &mut result,
+            UpdateField::Notes,
+            UpdateValue::Note(vec!["new note".to_owned()], true),
+        )
+        .unwrap();
+        expected.info.notes = vec!["new note".to_owned()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn update_notes_err() {
+        let result = update_plant(
+            &mut example_plant(),
+            UpdateField::Notes,
+            UpdateValue::Bool(false),
+        );
+        assert!(result.is_err())
     }
 }

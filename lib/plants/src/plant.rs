@@ -24,16 +24,6 @@ pub enum PlantSpecies {
     Other(String),
 }
 
-impl TryFrom<PlantSpecies> for Species {
-    type Error = Error;
-    fn try_from(pl_sp: PlantSpecies) -> Result<Species, Self::Error> {
-        match pl_sp {
-            PlantSpecies::Species(sp) => Ok(*sp),
-            PlantSpecies::Other(sp) => Err(Error::SpeciesNotFound(sp)),
-        }
-    }
-}
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PlantLocation {
     Location(Box<Location>),
@@ -163,7 +153,11 @@ impl Plant {
     pub fn get_health(&self) -> Result<i32, Error> {
         log::info!("Getting Health for plant {}", self.info.name);
         let last_growth = self.get_last_growth()?;
-        Ok(last_growth.health)
+        if !(0..=5).contains(&last_growth.health) {
+            Err(Error::BadHealth(last_growth.health))
+        } else {
+            Ok(last_growth.health)
+        }
     }
 
     fn get_activity_frequency(&self, activity_name: &str) -> Option<f32> {
@@ -244,6 +238,16 @@ impl Plant {
     }
 }
 
+impl TryFrom<PlantSpecies> for Species {
+    type Error = Error;
+    fn try_from(pl_sp: PlantSpecies) -> Result<Species, Self::Error> {
+        match pl_sp {
+            PlantSpecies::Species(sp) => Ok(*sp),
+            PlantSpecies::Other(sp) => Err(Error::SpeciesNotFound(sp)),
+        }
+    }
+}
+
 #[derive(Debug)]
 enum CmpOptions {
     Height,
@@ -282,4 +286,325 @@ pub fn sort_speed(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
 
 pub fn sort_age(plants: &[Plant]) -> Result<Vec<(f32, &Plant)>, Error> {
     sort_plants(plants, CmpOptions::Age)
+}
+
+#[cfg(test)]
+mod plant_tests {
+    use super::{sort_age, sort_height, sort_speed, sort_width, PlantSpecies};
+    use crate::species::Species;
+    use crate::test_common::{
+        empty_plant, example_activity1, example_activity2, example_date1, example_date2,
+        example_growth2, example_plant, example_plant2, example_species,
+    };
+    use chrono::Local;
+
+    #[test]
+    fn into_species() {
+        let result = <PlantSpecies as TryInto<Species>>::try_into(PlantSpecies::Species(Box::new(
+            example_species(),
+        )))
+        .unwrap();
+        let expected = example_species();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn into_species_fail() {
+        let result = <PlantSpecies as TryInto<Species>>::try_into(PlantSpecies::Other(
+            "another species".to_owned(),
+        ));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn get_activities() {
+        let result = example_plant().get_activities("Watering");
+        let expected = vec![example_activity1()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn watering_activities() {
+        let result = example_plant().get_watering_activities();
+        let expected = vec![example_activity1()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn last_watering_some() {
+        let result = example_plant().get_last_watering();
+        let expected = Some(example_activity1());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn last_watering_none() {
+        let result = empty_plant().get_last_watering();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn last_fertilizing_some() {
+        let result = example_plant().get_last_fertilizing();
+        let expected = Some(example_activity2());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn last_fertilizing_none() {
+        let result = empty_plant().get_last_fertilizing();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn fertilizing_activitties() {
+        let result = example_plant().get_fertilizing_activities();
+        let expected = vec![example_activity2()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn age() {
+        let result = example_plant().get_age_days();
+        let expected = (Local::now().date_naive() - example_date1()).num_days();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_watering_none() {
+        let mut plant = example_plant();
+        plant.info.auto_water = true;
+        let result = plant.get_next_watering();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_watering_some() {
+        let result = example_plant().get_next_watering();
+        let expected = Some(Local::now().date_naive());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_watering_now() {
+        let result = empty_plant().get_next_watering();
+        let expected = Some(Local::now().date_naive());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_fertilizing_none() {
+        let mut plant = empty_plant();
+        plant.activities.push(example_activity2());
+        println!("{:?}", plant.get_fertilizing_activities());
+        let result = plant.get_next_fertilizing();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_fertilizing_some() {
+        let result = example_plant().get_next_fertilizing();
+        let expected = Some(Local::now().date_naive());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_fertilizing_now() {
+        let result = empty_plant().get_next_fertilizing();
+        let expected = Some(Local::now().date_naive());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn height() {
+        let result = example_plant().get_height().unwrap();
+        let expected = 15.0;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn height_fail() {
+        let result = empty_plant().get_height();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn width() {
+        let result = example_plant().get_width().unwrap();
+        let expected = 15.0;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn width_fail() {
+        let result = empty_plant().get_height();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn health() {
+        let result = example_plant().get_health().unwrap();
+        let expected = 4;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn health_fail_no_growth() {
+        let result = empty_plant().get_health();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn health_fail_wrong_num() {
+        let mut plant = example_plant();
+        let mut growth = example_growth2();
+        growth.health = 6;
+        plant.growth = vec![growth];
+        let result = plant.get_health();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn fertilizing_frequency_some() {
+        let result = example_plant().get_fertilizing_frequency();
+        let expected = Some(0.0);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn fertilizing_frequency_none() {
+        let result = empty_plant().get_fertilizing_frequency();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn watering_frequency_some() {
+        let result = example_plant().get_watering_frequency();
+        let expected = Some(0.0);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn watering_frequency_none() {
+        let result = empty_plant().get_watering_frequency();
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn growth_speed() {
+        let result = example_plant().get_growth_speed().unwrap();
+        let expected = 5.0;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn growth_speed_fail() {
+        let result = empty_plant().get_growth_speed();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn url() {
+        let result = example_plant().get_url("plants");
+        let expected = "plants/APlant.html";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_growth() {
+        let result = example_plant().get_next_growth();
+        let expected = Local::now().date_naive();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_growth_now() {
+        let result = empty_plant().get_next_growth();
+        let expected = Local::now().date_naive();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn preview_url_some() {
+        let result = example_plant().get_preview_image_url("img/");
+        let expected = Some("img/APlant/01011970.jpg".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn preview_url_none() {
+        let result = empty_plant().get_preview_image_url("img/");
+        let expected = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn by_height() {
+        let plant1 = example_plant();
+        let plant2 = example_plant2();
+        let list = vec![example_plant(), example_plant2()];
+        let result = sort_height(list.as_slice()).unwrap();
+        let expected = vec![(12.0, &plant2), (15.0, &plant1)];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn by_height_fail() {
+        let list = vec![empty_plant()];
+        let result = sort_height(list.as_slice());
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn by_width() {
+        let plant1 = example_plant();
+        let plant2 = example_plant2();
+        let list = vec![example_plant(), example_plant2()];
+        let result = sort_width(list.as_slice()).unwrap();
+        let expected = vec![(12.0, &plant2), (15.0, &plant1)];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn by_width_fail() {
+        let list = vec![empty_plant()];
+        let result = sort_width(list.as_slice());
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn by_speed() {
+        let plant1 = example_plant();
+        let plant2 = example_plant2();
+        let list = vec![example_plant(), example_plant2()];
+        let result = sort_speed(list.as_slice()).unwrap();
+        let expected = vec![(5.0, &plant1), (7.0, &plant2)];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn by_speed_fail() {
+        let list = vec![empty_plant()];
+        let result = sort_speed(list.as_slice());
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn by_age() {
+        let plant1 = example_plant();
+        let plant2 = example_plant2();
+        let list = vec![example_plant(), example_plant2()];
+        let result = sort_age(list.as_slice()).unwrap();
+        let today = Local::now().date_naive();
+        let age1 = (today - example_date1()).num_days() as f32;
+        let age2 = (today - example_date2()).num_days() as f32;
+        let expected = vec![(age2, &plant2), (age1, &plant1)];
+        assert_eq!(result, expected)
+    }
 }

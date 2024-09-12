@@ -48,3 +48,65 @@ impl Named for Species {
         self.name.clone()
     }
 }
+
+#[cfg(test)]
+mod named_tests {
+    use super::Named;
+    use crate::test_common::{empty_plant, example_location, example_plant, example_species};
+
+    #[test]
+    fn plant_name() {
+        let result = example_plant().get_name();
+        let expected = "A Plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn info_name() {
+        let result = example_plant().info.get_name();
+        let expected = "A Plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn plant_species_name_species() {
+        let result = example_plant().info.species.get_name();
+        let expected = "Test species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn plant_species_name_other() {
+        let result = empty_plant().info.species.get_name();
+        let expected = "another species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn plant_location_name_location() {
+        let result = example_plant().info.location.get_name();
+        let expected = "Inside";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn platn_location_name_other() {
+        let result = empty_plant().info.location.get_name();
+        let expected = "another location";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn location_name() {
+        let result = example_location().get_name();
+        let expected = "Inside";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn species_name() {
+        let result = example_species().get_name();
+        let expected = "Test species";
+        assert_eq!(result, expected)
+    }
+}
