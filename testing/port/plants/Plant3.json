@@ -1,0 +1,8 @@
+{"plant_name": "Plant3",
+"species_name": "Species2",
+"plant_health": "3",
+"current_location": "Location1",
+"origin": "test origin",
+"obtained": "02.01.1970",
+"auto_watering": true,
+"plant_notes": []}

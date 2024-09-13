@@ -7,6 +7,7 @@ use std::{
     path::PathBuf,
 };
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct OldImage {
     created: NaiveDate,
     file_path: PathBuf,
@@ -86,4 +87,160 @@ impl Port<Vec<PlantImage>> for Vec<OldImage> {
     fn save_new(_: Vec<PlantImage>, _: &Self::SaveArgs) -> Result<(), Error> {
         Ok(())
     }
+}
+
+#[cfg(test)]
+mod images_tests {
+    use super::{OldImage, PlantImage, Port};
+    use crate::port::test_common::{
+        example_date1, example_date2, BASE_DIR, IMAGES_DIR, PLANTS_DIR_OUT,
+    };
+    use std::path::PathBuf;
+
+    fn example_old1() -> OldImage {
+        OldImage {
+            created: example_date1(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(IMAGES_DIR)
+                .join("Plant1_Plant2_01011970.jpg"),
+            plants: vec!["Plant1".to_owned(), "Plant2".to_owned()],
+        }
+    }
+
+    fn example_old2() -> OldImage {
+        OldImage {
+            created: example_date2(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(IMAGES_DIR)
+                .join("Plant1_Plant3_02011970.jpg"),
+            plants: vec!["Plant1".to_owned(), "Plant3".to_owned()],
+        }
+    }
+
+    fn example_image1() -> PlantImage {
+        PlantImage {
+            created: example_date1(),
+            file_name: "01011970.jpg".to_owned(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(PLANTS_DIR_OUT)
+                .join("Plant1".to_owned()),
+        }
+    }
+    fn example_image2() -> PlantImage {
+        PlantImage {
+            created: example_date1(),
+            file_name: "01011970.jpg".to_owned(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(PLANTS_DIR_OUT)
+                .join("Plant2".to_owned()),
+        }
+    }
+    fn example_image3() -> PlantImage {
+        PlantImage {
+            created: example_date2(),
+            file_name: "02011970.jpg".to_owned(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(PLANTS_DIR_OUT)
+                .join("Plant1".to_owned()),
+        }
+    }
+    fn example_image4() -> PlantImage {
+        PlantImage {
+            created: example_date2(),
+            file_name: "02011970.jpg".to_owned(),
+            file_path: PathBuf::from(BASE_DIR)
+                .join(PLANTS_DIR_OUT)
+                .join("Plant3".to_owned()),
+        }
+    }
+
+    #[test]
+    fn load_old() {
+        let images_dir = PathBuf::from(BASE_DIR).join(IMAGES_DIR);
+        let result = <Vec<OldImage> as Port<Vec<PlantImage>>>::load_old(&images_dir).unwrap();
+        let expected = vec![example_old1(), example_old2()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn convert() {
+        let img1 = example_image1();
+        let img2 = example_image2();
+        let img3 = example_image3();
+        let img4 = example_image4();
+
+        let img_file1 = img1.file_path.join(img1.file_name);
+        let img_file2 = img2.file_path.join(img2.file_name);
+        let img_file3 = img3.file_path.join(img3.file_name);
+        let img_file4 = img4.file_path.join(img4.file_name);
+
+        if img_file1.exists() {
+            std::fs::remove_file(img_file1.clone()).unwrap();
+        }
+        if img_file2.exists() {
+            std::fs::remove_file(img_file2.clone()).unwrap();
+        }
+        if img_file3.exists() {
+            std::fs::remove_file(img_file3.clone()).unwrap();
+        }
+        if img_file4.exists() {
+            std::fs::remove_file(img_file4.clone()).unwrap();
+        }
+
+        assert!(!img_file1.exists());
+        assert!(!img_file2.exists());
+        assert!(!img_file3.exists());
+        assert!(!img_file4.exists());
+
+        let plants_dir = PathBuf::from(BASE_DIR).join(PLANTS_DIR_OUT);
+        if !plants_dir.exists() {
+            std::fs::create_dir_all(plants_dir.clone()).unwrap();
+        }
+        assert!(plants_dir.exists());
+        let plant1_dir = plants_dir.join("Plant1".to_owned());
+        if !plant1_dir.exists() {
+            std::fs::create_dir_all(plant1_dir.clone()).unwrap();
+        }
+        assert!(plant1_dir.exists());
+
+        let plant2_dir = plants_dir.join("Plant2");
+        if !plant2_dir.exists() {
+            std::fs::create_dir_all(plant2_dir.clone()).unwrap();
+        }
+        assert!(plant2_dir.exists());
+
+        let plant3_dir = plants_dir.join("Plant3");
+        if !plant3_dir.exists() {
+            std::fs::create_dir_all(plant3_dir.clone()).unwrap();
+        }
+        assert!(plant3_dir.exists());
+
+        let result = vec![example_old1(), example_old2()]
+            .convert(&(plants_dir, "%d%m%Y".to_owned()))
+            .unwrap();
+        let expected = vec![
+            example_image1(),
+            example_image2(),
+            example_image3(),
+            example_image4(),
+        ];
+
+        assert_eq!(result, expected);
+        assert!(img_file1.exists());
+        assert!(img_file2.exists());
+        assert!(img_file3.exists());
+        assert!(img_file4.exists());
+
+        std::fs::remove_file(img_file1.clone()).unwrap();
+        std::fs::remove_file(img_file2.clone()).unwrap();
+        std::fs::remove_file(img_file3.clone()).unwrap();
+        std::fs::remove_file(img_file4.clone()).unwrap();
+        assert!(!img_file1.exists());
+        assert!(!img_file2.exists());
+        assert!(!img_file3.exists());
+        assert!(!img_file4.exists());
+    }
+
+    #[test]
+    fn save_new() {}
 }

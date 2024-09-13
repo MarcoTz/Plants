@@ -6,7 +6,7 @@ use plants::{log_item::LogItem, serialize::date_serializer};
 use serde::Deserialize;
 use std::{fs::File, path::PathBuf};
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct LogCSV {
     #[serde(with = "date_serializer")]
     date: NaiveDate,
@@ -64,5 +64,149 @@ impl Port<Vec<LogItem>> for Vec<LogCSV> {
         }
         write_csv(new_items, activities_file)?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod activities_tests {
+    use super::{LogCSV, LogItem, Port};
+    use crate::port::test_common::{
+        example_date1, example_date2, BASE_DIR, LOGS_FILE_IN, LOGS_FILE_OUT,
+    };
+    use database::file_backend::load_csv::load_csv;
+    use std::path::PathBuf;
+
+    fn example_log_csv1() -> LogCSV {
+        LogCSV {
+            date: example_date1(),
+            activity: "Watering".to_owned(),
+            plants: "Plant1,Plant2".to_owned(),
+            note: None,
+        }
+    }
+
+    fn example_log1() -> LogItem {
+        LogItem {
+            date: example_date1(),
+            activity: "Watering".to_owned(),
+            plant: "Plant1".to_owned(),
+            note: None,
+        }
+    }
+
+    fn example_log2() -> LogItem {
+        LogItem {
+            date: example_date1(),
+            activity: "Watering".to_owned(),
+            plant: "Plant2".to_owned(),
+            note: None,
+        }
+    }
+
+    fn example_log_csv2() -> LogCSV {
+        LogCSV {
+            date: example_date2(),
+            activity: "Fertilizing".to_owned(),
+            plants: "Plant2,Plant3".to_owned(),
+            note: None,
+        }
+    }
+
+    fn example_log3() -> LogItem {
+        LogItem {
+            date: example_date2(),
+            activity: "Fertilizing".to_owned(),
+            plant: "Plant2".to_owned(),
+            note: None,
+        }
+    }
+
+    fn example_log4() -> LogItem {
+        LogItem {
+            date: example_date2(),
+            activity: "Fertilizing".to_owned(),
+            plant: "Plant3".to_owned(),
+            note: None,
+        }
+    }
+
+    #[test]
+    fn csv_to_log() {
+        let result = <LogCSV as Into<Vec<LogItem>>>::into(LogCSV {
+            date: example_date1(),
+            activity: "Watering".to_owned(),
+            plants: "Plant1,Plant2".to_owned(),
+            note: None,
+        });
+        let expected = vec![
+            LogItem {
+                activity: "Watering".to_owned(),
+                date: example_date1(),
+                plant: "Plant1".to_owned(),
+                note: None,
+            },
+            LogItem {
+                activity: "Watering".to_owned(),
+                date: example_date1(),
+                plant: "Plant2".to_owned(),
+                note: None,
+            },
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn load_old() {
+        let log_file = PathBuf::from(BASE_DIR).join(LOGS_FILE_IN);
+        let result = <Vec<LogCSV> as Port<Vec<LogItem>>>::load_old(&log_file).unwrap();
+        let expected = vec![example_log_csv1(), example_log_csv2()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn convert() {
+        let result = vec![example_log_csv1(), example_log_csv2()]
+            .convert(&())
+            .unwrap();
+        let expected = vec![
+            example_log1(),
+            example_log2(),
+            example_log3(),
+            example_log4(),
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn save_new() {
+        let log_file = PathBuf::from(BASE_DIR).join(LOGS_FILE_OUT);
+        if log_file.exists() {
+            std::fs::remove_file(log_file.clone()).unwrap();
+        }
+        assert!(!log_file.exists());
+
+        <Vec<LogCSV> as Port<Vec<LogItem>>>::save_new(
+            vec![
+                example_log1(),
+                example_log2(),
+                example_log3(),
+                example_log4(),
+            ],
+            &log_file,
+        )
+        .unwrap();
+
+        assert!(log_file.exists());
+        let result: Vec<LogItem> = load_csv(&log_file).unwrap();
+        let expected = vec![
+            example_log1(),
+            example_log2(),
+            example_log3(),
+            example_log4(),
+        ];
+        assert_eq!(result, expected);
+
+        std::fs::remove_file(log_file.clone()).unwrap();
+        assert!(!log_file.exists())
     }
 }
