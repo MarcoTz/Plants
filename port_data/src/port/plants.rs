@@ -6,7 +6,7 @@ use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 use serde::{Deserialize, Serialize};
 use std::{fs::read_dir, path::PathBuf};
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 pub struct PlantJSON {
     pub auto_watering: BoolOrString,
     pub current_location: String,
@@ -18,7 +18,7 @@ pub struct PlantJSON {
     pub species_name: String,
 }
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(untagged)]
 pub enum BoolOrString {
     Bool(bool),
@@ -90,5 +90,124 @@ impl Port<Vec<PlantInfo>> for Vec<PlantJSON> {
         log::info!("Saving new Plants");
         write_plants(plants, plants_dir)?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod plants_tests {
+    use super::{PlantInfo, PlantJSON, PlantLocation, PlantSpecies, Port};
+    use crate::port::test_common::{
+        example_date1, example_date2, example_plant_json1, example_plant_json2,
+        example_plant_json3, BASE_DIR, PLANTS_DIR_IN, PLANTS_DIR_OUT,
+    };
+    use database::file_backend::load_json::load_dir;
+    use std::path::PathBuf;
+
+    fn example_info1() -> PlantInfo {
+        PlantInfo {
+            name: "Plant1".to_owned(),
+            species: PlantSpecies::Other("Species1".to_owned()),
+            location: PlantLocation::Other("Location1".to_owned()),
+            origin: "test origin".to_owned(),
+            obtained: example_date1(),
+            auto_water: false,
+            notes: vec![],
+        }
+    }
+
+    fn example_info2() -> PlantInfo {
+        PlantInfo {
+            name: "Plant2".to_owned(),
+            species: PlantSpecies::Other("Species1".to_owned()),
+            location: PlantLocation::Other("Location2".to_owned()),
+            origin: "test origin".to_owned(),
+            obtained: example_date1(),
+            auto_water: false,
+            notes: vec![],
+        }
+    }
+
+    fn example_info3() -> PlantInfo {
+        PlantInfo {
+            name: "Plant3".to_owned(),
+            species: PlantSpecies::Other("Species2".to_owned()),
+            location: PlantLocation::Other("Location1".to_owned()),
+            origin: "test origin".to_owned(),
+            obtained: example_date2(),
+            auto_water: true,
+            notes: vec![],
+        }
+    }
+
+    #[test]
+    fn load_old() {
+        let plants_dir = PathBuf::from(BASE_DIR).join(PLANTS_DIR_IN);
+        let result = <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::load_old(&plants_dir).unwrap();
+        let expected = vec![
+            example_plant_json3(),
+            example_plant_json2(),
+            example_plant_json1(),
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn convert() {
+        let result: Vec<PlantInfo> = vec![
+            example_plant_json1(),
+            example_plant_json2(),
+            example_plant_json3(),
+        ]
+        .convert(&"%d.%m.%Y".to_owned())
+        .unwrap();
+        let expected = vec![example_info1(), example_info2(), example_info3()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn save_new() {
+        let plant_dir = PathBuf::from(BASE_DIR).join(PLANTS_DIR_OUT);
+
+        let dir1 = plant_dir.join("Plant1");
+        let file1 = dir1.join("Plant1.json");
+        let dir2 = plant_dir.join("Plant2");
+        let file2 = dir2.join("Plant2.json");
+        let dir3 = plant_dir.join("Plant3");
+        let file3 = dir3.join("Plant3.json");
+
+        if file1.exists() {
+            std::fs::remove_file(file1.clone()).unwrap();
+        }
+        if file2.exists() {
+            std::fs::remove_file(file2.clone()).unwrap();
+        }
+        if file3.exists() {
+            std::fs::remove_file(file3.clone()).unwrap();
+        }
+
+        assert!(!file1.exists());
+        assert!(!file2.exists());
+        assert!(!file3.exists());
+
+        <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::save_new(
+            vec![example_info1(), example_info2(), example_info3()],
+            &plant_dir,
+        )
+        .unwrap();
+
+        assert!(file1.exists());
+        assert!(file2.exists());
+        assert!(file3.exists());
+
+        let result: Vec<PlantInfo> = load_dir(&plant_dir).unwrap();
+        let expected = vec![example_info3(), example_info1(), example_info2()];
+        assert_eq!(result, expected);
+
+        std::fs::remove_file(file1.clone()).unwrap();
+        std::fs::remove_file(file2.clone()).unwrap();
+        std::fs::remove_file(file3.clone()).unwrap();
+        assert!(!file1.exists());
+        assert!(!file2.exists());
+        assert!(!file3.exists());
     }
 }

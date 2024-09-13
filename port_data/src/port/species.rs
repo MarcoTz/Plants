@@ -5,7 +5,7 @@ use plants::species::Species;
 use serde::Deserialize;
 use std::{fs::read_dir, io, path::PathBuf, str::FromStr};
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug, PartialEq)]
 #[serde(untagged)]
 pub enum FloatOrIntOrString {
     Int(i32),
@@ -47,7 +47,7 @@ fn option_try<U, T: TryInto<U>>(opt: Option<T>) -> Result<Option<U>, T::Error> {
         }
     }
 }
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug, PartialEq)]
 pub struct SpeciesJSON {
     name: String,
     scientific_name: String,
@@ -163,5 +163,205 @@ impl Port<Vec<Species>> for Vec<SpeciesJSON> {
         log::info!("Saving new Species");
         write_species(species, species_dir_new)?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod species_test {
+    use super::{option_try, Error, FloatOrIntOrString, Port, SpeciesJSON};
+    use crate::port::test_common::{BASE_DIR, SPECIES_DIR_IN, SPECIES_DIR_OUT};
+    use database::file_backend::load_json::load_dir;
+    use plants::species::{Species, SunlightRequirement};
+    use std::path::PathBuf;
+
+    fn example_species_json1() -> SpeciesJSON {
+        SpeciesJSON {
+            name: "Species1".to_owned(),
+            scientific_name: "scientific name".to_owned(),
+            species_type: "will get removed".to_owned(),
+            sunlight_requirements: "direct".to_owned(),
+            temperature_min: FloatOrIntOrString::Float(1.0),
+            temperature_max: FloatOrIntOrString::Str("1.0".to_owned()),
+            optimal_temperature_min: FloatOrIntOrString::Str("1.0".to_owned()),
+            optimal_temperature_max: FloatOrIntOrString::Float(1.0),
+            plant_distance_cm: None,
+            ph_min: FloatOrIntOrString::Float(1.0),
+            ph_max: FloatOrIntOrString::Str("1.0".to_owned()),
+            avg_watering_days: Some(FloatOrIntOrString::Int(1)),
+            watering_notes: vec![],
+            avg_fertilizing_days: Some(FloatOrIntOrString::Str("1".to_owned())),
+            fertilizing_notes: vec![],
+            pruning_notes: vec![],
+            companions: vec![],
+            additional_notes: vec![],
+        }
+    }
+
+    fn example_species1() -> Species {
+        Species {
+            name: "Species1".to_owned(),
+            scientific_name: "scientific name".to_owned(),
+            genus: "".to_owned(),
+            family: "".to_owned(),
+            sunlight: SunlightRequirement::Direct,
+            temp_min: 1.0,
+            temp_max: 1.0,
+            opt_temp_min: 1.0,
+            opt_temp_max: 1.0,
+            planting_distance: None,
+            ph_min: 1.0,
+            ph_max: 1.0,
+            avg_watering_days: Some(1),
+            watering_notes: vec![],
+            avg_fertilizing_days: Some(1),
+            fertilizing_notes: vec![],
+            pruning_notes: vec![],
+            companions: vec![],
+            additional_notes: vec![],
+        }
+    }
+
+    fn example_species_json2() -> SpeciesJSON {
+        SpeciesJSON {
+            name: "Species2".to_owned(),
+            scientific_name: "scientific name".to_owned(),
+            species_type: "will get removed".to_owned(),
+            sunlight_requirements: "shade".to_owned(),
+            temperature_min: FloatOrIntOrString::Str("1.0".to_owned()),
+            temperature_max: FloatOrIntOrString::Str("1.5".to_owned()),
+            optimal_temperature_min: FloatOrIntOrString::Str("1.0".to_owned()),
+            optimal_temperature_max: FloatOrIntOrString::Float(1.0),
+            plant_distance_cm: None,
+            ph_min: FloatOrIntOrString::Float(1.0),
+            ph_max: FloatOrIntOrString::Str("1.0".to_owned()),
+            avg_watering_days: None,
+            watering_notes: vec![],
+            avg_fertilizing_days: None,
+            fertilizing_notes: vec![],
+            pruning_notes: vec![],
+            companions: vec![],
+            additional_notes: vec![],
+        }
+    }
+
+    fn example_species2() -> Species {
+        Species {
+            name: "Species2".to_owned(),
+            scientific_name: "scientific name".to_owned(),
+            genus: "".to_owned(),
+            family: "".to_owned(),
+            sunlight: SunlightRequirement::Shade,
+            temp_min: 1.0,
+            temp_max: 1.5,
+            opt_temp_min: 1.0,
+            opt_temp_max: 1.0,
+            planting_distance: None,
+            ph_min: 1.0,
+            ph_max: 1.0,
+            avg_watering_days: None,
+            watering_notes: vec![],
+            avg_fertilizing_days: None,
+            fertilizing_notes: vec![],
+            pruning_notes: vec![],
+            companions: vec![],
+            additional_notes: vec![],
+        }
+    }
+
+    #[test]
+    fn into_int() {
+        let result: i32 = FloatOrIntOrString::Int(1).try_into().unwrap();
+        let expected = 1;
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn into_int_err() {
+        let result: Result<i32, Error> =
+            FloatOrIntOrString::Str("Not a number".to_owned()).try_into();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_float() {
+        let result: f32 = FloatOrIntOrString::Float(1.0).try_into().unwrap();
+        let expected = 1.0;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn into_float_err() {
+        let result: Result<f32, Error> =
+            FloatOrIntOrString::Str("Not a number".to_owned()).try_into();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_option() {
+        let result: Option<i32> = option_try(Some(FloatOrIntOrString::Int(1))).unwrap();
+        let expected = Some(1);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn into_option_err() {
+        let result: Result<Option<i32>, Error> =
+            option_try(Some(FloatOrIntOrString::Str("Not a number".to_owned())));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_species() {
+        let result: Species = example_species_json1().try_into().unwrap();
+        let expected = example_species1();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn load_old() {
+        let species_dir = PathBuf::from(BASE_DIR).join(SPECIES_DIR_IN);
+        let result = <Vec<SpeciesJSON> as Port<Vec<Species>>>::load_old(&species_dir).unwrap();
+        let expected = vec![example_species_json1(), example_species_json2()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn convert() {
+        let result = vec![example_species_json1(), example_species_json2()]
+            .convert(&false)
+            .unwrap();
+        let expected = vec![example_species1(), example_species2()];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn save_new() {
+        let species_dir = PathBuf::from(BASE_DIR).join(SPECIES_DIR_OUT);
+        if !species_dir.exists() {
+            std::fs::create_dir_all(species_dir.clone()).unwrap();
+        }
+        assert!(species_dir.exists());
+
+        <Vec<SpeciesJSON> as Port<Vec<Species>>>::save_new(
+            vec![example_species1(), example_species2()],
+            &species_dir,
+        )
+        .unwrap();
+
+        let dir1 = species_dir.join("Species1");
+        let dir2 = species_dir.join("Species2");
+        let file1 = dir1.join("Species1.json");
+        let file2 = dir2.join("Species2.json");
+        assert!(file1.exists());
+        assert!(file2.exists());
+
+        let result: Vec<Species> = load_dir(&species_dir).unwrap();
+        let expected = vec![example_species2(), example_species1()];
+        assert_eq!(result, expected);
+
+        std::fs::remove_dir_all(dir1.clone()).unwrap();
+        std::fs::remove_dir_all(dir2.clone()).unwrap();
+        assert!(!dir1.exists());
+        assert!(!dir2.exists());
     }
 }
