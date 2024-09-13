@@ -8,10 +8,13 @@ use pages::{
     species_overview::SpeciesOverview,
 };
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct NamedPage {
     pub page_name: String,
     pub page_html: String,
 }
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct PagesHtml {
     pub index_html: String,
     pub plants_overview_html: String,
@@ -96,7 +99,7 @@ impl<T: DatabaseManager> Renderer<T> {
             let page_html = plant_details
                 .render(&self.date_format, true, num_plants)
                 .render();
-            let page_name = plant.get_url("plants/");
+            let page_name = plant.get_url("plants");
             plant_htmls.push(NamedPage {
                 page_name,
                 page_html,
@@ -118,7 +121,7 @@ impl<T: DatabaseManager> Renderer<T> {
                 .render(&self.date_format, true, all_plants.len() as i32)
                 .render();
             species_htmls.push(NamedPage {
-                page_name: species.get_url("species/"),
+                page_name: species.get_url("species"),
                 page_html: species_html,
             })
         }
@@ -147,5 +150,131 @@ impl<T: DatabaseManager> Renderer<T> {
             plant_htmls,
             species_htmls,
         })
+    }
+}
+
+#[cfg(test)]
+mod renderer_tests {
+    use super::{NamedPage, PagesHtml};
+    use crate::test_common::{
+        example_graveyard, example_plant, example_plant2, example_renderer, example_species,
+        DATE_FORMAT,
+    };
+    use html::render::Render;
+    use pages::{
+        activities::Activities, gallery::Gallery, graveyard::Graveyard, index::Index, page::Page,
+        plant_details::PlantDetails, plant_overview::PlantOverview,
+        species_details::SpeciesDetails, species_overview::SpeciesOverview,
+    };
+
+    #[test]
+    fn index() {
+        let result = example_renderer().render_index().unwrap();
+        let expected = Index::try_from(vec![example_plant(), example_plant2()].as_slice())
+            .unwrap()
+            .render(DATE_FORMAT, false, 2)
+            .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn plant_overview() {
+        let result = example_renderer().render_plant_overview().unwrap();
+        let expected = PlantOverview::from(vec![example_plant(), example_plant2()].as_slice())
+            .render(DATE_FORMAT, false, 2)
+            .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn species_overview() {
+        let result = example_renderer().render_species_overview().unwrap();
+        let expected = SpeciesOverview::from((
+            vec![example_species()].as_slice(),
+            vec![example_plant(), example_plant2()].as_slice(),
+        ))
+        .render(DATE_FORMAT, false, 2)
+        .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn gallery() {
+        let result = example_renderer().render_gallery().unwrap();
+        let expected = Gallery::from(vec![example_plant(), example_plant2()].as_slice())
+            .render(DATE_FORMAT, false, 2)
+            .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn activities() {
+        let result = example_renderer().render_activities().unwrap();
+        let expected = Activities::from(vec![example_plant(), example_plant2()].as_slice())
+            .render(DATE_FORMAT, false, 2)
+            .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn graveyard() {
+        let result = example_renderer().render_graveyard().unwrap();
+        let expected = Graveyard::from(vec![example_graveyard()].as_slice())
+            .render(DATE_FORMAT, false, 2)
+            .render();
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn all_plants() {
+        let result = example_renderer().render_all_plants().unwrap();
+        let expected = vec![
+            NamedPage {
+                page_name: example_plant().get_url("plants"),
+                page_html: PlantDetails::try_from(&example_plant())
+                    .unwrap()
+                    .render(DATE_FORMAT, true, 2)
+                    .render(),
+            },
+            NamedPage {
+                page_name: example_plant2().get_url("plants"),
+                page_html: PlantDetails::try_from(&example_plant2())
+                    .unwrap()
+                    .render(DATE_FORMAT, true, 2)
+                    .render(),
+            },
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn all_species() {
+        let result = example_renderer().render_all_species().unwrap();
+        let expected = vec![NamedPage {
+            page_name: example_species().get_url("species"),
+            page_html: SpeciesDetails::from((
+                &example_species(),
+                vec![example_plant(), example_plant2()].as_slice(),
+            ))
+            .render(DATE_FORMAT, true, 2)
+            .render(),
+        }];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn all() {
+        let result = example_renderer().render_all().unwrap();
+        let expected = PagesHtml {
+            index_html: example_renderer().render_index().unwrap(),
+            plants_overview_html: example_renderer().render_plant_overview().unwrap(),
+            species_overview_html: example_renderer().render_species_overview().unwrap(),
+            gallery_html: example_renderer().render_gallery().unwrap(),
+            activities_html: example_renderer().render_activities().unwrap(),
+            graveyard_html: example_renderer().render_graveyard().unwrap(),
+            plant_htmls: example_renderer().render_all_plants().unwrap(),
+            species_htmls: example_renderer().render_all_species().unwrap(),
+        };
+        assert_eq!(result, expected)
     }
 }
