@@ -17,6 +17,8 @@ pub enum Error {
     PlantExists(String),
     SpeciesDoesNotExist(String),
     SpeciesExists(String),
+    Unauthorized(String),
+    Logger,
     Other(Box<dyn std::error::Error>),
 }
 
@@ -54,6 +56,8 @@ impl fmt::Display for Error {
                 frmt.write_str(&format!("Species {name} does not exist"))
             }
             Error::SpeciesExists(name) => frmt.write_str(&format!("Species {name} already exists")),
+            Error::Unauthorized(name) => write!(frmt, "User {name} is not authorized"),
+            Error::Logger => write!(frmt, "Could not initialize logger"),
             Error::Other(err) => err.fmt(frmt),
         }
     }
@@ -159,6 +163,20 @@ mod error_tests {
     fn display_speciesexists() {
         let result = format!("{}", Error::SpeciesExists("species".to_owned()));
         let expected = "Species species already exists";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_unauthorized() {
+        let result = format!("{}", Error::Unauthorized("username".to_owned()));
+        let expected = "User username is not authorized";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_logger() {
+        let result = format!("{}", Error::Logger);
+        let expected = "Could not initialize logger";
         assert_eq!(result, expected)
     }
 

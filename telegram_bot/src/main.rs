@@ -5,11 +5,13 @@ pub mod config;
 pub mod errors;
 
 use action_handler::ActionHandler;
+use bot_actions::BotAction;
 use bot_api::{bot::Bot, run_bot};
 use config::load_config;
+use database::file_backend::FileDB;
+use errors::Error;
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
-use std::process::exit;
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
@@ -17,30 +19,22 @@ static LOGGER: FileLogger = FileLogger {
 };
 
 #[tokio::main]
-async fn main() {
-    let log_res = init_logger(&LOGGER);
-    if log_res.is_err() {
-        println!("{}", log_res.unwrap_err());
-        exit(1);
-    }
+async fn main() -> Result<(), Error> {
+    init_logger(&LOGGER).map_err(|_| Error::Logger)?;
     log::info!("Succesfully set up logger");
 
-    let conf = match load_config() {
-        Ok(conf) => conf,
-        Err(err) => {
-            println!("{err:?}");
-            exit(1)
-        }
-    };
+    let conf = load_config()?;
     log::info!("Successfully loaded config");
 
     let mut bot = Bot::new(conf.api_key);
-    let mut handler = ActionHandler::default();
+    let mut handler = ActionHandler {
+        current_action: BotAction::Idle,
+        white_list: conf.white_list,
+        db_man: FileDB::default(),
+    };
     log::info!("Running bot");
-    if let Err(err) = run_bot(&mut bot, &mut handler).await {
-        log::info!("Bot exited with error");
-        println!("{err}");
-    }
+    run_bot(&mut bot, &mut handler).await?;
+    Ok(())
 }
 
 #[cfg(test)]

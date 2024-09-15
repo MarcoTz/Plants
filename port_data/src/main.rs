@@ -31,7 +31,7 @@ static LOGGER: FileLogger = FileLogger {
 };
 
 pub fn main() -> Result<(), Error> {
-    init_logger(&LOGGER).map_err(|err| Error::Logger(err))?;
+    init_logger(&LOGGER).map_err(Error::Logger)?;
 
     log::info!("Checking directories");
     let dirs = Directories::default();

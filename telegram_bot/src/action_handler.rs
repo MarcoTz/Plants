@@ -17,6 +17,7 @@ pub enum ImmediateAction {
 #[derive(Debug, PartialEq, Eq)]
 pub struct ActionHandler<T: DatabaseManager> {
     pub current_action: BotAction,
+    pub white_list: Vec<i64>,
     pub db_man: T,
 }
 
@@ -24,6 +25,7 @@ impl Default for ActionHandler<FileDB> {
     fn default() -> ActionHandler<FileDB> {
         ActionHandler {
             current_action: BotAction::Idle,
+            white_list: vec![],
             db_man: FileDB::default(),
         }
     }
@@ -105,18 +107,36 @@ impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
         message: Message,
     ) -> Result<(), Self::Error> {
         log::info!("Handling Command {cmd}");
-        let ret_msg = self.process_command(cmd);
-        bot.send_message(message.chat.id.to_string(), ret_msg)
+        let user = message.from.ok_or(Error::Unauthorized("".to_owned()))?;
+        if self.white_list.contains(&user.id) {
+            let ret_msg = self.process_command(cmd);
+            bot.send_message(message.chat.id.to_string(), ret_msg)
+                .await?;
+            Ok(())
+        } else {
+            bot.send_message(
+                message.chat.id.to_string(),
+                "User is not authorized".to_owned(),
+            )
             .await?;
-        Ok(())
+
+            Ok(())
+        }
     }
 
     async fn handle_message(&mut self, bot: &Bot, msg: Message) -> Result<(), Error> {
         log::info!("Handling message");
-        let chat_id = msg.chat.id.to_string();
-        let ret_msg = self.handle_message(msg);
-        bot.send_message(chat_id, ret_msg).await?;
-        Ok(())
+        let user = msg.from.clone().ok_or(Error::Unauthorized("".to_owned()))?;
+        if self.white_list.contains(&user.id) {
+            let chat_id = msg.chat.id.to_string();
+            let ret_msg = self.handle_message(msg);
+            bot.send_message(chat_id, ret_msg).await?;
+            Ok(())
+        } else {
+            bot.send_message(msg.chat.id.to_string(), "User is unauthorized".to_owned())
+                .await?;
+            Ok(())
+        }
     }
 }
 
@@ -131,6 +151,7 @@ mod action_handler_tests {
     fn example_handler() -> ActionHandler<DummyManager> {
         ActionHandler {
             current_action: BotAction::Idle,
+            white_list: vec![],
             db_man: DummyManager {},
         }
     }
@@ -159,6 +180,7 @@ mod action_handler_tests {
         let result = ActionHandler::default();
         let expected = ActionHandler {
             current_action: BotAction::Idle,
+            white_list: vec![],
             db_man: FileDB::default(),
         };
         assert_eq!(result, expected)
