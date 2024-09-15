@@ -62,7 +62,7 @@ impl Port<Vec<LogItem>> for Vec<LogCSV> {
             log::info!("Creating log file {activities_file:?}");
             File::create(activities_file)?;
         }
-        write_csv(new_items, activities_file)?;
+        write_csv(new_items, activities_file, false)?;
         Ok(())
     }
 }

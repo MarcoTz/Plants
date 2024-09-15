@@ -89,7 +89,7 @@ impl From<WrongType> for Error {
 #[cfg(test)]
 mod error_tests {
     use super::{BadResponse, Error, ParseError, RequestError, SerializeError};
-    use crate::{chat::Chat, message::Message, update::Update};
+    use crate::update::Update;
 
     #[test]
     fn display_request() {
@@ -134,25 +134,6 @@ mod error_tests {
         assert_eq!(result, expected)
     }
 
-    fn example_message() -> Message {
-        Message {
-            id: 1,
-            date: 1,
-            from: None,
-            chat: Chat {
-                id: 2,
-                ty: "message".to_owned(),
-                title: None,
-                username: None,
-                first_name: None,
-                last_name: None,
-            },
-            text: None,
-            caption: None,
-            photo: None,
-            entities: None,
-        }
-    }
     #[test]
     fn display_is_command() {
         let result = format!("{}", Error::MessageIsCommand);

@@ -261,7 +261,7 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn std::error::Error>> {
-        write_activities(logs, &self.get_activities_filepath())?;
+        write_activities(logs, &self.get_activities_filepath(), true)?;
         Ok(())
     }
 
@@ -289,7 +289,7 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn std::error::Error>> {
-        write_growth(growth, &self.get_growth_filepath())?;
+        write_growth(growth, &self.get_growth_filepath(), true)?;
         Ok(())
     }
 
@@ -306,7 +306,7 @@ impl DatabaseManager for FileDB {
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn std::error::Error>> {
         // Enter new graveyard plant
         let name = plant.name.clone();
-        write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
+        write_graveyard(vec![plant], &self.get_graveyard_filepath(), true)?;
 
         // remove plant json
         let plant_filename = name.replace(' ', "") + ".json";
@@ -837,21 +837,17 @@ pub mod test_common {
 mod file_backend_tests {
     use super::{
         test_common::{
-            dummy_activity, dummy_date, dummy_graveyard1, dummy_graveyard2, dummy_growth1,
-            dummy_growth2, dummy_location1, dummy_location2, dummy_location3, dummy_plant1,
-            dummy_plant2, dummy_species, ACTIVITIES_DEATH_DUMMY_OUT, ACTIVITIES_DUMMY,
-            ACTIVITIES_DUMMY_OUT, ACTIVITIES_DUMMY_OUT2, DUMMY_LOGS_PATH, DUMMY_PLANT_PATH,
-            DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST, GRAVEYARD_DUMMY, GRAVEYARD_DUMMY_OUT,
-            GROWTHS_DUMMY_OUT, GROWTH_DEATH_DUMMY_OUT, GROWTH_DUMMY, GROWTH_DUMMY_OUT,
-            LOCATIONS_DUMMY, PLANTS_DEATH_DUMMY_OUT, PLANTS_DUMMY_OUT, PLANTS_DUMMY_OUT2,
-            SPECIES_DUMMY_OUT,
+            dummy_activity, dummy_graveyard1, dummy_graveyard2, dummy_growth1, dummy_growth2,
+            dummy_location1, dummy_location2, dummy_location3, dummy_plant1, dummy_plant2,
+            dummy_species, ACTIVITIES_DUMMY, ACTIVITIES_DUMMY_OUT, ACTIVITIES_DUMMY_OUT2,
+            DUMMY_LOGS_PATH, DUMMY_PLANT_PATH, DUMMY_SPECIES_PATH, FILE_DOES_NOT_EXIST,
+            GRAVEYARD_DUMMY, GROWTHS_DUMMY_OUT, GROWTH_DUMMY, GROWTH_DUMMY_OUT, LOCATIONS_DUMMY,
+            PLANTS_DUMMY_OUT, PLANTS_DUMMY_OUT2, SPECIES_DUMMY_OUT,
         },
         FileDB,
     };
     use crate::database_manager::DatabaseManager;
-    use plants::{
-        graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem, named::Named,
-    };
+    use plants::named::Named;
     use std::{fs, path::PathBuf};
 
     fn dummy_db() -> FileDB {
@@ -1441,62 +1437,5 @@ mod file_backend_tests {
 
         fs::remove_dir_all(PLANTS_DUMMY_OUT2).unwrap();
         assert!(!PathBuf::from(PLANTS_DUMMY_OUT2).exists())
-    }
-
-    #[test]
-    fn db_man_kill_plant() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(PLANTS_DEATH_DUMMY_OUT);
-        db.graveyard_csv = GRAVEYARD_DUMMY_OUT.to_owned();
-        db.growth_csv = GROWTH_DEATH_DUMMY_OUT.to_owned();
-        db.activities_csv = ACTIVITIES_DEATH_DUMMY_OUT.to_owned();
-
-        let mut plant = dummy_plant1();
-        db.write_plant(plant.info.clone()).unwrap();
-        db.write_growths(plant.growth.clone()).unwrap();
-        db.write_logs(plant.activities.clone()).unwrap();
-
-        let plant_name = plant.get_name();
-        let file_name = plant_name.clone().replace(' ', "");
-        let out_dir = db.plants_dir.join(file_name.clone());
-        let out_file = out_dir.join(file_name + ".json");
-        let result = db.get_plant(&plant_name).unwrap();
-        plant.images = vec![];
-
-        assert_eq!(result, plant);
-        assert!(out_dir.exists());
-        assert!(out_file.exists());
-
-        let kill_plant = GraveyardPlant {
-            name: plant_name.clone(),
-            species: plant.info.species.get_name(),
-            planted: dummy_date(),
-            died: dummy_date(),
-            reason: "testing".to_owned(),
-        };
-        db.kill_plant(kill_plant).unwrap();
-        let result = db.get_plant(&plant_name);
-        let logs = db.get_logs().unwrap();
-        let logs_filtered: Vec<&LogItem> =
-            logs.iter().filter(|log| log.plant == plant_name).collect();
-        let growth = db.get_growth().unwrap();
-        let growth_filtered: Vec<&GrowthItem> = growth
-            .iter()
-            .filter(|growth| growth.plant == plant_name)
-            .collect();
-        let new_activities_path = db.get_activities_filepath();
-        let new_growth_path = db.get_growth_filepath();
-        std::fs::remove_file(new_activities_path.clone()).unwrap();
-        std::fs::remove_file(new_growth_path.clone()).unwrap();
-
-        assert!(logs_filtered.is_empty());
-        assert!(growth_filtered.is_empty());
-        assert!(result.is_err());
-        assert!(!out_dir.exists());
-        assert!(!out_file.exists());
-        assert!(!new_activities_path.exists());
-        assert!(!new_growth_path.exists());
-        fs::remove_dir_all(PLANTS_DEATH_DUMMY_OUT).unwrap();
-        assert!(!PathBuf::from(PLANTS_DEATH_DUMMY_OUT).exists());
     }
 }

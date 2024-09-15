@@ -1,19 +1,32 @@
-use super::errors::{CSVError, Error, SerializeError};
+use super::errors::{Error, SerializeError};
 use csv::WriterBuilder;
 use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
 use serde::Serialize;
-use std::path::PathBuf;
+use std::{
+    fs::{File, OpenOptions},
+    path::PathBuf,
+};
 
-pub fn write_csv<T: Serialize>(items: Vec<T>, file_path: &PathBuf) -> Result<(), Error> {
+pub fn write_csv<T: Serialize>(
+    items: Vec<T>,
+    file_path: &PathBuf,
+    append: bool,
+) -> Result<(), Error> {
     log::info!("Writing CSV {:?}", file_path);
+    let mut headers = !append;
+    if !file_path.exists() {
+        File::create(file_path)?;
+        headers = true;
+    }
+    let file = OpenOptions::new()
+        .write(true)
+        .append(append)
+        .open(file_path)?;
     let mut writer = WriterBuilder::new()
         .delimiter(b';')
+        .has_headers(headers)
         .flexible(true)
-        .from_path(file_path)
-        .map_err(|err| CSVError {
-            path: file_path.clone(),
-            err_msg: err.to_string(),
-        })?;
+        .from_writer(file);
     for item in items.iter() {
         writer.serialize(item).map_err(|err| SerializeError {
             path: file_path.clone(),
@@ -24,17 +37,26 @@ pub fn write_csv<T: Serialize>(items: Vec<T>, file_path: &PathBuf) -> Result<(),
     Ok(())
 }
 
-pub fn write_activities(activities: Vec<LogItem>, activities_out: &PathBuf) -> Result<(), Error> {
-    write_csv(activities, activities_out)
+pub fn write_activities(
+    activities: Vec<LogItem>,
+    activities_out: &PathBuf,
+    append: bool,
+) -> Result<(), Error> {
+    write_csv(activities, activities_out, append)
 }
-pub fn write_growth(growth: Vec<GrowthItem>, growth_out: &PathBuf) -> Result<(), Error> {
-    write_csv(growth, growth_out)
+pub fn write_growth(
+    growth: Vec<GrowthItem>,
+    growth_out: &PathBuf,
+    append: bool,
+) -> Result<(), Error> {
+    write_csv(growth, growth_out, append)
 }
 pub fn write_graveyard(
     graveyard: Vec<GraveyardPlant>,
     graveyard_out: &PathBuf,
+    append: bool,
 ) -> Result<(), Error> {
-    write_csv(graveyard, graveyard_out)
+    write_csv(graveyard, graveyard_out, append)
 }
 
 #[cfg(test)]
@@ -63,7 +85,7 @@ mod write_csv_tests {
     fn write_dummy_csv() {
         let values = vec![csv_dummy(), csv_dummy()];
         let csv_file = PathBuf::from(CSV_DUMMY_OUT);
-        write_csv(values, &csv_file).unwrap();
+        write_csv(values, &csv_file, true).unwrap();
         let result: Vec<DummyCSV> = load_csv(&csv_file).unwrap();
         let expected = vec![csv_dummy(), csv_dummy()];
         assert_eq!(result, expected);
@@ -75,7 +97,7 @@ mod write_csv_tests {
     fn write_dummy_activities() {
         let values = vec![dummy_activity(), dummy_activity()];
         let csv_file = PathBuf::from(ACTIVITIES_CSV_DUMMY_OUT);
-        write_activities(values, &csv_file).unwrap();
+        write_activities(values, &csv_file, true).unwrap();
         let result = load_activities(&csv_file).unwrap();
         let expected = vec![dummy_activity(), dummy_activity()];
         assert_eq!(result, expected);
@@ -87,7 +109,7 @@ mod write_csv_tests {
     fn write_dummy_growth() {
         let values = vec![dummy_growth1(), dummy_growth2()];
         let csv_file = PathBuf::from(GROWTH_CSV_DUMMY_OUT);
-        write_growth(values, &csv_file).unwrap();
+        write_growth(values, &csv_file, true).unwrap();
         let result = load_growth(&csv_file).unwrap();
         let expected = vec![dummy_growth1(), dummy_growth2()];
         assert_eq!(result, expected);
@@ -99,7 +121,7 @@ mod write_csv_tests {
     fn write_dummy_graveyard() {
         let values = vec![dummy_graveyard1(), dummy_graveyard2()];
         let csv_file = PathBuf::from(GRAVEYARD_CSV_DUMMY_OUT);
-        write_graveyard(values, &csv_file).unwrap();
+        write_graveyard(values, &csv_file, true).unwrap();
         let result = load_graveyard(&csv_file).unwrap();
         let expected = vec![dummy_graveyard1(), dummy_graveyard2()];
         assert_eq!(result, expected);

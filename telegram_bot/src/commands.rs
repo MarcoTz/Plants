@@ -28,7 +28,6 @@ pub enum Command {
     Abort,
     Push,
     CheckLogs,
-    Exit,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -58,7 +57,6 @@ impl Command {
             Command::Abort,
             Command::Push,
             Command::CheckLogs,
-            Command::Exit,
         ]
     }
 
@@ -68,9 +66,9 @@ impl Command {
                 let all_commands = Command::get_all();
                 let help_lines: Vec<String> = all_commands
                     .iter()
-                    .map(|cmd| cmd.to_string() + " -- " + &cmd.get_description())
+                    .map(|cmd| format!("/{} -- {}", cmd, cmd.get_description()))
                     .collect();
-                let help_str = format!("Possible commands: \n\n {}", help_lines.join("\n"));
+                let help_str = format!("Possible commands:\n\n{}", help_lines.join("\n"));
                 CommandRes::Message(help_str)
             }
             Command::Today => {
@@ -98,7 +96,6 @@ impl Command {
             Command::MoveToGraveyard => {
                 CommandRes::NewAction(Box::new(MoveToGraveyard::default().into()))
             }
-            Command::Exit => CommandRes::ImmediateAction(ImmediateAction::Exit),
         }
     }
 }
@@ -122,7 +119,6 @@ impl fmt::Display for Command {
             Command::UpdateSpecies => frmt.write_str("update_species"),
             Command::UpdatePlant => frmt.write_str("update_plant"),
             Command::MoveToGraveyard => frmt.write_str("move_to_graveyard"),
-            Command::Exit => frmt.write_str("exit"),
         }
     }
 }
@@ -147,7 +143,6 @@ impl str::FromStr for Command {
             "update_species" => Ok(Command::UpdateSpecies),
             "update_plant" => Ok(Command::UpdatePlant),
             "move_to_graveyard" => Ok(Command::MoveToGraveyard),
-            "exit" => Ok(Command::Exit),
             _ => Err(Error::ParseError(format!("Command {s}"))),
         }
     }
@@ -176,7 +171,6 @@ impl BotCommand for Command {
             Command::Abort => "Abort the current action".to_owned(),
             Command::Push => "Push local changes to github".to_owned(),
             Command::CheckLogs => "Check warnings generated from build".to_owned(),
-            Command::Exit => "Exit the bot".to_owned(),
         }
     }
 }
@@ -211,7 +205,6 @@ mod command_tests {
             Command::Abort,
             Command::Push,
             Command::CheckLogs,
-            Command::Exit,
         ];
         assert_eq!(result, expected)
     }
@@ -219,7 +212,7 @@ mod command_tests {
     #[test]
     fn result_help() {
         let result = Command::Help.get_res();
-        let expected = CommandRes::Message("Possible commands: \n\n help -- Display Help Text\nwater -- Water plants (today)\nwater_location -- Water all plants in location (today)\nfertilize -- Fertilize plants (today)\nrain -- It rained (all outside plants will be watered)\nnew_growth -- Enter new growth\nnew_plant -- Enter new plant\nnew_species -- Enter new species\nnew_activity -- Enter new activity\nupdate_species -- Update species\nupdate_plant -- Update plant\ntoday -- Enter the current date as input\nmove_to_graveyard -- Move Plant to graveyard\nabort -- Abort the current action\npush -- Push local changes to github\ncheck_logs -- Check warnings generated from build\nexit -- Exit the bot".to_owned());
+        let expected = CommandRes::Message("Possible commands:\n\n/help -- Display Help Text\n/water -- Water plants (today)\n/water_location -- Water all plants in location (today)\n/fertilize -- Fertilize plants (today)\n/rain -- It rained (all outside plants will be watered)\n/new_growth -- Enter new growth\n/new_plant -- Enter new plant\n/new_species -- Enter new species\n/new_activity -- Enter new activity\n/update_species -- Update species\n/update_plant -- Update plant\n/today -- Enter the current date as input\n/move_to_graveyard -- Move Plant to graveyard\n/abort -- Abort the current action\n/push -- Push local changes to github\n/check_logs -- Check warnings generated from build".to_owned());
         assert_eq!(result, expected)
     }
 
@@ -340,13 +333,6 @@ mod command_tests {
     }
 
     #[test]
-    fn result_exit() {
-        let result = Command::Exit.get_res();
-        let expected = CommandRes::ImmediateAction(ImmediateAction::Exit);
-        assert_eq!(result, expected)
-    }
-
-    #[test]
     fn display_help() {
         let result = format!("{}", Command::Help);
         let expected = "help";
@@ -459,13 +445,6 @@ mod command_tests {
     }
 
     #[test]
-    fn display_exit() {
-        let result = format!("{}", Command::Exit);
-        let expected = "exit";
-        assert_eq!(result, expected)
-    }
-
-    #[test]
     fn from_str_help() {
         let result = Command::from_str("help").unwrap();
         let expected = Command::Help;
@@ -574,13 +553,6 @@ mod command_tests {
     fn from_str_movegraveyard() {
         let result = Command::from_str("move_to_graveyard").unwrap();
         let expected = Command::MoveToGraveyard;
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn from_str_exit() {
-        let result = Command::from_str("exit").unwrap();
-        let expected = Command::Exit;
         assert_eq!(result, expected)
     }
 
@@ -706,13 +678,6 @@ mod command_tests {
     fn desc_checklogs() {
         let result = Command::CheckLogs.get_description();
         let expected = "Check warnings generated from build";
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn desc_exit() {
-        let result = Command::Exit.get_description();
-        let expected = "Exit the bot";
         assert_eq!(result, expected)
     }
 }
