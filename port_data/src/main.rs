@@ -23,7 +23,7 @@ const LOCATIONS_CSV: &str = "Locations.csv";
 const GROWTH_CSV: &str = "Growth.csv";
 const ACTIVITIES_CSV: &str = "Activities.csv";
 const DATE_FORMAT: &str = "%d.%m.%Y";
-const INTERACTIVE: bool = false;
+const INTERACTIVE: bool = true;
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
