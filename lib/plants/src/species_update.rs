@@ -16,7 +16,6 @@ pub enum UpdateValue {
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum UpdateField {
-    Name,
     ScientificName,
     Genus,
     Family,
@@ -50,7 +49,6 @@ impl UpdateField {
 
     pub fn get_str_fields() -> Vec<UpdateField> {
         vec![
-            UpdateField::Name,
             UpdateField::ScientificName,
             UpdateField::Genus,
             UpdateField::Family,
@@ -129,7 +127,6 @@ impl TryFrom<(String, &UpdateField)> for UpdateValue {
 impl fmt::Display for UpdateField {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            UpdateField::Name => frmt.write_str("Name"),
             UpdateField::ScientificName => frmt.write_str("Scientific Name"),
             UpdateField::Genus => frmt.write_str("Genus"),
             UpdateField::Family => frmt.write_str("Family"),
@@ -157,7 +154,6 @@ impl FromStr for UpdateField {
     fn from_str(s: &str) -> Result<UpdateField, Self::Err> {
         let s_clean = s.trim().to_lowercase().replace(' ', "");
         match s_clean.as_str() {
-            "name" => Ok(UpdateField::Name),
             "scientificname" => Ok(UpdateField::ScientificName),
             "genus" => Ok(UpdateField::Genus),
             "family" => Ok(UpdateField::Family),
@@ -189,10 +185,6 @@ pub fn update_species(
     let field_err = Error::WrongType(field.to_string());
     match value {
         UpdateValue::Str(st) => match field {
-            UpdateField::Name => {
-                species.name = st;
-                Ok(())
-            }
             UpdateField::ScientificName => {
                 species.scientific_name = st;
                 Ok(())
@@ -349,7 +341,6 @@ mod update_species_tests {
     fn str_fields() {
         let result = UpdateField::get_str_fields();
         let expected = vec![
-            UpdateField::Name,
             UpdateField::ScientificName,
             UpdateField::Genus,
             UpdateField::Family,
@@ -489,13 +480,6 @@ mod update_species_tests {
     }
 
     #[test]
-    fn display_name() {
-        let result = format!("{}", UpdateField::Name);
-        let expected = "Name";
-        assert_eq!(result, expected)
-    }
-
-    #[test]
     fn display_scientific_name() {
         let result = format!("{}", UpdateField::ScientificName);
         let expected = "Scientific Name";
@@ -618,13 +602,6 @@ mod update_species_tests {
     fn display_notes() {
         let result = format!("{}", UpdateField::AdditionalNotes);
         let expected = "Additional Notes";
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn from_name() {
-        let result = UpdateField::from_str("name").unwrap();
-        let expected = UpdateField::Name;
         assert_eq!(result, expected)
     }
 
@@ -758,20 +735,6 @@ mod update_species_tests {
     fn from_fail() {
         let result = UpdateField::from_str("other");
         assert!(result.is_err())
-    }
-
-    #[test]
-    fn update_name() {
-        let mut result = example_species();
-        update_species(
-            &mut result,
-            UpdateField::Name,
-            UpdateValue::Str("new name".to_owned()),
-        )
-        .unwrap();
-        let mut expected = example_species();
-        expected.name = "new name".to_owned();
-        assert_eq!(result, expected)
     }
 
     #[test]
