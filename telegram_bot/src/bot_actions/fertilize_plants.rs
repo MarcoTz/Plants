@@ -4,7 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct FertilizePlants {
     fertilized_plants: Option<Vec<String>>,
     done: bool,
@@ -64,7 +64,7 @@ impl Action for FertilizePlants {
         if self.done {
             Err(Error::ActionAlreadyDone("Fertilize Plants".to_owned()))
         } else {
-            Ok("Plese enter plants to fertilize (separate by comma)".to_owned())
+            Ok("Please enter plants to fertilize (separate by comma)".to_owned())
         }
     }
 }
@@ -72,5 +72,71 @@ impl Action for FertilizePlants {
 impl From<FertilizePlants> for BotAction {
     fn from(fert: FertilizePlants) -> BotAction {
         BotAction::FertilizePlants(fert)
+    }
+}
+
+#[cfg(test)]
+mod fertilize_plants_tests {
+    use super::{Action, FertilizePlants};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn fertilize_default() {
+        let result = FertilizePlants::default();
+        let expected = FertilizePlants {
+            fertilized_plants: None,
+            done: false,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input() {
+        let mut action = FertilizePlants::default();
+        action
+            .handle_input("Plant1,Plant2".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let expected = FertilizePlants {
+            fertilized_plants: Some(vec!["Plant1".to_owned(), "Plant2".to_owned()]),
+            done: true,
+        };
+        assert_eq!(action, expected)
+    }
+
+    #[test]
+    fn done() {
+        let mut result = FertilizePlants::default();
+        result.done = true;
+        assert!(result.is_done())
+    }
+
+    #[test]
+    fn not_done() {
+        let result = FertilizePlants::default();
+        assert!(!result.is_done())
+    }
+
+    #[test]
+    fn write() {
+        let mut action = FertilizePlants::default();
+        action.fertilized_plants = Some(vec![]);
+        let result = action.write_result(&mut DummyManager {}).unwrap();
+        let expected = "Successfully fertilized plants ";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_prompt() {
+        let result = FertilizePlants::default().get_next_prompt().unwrap();
+        let expected = "Please enter plants to fertilize (separate by comma)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_prompt_fail() {
+        let mut action = FertilizePlants::default();
+        action.done = true;
+        let result = action.get_next_prompt();
+        assert!(result.is_err())
     }
 }

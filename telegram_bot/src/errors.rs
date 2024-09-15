@@ -25,8 +25,8 @@ impl std::error::Error for Error {}
 impl fmt::Display for Error {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err:?}")),
-            Error::BotError(bot_err) => frmt.write_str(&format!("{bot_err:?}")),
+            Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err}")),
+            Error::BotError(bot_err) => frmt.write_str(&format!("{bot_err}")),
             Error::NoActionRunning => {
                 frmt.write_str("Currently there is no active action, please try again")
             }
@@ -74,5 +74,146 @@ impl From<PlantError> for Error {
 impl From<BotError> for Error {
     fn from(bot_err: BotError) -> Error {
         Error::BotError(bot_err)
+    }
+}
+
+#[cfg(test)]
+mod error_tests {
+    use super::Error;
+    use bot_api::errors::Error as BotErr;
+    use bot_api::errors::ParseError;
+    use plants::errors::Error as PlantErr;
+
+    #[test]
+    fn display_plant_err() {
+        let result = format!(
+            "{}",
+            Error::PlantError(PlantErr::SpeciesNotFound("not a species".to_owned()))
+        );
+        let expected = "Could not find species not a species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_bot_err() {
+        let result = format!(
+            "{}",
+            Error::BotError(BotErr::Parse(ParseError {
+                ty: "date".to_owned()
+            }))
+        );
+        let expected = "Could not parse date";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_noaction() {
+        let result = format!("{}", Error::NoActionRunning);
+        let expected = "Currently there is no active action, please try again";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_alreadydone() {
+        let result = format!("{}", Error::ActionAlreadyDone("Idle".to_owned()));
+        let expected = "Action Idle is already done, cannot handle more input";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_noplantsloc() {
+        let result = format!("{}", Error::NoPlantsLocation("location".to_owned()));
+        let expected = "Location location does not have any plants";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_badhealth() {
+        let result = format!("{}", Error::BadHealth(6));
+        let expected = "6 is not a valid value for plant health";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_missinginp() {
+        let result = format!("{}", Error::MissingInput("plant".to_owned()));
+        let expected = "Input plant is missing, please try again";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_plantexists() {
+        let result = format!("{}", Error::PlantExists("plant".to_owned()));
+        let expected = "Plant plant already exists";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_speciesnotexist() {
+        let result = format!("{}", Error::SpeciesDoesNotExist("species".to_owned()));
+        let expected = "Species species does not exist";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_speciesexists() {
+        let result = format!("{}", Error::SpeciesExists("species".to_owned()));
+        let expected = "Species species already exists";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_other() {
+        let result = format!(
+            "{}",
+            Error::Other(Box::new(PlantErr::WrongType("obtained".to_owned())))
+        );
+        let expected = "Wrong type for obtained";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn bot_into() {
+        let result = format!(
+            "{}",
+            <BotErr as Into<Error>>::into(BotErr::Parse(ParseError {
+                ty: "Int".to_owned()
+            }))
+        );
+        let expected = format!(
+            "{}",
+            Error::BotError(BotErr::Parse(ParseError {
+                ty: "Int".to_owned()
+            }))
+        );
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn box_into() {
+        let result = format!(
+            "{}",
+            <Box<dyn std::error::Error> as Into<Error>>::into(Box::new(PlantErr::FieldError(
+                "field".to_owned()
+            )))
+        );
+        let expected = format!(
+            "{}",
+            Error::Other(Box::new(PlantErr::FieldError("field".to_owned())))
+        );
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn plant_into() {
+        let result = format!(
+            "{}",
+            <PlantErr as Into<Error>>::into(PlantErr::FieldError("field".to_owned()))
+        );
+        let expected = format!(
+            "{}",
+            Error::PlantError(PlantErr::FieldError("field".to_owned()))
+        );
+        assert_eq!(result, expected)
     }
 }

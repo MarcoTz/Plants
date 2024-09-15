@@ -7,11 +7,14 @@ use bot_api::{bot::Bot, handlers::Handler, message::Message};
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
 use std::process::exit;
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
     Push,
     CheckLogs,
     Exit,
 }
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct ActionHandler<T: DatabaseManager> {
     pub current_action: BotAction,
     pub db_man: T,
@@ -114,5 +117,140 @@ impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
         let ret_msg = self.handle_message(msg);
         bot.send_message(chat_id, ret_msg).await?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod action_handler_tests {
+    use super::{ActionHandler, BotAction, Command};
+    use crate::bot_actions::{NewPlant, Rain};
+    use crate::test_common::DummyManager;
+    use bot_api::{chat::Chat, message::Message};
+    use database::file_backend::FileDB;
+
+    fn example_handler() -> ActionHandler<DummyManager> {
+        ActionHandler {
+            current_action: BotAction::Idle,
+            db_man: DummyManager {},
+        }
+    }
+
+    fn example_message() -> Message {
+        Message {
+            id: 1,
+            date: 1,
+            from: None,
+            chat: Chat {
+                id: 1,
+                ty: "a chat".to_owned(),
+                title: None,
+                username: None,
+                first_name: None,
+                last_name: None,
+            },
+            text: Some("hello".to_owned()),
+            photo: None,
+            entities: None,
+        }
+    }
+
+    #[test]
+    fn handler_default() {
+        let result = ActionHandler::default();
+        let expected = ActionHandler {
+            current_action: BotAction::Idle,
+            db_man: FileDB::default(),
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn check_err() {
+        let result = example_handler().check_action();
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn check_done() {
+        let mut handler = example_handler();
+        handler.current_action = BotAction::Rain(Rain {});
+        let result = handler.check_action().unwrap();
+        let expected = Some("Successfully watered plants: ".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn check_not_done() {
+        let mut handler = example_handler();
+        handler.current_action = BotAction::NewPlant(NewPlant::default());
+        let result = handler.check_action().unwrap();
+        assert_eq!(result, None)
+    }
+
+    #[test]
+    fn handle_inp() {
+        let mut handler = example_handler();
+        handler.current_action = BotAction::NewPlant(NewPlant::default());
+        let result = handler.handle_input(Some("name".to_owned())).unwrap();
+        let expected = "Please enter species";
+        assert_eq!(result, expected)
+    }
+    #[test]
+    fn handle_inp_err() {
+        let result = example_handler().handle_input(Some("".to_owned()));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn handle_msg() {
+        let mut handler = example_handler();
+        handler.current_action = BotAction::NewPlant(NewPlant::default());
+        let result = handler.handle_message(example_message());
+        let expected = "Please enter species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn handle_msg_err() {
+        let result = example_handler().handle_message(example_message());
+        let expected = "Currently there is no active action, please try again";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn new_action() {
+        let mut handler = example_handler();
+        let result = handler.new_action(&BotAction::Rain(Rain {})).unwrap();
+        let expected = "Successfully watered plants: ";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn new_action_fail() {
+        let mut handler = example_handler();
+        handler.current_action = BotAction::NewPlant(NewPlant::default());
+        let result = handler.new_action(&BotAction::Rain(Rain {}));
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn handle_cmd_msg() {
+        let result = example_handler().process_command(Command::Help);
+        let expected = "Possible commands: \n\n help -- Display Help Text\nwater -- Water plants (today)\nwater_location -- Water all plants in location (today)\nfertilize -- Fertilize plants (today)\nrain -- It rained (all outside plants will be watered)\nnew_growth -- Enter new growth\nnew_plant -- Enter new plant\nnew_species -- Enter new species\nnew_activity -- Enter new activity\nupdate_species -- Update species\nupdate_plant -- Update plant\ntoday -- Enter the current date as input\nmove_to_graveyard -- Move Plant to graveyard\nabort -- Abort the current action\npush -- Push local changes to github\ncheck_logs -- Check warnings generated from build\nexit -- Exit the bot";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn handle_cmd_action() {
+        let result = example_handler().process_command(Command::Abort);
+        let expected = "Currently there is no active action, please try again";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn handle_cmd_input() {
+        let result = example_handler().process_command(Command::Today);
+        let expected = "Currently there is no active action, please try again";
+        assert_eq!(result, expected)
     }
 }

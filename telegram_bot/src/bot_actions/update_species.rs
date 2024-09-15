@@ -3,7 +3,7 @@ use crate::errors::Error;
 use database::database_manager::DatabaseManager;
 use plants::species_update::{update_species, UpdateField, UpdateValue};
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 enum Step {
     SpeciesName,
     UpdateField,
@@ -11,7 +11,7 @@ enum Step {
     Done,
 }
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct UpdateSpecies {
     current_step: Step,
     species_name: Option<String>,
@@ -97,12 +97,12 @@ impl Action for UpdateSpecies {
 
     fn get_next_prompt(&self) -> Result<String, Error> {
         match self.current_step {
-            Step::SpeciesName => Ok("Please enter Species name".to_owned()),
+            Step::SpeciesName => Ok("Please enter Species".to_owned()),
             Step::UpdateField => Ok(format!(
                 "Please enter field to update, possible fields: {}",
                 UpdateField::fields_strs().join(", ")
             )),
-            Step::UpdateValue => Ok("Enter updated value (notes will be appended".to_owned()),
+            Step::UpdateValue => Ok("Please enter new value (notes will be appended".to_owned()),
             Step::Done => Err(Error::ActionAlreadyDone("Update Species".to_owned())),
         }
     }
@@ -111,5 +111,187 @@ impl Action for UpdateSpecies {
 impl From<UpdateSpecies> for BotAction {
     fn from(updsp: UpdateSpecies) -> BotAction {
         BotAction::UpdateSpecies(updsp)
+    }
+}
+
+#[cfg(test)]
+mod update_species_tests {
+
+    use super::{Action, BotAction, Step, UpdateField, UpdateSpecies, UpdateValue};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn update_default() {
+        let result = UpdateSpecies::default();
+        let expected = UpdateSpecies {
+            current_step: Step::SpeciesName,
+            species_name: None,
+            update_field: None,
+            update_value: None,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_species() {
+        let mut result = UpdateSpecies::default();
+        result
+            .handle_input("Species1".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = UpdateSpecies::default();
+        expected.current_step = Step::UpdateField;
+        expected.species_name = Some("Species1".to_owned());
+    }
+
+    #[test]
+    fn input_species_err() {
+        let result =
+            UpdateSpecies::default().handle_input("not a species".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_field() {
+        let mut result = UpdateSpecies::default();
+        result.current_step = Step::UpdateField;
+        result
+            .handle_input("Genus".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = UpdateSpecies::default();
+        expected.current_step = Step::UpdateValue;
+        expected.update_field = Some(UpdateField::Genus);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_field_err() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::UpdateField;
+        let result = action.handle_input("not a valid field".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_value() {
+        let mut result = UpdateSpecies::default();
+        result.current_step = Step::UpdateValue;
+        result.update_field = Some(UpdateField::Genus);
+        result
+            .handle_input("NewGenus".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = UpdateSpecies::default();
+        expected.current_step = Step::Done;
+        expected.update_field = Some(UpdateField::Genus);
+        expected.update_value = Some(UpdateValue::Str("NewGenus".to_owned()));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_value_err() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::UpdateValue;
+        action.update_field = Some(UpdateField::TempMin);
+        let result = action.handle_input("not a number".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_value_no_field() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::UpdateValue;
+        let result = action.handle_input("".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+    #[test]
+    fn input_err() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::Done;
+        let result = action.handle_input("".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn done_done() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::Done;
+        assert!(action.is_done())
+    }
+
+    #[test]
+    fn done_notdone() {
+        assert!(!UpdateSpecies::default().is_done())
+    }
+
+    #[test]
+    fn write_no_species() {
+        let result = UpdateSpecies::default().write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write_no_field() {
+        let mut action = UpdateSpecies::default();
+        action.species_name = Some("Species1".to_owned());
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write_no_value() {
+        let mut action = UpdateSpecies::default();
+        action.species_name = Some("Species1".to_owned());
+        action.update_field = Some(UpdateField::Genus);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write() {
+        let mut action = UpdateSpecies::default();
+        action.species_name = Some("Species1".to_owned());
+        action.update_field = Some(UpdateField::Genus);
+        action.update_value = Some(UpdateValue::Str("NewGenus".to_owned()));
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_ok())
+    }
+
+    #[test]
+    fn next_species() {
+        let result = UpdateSpecies::default().get_next_prompt().unwrap();
+        let expected = "Please enter Species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_field() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::UpdateField;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter field to update, possible fields: Name, Scientific Name, Genus, Family, Sunlight, Min Temp, Max Temp, Min Temp Opt, Max Temp Opt, pH Min, pH Max, Planting Distance, Watering Notes, Fertilizing Notes, Pruning Notes, Companions, Additional Notes, Average Watering Days, Average Fertilizing Days";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_value() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::UpdateValue;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter new value (notes will be appended";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_err() {
+        let mut action = UpdateSpecies::default();
+        action.current_step = Step::Done;
+        let result = action.get_next_prompt();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_action() {
+        let result = <UpdateSpecies as Into<BotAction>>::into(UpdateSpecies::default());
+        let expected = BotAction::UpdateSpecies(UpdateSpecies::default());
+        assert_eq!(result, expected)
     }
 }
