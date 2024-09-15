@@ -122,6 +122,7 @@ mod updates_test {
                 text: None,
                 entities: None,
                 photo: None,
+                caption: None,
             })),
         }
     }

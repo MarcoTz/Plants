@@ -181,6 +181,7 @@ mod api_tests {
                 id: 1,
                 date: 1,
                 from: None,
+                caption: None,
                 chat: Chat {
                     id: 1,
                     ty: "type".to_owned(),
@@ -225,6 +226,7 @@ mod api_tests {
                 },
                 text: Some("/something".to_owned()),
                 photo: None,
+                caption: None,
                 entities: Some(vec![MessageEntity {
                     ty: "bot_command".to_owned(),
                     offset: 1,
@@ -259,6 +261,7 @@ mod api_tests {
                 },
                 text: Some("message".to_owned()),
                 photo: None,
+                caption: None,
                 entities: None,
             })),
         };
@@ -285,6 +288,7 @@ mod api_tests {
                 },
                 text: Some("/err".to_owned()),
                 photo: None,
+                caption: None,
                 entities: Some(vec![MessageEntity {
                     ty: "bot_command".to_owned(),
                     offset: 1,
@@ -319,6 +323,7 @@ mod api_tests {
                 },
                 text: None,
                 photo: None,
+                caption: None,
                 entities: None,
             })),
         };

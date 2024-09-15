@@ -7,7 +7,14 @@ use bot_api::{bot::Bot, handlers::Handler, message::Message};
 use bytes::Bytes;
 use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
-use std::{fs::File, io::Write, path::PathBuf, process, process::exit, str};
+use std::{
+    fs::File,
+    io::{Read, Write},
+    path::PathBuf,
+    process,
+    process::exit,
+    str,
+};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
@@ -21,6 +28,7 @@ pub struct ActionHandler<T: DatabaseManager> {
     pub current_action: BotAction,
     pub white_list: Vec<i64>,
     pub plants_dir: PathBuf,
+    pub log_path: PathBuf,
     pub db_man: T,
 }
 
@@ -30,6 +38,7 @@ impl Default for ActionHandler<FileDB> {
             current_action: BotAction::Idle,
             white_list: vec![],
             plants_dir: PathBuf::from("data/Plants"),
+            log_path: PathBuf::from("log.txt"),
             db_man: FileDB::default(),
         }
     }
@@ -41,6 +50,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
             current_action: BotAction::Idle,
             white_list,
             plants_dir: PathBuf::from("data/Plants"),
+            log_path: PathBuf::from("log.txt"),
             db_man,
         }
     }
@@ -151,7 +161,19 @@ impl<T: DatabaseManager> ActionHandler<T> {
                 }?;
                 Ok("Successfully pushed changes".to_owned())
             }
-            ImmediateAction::CheckLogs => Ok("Not yet implemented".to_owned()),
+            ImmediateAction::CheckLogs => {
+                let mut file =
+                    File::open(self.log_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;
+                let mut contents: String = "".to_owned();
+                file.read_to_string(&mut contents)
+                    .map_err(|err| Error::Other(Box::new(err)))?;
+                let lines = contents
+                    .split("\n")
+                    .filter(|line| line.contains("ERR") || line.contains("WARN"))
+                    .map(|line| line.to_owned())
+                    .collect::<Vec<String>>();
+                Ok(lines.join("\n"))
+            }
             ImmediateAction::Exit => exit(0),
         }
     }
@@ -262,6 +284,7 @@ mod action_handler_tests {
         ActionHandler {
             current_action: BotAction::Idle,
             white_list: vec![],
+            log_path: PathBuf::from("log.txt"),
             plants_dir: PathBuf::from("data/plants"),
             db_man: DummyManager {},
         }
@@ -274,6 +297,7 @@ mod action_handler_tests {
             current_action: BotAction::Idle,
             white_list: vec![],
             plants_dir: PathBuf::from("data/plants"),
+            log_path: PathBuf::from("log.txt"),
             db_man: FileDB::default(),
         };
         assert_eq!(result, expected)

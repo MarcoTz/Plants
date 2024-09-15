@@ -62,6 +62,7 @@ mod handler_tests {
             },
             text: Some("test".to_owned()),
             photo: None,
+            caption: None,
             entities: None,
         };
         let mut handler = ExampleHandler {};
@@ -87,6 +88,7 @@ mod handler_tests {
             },
             text: Some("/succ".to_owned()),
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_string(),
                 offset: 1,
@@ -120,6 +122,7 @@ mod handler_tests {
             },
             text: Some("/something".to_owned()),
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_string(),
                 offset: 1,
@@ -153,6 +156,7 @@ mod handler_tests {
             },
             text: Some("/err".to_owned()),
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_string(),
                 offset: 1,
@@ -186,6 +190,7 @@ mod handler_tests {
             },
             text: None,
             photo: None,
+            caption: None,
             entities: None,
         };
         let mut handler = ExampleHandler {};
