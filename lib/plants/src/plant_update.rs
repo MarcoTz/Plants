@@ -18,7 +18,6 @@ pub enum UpdateValue {
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum UpdateField {
-    Name,
     Species,
     Location,
     Origin,
@@ -39,7 +38,7 @@ impl UpdateField {
     }
 
     pub fn get_str_fields() -> Vec<UpdateField> {
-        vec![UpdateField::Name, UpdateField::Origin]
+        vec![UpdateField::Origin]
     }
     pub fn get_location_fields() -> Vec<UpdateField> {
         vec![UpdateField::Location]
@@ -64,7 +63,6 @@ impl UpdateField {
 impl fmt::Display for UpdateField {
     fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            UpdateField::Name => frmt.write_str("Name"),
             UpdateField::Species => frmt.write_str("Species"),
             UpdateField::Location => frmt.write_str("Location"),
             UpdateField::Origin => frmt.write_str("Origin"),
@@ -80,7 +78,6 @@ impl FromStr for UpdateField {
     fn from_str(s: &str) -> Result<UpdateField, Self::Err> {
         let s_clean = s.trim().to_lowercase().replace(' ', "");
         match s_clean.as_str() {
-            "name" => Ok(UpdateField::Name),
             "species" => Ok(UpdateField::Species),
             "location" => Ok(UpdateField::Location),
             "origin" => Ok(UpdateField::Origin),
@@ -100,10 +97,6 @@ pub fn update_plant(
     let field_err = Error::WrongType(field.to_string());
     match value {
         UpdateValue::Str(st) => match field {
-            UpdateField::Name => {
-                plant.info.name = st;
-                Ok(())
-            }
             UpdateField::Origin => {
                 plant.info.origin = st;
                 Ok(())
@@ -184,7 +177,7 @@ mod plant_udpate_tests {
     #[test]
     fn str_fields() {
         let result = UpdateField::get_str_fields();
-        let expected = vec![UpdateField::Name, UpdateField::Origin];
+        let expected = vec![UpdateField::Origin];
         assert_eq!(result, expected)
     }
 
@@ -220,13 +213,6 @@ mod plant_udpate_tests {
     fn note_fields() {
         let result = UpdateField::get_note_fields();
         let expected = vec![UpdateField::Notes];
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn name_field() {
-        let result = UpdateField::from_str("name").unwrap();
-        let expected = UpdateField::Name;
         assert_eq!(result, expected)
     }
 
@@ -279,20 +265,6 @@ mod plant_udpate_tests {
     }
 
     #[test]
-    fn update_name() {
-        let mut result = example_plant();
-        let mut expected = example_plant();
-        update_plant(
-            &mut result,
-            UpdateField::Name,
-            UpdateValue::Str("new name".to_owned()),
-        )
-        .unwrap();
-        expected.info.name = "new name".to_owned();
-        assert_eq!(result, expected)
-    }
-
-    #[test]
     fn update_origin() {
         let mut result = example_plant();
         let mut expected = example_plant();
@@ -310,7 +282,7 @@ mod plant_udpate_tests {
     fn update_str_err() {
         let result = update_plant(
             &mut example_plant(),
-            UpdateField::Name,
+            UpdateField::Obtained,
             UpdateValue::Bool(false),
         );
         assert!(result.is_err())
