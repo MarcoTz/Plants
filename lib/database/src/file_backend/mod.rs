@@ -293,6 +293,12 @@ impl DatabaseManager for FileDB {
         Ok(())
     }
 
+    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn std::error::Error>> {
+        self.write_plants(vec![plant])?;
+        self.load_plants()?;
+        Ok(())
+    }
+
     fn write_plants(&mut self, plants: Vec<PlantInfo>) -> Result<(), Box<dyn std::error::Error>> {
         write_plants(plants, &self.plants_dir)?;
         self.load_plants()?;
