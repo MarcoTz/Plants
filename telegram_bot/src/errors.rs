@@ -37,7 +37,7 @@ impl From<CommandError> for Error {
 
 impl fmt::Display for CommandError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Command {} existed with messge {}", self.cmd, self.msg)
+        write!(f, "Command {} exited with error {}", self.cmd, self.msg)
     }
 }
 

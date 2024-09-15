@@ -285,7 +285,7 @@ mod action_handler_tests {
             current_action: BotAction::Idle,
             white_list: vec![],
             log_path: PathBuf::from("log.txt"),
-            plants_dir: PathBuf::from("data/plants"),
+            plants_dir: PathBuf::from("data/Plants"),
             db_man: DummyManager {},
         }
     }
@@ -296,7 +296,7 @@ mod action_handler_tests {
         let expected = ActionHandler {
             current_action: BotAction::Idle,
             white_list: vec![],
-            plants_dir: PathBuf::from("data/plants"),
+            plants_dir: PathBuf::from("data/Plants"),
             log_path: PathBuf::from("log.txt"),
             db_man: FileDB::default(),
         };
