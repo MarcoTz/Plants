@@ -274,7 +274,7 @@ mod update_plant_tests {
         let mut action = UpdatePlant::default();
         action.current_step = Step::UpdateField;
         let result = action.get_next_prompt().unwrap();
-        let expected = "Please enter field to update, possible fields: Name, Origin, Species, Location, Obtained, Notes, Auto Watered";
+        let expected = "Please enter field to update, possible fields: Origin, Species, Location, Obtained, Notes, Auto Watered";
         assert_eq!(result, expected)
     }
 

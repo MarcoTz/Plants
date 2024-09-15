@@ -163,7 +163,6 @@ mod plant_udpate_tests {
     fn field_strs() {
         let result = UpdateField::fields_strs();
         let expected = vec![
-            "Name".to_owned(),
             "Origin".to_owned(),
             "Species".to_owned(),
             "Location".to_owned(),

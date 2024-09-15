@@ -314,7 +314,6 @@ mod update_species_tests {
     fn field_strs() {
         let result = UpdateField::fields_strs();
         let expected = vec![
-            "Name".to_owned(),
             "Scientific Name".to_owned(),
             "Genus".to_owned(),
             "Family".to_owned(),

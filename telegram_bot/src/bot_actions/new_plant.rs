@@ -333,10 +333,47 @@ mod new_plant_tests {
     }
 
     #[test]
-    fn input_species_err() {
+    fn input_species_otherspecies() {
+        let mut result = NewPlant::default();
+        result.current_step = Step::SpeciesName;
+        result
+            .handle_input("not a species".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewPlant::default();
+        expected.species_name = Some("not a species".to_owned());
+        expected.current_step = Step::ConfirmName;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_confirm_y() {
+        let mut result = NewPlant::default();
+        result.current_step = Step::ConfirmName;
+        result
+            .handle_input("y".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewPlant::default();
+        expected.current_step = Step::Height;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_confirm_n() {
+        let mut result = NewPlant::default();
+        result.current_step = Step::ConfirmName;
+        result
+            .handle_input("n".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewPlant::default();
+        expected.current_step = Step::SpeciesName;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_confirm_err() {
         let mut action = NewPlant::default();
-        action.current_step = Step::SpeciesName;
-        let result = action.handle_input("not a species".to_owned(), &mut DummyManager {});
+        action.current_step = Step::ConfirmName;
+        let result = action.handle_input("no boolean".to_owned(), &mut DummyManager {});
         assert!(result.is_err())
     }
 
