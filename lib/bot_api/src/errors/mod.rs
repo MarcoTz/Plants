@@ -152,6 +152,7 @@ mod error_tests {
                 last_name: None,
             },
             text: None,
+            caption: None,
             photo: None,
             entities: None,
         }
