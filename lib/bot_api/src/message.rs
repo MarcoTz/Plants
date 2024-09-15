@@ -38,23 +38,18 @@ impl Message {
         if self.is_command() {
             Ok(())
         } else {
-            Err(Error::CommandIsMessage(Box::new(self.clone())))
+            Err(Error::CommandIsMessage)
         }
     }
 
     pub fn get_text(&self) -> Result<String, Error> {
-        self.text
-            .clone()
-            .ok_or(Error::EmptyMessage(Box::new(self.clone())))
+        self.text.clone().ok_or(Error::EmptyMessage)
     }
 
     pub fn get_command<'a, U: Command + 'a>(&self) -> Result<U, Box<dyn std::error::Error + 'a>> {
         self.ensure_command()?;
         let msg_text = self.get_text()?;
-        let cmd = msg_text
-            .split(' ')
-            .next()
-            .ok_or(Error::CommandIsMessage(Box::new(self.clone())))?;
+        let cmd = msg_text.split(' ').next().ok_or(Error::CommandIsMessage)?;
         U::parse(&cmd.replace('/', "")).map_err(|err| err.into())
     }
 }

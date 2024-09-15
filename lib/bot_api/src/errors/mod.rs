@@ -8,7 +8,7 @@ pub use parse_error::ParseError;
 pub use request_error::RequestError;
 pub use serialize_error::SerializeError;
 
-use super::{message::Message, update::Update};
+use super::update::Update;
 use std::fmt;
 
 #[derive(Clone, Debug)]
@@ -17,9 +17,9 @@ pub enum Error {
     Parse(ParseError),
     Serialize(SerializeError),
     BadResponse(BadResponse),
-    MessageIsCommand(Box<Message>),
-    CommandIsMessage(Box<Message>),
-    EmptyMessage(Box<Message>),
+    MessageIsCommand,
+    CommandIsMessage,
+    EmptyMessage,
     NoMessage(Box<Update>),
     MissingImage,
 }
@@ -33,13 +33,9 @@ impl fmt::Display for Error {
             Error::Parse(parse_err) => parse_err.fmt(frmt),
             Error::Serialize(ser_err) => ser_err.fmt(frmt),
             Error::BadResponse(bad_resp) => bad_resp.fmt(frmt),
-            Error::MessageIsCommand(msg) => frmt.write_str(&format!(
-                "Message {msg:?} is a command and cannot be handled with message handler"
-            )),
-            Error::CommandIsMessage(msg) => frmt.write_str(&format!(
-                "Message {msg:?} is message and cannot be handled with command handler"
-            )),
-            Error::EmptyMessage(msg) => frmt.write_str(&format!("Message {msg:?} is empty")),
+            Error::MessageIsCommand => frmt.write_str("Expected non-command message, got command"),
+            Error::CommandIsMessage => frmt.write_str("Expected command, got message"),
+            Error::EmptyMessage => frmt.write_str("Got empty message"),
             Error::NoMessage(update) => {
                 frmt.write_str(&format!("No message for update {update:?}"))
             }
@@ -159,22 +155,22 @@ mod error_tests {
     }
     #[test]
     fn display_is_command() {
-        let result = format!("{}", Error::MessageIsCommand(Box::new(example_message())));
-        let expected ="Message Message { id: 1, date: 1, from: None, chat: Chat { id: 2, ty: \"message\", title: None, username: None, first_name: None, last_name: None }, text: None, photo: None, entities: None } is a command and cannot be handled with message handler";
+        let result = format!("{}", Error::MessageIsCommand);
+        let expected = "Expected non-command message, got command";
         assert_eq!(result, expected)
     }
 
     #[test]
     fn display_is_message() {
-        let result = format!("{}", Error::CommandIsMessage(Box::new(example_message())));
-        let expected = "Message Message { id: 1, date: 1, from: None, chat: Chat { id: 2, ty: \"message\", title: None, username: None, first_name: None, last_name: None }, text: None, photo: None, entities: None } is message and cannot be handled with command handler";
+        let result = format!("{}", Error::CommandIsMessage);
+        let expected = "Expected command, got message";
         assert_eq!(result, expected)
     }
 
     #[test]
     fn display_empty_message() {
-        let result = format!("{}", Error::EmptyMessage(Box::new(example_message())));
-        let expected = "Message Message { id: 1, date: 1, from: None, chat: Chat { id: 2, ty: \"message\", title: None, username: None, first_name: None, last_name: None }, text: None, photo: None, entities: None } is empty";
+        let result = format!("{}", Error::EmptyMessage);
+        let expected = "Got empty message";
         assert_eq!(result, expected)
     }
 
