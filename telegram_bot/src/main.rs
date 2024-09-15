@@ -5,7 +5,6 @@ pub mod config;
 pub mod errors;
 
 use action_handler::ActionHandler;
-use bot_actions::BotAction;
 use bot_api::{bot::Bot, run_bot};
 use config::load_config;
 use database::file_backend::FileDB;
@@ -27,11 +26,8 @@ async fn main() -> Result<(), Error> {
     log::info!("Successfully loaded config");
 
     let mut bot = Bot::new(conf.api_key);
-    let mut handler = ActionHandler {
-        current_action: BotAction::Idle,
-        white_list: conf.white_list,
-        db_man: FileDB::default(),
-    };
+    let mut handler = ActionHandler::new(conf.white_list, FileDB::default());
+
     log::info!("Running bot");
     run_bot(&mut bot, &mut handler).await?;
     Ok(())

@@ -18,6 +18,16 @@ pub struct PhotoSize {
     pub file_size: Option<i64>,
 }
 
+impl Photo {
+    pub fn get_biggest(self) -> Result<PhotoSize, Error> {
+        self.sizes
+            .iter()
+            .max_by(|size1, size2| (size1.width * size1.height).cmp(&(size2.width * size2.height)))
+            .cloned()
+            .ok_or(Error::MissingImage)
+    }
+}
+
 impl TryFrom<Value> for PhotoSize {
     type Error = Error;
     fn try_from(val: Value) -> Result<PhotoSize, Self::Error> {

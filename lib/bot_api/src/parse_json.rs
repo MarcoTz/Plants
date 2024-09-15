@@ -156,6 +156,34 @@ pub fn get_option_bool(
     }
 }
 
+pub fn get_filename(val: Value) -> Result<String, Error> {
+    match val {
+        Value::Object(map) => {
+            let val_map =
+                map.get("result")
+                    .ok_or(Error::BadResponse(BadResponse::MissingField(
+                        "result".to_owned(),
+                    )))?;
+            let path =
+                val_map
+                    .get("file_path")
+                    .ok_or(Error::BadResponse(BadResponse::MissingField(
+                        "file_path".to_owned(),
+                    )))?;
+            if let Value::String(st) = path {
+                Ok(st.to_owned())
+            } else {
+                Err(WrongType {
+                    field_name: "file_path".to_owned(),
+                    field_type: "string".to_owned(),
+                }
+                .into())
+            }
+        }
+        _ => Err(BadResponse::MissingField("result".to_owned()).into()),
+    }
+}
+
 #[cfg(test)]
 mod parse_json_tests {
     use super::{

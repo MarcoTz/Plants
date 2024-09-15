@@ -16,6 +16,7 @@ pub struct Message {
     pub chat: Chat,
     pub text: Option<String>,
     pub photo: Option<Photo>,
+    pub caption: Option<String>,
     pub entities: Option<Vec<MessageEntity>>,
 }
 
@@ -96,6 +97,12 @@ impl TryFrom<Value> for Message {
             photo = Some(ph);
         }
 
+        let mut caption = None;
+        let caption_val = val_map.remove("caption");
+        if let Some(Value::String(val)) = caption_val {
+            caption = Some(val);
+        }
+
         let mut entities = None;
         let entity_val = get_option_array(&mut val_map, "entities")?;
         if let Some(vals) = entity_val {
@@ -114,6 +121,7 @@ impl TryFrom<Value> for Message {
             date,
             text,
             photo,
+            caption,
             entities,
         })
     }
@@ -174,6 +182,7 @@ mod message_tests {
             },
             text: Some("a message".to_owned()),
             photo: None,
+            caption: None,
             entities: None,
         }
     }
@@ -192,6 +201,7 @@ mod message_tests {
             },
             text: None,
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_owned(),
                 offset: 1,
@@ -266,6 +276,7 @@ mod message_tests {
             },
             text: Some("".to_owned()),
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_owned(),
                 offset: 1,
@@ -296,6 +307,7 @@ mod message_tests {
             },
             text: Some("/succ".to_owned()),
             photo: None,
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_owned(),
                 offset: 1,
@@ -388,6 +400,7 @@ mod message_tests {
                     file_size: None,
                 }],
             }),
+            caption: None,
             entities: Some(vec![MessageEntity {
                 ty: "bot_command".to_owned(),
                 offset: 1,

@@ -21,6 +21,7 @@ pub enum Error {
     CommandIsMessage(Box<Message>),
     EmptyMessage(Box<Message>),
     NoMessage(Box<Update>),
+    MissingImage,
 }
 
 impl std::error::Error for Error {}
@@ -42,6 +43,7 @@ impl fmt::Display for Error {
             Error::NoMessage(update) => {
                 frmt.write_str(&format!("No message for update {update:?}"))
             }
+            Error::MissingImage => write!(frmt, "No image sizes were provided"),
         }
     }
 }
@@ -214,6 +216,13 @@ mod error_tests {
         let result = format!("{}", err);
         let expected =
             "Could not deserialize\n Error io kind: None, Category: Syntax at line 1, column 2";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_missing_img() {
+        let result = format!("{}", Error::MissingImage);
+        let expected = "No image sizes were provided";
         assert_eq!(result, expected)
     }
 }

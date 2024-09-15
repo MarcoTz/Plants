@@ -619,7 +619,6 @@ mod new_plant_tests {
         action.origin = Some("origin".to_owned());
         action.obtained = Some(example_date1());
         let result = action.write_result(&mut DummyManager {});
-        println!("{result:?}");
         assert!(result.is_ok())
     }
 

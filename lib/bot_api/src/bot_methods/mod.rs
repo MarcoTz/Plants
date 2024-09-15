@@ -1,9 +1,11 @@
 use crate::errors::{Error, RequestError};
 use reqwest::{Response, StatusCode};
 
+mod download_image;
 mod get_updates;
 mod send_message;
 
+pub use download_image::DownloadImage;
 pub use get_updates::GetUpdates;
 pub use send_message::SendMessage;
 

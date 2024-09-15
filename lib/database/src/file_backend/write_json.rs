@@ -16,7 +16,6 @@ pub fn write_json<T: Serialize>(item: T, out_filepath: &PathBuf) -> Result<(), E
     })?;
     let mut out_file = File::create(out_filepath)?;
     out_file.write_all(serialized.as_bytes())?;
-    println!("wrote to {out_file:?}");
     Ok(())
 }
 

@@ -399,7 +399,6 @@ mod plant_tests {
     fn next_fertilizing_none() {
         let mut plant = empty_plant();
         plant.activities.push(example_activity2());
-        println!("{:?}", plant.get_fertilizing_activities());
         let result = plant.get_next_fertilizing();
         let expected = None;
         assert_eq!(result, expected)
