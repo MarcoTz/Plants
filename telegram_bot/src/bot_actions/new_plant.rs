@@ -24,6 +24,7 @@ enum Step {
     ObtainedDate,
     Notes,
     Done,
+    ConfirmName,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -85,12 +86,29 @@ impl Action for NewPlant {
                     Ok(())
                 }
             }
-            Step::SpeciesName => {
-                let name = input_species(input, db_man)?;
-                self.species_name = Some(name);
-                self.current_step = Step::Height;
-                Ok(())
-            }
+            Step::SpeciesName => match input_species(input.clone(), db_man) {
+                Ok(name) => {
+                    self.species_name = Some(name);
+                    self.current_step = Step::Height;
+                    Ok(())
+                }
+                Err(_) => {
+                    self.species_name = Some(input.trim().to_owned());
+                    self.current_step = Step::ConfirmName;
+                    Ok(())
+                }
+            },
+            Step::ConfirmName => match input.to_lowercase().trim() {
+                "y" => {
+                    self.current_step = Step::Height;
+                    Ok(())
+                }
+                "n" => {
+                    self.current_step = Step::SpeciesName;
+                    Ok(())
+                }
+                _ => Err(Error::ParseError("bool".to_owned())),
+            },
             Step::Height => {
                 let height = input
                     .trim()
@@ -245,6 +263,9 @@ impl Action for NewPlant {
             Step::ObtainedDate => Ok(format!("Please enter obtained date ({})", self.date_format)),
             Step::Notes => Ok("Please enter notes (Enter \"Done\" for no notes)".to_owned()),
             Step::Done => Err(Error::ActionAlreadyDone("New Plant".to_owned())),
+            Step::ConfirmName => {
+                Ok("Species does not exists, are you sure this is correct (y/n)".to_owned())
+            }
         }
     }
 }
