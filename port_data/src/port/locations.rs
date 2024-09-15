@@ -57,7 +57,7 @@ impl Port<Vec<Location>> for Vec<PlantJSON> {
 
     fn save_new(locations: Vec<Location>, location_file: &Self::SaveArgs) -> Result<(), Error> {
         log::info!("Saving new Locations");
-        write_csv(locations, location_file)?;
+        write_csv(locations, location_file, false)?;
         Ok(())
     }
 }

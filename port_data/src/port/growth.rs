@@ -66,7 +66,7 @@ impl Port<Vec<GrowthItem>> for Vec<GrowthCSV> {
             log::info!("Creating growth log");
             File::create(growth_file_out)?;
         }
-        write_csv(new, growth_file_out)?;
+        write_csv(new, growth_file_out, false)?;
         Ok(())
     }
 }

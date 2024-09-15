@@ -11,16 +11,13 @@ use std::{
     fs::File,
     io::{Read, Write},
     path::PathBuf,
-    process,
-    process::exit,
-    str,
+    process, str,
 };
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
     Push,
     CheckLogs,
-    Exit,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -90,8 +87,12 @@ impl<T: DatabaseManager> ActionHandler<T> {
             self.current_action
                 .handle_input(input.to_owned(), &mut self.db_man)?;
 
-            let ret_msg = self.current_action.get_next_prompt()?;
-            Ok(ret_msg)
+            if let Some(ret_msg) = self.check_action()? {
+                Ok(ret_msg)
+            } else {
+                let ret_msg = self.current_action.get_next_prompt()?;
+                Ok(ret_msg)
+            }
         }
     }
 
@@ -174,7 +175,6 @@ impl<T: DatabaseManager> ActionHandler<T> {
                     .collect::<Vec<String>>();
                 Ok(lines.join("\n"))
             }
-            ImmediateAction::Exit => exit(0),
         }
     }
 
@@ -359,7 +359,7 @@ mod action_handler_tests {
     #[test]
     fn handle_cmd_msg() {
         let result = example_handler().process_command(Command::Help);
-        let expected = "Possible commands: \n\n help -- Display Help Text\nwater -- Water plants (today)\nwater_location -- Water all plants in location (today)\nfertilize -- Fertilize plants (today)\nrain -- It rained (all outside plants will be watered)\nnew_growth -- Enter new growth\nnew_plant -- Enter new plant\nnew_species -- Enter new species\nnew_activity -- Enter new activity\nupdate_species -- Update species\nupdate_plant -- Update plant\ntoday -- Enter the current date as input\nmove_to_graveyard -- Move Plant to graveyard\nabort -- Abort the current action\npush -- Push local changes to github\ncheck_logs -- Check warnings generated from build\nexit -- Exit the bot";
+        let expected = "Possible commands:\n\n/help -- Display Help Text\n/water -- Water plants (today)\n/water_location -- Water all plants in location (today)\n/fertilize -- Fertilize plants (today)\n/rain -- It rained (all outside plants will be watered)\n/new_growth -- Enter new growth\n/new_plant -- Enter new plant\n/new_species -- Enter new species\n/new_activity -- Enter new activity\n/update_species -- Update species\n/update_plant -- Update plant\n/today -- Enter the current date as input\n/move_to_graveyard -- Move Plant to graveyard\n/abort -- Abort the current action\n/push -- Push local changes to github\n/check_logs -- Check warnings generated from build";
         assert_eq!(result, expected)
     }
 
