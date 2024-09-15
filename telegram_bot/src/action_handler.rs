@@ -164,6 +164,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
                 Ok("Successfully pushed changes".to_owned())
             }
             ImmediateAction::CheckLogs => {
+                log::info!("Getting logs");
                 let mut file =
                     File::open(self.log_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;
                 let mut contents: String = "".to_owned();
@@ -174,7 +175,12 @@ impl<T: DatabaseManager> ActionHandler<T> {
                     .filter(|line| line.contains("ERR") || line.contains("WARN"))
                     .map(|line| line.to_owned())
                     .collect::<Vec<String>>();
-                Ok(lines.join("\n"))
+                log::info!("Got {} logs", lines.len());
+                if lines.is_empty() {
+                    Ok("No errors or warnings".to_owned())
+                } else {
+                    Ok(lines.join("\n"))
+                }
             }
             ImmediateAction::Abort => {
                 let action = self.current_action.to_string();
