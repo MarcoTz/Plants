@@ -1,13 +1,13 @@
 use super::{
     bot_actions::{Action, BotAction},
     commands::{Command, CommandRes},
-    errors::Error,
+    errors::{CommandError, Error},
 };
 use bot_api::{bot::Bot, handlers::Handler, message::Message};
 use bytes::Bytes;
 use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
-use std::{fs::File, io::Write, path::PathBuf, process::exit};
+use std::{fs::File, io::Write, path::PathBuf, process, process::exit, str};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
@@ -87,7 +87,70 @@ impl<T: DatabaseManager> ActionHandler<T> {
 
     pub fn handle_immediate(&mut self, action: &ImmediateAction) -> Result<String, Error> {
         match action {
-            ImmediateAction::Push => Ok("Not yet implemented".to_owned()),
+            ImmediateAction::Push => {
+                let output_add = process::Command::new("git")
+                    .arg("add")
+                    .arg("-A")
+                    .output()
+                    .map_err(|err| CommandError {
+                        cmd: "git add -A".to_owned(),
+                        msg: err.to_string(),
+                    })?;
+                if output_add.status.success() {
+                    Ok(())
+                } else {
+                    Err(CommandError {
+                        cmd: "git add -A".to_owned(),
+                        msg: str::from_utf8(&output_add.stderr)
+                            .unwrap_or("Could not stage changes")
+                            .to_owned(),
+                    })
+                }?;
+
+                let output_commit = process::Command::new("git")
+                    .arg("commit")
+                    .arg("-m")
+                    .arg(format!(
+                        "autocommit_{}",
+                        Local::now().date_naive().format("%d%m%Y")
+                    ))
+                    .output()
+                    .map_err(|err| CommandError {
+                        cmd: "git commit -m".to_owned(),
+                        msg: err.to_string(),
+                    })?;
+
+                if output_commit.status.success() {
+                    Ok(())
+                } else {
+                    Err(CommandError {
+                        cmd: "git commit -m".to_owned(),
+                        msg: str::from_utf8(&output_commit.stderr)
+                            .unwrap_or("Could not commit changes")
+                            .to_owned(),
+                    })
+                }?;
+
+                let output_push =
+                    process::Command::new("git")
+                        .arg("push")
+                        .output()
+                        .map_err(|err| CommandError {
+                            cmd: "git push".to_owned(),
+                            msg: err.to_string(),
+                        })?;
+                if output_push.status.success() {
+                    Ok(())
+                } else {
+                    Err(CommandError {
+                        cmd: "git push".to_owned(),
+                        msg: str::from_utf8(&output_push.stderr)
+                            .unwrap_or("Could not push changes")
+                            .to_owned(),
+                    })
+                }?;
+                Ok("Successfully pushed changes".to_owned())
+            }
             ImmediateAction::CheckLogs => Ok("Not yet implemented".to_owned()),
             ImmediateAction::Exit => exit(0),
         }

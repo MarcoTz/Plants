@@ -18,8 +18,27 @@ pub enum Error {
     SpeciesDoesNotExist(String),
     SpeciesExists(String),
     Unauthorized(String),
+    Command(CommandError),
     Logger,
     Other(Box<dyn std::error::Error>),
+}
+
+#[derive(Debug)]
+pub struct CommandError {
+    pub cmd: String,
+    pub msg: String,
+}
+
+impl From<CommandError> for Error {
+    fn from(cmd_err: CommandError) -> Error {
+        Error::Command(cmd_err)
+    }
+}
+
+impl fmt::Display for CommandError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Command {} existed with messge {}", self.cmd, self.msg)
+    }
 }
 
 impl std::error::Error for Error {}
@@ -58,6 +77,7 @@ impl fmt::Display for Error {
             Error::SpeciesExists(name) => frmt.write_str(&format!("Species {name} already exists")),
             Error::Unauthorized(name) => write!(frmt, "User {name} is not authorized"),
             Error::Logger => write!(frmt, "Could not initialize logger"),
+            Error::Command(msg) => msg.fmt(frmt),
             Error::Other(err) => err.fmt(frmt),
         }
     }
@@ -83,7 +103,7 @@ impl From<BotError> for Error {
 
 #[cfg(test)]
 mod error_tests {
-    use super::Error;
+    use super::{CommandError, Error};
     use bot_api::errors::Error as BotErr;
     use bot_api::errors::ParseError;
     use plants::errors::Error as PlantErr;
@@ -231,6 +251,38 @@ mod error_tests {
         let expected = format!(
             "{}",
             Error::PlantError(PlantErr::FieldError("field".to_owned()))
+        );
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_cmd_err() {
+        let result = format!(
+            "{}",
+            CommandError {
+                cmd: "git add -A".to_owned(),
+                msg: "fail".to_owned()
+            }
+        );
+        let expected = "Command git add -A exited with error fail";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn cmd_into() {
+        let result = format!(
+            "{}",
+            <CommandError as Into<Error>>::into(CommandError {
+                cmd: "git add -A".to_owned(),
+                msg: "fail".to_owned()
+            })
+        );
+        let expected = format!(
+            "{}",
+            CommandError {
+                cmd: "git add -A".to_owned(),
+                msg: "fail".to_owned()
+            }
         );
         assert_eq!(result, expected)
     }
