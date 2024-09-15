@@ -15,15 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install Jinja
-        run: pip install Jinja2
-      - name: Install PIL
-        run: pip install Pillow
+        uses: hecrj/setup-rust-action@v2 
+          with:
+            rust-version: 1.81.0
       - name: Build Project 
-        run: make full
+        run: make build
       - name: Move Files
         run: |
           mv ./html_out ../public/
