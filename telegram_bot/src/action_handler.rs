@@ -17,6 +17,7 @@ use std::{
 #[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
     Push,
+    Abort,
     CheckLogs,
 }
 
@@ -174,6 +175,11 @@ impl<T: DatabaseManager> ActionHandler<T> {
                     .map(|line| line.to_owned())
                     .collect::<Vec<String>>();
                 Ok(lines.join("\n"))
+            }
+            ImmediateAction::Abort => {
+                let action = self.current_action.to_string();
+                self.current_action = BotAction::Idle;
+                Ok(format!("Aborted action {action}"))
             }
         }
     }

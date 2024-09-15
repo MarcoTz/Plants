@@ -74,7 +74,7 @@ impl Command {
             Command::Today => {
                 CommandRes::NewInput(Local::now().date_naive().format("%d.%m.%Y").to_string())
             }
-            Command::Abort => CommandRes::NewAction(Box::new(BotAction::Idle)),
+            Command::Abort => CommandRes::ImmediateAction(ImmediateAction::Abort),
             Command::Push => CommandRes::ImmediateAction(ImmediateAction::Push),
             Command::CheckLogs => CommandRes::ImmediateAction(ImmediateAction::CheckLogs),
             Command::Water => CommandRes::NewAction(Box::new(WaterPlants::default().into())),
