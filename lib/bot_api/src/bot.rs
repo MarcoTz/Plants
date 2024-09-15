@@ -1,8 +1,9 @@
 use super::{
-    bot_methods::{BotMethod, GetUpdates, SendMessage},
+    bot_methods::{BotMethod, DownloadImage, GetUpdates, SendMessage},
     errors::Error,
     update::Updates,
 };
+use bytes::Bytes;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Bot {
@@ -45,6 +46,10 @@ impl Bot {
     pub async fn send_message(&self, chat_id: String, text: String) -> Result<(), Error> {
         SendMessage { chat_id, text }.perform(&self.api_key).await?;
         Ok(())
+    }
+
+    pub async fn download_image(&self, file_id: String) -> Result<Bytes, Error> {
+        DownloadImage { file_id }.perform(&self.api_key).await
     }
 }
 

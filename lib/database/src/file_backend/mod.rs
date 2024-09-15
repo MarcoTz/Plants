@@ -305,19 +305,16 @@ impl DatabaseManager for FileDB {
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn std::error::Error>> {
         // Enter new graveyard plant
-        println!("entering new graveyard plant");
         let name = plant.name.clone();
         write_graveyard(vec![plant], &self.get_graveyard_filepath())?;
 
         // remove plant json
-        println!("removing plant json");
         let plant_filename = name.replace(' ', "") + ".json";
         let plant_path = PathBuf::from(&self.plants_dir).join(name.clone());
         remove_file(plant_path.clone().join(plant_filename))
             .map_err(<IOError as Into<Error>>::into)?;
 
         // remove plant from cache
-        println!("removing plant from cache");
         if self.plants_cache.is_empty() {
             self.load_plants()?;
         }
@@ -332,7 +329,6 @@ impl DatabaseManager for FileDB {
         self.load_plants()?;
 
         //remove plant activitites
-        println!("Removing plant activities");
         if self.logs_cache.is_empty() {
             self.load_logs()?;
         }
@@ -342,12 +338,10 @@ impl DatabaseManager for FileDB {
             .filter(|log| log.plant != name)
             .cloned()
             .collect();
-        println!("{name}, {:?}", new_logs);
         self.logs_cache.clone_from(&new_logs);
         self.write_logs(new_logs)?;
 
         //remove plant growth
-        println!("Removing plant growth");
         if self.growth_cache.is_empty() {
             self.load_growth()?;
         }
@@ -361,7 +355,6 @@ impl DatabaseManager for FileDB {
         self.write_growths(new_growth)?;
 
         // move images to dead dir
-        println!("moving plant dir");
         let dead_dir = self.plants_dir.join("dead");
         if !dead_dir.exists() {
             create_dir_all(dead_dir.clone())?;
@@ -1496,7 +1489,6 @@ mod file_backend_tests {
         std::fs::remove_file(new_activities_path.clone()).unwrap();
         std::fs::remove_file(new_growth_path.clone()).unwrap();
 
-        println!("{:?}", logs_filtered);
         assert!(logs_filtered.is_empty());
         assert!(growth_filtered.is_empty());
         assert!(result.is_err());

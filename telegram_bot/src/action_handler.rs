@@ -4,8 +4,10 @@ use super::{
     errors::Error,
 };
 use bot_api::{bot::Bot, handlers::Handler, message::Message};
+use bytes::Bytes;
+use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
-use std::process::exit;
+use std::{fs::File, io::Write, path::PathBuf, process::exit};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ImmediateAction {
@@ -18,6 +20,7 @@ pub enum ImmediateAction {
 pub struct ActionHandler<T: DatabaseManager> {
     pub current_action: BotAction,
     pub white_list: Vec<i64>,
+    pub plants_dir: PathBuf,
     pub db_man: T,
 }
 
@@ -26,12 +29,21 @@ impl Default for ActionHandler<FileDB> {
         ActionHandler {
             current_action: BotAction::Idle,
             white_list: vec![],
+            plants_dir: PathBuf::from("data/Plants"),
             db_man: FileDB::default(),
         }
     }
 }
 
 impl<T: DatabaseManager> ActionHandler<T> {
+    pub fn new(white_list: Vec<i64>, db_man: T) -> Self {
+        ActionHandler {
+            current_action: BotAction::Idle,
+            white_list,
+            plants_dir: PathBuf::from("data/Plants"),
+            db_man,
+        }
+    }
     fn check_action(&mut self) -> Result<Option<String>, Error> {
         if self.current_action.is_done() {
             let ret_msg = self.current_action.write_result(&mut self.db_man)?;
@@ -42,15 +54,26 @@ impl<T: DatabaseManager> ActionHandler<T> {
         }
     }
 
-    pub fn handle_message(&mut self, message: Message) -> String {
-        match self.handle_input(message.text) {
-            Ok(ret_msg) => ret_msg,
-            Err(err) => format!("{err}"),
-        }
+    pub fn save_image(&self, img: Bytes, msg: Message) -> Result<PathBuf, Error> {
+        let plant_name = msg
+            .caption
+            .ok_or(Error::MissingInput("Plant Name".to_owned()))?;
+        let img_name = Local::now().date_naive().format("%d%m%Y.jpg").to_string();
+        let plant_path = self.plants_dir.join(plant_name.replace(' ', ""));
+        println!("{plant_path:?}");
+        let out_path = plant_path.join(img_name);
+        let mut out_file =
+            File::create(out_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;
+        out_file
+            .write_all(&img)
+            .map_err(|err| Error::Other(Box::new(err)))?;
+        out_file
+            .flush()
+            .map_err(|err| Error::Other(Box::new(err)))?;
+        Ok(out_path)
     }
 
-    pub fn handle_input(&mut self, new_input: Option<String>) -> Result<String, Error> {
-        let input = new_input.ok_or(Error::MissingInput("Message".to_owned()))?;
+    pub fn handle_input(&mut self, input: String) -> Result<String, Error> {
         if let Some(ret_msg) = self.check_action()? {
             Ok(ret_msg)
         } else {
@@ -88,7 +111,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
         let action_res = match cmd.get_res() {
             CommandRes::Message(msg) => Ok(msg),
             CommandRes::NewAction(action) => self.new_action(&action),
-            CommandRes::NewInput(inp) => self.handle_input(Some(inp)),
+            CommandRes::NewInput(inp) => self.handle_input(inp),
             CommandRes::ImmediateAction(act) => self.handle_immediate(&act),
         };
         match action_res {
@@ -129,9 +152,33 @@ impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
         let user = msg.from.clone().ok_or(Error::Unauthorized("".to_owned()))?;
         if self.white_list.contains(&user.id) {
             let chat_id = msg.chat.id.to_string();
-            let ret_msg = self.handle_message(msg);
-            bot.send_message(chat_id, ret_msg).await?;
-            Ok(())
+            if let Some(photos) = msg.photo.clone() {
+                let img_biggest = photos.get_biggest()?;
+                let res = bot.download_image(img_biggest.file_id.clone()).await?;
+                match self.save_image(res, msg) {
+                    Ok(out_path) => {
+                        bot.send_message(chat_id, format!("Successfully saved image {out_path:?}"))
+                            .await?
+                    }
+                    Err(err) => bot.send_message(chat_id, format!("{err}")).await?,
+                }
+                Ok(())
+            } else if let Some(text) = msg.text {
+                match self.handle_input(text) {
+                    Ok(ret_msg) => {
+                        bot.send_message(chat_id, ret_msg).await?;
+                        Ok(())
+                    }
+                    Err(err) => {
+                        bot.send_message(chat_id, format!("{err}")).await?;
+                        Ok(())
+                    }
+                }
+            } else {
+                bot.send_message(chat_id, "Could not handle message".to_owned())
+                    .await?;
+                Ok(())
+            }
         } else {
             bot.send_message(msg.chat.id.to_string(), "User is unauthorized".to_owned())
                 .await?;
@@ -145,33 +192,15 @@ mod action_handler_tests {
     use super::{ActionHandler, BotAction, Command};
     use crate::bot_actions::{NewPlant, Rain};
     use crate::test_common::DummyManager;
-    use bot_api::{chat::Chat, message::Message};
     use database::file_backend::FileDB;
+    use std::path::PathBuf;
 
     fn example_handler() -> ActionHandler<DummyManager> {
         ActionHandler {
             current_action: BotAction::Idle,
             white_list: vec![],
+            plants_dir: PathBuf::from("data/plants"),
             db_man: DummyManager {},
-        }
-    }
-
-    fn example_message() -> Message {
-        Message {
-            id: 1,
-            date: 1,
-            from: None,
-            chat: Chat {
-                id: 1,
-                ty: "a chat".to_owned(),
-                title: None,
-                username: None,
-                first_name: None,
-                last_name: None,
-            },
-            text: Some("hello".to_owned()),
-            photo: None,
-            entities: None,
         }
     }
 
@@ -181,6 +210,7 @@ mod action_handler_tests {
         let expected = ActionHandler {
             current_action: BotAction::Idle,
             white_list: vec![],
+            plants_dir: PathBuf::from("data/plants"),
             db_man: FileDB::default(),
         };
         assert_eq!(result, expected)
@@ -213,30 +243,14 @@ mod action_handler_tests {
     fn handle_inp() {
         let mut handler = example_handler();
         handler.current_action = BotAction::NewPlant(NewPlant::default());
-        let result = handler.handle_input(Some("name".to_owned())).unwrap();
+        let result = handler.handle_input("name".to_owned()).unwrap();
         let expected = "Please enter species";
         assert_eq!(result, expected)
     }
     #[test]
     fn handle_inp_err() {
-        let result = example_handler().handle_input(Some("".to_owned()));
+        let result = example_handler().handle_input("".to_owned());
         assert!(result.is_err())
-    }
-
-    #[test]
-    fn handle_msg() {
-        let mut handler = example_handler();
-        handler.current_action = BotAction::NewPlant(NewPlant::default());
-        let result = handler.handle_message(example_message());
-        let expected = "Please enter species";
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn handle_msg_err() {
-        let result = example_handler().handle_message(example_message());
-        let expected = "Currently there is no active action, please try again";
-        assert_eq!(result, expected)
     }
 
     #[test]
