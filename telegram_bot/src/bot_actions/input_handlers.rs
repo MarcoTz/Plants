@@ -170,7 +170,7 @@ mod input_handlers_tests {
     fn input_value_str() {
         let result = str_to_value(
             "string".to_owned(),
-            &UpdateField::Name,
+            &UpdateField::Origin,
             &mut DummyManager {},
             "%d.%m.%Y",
         )

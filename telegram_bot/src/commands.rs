@@ -314,7 +314,7 @@ mod command_tests {
     #[test]
     fn result_abort() {
         let result = Command::Abort.get_res();
-        let expected = CommandRes::NewAction(Box::new(BotAction::Idle));
+        let expected = CommandRes::ImmediateAction(ImmediateAction::Abort);
         assert_eq!(result, expected)
     }
 

@@ -378,7 +378,7 @@ mod action_handler_tests {
     #[test]
     fn handle_cmd_action() {
         let result = example_handler().process_command(Command::Abort);
-        let expected = "Currently there is no active action, please try again";
+        let expected = "Aborted action Idle";
         assert_eq!(result, expected)
     }
 

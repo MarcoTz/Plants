@@ -267,7 +267,7 @@ mod update_species_tests {
         let mut action = UpdateSpecies::default();
         action.current_step = Step::UpdateField;
         let result = action.get_next_prompt().unwrap();
-        let expected = "Please enter field to update, possible fields: Name, Scientific Name, Genus, Family, Sunlight, Min Temp, Max Temp, Min Temp Opt, Max Temp Opt, pH Min, pH Max, Planting Distance, Watering Notes, Fertilizing Notes, Pruning Notes, Companions, Additional Notes, Average Watering Days, Average Fertilizing Days";
+        let expected = "Please enter field to update, possible fields: Scientific Name, Genus, Family, Sunlight, Min Temp, Max Temp, Min Temp Opt, Max Temp Opt, pH Min, pH Max, Planting Distance, Watering Notes, Fertilizing Notes, Pruning Notes, Companions, Additional Notes, Average Watering Days, Average Fertilizing Days";
         assert_eq!(result, expected)
     }
 
