@@ -6,7 +6,7 @@ use std::path::PathBuf;
 #[derive(Serialize, Deserialize)]
 pub struct BotConfig {
     pub api_key: String,
-    pub white_list: Vec<i32>,
+    pub white_list: Vec<i64>,
 }
 
 pub fn load_config() -> Result<BotConfig, Error> {
