@@ -10,6 +10,7 @@ use bot_api::commands::Command as BotCommand;
 use chrono::Local;
 use std::{fmt, str};
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum Command {
     Help,
     Water,
@@ -30,6 +31,7 @@ pub enum Command {
     Exit,
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum CommandRes {
     NewAction(Box<BotAction>),
     NewInput(String),
@@ -162,7 +164,7 @@ impl BotCommand for Command {
             Command::Water => "Water plants (today)".to_owned(),
             Command::WaterLocation => "Water all plants in location (today)".to_owned(),
             Command::Fertilize => "Fertilize plants (today)".to_owned(),
-            Command::Rain => "It was rained (all outside plants will be watered)".to_owned(),
+            Command::Rain => "It rained (all outside plants will be watered)".to_owned(),
             Command::NewGrowth => "Enter new growth".to_owned(),
             Command::NewPlant => "Enter new plant".to_owned(),
             Command::NewSpecies => "Enter new species".to_owned(),
@@ -176,5 +178,541 @@ impl BotCommand for Command {
             Command::CheckLogs => "Check warnings generated from build".to_owned(),
             Command::Exit => "Exit the bot".to_owned(),
         }
+    }
+}
+
+#[cfg(test)]
+mod command_tests {
+    use super::{
+        BotAction, BotCommand, Command, CommandRes, FertilizePlants, ImmediateAction,
+        MoveToGraveyard, NewActivity, NewGrowth, NewPlant, NewSpecies, Rain, UpdatePlant,
+        UpdateSpecies, WaterLocation, WaterPlants,
+    };
+    use chrono::Local;
+    use std::str::FromStr;
+
+    #[test]
+    fn all() {
+        let result = Command::get_all();
+        let expected = vec![
+            Command::Help,
+            Command::Water,
+            Command::WaterLocation,
+            Command::Fertilize,
+            Command::Rain,
+            Command::NewGrowth,
+            Command::NewPlant,
+            Command::NewSpecies,
+            Command::NewActivity,
+            Command::UpdateSpecies,
+            Command::UpdatePlant,
+            Command::Today,
+            Command::MoveToGraveyard,
+            Command::Abort,
+            Command::Push,
+            Command::CheckLogs,
+            Command::Exit,
+        ];
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_help() {
+        let result = Command::Help.get_res();
+        let expected = CommandRes::Message("Possible commands: \n\n help -- Display Help Text\nwater -- Water plants (today)\nwater_location -- Water all plants in location (today)\nfertilize -- Fertilize plants (today)\nrain -- It rained (all outside plants will be watered)\nnew_growth -- Enter new growth\nnew_plant -- Enter new plant\nnew_species -- Enter new species\nnew_activity -- Enter new activity\nupdate_species -- Update species\nupdate_plant -- Update plant\ntoday -- Enter the current date as input\nmove_to_graveyard -- Move Plant to graveyard\nabort -- Abort the current action\npush -- Push local changes to github\ncheck_logs -- Check warnings generated from build\nexit -- Exit the bot".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_water() {
+        let result = Command::Water.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::WaterPlants(WaterPlants::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_waterloc() {
+        let result = Command::WaterLocation.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::WaterLocation(WaterLocation::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_fertilize() {
+        let result = Command::Fertilize.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::FertilizePlants(
+            FertilizePlants::default(),
+        )));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_rain() {
+        let result = Command::Rain.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::Rain(Rain::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_newgrowth() {
+        let result = Command::NewGrowth.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::NewGrowth(NewGrowth::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_newplant() {
+        let result = Command::NewPlant.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::NewPlant(NewPlant::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_newspecies() {
+        let result = Command::NewSpecies.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::NewSpecies(NewSpecies::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_newactivity() {
+        let result = Command::NewActivity.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::NewActivity(NewActivity::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn resutl_updatespecies() {
+        let result = Command::UpdateSpecies.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::UpdateSpecies(UpdateSpecies::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_updateplant() {
+        let result = Command::UpdatePlant.get_res();
+        let expected =
+            CommandRes::NewAction(Box::new(BotAction::UpdatePlant(UpdatePlant::default())));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_today() {
+        let result = Command::Today.get_res();
+        let expected =
+            CommandRes::NewInput(Local::now().date_naive().format("%d.%m.%Y").to_string());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_movegraveyard() {
+        let result = Command::MoveToGraveyard.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::MoveToGraveyard(
+            MoveToGraveyard::default(),
+        )));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_abort() {
+        let result = Command::Abort.get_res();
+        let expected = CommandRes::NewAction(Box::new(BotAction::Idle));
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_push() {
+        let result = Command::Push.get_res();
+        let expected = CommandRes::ImmediateAction(ImmediateAction::Push);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_checklogs() {
+        let result = Command::CheckLogs.get_res();
+        let expected = CommandRes::ImmediateAction(ImmediateAction::CheckLogs);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn result_exit() {
+        let result = Command::Exit.get_res();
+        let expected = CommandRes::ImmediateAction(ImmediateAction::Exit);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_help() {
+        let result = format!("{}", Command::Help);
+        let expected = "help";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_today() {
+        let result = format!("{}", Command::Today);
+        let expected = "today";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_abort() {
+        let result = format!("{}", Command::Abort);
+        let expected = "abort";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_push() {
+        let result = format!("{}", Command::Push);
+        let expected = "push";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_checklogs() {
+        let result = format!("{}", Command::CheckLogs);
+        let expected = "check_logs";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_water() {
+        let result = format!("{}", Command::Water);
+        let expected = "water";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_waterloc() {
+        let result = format!("{}", Command::WaterLocation);
+        let expected = "water_location";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_fertilize() {
+        let result = format!("{}", Command::Fertilize);
+        let expected = "fertilize";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_rain() {
+        let result = format!("{}", Command::Rain);
+        let expected = "rain";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_newgrowth() {
+        let result = format!("{}", Command::NewGrowth);
+        let expected = "new_growth";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_newplant() {
+        let result = format!("{}", Command::NewPlant);
+        let expected = "new_plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_newactivity() {
+        let result = format!("{}", Command::NewActivity);
+        let expected = "new_activity";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_newspecies() {
+        let result = format!("{}", Command::NewSpecies);
+        let expected = "new_species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_updateplant() {
+        let result = format!("{}", Command::UpdatePlant);
+        let expected = "update_plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_updatespecies() {
+        let result = format!("{}", Command::UpdateSpecies);
+        let expected = "update_species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_movegraveyard() {
+        let result = format!("{}", Command::MoveToGraveyard);
+        let expected = "move_to_graveyard";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn display_exit() {
+        let result = format!("{}", Command::Exit);
+        let expected = "exit";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_help() {
+        let result = Command::from_str("help").unwrap();
+        let expected = Command::Help;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_today() {
+        let result = Command::from_str("today").unwrap();
+        let expected = Command::Today;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_abort() {
+        let result = Command::from_str("abort").unwrap();
+        let expected = Command::Abort;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_push() {
+        let result = Command::from_str("push").unwrap();
+        let expected = Command::Push;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_check_logs() {
+        let result = Command::from_str("check_logs").unwrap();
+        let expected = Command::CheckLogs;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_water() {
+        let result = Command::from_str("water").unwrap();
+        let expected = Command::Water;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_waterloc() {
+        let result = Command::from_str("water_location").unwrap();
+        let expected = Command::WaterLocation;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_fert() {
+        let result = Command::from_str("fertilize").unwrap();
+        let expected = Command::Fertilize;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_rain() {
+        let result = Command::from_str("rain").unwrap();
+        let expected = Command::Rain;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_newgrowth() {
+        let result = Command::from_str("new_growth").unwrap();
+        let expected = Command::NewGrowth;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_newplant() {
+        let result = Command::from_str("new_plant").unwrap();
+        let expected = Command::NewPlant;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_newspecies() {
+        let result = Command::from_str("new_species").unwrap();
+        let expected = Command::NewSpecies;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_newactivity() {
+        let result = Command::from_str("new_activity").unwrap();
+        let expected = Command::NewActivity;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_updateplant() {
+        let result = Command::from_str("update_plant").unwrap();
+        let expected = Command::UpdatePlant;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_updatespecies() {
+        let result = Command::from_str("update_species").unwrap();
+        let expected = Command::UpdateSpecies;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_movegraveyard() {
+        let result = Command::from_str("move_to_graveyard").unwrap();
+        let expected = Command::MoveToGraveyard;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_exit() {
+        let result = Command::from_str("exit").unwrap();
+        let expected = Command::Exit;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn from_str_err() {
+        let result = Command::from_str("other");
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn botcmd_from_str() {
+        let result = <Command as BotCommand>::parse("help").unwrap();
+        let expected = Command::Help;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_help() {
+        let result = Command::Help.get_description();
+        let expected = "Display Help Text";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_water() {
+        let result = Command::Water.get_description();
+        let expected = "Water plants (today)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_waterloc() {
+        let result = Command::WaterLocation.get_description();
+        let expected = "Water all plants in location (today)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_fertilize() {
+        let result = Command::Fertilize.get_description();
+        let expected = "Fertilize plants (today)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_rain() {
+        let result = Command::Rain.get_description();
+        let expected = "It rained (all outside plants will be watered)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_newgrowth() {
+        let result = Command::NewGrowth.get_description();
+        let expected = "Enter new growth";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_newplant() {
+        let result = Command::NewPlant.get_description();
+        let expected = "Enter new plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_newspecies() {
+        let result = Command::NewSpecies.get_description();
+        let expected = "Enter new species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_newactivity() {
+        let result = Command::NewActivity.get_description();
+        let expected = "Enter new activity";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_today() {
+        let result = Command::Today.get_description();
+        let expected = "Enter the current date as input";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_updateplant() {
+        let result = Command::UpdatePlant.get_description();
+        let expected = "Update plant";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_updatespecies() {
+        let result = Command::UpdateSpecies.get_description();
+        let expected = "Update species";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_movegraveyard() {
+        let result = Command::MoveToGraveyard.get_description();
+        let expected = "Move Plant to graveyard";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_abort() {
+        let result = Command::Abort.get_description();
+        let expected = "Abort the current action";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_push() {
+        let result = Command::Push.get_description();
+        let expected = "Push local changes to github";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_checklogs() {
+        let result = Command::CheckLogs.get_description();
+        let expected = "Check warnings generated from build";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn desc_exit() {
+        let result = Command::Exit.get_description();
+        let expected = "Exit the bot";
+        assert_eq!(result, expected)
     }
 }

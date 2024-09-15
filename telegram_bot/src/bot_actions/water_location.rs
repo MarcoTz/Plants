@@ -4,7 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct WaterLocation {
     watered_plants: Option<Vec<String>>,
     done: bool,
@@ -80,5 +80,88 @@ impl Action for WaterLocation {
 impl From<WaterLocation> for BotAction {
     fn from(water: WaterLocation) -> BotAction {
         BotAction::WaterLocation(water)
+    }
+}
+
+#[cfg(test)]
+mod water_location_tests {
+    use super::{Action, BotAction, WaterLocation};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn water_default() {
+        let result = WaterLocation::default();
+        let expected = WaterLocation {
+            watered_plants: None,
+            done: false,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_loc() {
+        let mut result = WaterLocation::default();
+        result
+            .handle_input("Inside".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = WaterLocation::default();
+        expected.watered_plants = Some(vec!["A Plant".to_owned()]);
+        expected.done = true;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_loc_err() {
+        let result = WaterLocation::default()
+            .handle_input("not a location".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn done_done() {
+        let mut action = WaterLocation::default();
+        action.done = true;
+        assert!(action.is_done())
+    }
+
+    #[test]
+    fn done_notdone() {
+        assert!(!WaterLocation::default().is_done())
+    }
+
+    #[test]
+    fn write_no_loc() {
+        let result = WaterLocation::default().write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write() {
+        let mut action = WaterLocation::default();
+        action.watered_plants = Some(vec!["Plant1".to_owned()]);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_ok())
+    }
+
+    #[test]
+    fn next_loc() {
+        let result = WaterLocation::default().get_next_prompt().unwrap();
+        let expected = "Please enter location to water";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_err() {
+        let mut action = WaterLocation::default();
+        action.done = true;
+        let result = action.get_next_prompt();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_action() {
+        let result = <WaterLocation as Into<BotAction>>::into(WaterLocation::default());
+        let expected = BotAction::WaterLocation(WaterLocation::default());
+        assert_eq!(result, expected)
     }
 }

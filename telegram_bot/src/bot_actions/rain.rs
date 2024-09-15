@@ -4,7 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::{location::Location, log_item::LogItem, named::Named};
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, Debug, PartialEq, Eq)]
 pub struct Rain;
 
 impl Action for Rain {
@@ -37,7 +37,7 @@ impl Action for Rain {
 
         db_man.write_logs(watering_items)?;
         let ret_msg = format!(
-            "Successfully watered plants {}",
+            "Successfully watered plants: {}",
             outside_plants
                 .iter()
                 .map(|pl| pl.get_name())
@@ -55,5 +55,48 @@ impl Action for Rain {
 impl From<Rain> for BotAction {
     fn from(rain: Rain) -> BotAction {
         BotAction::Rain(rain)
+    }
+}
+
+#[cfg(test)]
+mod rain_tests {
+    use super::{Action, BotAction, Rain};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn rain_default() {
+        let result = Rain::default();
+        let expected = Rain {};
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_err() {
+        let result = Rain::default().handle_input("".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn done_done() {
+        assert!(Rain::default().is_done())
+    }
+
+    #[test]
+    fn write_res() {
+        let result = Rain::default().write_result(&mut DummyManager {});
+        assert!(result.is_ok())
+    }
+
+    #[test]
+    fn next_err() {
+        let result = Rain::default().get_next_prompt();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_action() {
+        let result = <Rain as Into<BotAction>>::into(Rain::default());
+        let expected = BotAction::Rain(Rain::default());
+        assert_eq!(result, expected)
     }
 }

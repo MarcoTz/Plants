@@ -7,7 +7,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::growth_item::GrowthItem;
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum Step {
     PlantName,
     Height,
@@ -17,7 +17,7 @@ enum Step {
     Done,
 }
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct NewGrowth {
     current_step: Step,
     name: Option<String>,
@@ -145,5 +145,240 @@ impl Action for NewGrowth {
 impl From<NewGrowth> for BotAction {
     fn from(growth: NewGrowth) -> BotAction {
         BotAction::NewGrowth(growth)
+    }
+}
+
+#[cfg(test)]
+mod new_growth_tests {
+    use super::{Action, NewGrowth, Step};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn growth_default() {
+        let result = NewGrowth::default();
+        let expected = NewGrowth {
+            current_step: Step::PlantName,
+            name: None,
+            height: None,
+            width: None,
+            health: None,
+            note: None,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_plant() {
+        let mut result = NewGrowth::default();
+        result
+            .handle_input("Plant1".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Height;
+        expected.name = Some("Plant1".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_plant_err() {
+        let mut action = NewGrowth::default();
+        let result = action.handle_input("not a plant".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_height() {
+        let mut result = NewGrowth::default();
+        result.current_step = Step::Height;
+        result
+            .handle_input("1.0".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Width;
+        expected.height = Some(1.0);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_height_err() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Height;
+        let result = action.handle_input("not a number".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_width() {
+        let mut result = NewGrowth::default();
+        result.current_step = Step::Width;
+        result
+            .handle_input("1.0".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Health;
+        expected.width = Some(1.0);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_widht_err() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Width;
+        let result = action.handle_input("not a number".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_health() {
+        let mut result = NewGrowth::default();
+        result.current_step = Step::Health;
+        result
+            .handle_input("3".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Note;
+        expected.health = Some(3);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_health_err() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Health;
+        let result = action.handle_input("6".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn input_note_some() {
+        let mut result = NewGrowth::default();
+        result.current_step = Step::Note;
+        result
+            .handle_input("note".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Done;
+        expected.note = Some("note".to_owned());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_note_none() {
+        let mut result = NewGrowth::default();
+        result.current_step = Step::Note;
+        result
+            .handle_input("Done".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = NewGrowth::default();
+        expected.current_step = Step::Done;
+        expected.note = None;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn done_done() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Done;
+        assert!(action.is_done())
+    }
+
+    #[test]
+    fn done_notdone() {
+        assert!(!NewGrowth::default().is_done())
+    }
+
+    #[test]
+    fn write_no_plant() {
+        let result = NewGrowth::default().write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write_no_height() {
+        let mut action = NewGrowth::default();
+        action.name = Some("Plant1".to_owned());
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn write_no_width() {
+        let mut action = NewGrowth::default();
+        action.name = Some("Plant1".to_owned());
+        action.height = Some(1.0);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write_no_health() {
+        let mut action = NewGrowth::default();
+        action.name = Some("Plant1".to_owned());
+        action.height = Some(1.0);
+        action.width = Some(1.0);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write() {
+        let mut action = NewGrowth::default();
+        action.name = Some("Plant1".to_owned());
+        action.height = Some(1.0);
+        action.width = Some(1.0);
+        action.health = Some(3);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_ok())
+    }
+
+    #[test]
+    fn next_plant() {
+        let result = NewGrowth::default().get_next_prompt().unwrap();
+        let expected = "Please enter plant name";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_height() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Height;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter height (cm)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_width() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Width;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter width (cm)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_health() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Health;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter health (0-5)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_note() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Note;
+        let result = action.get_next_prompt().unwrap();
+        let expected = "Please enter note (enter \"Done\" for no note)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_err() {
+        let mut action = NewGrowth::default();
+        action.current_step = Step::Done;
+        let result = action.get_next_prompt();
+        assert!(result.is_err())
     }
 }

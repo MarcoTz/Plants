@@ -1,0 +1,19 @@
+Possible commands: 
+
+ help -- Display Help Text
+water -- Water plants (today)
+water_location -- Water all plants in location (today)
+fertilize -- Fertilize plants (today)
+rain -- It rained (all outside plants will be watered)
+new_growth -- Enter new growth
+new_plant -- Enter new plant
+new_species -- Enter new species
+new_activity -- Enter new activity
+update_species -- Update species
+update_plant -- Update plant
+today -- Enter the current date as input
+move_to_graveyard -- Move Plant to graveyard
+abort -- Abort the current action
+push -- Push local changes to github
+check_logs -- Check warnings generated from build
+exit -- Exit the bot

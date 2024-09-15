@@ -6,7 +6,7 @@ use super::{
 use chrono::NaiveDate;
 use std::{fmt, str::FromStr};
 
-#[derive(Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum UpdateValue {
     Str(String),
     Location(PlantLocation),

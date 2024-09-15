@@ -4,7 +4,7 @@ use chrono::Local;
 use database::database_manager::DatabaseManager;
 use plants::log_item::LogItem;
 
-#[derive(Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct WaterPlants {
     watered_plants: Option<Vec<String>>,
     done: bool,
@@ -65,7 +65,7 @@ impl Action for WaterPlants {
         if self.done {
             Err(Error::ActionAlreadyDone("Water plants".to_owned()))
         } else {
-            Ok("Please enter plants to water (separate by comma)".to_owned())
+            Ok("Please enter watered plants (separate by comma)".to_owned())
         }
     }
 }
@@ -73,5 +73,88 @@ impl Action for WaterPlants {
 impl From<WaterPlants> for BotAction {
     fn from(water: WaterPlants) -> BotAction {
         BotAction::WaterPlants(water)
+    }
+}
+
+#[cfg(test)]
+mod water_plants_tests {
+    use super::{Action, BotAction, WaterPlants};
+    use crate::test_common::DummyManager;
+
+    #[test]
+    fn water_default() {
+        let result = WaterPlants::default();
+        let expected = WaterPlants {
+            watered_plants: None,
+            done: false,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_plants() {
+        let mut result = WaterPlants::default();
+        result
+            .handle_input("Plant1,Plant2".to_owned(), &mut DummyManager {})
+            .unwrap();
+        let mut expected = WaterPlants::default();
+        expected.watered_plants = Some(vec!["Plant1".to_owned(), "Plant2".to_owned()]);
+        expected.done = true;
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn input_plants_err() {
+        let result =
+            WaterPlants::default().handle_input("Not a plant".to_owned(), &mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn done_done() {
+        let mut action = WaterPlants::default();
+        action.done = true;
+        assert!(action.is_done())
+    }
+
+    #[test]
+    fn done_notdone() {
+        assert!(!WaterPlants::default().is_done())
+    }
+
+    #[test]
+    fn write_no_plants() {
+        let result = WaterPlants::default().write_result(&mut DummyManager {});
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn write() {
+        let mut action = WaterPlants::default();
+        action.watered_plants = Some(vec!["Plant1".to_owned()]);
+        let result = action.write_result(&mut DummyManager {});
+        assert!(result.is_ok())
+    }
+
+    #[test]
+    fn next_plants() {
+        let result = WaterPlants::default().get_next_prompt().unwrap();
+        let expected = "Please enter watered plants (separate by comma)";
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn next_err() {
+        let mut action = WaterPlants::default();
+        action.done = true;
+        let result = action.get_next_prompt();
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn into_action() {
+        let result = <WaterPlants as Into<BotAction>>::into(WaterPlants::default());
+        let expected = BotAction::WaterPlants(WaterPlants::default());
+        assert_eq!(result, expected)
     }
 }
