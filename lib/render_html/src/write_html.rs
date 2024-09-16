@@ -3,9 +3,18 @@ use log;
 use std::io::prelude::Write;
 use std::{fs::File, path::PathBuf};
 
-pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
+pub fn write_all(
+    html_content: PagesHtml,
+    out_dir: &str,
+    plants_dir: &str,
+    species_dir: &str,
+) -> Result<(), Error> {
     log::info!("Saving pages html");
     let out_prefix = PathBuf::from(out_dir);
+    if !out_prefix.exists() {
+        std::fs::create_dir_all(out_prefix.clone())?;
+    }
+
     log::info!("Saving index.html");
     write_html(html_content.index_html, &(out_prefix.join("index.html")))?;
     log::info!("Saving plant_overview.html");
@@ -35,19 +44,27 @@ pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
     )?;
 
     log::info!("Saving plant htmls");
+    let plants_dir = out_prefix.join(plants_dir);
+    if !plants_dir.exists() {
+        std::fs::create_dir_all(plants_dir.clone())?;
+    }
     for plant_html in html_content.plant_htmls.iter() {
         write_html(
             plant_html.page_html.clone(),
-            &(out_prefix.join(&plant_html.page_name)),
+            &(plants_dir.join(&plant_html.page_name)),
         )?;
     }
 
     log::info!("Saving species htmls");
+    let species_dir = out_prefix.join(species_dir);
+    if !species_dir.exists() {
+        std::fs::create_dir_all(species_dir.clone())?;
+    }
     for species_html in html_content.species_htmls.iter() {
         println!("{:?}", out_prefix.join(&species_html.page_name));
         write_html(
             species_html.page_html.clone(),
-            &(out_prefix.join(&species_html.page_name)),
+            &(species_dir.join(&species_html.page_name)),
         )?;
     }
     Ok(())
@@ -103,7 +120,7 @@ mod write_html_tests {
         }
         assert!(species.exists());
 
-        write_all(example_html(), OUT_DIR).unwrap();
+        write_all(example_html(), OUT_DIR, "plants", "species").unwrap();
         let index = base.join("index.html");
         assert!(index.exists());
         let plant_overview = base.join("plant_overview.html");

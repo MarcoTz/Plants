@@ -20,7 +20,7 @@ fn main() -> Result<(), String> {
     log::info!("Rendering Pages");
     let pages = renderer.render_all().map_err(|err| err.to_string())?;
     log::info!("Wrote page htmls");
-    write_all(pages, "html_out").map_err(|err| err.to_string())?;
+    write_all(pages, "html_out", "plants", "species").map_err(|err| err.to_string())?;
     log::info!("Successfully rendered pages");
     Ok(())
 }
