@@ -139,6 +139,7 @@ impl<T: DatabaseManager> Renderer<T> {
         let graveyard_html = self.render_graveyard()?;
         let plant_htmls = self.render_all_plants()?;
         let species_htmls = self.render_all_species()?;
+        log::info!("Rendered all pages");
 
         Ok(PagesHtml {
             index_html,
