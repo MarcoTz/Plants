@@ -1,5 +1,6 @@
 use super::{
     errors::Error,
+    named::Named,
     plant::{Plant, PlantSpecies},
 };
 use chrono::TimeDelta;
@@ -51,11 +52,12 @@ impl Species {
     }
 
     pub fn get_url(&self, base: &str) -> String {
-        let mut url = base.to_owned();
-        url.push('/');
-        url.push_str(&self.name.replace(' ', ""));
-        url.push_str(".html");
-        url
+        let prefix = if base == "" {
+            "".to_owned()
+        } else {
+            base.to_owned() + "/"
+        };
+        prefix + &self.get_name().replace(' ', "") + "html"
     }
 
     pub fn get_plants(&self, plants: &[Plant]) -> Vec<Plant> {

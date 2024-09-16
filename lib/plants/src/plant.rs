@@ -212,11 +212,12 @@ impl Plant {
     }
 
     pub fn get_url(&self, base: &str) -> String {
-        let mut url = base.to_owned();
-        url.push('/');
-        url.push_str(&self.info.name.replace(' ', ""));
-        url.push_str(".html");
-        url
+        let prefix = if base == "" {
+            "".to_owned()
+        } else {
+            base.to_owned() + "/"
+        };
+        prefix + &self.get_name().replace(' ', "") + ".html"
     }
 
     pub fn get_next_growth(&self) -> NaiveDate {
