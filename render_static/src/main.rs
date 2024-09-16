@@ -8,24 +8,19 @@ static LOGGER: FileLogger = FileLogger {
     file_path: "log.txt",
 };
 
-fn main() {
-    let log_res = init_logger(&LOGGER);
-    if log_res.is_err() {
-        println!("{}", log_res.unwrap_err());
-        std::process::exit(1);
-    }
+fn main() -> Result<(), String> {
+    init_logger(&LOGGER)?;
 
     let db_man = FileDB::default();
     let mut renderer = Renderer {
         database_manager: db_man,
         date_format: "%d.%m.%Y".to_owned(),
     };
-    let page_htmls = renderer.render_all();
-    match page_htmls {
-        Err(err) => println!("{err:?}"),
-        Ok(htmls) => match write_all(htmls, "html_out/") {
-            Err(err) => println!("{err:?}"),
-            Ok(_) => println!("Successfully wrote html"),
-        },
-    }
+
+    log::info!("Rendering Pages");
+    let pages = renderer.render_all().map_err(|err| err.to_string())?;
+    log::info!("Wrote page htmls");
+    write_all(pages, "html_out").map_err(|err| err.to_string())?;
+    log::info!("Successfully rendered pages");
+    Ok(())
 }

@@ -36,7 +36,6 @@ pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
 
     log::info!("Saving plant htmls");
     for plant_html in html_content.plant_htmls.iter() {
-        log::info!("saving {}.html", plant_html.page_name);
         write_html(
             plant_html.page_html.clone(),
             &(out_prefix.join(&plant_html.page_name)),
@@ -45,7 +44,7 @@ pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
 
     log::info!("Saving species htmls");
     for species_html in html_content.species_htmls.iter() {
-        log::info!("Saving {}", species_html.page_name);
+        println!("{:?}", out_prefix.join(&species_html.page_name));
         write_html(
             species_html.page_html.clone(),
             &(out_prefix.join(&species_html.page_name)),
@@ -55,7 +54,6 @@ pub fn write_all(html_content: PagesHtml, out_dir: &str) -> Result<(), Error> {
 }
 
 pub fn write_html(html_content: String, file_path: &PathBuf) -> Result<(), Error> {
-    log::info!("Saving file {:?}", file_path);
     let mut out_file = File::create(file_path)?;
     out_file.write_all(html_content.as_bytes())?;
     Ok(())
