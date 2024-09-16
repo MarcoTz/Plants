@@ -353,7 +353,7 @@
 					<td>
 						Plants of Species
 					</td><td>
-						<a href="../plants//Jane.html">Jane</a>, <a href="../plants//Jenn.html">Jenn</a>, <a href="../plants//Jill.html">Jill</a>, <a href="../plants//Jack.html">Jack</a>, <a href="../plants//Joe.html">Joe</a>
+						<a href="../plants//Jack.html">Jack</a>, <a href="../plants//Jenn.html">Jenn</a>, <a href="../plants//Jill.html">Jill</a>, <a href="../plants//Jane.html">Jane</a>, <a href="../plants//Joe.html">Joe</a>
 					</td>
 				</tr>
 			</table>
@@ -365,11 +365,11 @@
 		</h2>
 		<div class="flex_container images_plant_container">
 			<h2 >
-				<a href="plants/Jane.html">Jane</a>
+				<a href="plants/Jack.html">Jack</a>
 			</h2>
 			<div class="images_plant">
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jane/26062024.jpg" />
+					<img src="../img//Jack/26062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							26.06.2024
@@ -380,7 +380,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jane/03072024.jpg" />
+					<img src="../img//Jack/03072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							03.07.2024
@@ -391,7 +391,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jane/16072024.jpg" />
+					<img src="../img//Jack/16072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							16.07.2024
@@ -402,7 +402,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jane/02082024.jpg" />
+					<img src="../img//Jack/02082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							02.08.2024
@@ -413,7 +413,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jane/15082024.jpg" />
+					<img src="../img//Jack/15082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							15.08.2024
@@ -424,7 +424,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:block;">
-					<img src="../img//Jane/30082024.jpg" />
+					<img src="../img//Jack/30082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							30.08.2024
@@ -597,11 +597,11 @@
 		</div>
 		<div class="flex_container images_plant_container">
 			<h2 >
-				<a href="plants/Jack.html">Jack</a>
+				<a href="plants/Jane.html">Jane</a>
 			</h2>
 			<div class="images_plant">
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jack/26062024.jpg" />
+					<img src="../img//Jane/26062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							26.06.2024
@@ -612,7 +612,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jack/03072024.jpg" />
+					<img src="../img//Jane/03072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							03.07.2024
@@ -623,7 +623,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jack/16072024.jpg" />
+					<img src="../img//Jane/16072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							16.07.2024
@@ -634,7 +634,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jack/02082024.jpg" />
+					<img src="../img//Jane/02082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							02.08.2024
@@ -645,7 +645,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jack/15082024.jpg" />
+					<img src="../img//Jane/15082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							15.08.2024
@@ -656,7 +656,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:block;">
-					<img src="../img//Jack/30082024.jpg" />
+					<img src="../img//Jane/30082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							30.08.2024

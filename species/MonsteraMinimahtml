@@ -353,7 +353,7 @@
 					<td>
 						Plants of Species
 					</td><td>
-						<a href="../plants//Martha.html">Martha</a>, <a href="../plants//Magdalena.html">Magdalena</a>
+						<a href="../plants//Magdalena.html">Magdalena</a>, <a href="../plants//Martha.html">Martha</a>
 					</td>
 				</tr>
 			</table>
@@ -363,6 +363,43 @@
 		<h2 >
 			Gallery
 		</h2>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Magdalena.html">Magdalena</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Magdalena/22082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							22.08.2024
+						</div>
+						<div class="img_nr">
+							2/2
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Magdalena/03092024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.09.2024
+						</div>
+						<div class="img_nr">
+							1/2
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
 		<div class="flex_container images_plant_container">
 			<h2 >
 				<a href="plants/Martha.html">Martha</a>
@@ -497,43 +534,6 @@
 						</div>
 						<div class="img_nr">
 							1/12
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Magdalena.html">Magdalena</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Magdalena/22082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							22.08.2024
-						</div>
-						<div class="img_nr">
-							2/2
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Magdalena/03092024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.09.2024
-						</div>
-						<div class="img_nr">
-							1/2
 						</div>
 					</figcaption>
 				</figure>

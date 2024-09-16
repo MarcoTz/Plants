@@ -353,7 +353,7 @@
 					<td>
 						Plants of Species
 					</td><td>
-						<a href="../plants//Charles.html">Charles</a>, <a href="../plants//Louie.html">Louie</a>, <a href="../plants//Rosa.html">Rosa</a>, <a href="../plants//Jerry.html">Jerry</a>, <a href="../plants//Terry.html">Terry</a>, <a href="../plants//Amy.html">Amy</a>, <a href="../plants//Ray.html">Ray</a>, <a href="../plants//Hitchcock.html">Hitchcock</a>, <a href="../plants//Tony.html">Tony</a>, <a href="../plants//Gina.html">Gina</a>, <a href="../plants//Scully.html">Scully</a>, <a href="../plants//Tom.html">Tom</a>, <a href="../plants//Jake.html">Jake</a>
+						<a href="../plants//Ray.html">Ray</a>, <a href="../plants//Amy.html">Amy</a>, <a href="../plants//Hitchcock.html">Hitchcock</a>, <a href="../plants//Louie.html">Louie</a>, <a href="../plants//Jerry.html">Jerry</a>, <a href="../plants//Charles.html">Charles</a>, <a href="../plants//Tony.html">Tony</a>, <a href="../plants//Scully.html">Scully</a>, <a href="../plants//Jake.html">Jake</a>, <a href="../plants//Gina.html">Gina</a>, <a href="../plants//Rosa.html">Rosa</a>, <a href="../plants//Terry.html">Terry</a>, <a href="../plants//Tom.html">Tom</a>
 					</td>
 				</tr>
 			</table>
@@ -365,14 +365,14 @@
 		</h2>
 		<div class="flex_container images_plant_container">
 			<h2 >
-				<a href="plants/Charles.html">Charles</a>
+				<a href="plants/Ray.html">Ray</a>
 			</h2>
 			<div class="images_plant">
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/24052024.jpg" />
+					<img src="../img//Ray/26052024.jpg" />
 					<figcaption>
 						<div class="img_date">
-							24.05.2024
+							26.05.2024
 						</div>
 						<div class="img_nr">
 							10/10
@@ -380,7 +380,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/04062024.jpg" />
+					<img src="../img//Ray/04062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							04.06.2024
@@ -391,10 +391,10 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/10062024.jpg" />
+					<img src="../img//Ray/05062024.jpg" />
 					<figcaption>
 						<div class="img_date">
-							10.06.2024
+							05.06.2024
 						</div>
 						<div class="img_nr">
 							8/10
@@ -402,10 +402,10 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/14062024.jpg" />
+					<img src="../img//Ray/10062024.jpg" />
 					<figcaption>
 						<div class="img_date">
-							14.06.2024
+							10.06.2024
 						</div>
 						<div class="img_nr">
 							7/10
@@ -413,7 +413,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/25062024.jpg" />
+					<img src="../img//Ray/25062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							25.06.2024
@@ -424,7 +424,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/03072024.jpg" />
+					<img src="../img//Ray/03072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							03.07.2024
@@ -435,7 +435,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/16072024.jpg" />
+					<img src="../img//Ray/16072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							16.07.2024
@@ -446,7 +446,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/31072024.jpg" />
+					<img src="../img//Ray/31072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							31.07.2024
@@ -457,7 +457,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Charles/15082024.jpg" />
+					<img src="../img//Ray/15082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							15.08.2024
@@ -468,13 +468,274 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:block;">
-					<img src="../img//Charles/11092024.jpg" />
+					<img src="../img//Ray/11092024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							11.09.2024
 						</div>
 						<div class="img_nr">
 							1/10
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Amy.html">Amy</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/26052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							26.05.2024
+						</div>
+						<div class="img_nr">
+							10/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							9/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/06062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							06.06.2024
+						</div>
+						<div class="img_nr">
+							8/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							7/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							6/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							5/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							4/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							3/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Amy/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							2/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Amy/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							1/10
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Hitchcock.html">Hitchcock</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/26052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							26.05.2024
+						</div>
+						<div class="img_nr">
+							11/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							10/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/09062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							09.06.2024
+						</div>
+						<div class="img_nr">
+							9/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							8/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							7/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Hitchcock/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							2/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Hitchcock/11092024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							11.09.2024
+						</div>
+						<div class="img_nr">
+							1/11
 						</div>
 					</figcaption>
 				</figure>
@@ -589,131 +850,6 @@
 						</div>
 						<div class="img_nr">
 							1/9
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Rosa.html">Rosa</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
-						</div>
-						<div class="img_nr">
-							10/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							9/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							8/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/14062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							14.06.2024
-						</div>
-						<div class="img_nr">
-							7/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							6/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							5/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/16072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							16.07.2024
-						</div>
-						<div class="img_nr">
-							4/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							3/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Rosa/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							2/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Rosa/11092024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							11.09.2024
-						</div>
-						<div class="img_nr">
-							1/10
 						</div>
 					</figcaption>
 				</figure>
@@ -876,150 +1012,14 @@
 		</div>
 		<div class="flex_container images_plant_container">
 			<h2 >
-				<a href="plants/Terry.html">Terry</a>
+				<a href="plants/Charles.html">Charles</a>
 			</h2>
 			<div class="images_plant">
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/06052024.jpg" />
+					<img src="../img//Charles/24052024.jpg" />
 					<figcaption>
 						<div class="img_date">
-							06.05.2024
-						</div>
-						<div class="img_nr">
-							11/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/13052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							13.05.2024
-						</div>
-						<div class="img_nr">
-							10/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
-						</div>
-						<div class="img_nr">
-							9/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							8/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							7/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							6/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							5/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/16072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							16.07.2024
-						</div>
-						<div class="img_nr">
-							4/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							3/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Terry/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							2/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Terry/11092024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							11.09.2024
-						</div>
-						<div class="img_nr">
-							1/11
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Amy.html">Amy</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
+							24.05.2024
 						</div>
 						<div class="img_nr">
 							10/10
@@ -1027,7 +1027,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/04062024.jpg" />
+					<img src="../img//Charles/04062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							04.06.2024
@@ -1038,10 +1038,10 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/06062024.jpg" />
+					<img src="../img//Charles/10062024.jpg" />
 					<figcaption>
 						<div class="img_date">
-							06.06.2024
+							10.06.2024
 						</div>
 						<div class="img_nr">
 							8/10
@@ -1049,143 +1049,18 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							7/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/14062024.jpg" />
+					<img src="../img//Charles/14062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							14.06.2024
 						</div>
 						<div class="img_nr">
-							6/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							5/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							4/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/16072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							16.07.2024
-						</div>
-						<div class="img_nr">
-							3/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Amy/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							2/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Amy/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							1/10
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Ray.html">Ray</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
-						</div>
-						<div class="img_nr">
-							10/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							9/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/05062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							05.06.2024
-						</div>
-						<div class="img_nr">
-							8/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
 							7/10
 						</div>
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/25062024.jpg" />
+					<img src="../img//Charles/25062024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							25.06.2024
@@ -1196,7 +1071,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/03072024.jpg" />
+					<img src="../img//Charles/03072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							03.07.2024
@@ -1207,7 +1082,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/16072024.jpg" />
+					<img src="../img//Charles/16072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							16.07.2024
@@ -1218,7 +1093,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/31072024.jpg" />
+					<img src="../img//Charles/31072024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							31.07.2024
@@ -1229,7 +1104,7 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:none;">
-					<img src="../img//Ray/15082024.jpg" />
+					<img src="../img//Charles/15082024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							15.08.2024
@@ -1240,149 +1115,13 @@
 					</figcaption>
 				</figure>
 				<figure class="plant_image" style="display:block;">
-					<img src="../img//Ray/11092024.jpg" />
+					<img src="../img//Charles/11092024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							11.09.2024
 						</div>
 						<div class="img_nr">
 							1/10
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Hitchcock.html">Hitchcock</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
-						</div>
-						<div class="img_nr">
-							11/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							10/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/09062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							09.06.2024
-						</div>
-						<div class="img_nr">
-							9/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							8/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/14062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							14.06.2024
-						</div>
-						<div class="img_nr">
-							7/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							6/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							5/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/16072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							16.07.2024
-						</div>
-						<div class="img_nr">
-							4/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							3/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Hitchcock/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							2/11
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Hitchcock/11092024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							11.09.2024
-						</div>
-						<div class="img_nr">
-							1/11
 						</div>
 					</figcaption>
 				</figure>
@@ -1491,120 +1230,6 @@
 				</figure>
 				<figure class="plant_image" style="display:block;">
 					<img src="../img//Tony/11092024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							11.09.2024
-						</div>
-						<div class="img_nr">
-							1/9
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Gina.html">Gina</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/26052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							26.05.2024
-						</div>
-						<div class="img_nr">
-							9/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							8/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							7/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/14062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							14.06.2024
-						</div>
-						<div class="img_nr">
-							6/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							5/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							4/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							3/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Gina/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							2/9
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Gina/11092024.jpg" />
 					<figcaption>
 						<div class="img_date">
 							11.09.2024
@@ -1762,6 +1387,506 @@
 		</div>
 		<div class="flex_container images_plant_container">
 			<h2 >
+				<a href="plants/Jake.html">Jake</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/24052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.05.2024
+						</div>
+						<div class="img_nr">
+							10/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							9/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/06062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							06.06.2024
+						</div>
+						<div class="img_nr">
+							8/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							7/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							6/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							5/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							4/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							3/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Jake/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							2/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Jake/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							1/10
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Gina.html">Gina</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/26052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							26.05.2024
+						</div>
+						<div class="img_nr">
+							9/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							8/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							7/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							6/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							5/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							4/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Gina/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							2/9
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Gina/11092024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							11.09.2024
+						</div>
+						<div class="img_nr">
+							1/9
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Rosa.html">Rosa</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/26052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							26.05.2024
+						</div>
+						<div class="img_nr">
+							10/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							9/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							8/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							7/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Rosa/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							2/10
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Rosa/11092024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							11.09.2024
+						</div>
+						<div class="img_nr">
+							1/10
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Terry.html">Terry</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/06052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							06.05.2024
+						</div>
+						<div class="img_nr">
+							11/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/13052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							13.05.2024
+						</div>
+						<div class="img_nr">
+							10/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/26052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							26.05.2024
+						</div>
+						<div class="img_nr">
+							9/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							8/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							7/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Terry/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							2/11
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Terry/11092024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							11.09.2024
+						</div>
+						<div class="img_nr">
+							1/11
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
 				<a href="plants/Tom.html">Tom</a>
 			</h2>
 			<div class="images_plant">
@@ -1894,131 +2019,6 @@
 						</div>
 						<div class="img_nr">
 							1/12
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			<div class="img_controls">
-				<div class="left_arrow">
-					&#9754;
-				</div>
-				<div class="right_arrow">
-					&#9755
-				</div>
-			</div>
-		</div>
-		<div class="flex_container images_plant_container">
-			<h2 >
-				<a href="plants/Jake.html">Jake</a>
-			</h2>
-			<div class="images_plant">
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/24052024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							24.05.2024
-						</div>
-						<div class="img_nr">
-							10/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/04062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							04.06.2024
-						</div>
-						<div class="img_nr">
-							9/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/06062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							06.06.2024
-						</div>
-						<div class="img_nr">
-							8/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/10062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							10.06.2024
-						</div>
-						<div class="img_nr">
-							7/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/14062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							14.06.2024
-						</div>
-						<div class="img_nr">
-							6/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/25062024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							25.06.2024
-						</div>
-						<div class="img_nr">
-							5/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/03072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							03.07.2024
-						</div>
-						<div class="img_nr">
-							4/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/16072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							16.07.2024
-						</div>
-						<div class="img_nr">
-							3/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:none;">
-					<img src="../img//Jake/31072024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							31.07.2024
-						</div>
-						<div class="img_nr">
-							2/10
-						</div>
-					</figcaption>
-				</figure>
-				<figure class="plant_image" style="display:block;">
-					<img src="../img//Jake/15082024.jpg" />
-					<figcaption>
-						<div class="img_date">
-							15.08.2024
-						</div>
-						<div class="img_nr">
-							1/10
 						</div>
 					</figcaption>
 				</figure>
