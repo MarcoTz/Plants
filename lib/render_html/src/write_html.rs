@@ -49,10 +49,8 @@ pub fn write_all(
         std::fs::create_dir_all(plants_dir.clone())?;
     }
     for plant_html in html_content.plant_htmls.iter() {
-        write_html(
-            plant_html.page_html.clone(),
-            &(plants_dir.join(&plant_html.page_name)),
-        )?;
+        let path = plants_dir.join(&plant_html.page_name);
+        write_html(plant_html.page_html.clone(), &path)?;
     }
 
     log::info!("Saving species htmls");
