@@ -1,0 +1,8 @@
+[Unit]
+Description=Plant Updater Telegram Bot
+
+[Service]
+ExecStart=/home/rooxo/Plants/target/release/plant_updater_bot
+WorkingDirectory=/home/rooxo/Plants
+Type=simple
+Restart=always
