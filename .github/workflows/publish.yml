@@ -14,10 +14,10 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Install Python
+      - name: Install Rust 
         uses: hecrj/setup-rust-action@v2 
-          with:
-            rust-version: 1.81.0
+        with:
+          rust-version: 1.81.0
       - name: Build Project 
         run: make build
       - name: Move Files
