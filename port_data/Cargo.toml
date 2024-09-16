@@ -1,0 +1,17 @@
+[package]
+name = "port_data"
+version = "0.0.1"
+edition = "2021"
+
+[[bin]]
+name="port_data"
+path="src/main.rs"
+
+[dependencies]
+plants = { path = "../lib/plants" }
+database = { path = "../lib/database" }
+logger = {path="../lib/logger"}
+serde_json = "1.0"
+serde = {version = "1.0", features = ["derive"]}
+log = "0.4.22"
+chrono = "0.4.38"

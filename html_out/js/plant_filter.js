@@ -17,6 +17,9 @@ function filter_plants() {
       if(current_child.className == 'temp_min') plant_info['temp_min'] = Number(current_child.textContent);
     }
     new_visibility = 'block';
+    if (!('species' in plant_info)){
+      plant_info['species'] = 'unknown';
+    }
 
     if(!(plant_info['name'].includes(plant_name_filter)))new_visibility = 'none';
     if(!(plant_info['species'].includes(species_name_filter))) new_visibility = 'none';

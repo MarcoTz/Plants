@@ -1,3 +1,0 @@
-{"name": "Radish", "scientific_name": "Raphanus raphanistrum", "sunlight_requirements": "direct", "temperature_min": "4", "temperature_max": "21", "optimal_temperature_min": "15", "optimal_temperature_max": "18", "plant_distance_cm": "3", "ph_min": "6", "ph_max": "7", "avg_watering_days": "6", "watering_notes": ["Water once soil is dry about 5cm"], "avg_fertilizing_days": -1, 
-  "fertilizing_notes": ["No need for fertilizer", "harvested early"], 
-  "pruning_notes": ["No pruning needed", "harvested early"], "companions": ["Carrots", "Lettuce", "Mint", "Cucumber"], "additional_notes": [""], "species_type": "Mustard"}

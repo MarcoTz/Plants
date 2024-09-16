@@ -1,0 +1,9 @@
+[package]
+name="plants"
+version="0.0.1"
+edition="2021"
+
+[dependencies]
+serde = {version = "1.0", features = ["derive"]}
+chrono = "0.4.38"
+log = "0.4.22"
