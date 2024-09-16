@@ -1,3 +1,11 @@
 __pycache__
 html_out/**/*.html
 conf.json
+bot_conf.json
+log.txt
+
+
+# Added by cargo
+
+/target
+Cargo.lock

@@ -1,0 +1,651 @@
+plant;date;height_cm;width_cm;note;health
+Stefan;07.04.2024;7.0;8.0;;3
+Stefan;07.04.2024;7.0;8.0;;3
+Stefan;24.04.2024;10.0;8.0;;3
+Stefan;03.05.2024;11.0;11.0;;3
+Stefan;20.05.2024;10.0;14.0;New stem is growing;3
+Stefan;04.06.2024;15.0;20.0;;3
+Stefan;10.06.2024;17.0;22.0;;3
+Stefan;14.06.2024;18.0;21.0;;3
+Stefan;25.06.2024;18.0;30.0;;3
+Stefan;03.07.2024;22.0;30.0;;3
+Stefan;16.07.2024;20.0;32.0;First Fruit;3
+Stefan;31.07.2024;15.0;35.0;;3
+Stefan;15.08.2024;15.0;28.0;Probably done with fruit;3
+Beehome;08.04.2024;0.0;0.0;Planted Seeds;4
+Beehome;12.04.2024;0.1;0.1;First Sprouts;4
+Beehome;03.05.2024;7.0;30.0;;4
+Beehome;17.05.2024;19.0;30.0;;4
+Beehome;20.05.2024;23.0;30.0;;4
+Beehome;03.06.2024;50.0;30.0;;4
+Beehome;10.06.2024;69.0;48.0;;4
+Beehome;14.06.2024;70.0;30.0;Dpne;4
+Beehome;25.06.2024;70.0;30.0;Mustard seeds appeared;4
+Beehome;03.07.2024;76.0;30.0;Some plants are already dying but others are freshly growing;4
+Beehome;16.07.2024;51.0;30.0;Most plants have already died, mostly natural I think;4
+Beehome;31.07.2024;24.0;30.0;most flowers have wilted already;4
+Beehome;15.08.2024;29.0;62.0;;4
+Brock;14.04.2024;0.0;0.0;Planted Seeds;4
+Brock;18.04.2024;0.1;0.1;First Sprouts;4
+Brock;22.04.2024;11.0;2.0;Repotted;4
+Brock;03.05.2024;3.0;8.0;;4
+Brock;24.05.2024;7.0;2.0;;4
+Brock;04.06.2024;12.0;6.0;;4
+Brock;10.06.2024;6.0;15.0;;4
+Brock;14.06.2024;13.0;13.0;;4
+Brock;25.06.2024;20.0;22.0;Probably needs repotting soon;4
+Brock;03.07.2024;20.0;25.0;Might have grown too slow for fruiting;4
+Brock;16.07.2024;24.0;20.0;Has been attacked by snails;4
+Brock;31.07.2024;30.0;33.0;;4
+Brock;15.08.2024;43.0;44.0;;4
+Cerberus;08.04.2024;8.0;8.0;;3
+Cerberus;03.05.2024;7.0;11.0;;3
+Cerberus;20.05.2024;8.5;7.5;;3
+Cerberus;04.06.2024;9.0;6.5;;3
+Cerberus;10.06.2024;10.0;8.0;Did not get enough sun, will go outside during sunny days;3
+Cerberus;25.06.2024;10.0;7.0;Looks like he's losing one stem;3
+Cerberus;03.07.2024;10.0;8.0;Still very dangerous, but I think he'll make it;3
+Cerberus;16.07.2024;10.0;8.0;;3
+Cerberus;02.08.2024;12.0;10.0;DOne;3
+Cerberus;15.08.2024;9.0;8.5;;3
+Cerberus;30.08.2024;11.0;12.0;;3
+Elvis;08.04.2024;10.0;20.0;;2
+Elvis;14.04.2024;10.0;30.0;;2
+Elvis;03.05.2024;12.0;32.0;;2
+Elvis;18.05.2024;13.0;35.0;;2
+Elvis;20.05.2024;13.0;38.0;;2
+Elvis;04.06.2024;16.0;33.0;;2
+Elvis;10.06.2024;16.0;50.0;;2
+Elvis;14.06.2024;16.0;52.0;;2
+Elvis;25.06.2024;15.0;45.0;;2
+Elvis;03.07.2024;17.0;50.0;;2
+Elvis;16.07.2024;47.0;46.0;;2
+Elvis;31.07.2024;17.0;42.0;;2
+Elvis;15.08.2024;10.0;54.0;Major sunburn;2
+Eva Longoria;14.04.2024;60.0;30.0;;4
+Eva Longoria;24.04.2024;20.0;15.0;Repotted and added stem;4
+Eva Longoria;03.05.2024;78.0;35.0;;4
+Eva Longoria;20.05.2024;85.0;40.0;;4
+Eva Longoria;04.06.2024;88.0;40.0;;4
+Eva Longoria;10.06.2024;88.0;40.0;;4
+Eva Longoria;25.06.2024;80.0;43.0;;4
+Eva Longoria;03.07.2024;88.0;38.0;;4
+Eva Longoria;16.07.2024;92.0;39.0;seems a bit stressed;4
+Eva Longoria;31.07.2024;58.0;42.0;;4
+Eva Longoria;15.08.2024;57.0;44.0;;4
+Eva Longoria;04.09.2024;45.0;41.0;;4
+Findus;08.04.2024;70.0;40.0;;3
+Findus;03.05.2024;70.0;40.0;;3
+Findus;20.05.2024;80.0;50.0;;3
+Findus;04.06.2024;68.0;60.0;;3
+Findus;10.06.2024;81.0;70.0;;3
+Findus;25.06.2024;78.0;70.0;is getting pretty big for his pot;3
+Findus;03.07.2024;75.0;72.0;Has a bigger pot and the stick is removed;3
+Findus;16.07.2024;78.0;72.0;;3
+Findus;31.07.2024;77.0;76.0;DOne;3
+Findus;15.08.2024;80.0;72.0;;3
+Findus;04.09.2024;65.0;75.0;;3
+Jerry;14.04.2024;7.0;4.0;;3
+Jerry;03.05.2024;11.0;10.0;;3
+Jerry;17.05.2024;17.0;22.0;;3
+Jerry;20.05.2024;17.0;17.0;;3
+Jerry;24.05.2024;17.0;20.0;;3
+Jerry;03.06.2024;22.0;20.0;;3
+Jerry;10.06.2024;29.0;29.0;;3
+Jerry;14.06.2024;31.0;32.0;;3
+Jerry;25.06.2024;40.0;36.0;;3
+Jerry;03.07.2024;42.0;35.0;A bit sideways;3
+Jerry;16.07.2024;47.0;42.0;Still hanging a bit sideways, but stalk is helping;3
+Jerry;31.07.2024;33.0;45.0;;3
+Jerry;15.08.2024;34.0;40.0;;3
+Kelly;14.04.2024;0.0;0.0;Planted Seeds;3
+Kelly;18.04.2024;0.1;0.1;First Sprouts;3
+Kelly;22.04.2024;10.0;1.0;Repotted;3
+Kelly;03.05.2024;12.0;1.0;;3
+Kelly;20.05.2024;12.0;2.0;;3
+Kelly;04.06.2024;16.0;12.0;;3
+Kelly;10.06.2024;25.0;10.0;;3
+Kelly;14.06.2024;14.0;19.0;;3
+Kelly;25.06.2024;28.0;35.0;;3
+Kelly;03.07.2024;44.0;40.0;;3
+Kelly;16.07.2024;48.0;47.0;;3
+Kelly;31.07.2024;44.0;50.0;;3
+Kelly;15.08.2024;93.0;50.0;;3
+Kevin;08.04.2024;28.0;10.0;;3
+Kevin;14.04.2024;30.0;12.0;;3
+Kevin;03.05.2024;23.0;25.0;;3
+Kevin;20.05.2024;28.0;17.0;;3
+Kevin;04.06.2024;23.0;32.0;;3
+Kevin;10.06.2024;31.0;35.0;;3
+Kevin;25.06.2024;40.0;60.0;first fruit, very lanky, might need more support;3
+Kevin;25.06.2024;45.0;22.0;Probably needs repot soon;3
+Kevin;03.07.2024;34.0;50.0;Fruits are growing;3
+Kevin;16.07.2024;30.0;50.0;;3
+Kevin;31.07.2024;43.0;28.0;;3
+Kevin;15.08.2024;42.0;38.0;;3
+Liliana;08.04.2024;24.0;15.0;;3
+Liliana;03.05.2024;21.0;28.0;;3
+Liliana;20.05.2024;24.0;30.0;;3
+Liliana;04.06.2024;21.0;27.0;;3
+Liliana;10.06.2024;21.0;26.0;;3
+Liliana;25.06.2024;22.0;26.0;Might need repotting soon again;3
+Liliana;03.07.2024;21.0;35.0;;3
+Liliana;16.07.2024;25.0;30.0;;3
+Liliana;31.07.2024;24.0;30.0;;3
+Liliana;15.08.2024;27.0;28.0;;3
+Liliana;03.09.2024;28.0;32.0;;3
+Lucy;07.04.2024;6.0;4.0;;4
+Lucy;14.04.2024;8.0;4.0;;4
+Lucy;24.04.2024;11.0;9.0;;4
+Lucy;08.05.2024;10.0;10.0;;4
+Lucy;13.05.2024;12.0;13.0;;4
+Lucy;20.05.2024;17.0;15.0;;4
+Lucy;24.05.2024;22.0;18.0;;4
+Lucy;04.06.2024;27.0;20.0;;4
+Lucy;10.06.2024;32.0;24.0;;4
+Lucy;14.06.2024;30.0;24.0;;4
+Lucy;25.06.2024;35.0;28.0;;4
+Lucy;03.07.2024;46.0;35.0;Dome;4
+Lucy;16.07.2024;46.0;32.0;first fruit;4
+Lucy;31.07.2024;50.0;36.0;;4
+Lucy;15.08.2024;49.0;47.0;;4
+Sandy;07.04.2024;7.0;4.0;;4
+Sandy;14.04.2024;9.0;4.0;;4
+Sandy;24.04.2024;9.0;8.0;;4
+Sandy;08.05.2024;9.0;8.0;;4
+Sandy;13.05.2024;11.5;10.5;;4
+Sandy;20.05.2024;14.0;13.0;;4
+Sandy;24.05.2024;15.0;14.0;;4
+Sandy;03.06.2024;20.0;22.0;;4
+Sandy;10.06.2024;30.0;25.0;;4
+Sandy;14.06.2024;26.0;26.0;;4
+Sandy;25.06.2024;34.0;30.0;;4
+Sandy;03.07.2024;38.0;35.0;;4
+Sandy;16.07.2024;37.0;36.0;;4
+Sandy;31.07.2024;41.0;32.0;;4
+Sandy;15.08.2024;45.0;41.0;;4
+Maria;08.04.2024;2.0;2.0;;4
+Maria;14.04.2024;2.5;2.0;;4
+Maria;03.05.2024;2.0;1.0;;4
+Maria;20.05.2024;5.0;3.0;;4
+Maria;04.06.2024;7.0;5.0;Slowly looking better;4
+Maria;10.06.2024;8.0;7.0;;4
+Maria;25.06.2024;9.0;8.0;Still not very bushy sadly;4
+Maria;03.07.2024;10.0;10.0;;4
+Maria;16.07.2024;16.0;10.0;;4
+Maria;31.07.2024;13.0;18.0;Fell over, but recovered;4
+Maria;15.08.2024;20.0;23.0;;4
+Maria;05.09.2024;39.0;24.0;;4
+Nadja;08.04.2024;10.0;5.0;;4
+Nadja;14.04.2024;12.0;5.0;;4
+Nadja;24.04.2024;15.0;5.0;;4
+Nadja;08.05.2024;22.0;17.0;;4
+Nadja;13.05.2024;24.0;19.0;First buds formed;4
+Nadja;20.05.2024;29.0;20.0;;4
+Nadja;24.05.2024;28.0;25.0;;4
+Nadja;04.06.2024;35.0;28.0;;4
+Nadja;10.06.2024;40.0;30.0;;4
+Nadja;14.06.2024;40.0;26.0;;4
+Nadja;25.06.2024;44.0;24.0;Leaves keep drooping since chilis started growing, there's probably not enough nutrients;4
+Nadja;03.07.2024;42.0;37.0;Adding some fertilizer to water helped;4
+Nadja;16.07.2024;49.0;28.0;;4
+Nadja;31.07.2024;49.0;31.0;;4
+Nadja;15.08.2024;48.0;41.0;;4
+Pepe;08.04.2024;6.5;4.0;;3
+Pepe;14.04.2024;7.0;4.0;;3
+Pepe;03.05.2024;7.0;4.0;;3
+Pepe;20.05.2024;2.5;4.0;;3
+Pepe;04.06.2024;3.0;4.0;Struggled during repot, but seems fine now;3
+Pepe;10.06.2024;2.5;5.0;;3
+Pepe;25.06.2024;2.0;4.5;Still not rooting properly;3
+Pepe;03.07.2024;3.0;4.0;Roots seem to have come out, new flowering buds are forming, but still hanging a bit sideways;3
+Pepe;16.07.2024;3.0;5.0;;3
+Pepe;02.08.2024;7.0;4.5;;3
+Pepe;15.08.2024;2.5;4.0;;3
+Pepe;30.08.2024;2.0;4.0;;3
+Peppa;08.04.2024;4.0;10.0;;4
+Peppa;14.04.2024;4.0;13.0;;4
+Peppa;03.05.2024;5.0;26.0;;4
+Peppa;20.05.2024;8.0;18.0;;4
+Peppa;04.06.2024;6.0;15.0;;4
+Peppa;10.06.2024;8.0;15.0;;4
+Peppa;25.06.2024;5.0;18.0;;4
+Peppa;03.07.2024;18.0;6.0;;4
+Peppa;16.07.2024;7.0;16.0;;4
+Peppa;31.07.2024;11.0;13.0;;4
+Peppa;15.08.2024;20.0;4.0;;4
+Peppa;04.09.2024;6.0;19.0;;4
+Rosy;08.04.2024;45.0;40.0;;3
+Rosy;03.05.2024;35.0;35.0;;3
+Rosy;20.05.2024;44.0;35.0;;3
+Rosy;04.06.2024;38.0;47.0;Hard to measure, leaves move a lot;3
+Rosy;10.06.2024;36.0;51.0;;3
+Rosy;10.06.2024;41.0;46.0;;3
+Rosy;25.06.2024;48.0;42.0;Needs a new pot;3
+Rosy;03.07.2024;44.0;58.0;doing a lot better since she has new soil;3
+Rosy;16.07.2024;39.0;59.0;New leaf uncurling;3
+Rosy;02.08.2024;50.0;56.0;;3
+Rosy;15.08.2024;58.0;46.0;;3
+Chrom;03.05.2024;15.0;5.0;;3
+Chrom;18.05.2024;20.0;20.0;;3
+Chrom;20.05.2024;18.0;15.0;;3
+Chrom;04.06.2024;27.0;30.0;;3
+Chrom;10.06.2024;57.0;45.0;;3
+Chrom;14.06.2024;60.0;45.0;;3
+Chrom;25.06.2024;32.0;35.0;;3
+Chrom;03.07.2024;72.0;60.0;;3
+Chrom;16.07.2024;102.0;82.0;Flowering;3
+Chrom;31.07.2024;110.0;78.0;;3
+Chrom;15.08.2024;107.0;83.0;;3
+Darryl;05.05.2024;33.0;10.0;;4
+Darryl;20.05.2024;33.0;9.5;;4
+Darryl;04.06.2024;34.0;6.0;;4
+Darryl;10.06.2024;34.0;7.0;;4
+Darryl;25.06.2024;34.0;9.0;;4
+Darryl;03.07.2024;33.0;10.0;Many new sprouts and great color since he has more light;4
+Darryl;16.07.2024;36.0;11.0;;4
+Darryl;02.08.2024;33.0;14.0;;4
+Darryl;15.08.2024;33.0;13.0;;4
+Darryl;30.08.2024;36.0;15.0;;4
+Zane;03.05.2024;7.0;5.0;;3
+Zane;20.05.2024;11.5;10.0;;3
+Zane;04.06.2024;16.0;25.0;;3
+Zane;14.06.2024;10.0;35.0;;3
+Zane;18.06.2024;24.0;41.0;;3
+Zane;25.06.2024;32.0;55.0;Still no fruit even though there are a lot of flowers;3
+Zane;16.07.2024;54.0;62.0;Still no fruit;3
+Zane;31.07.2024;40.0;40.0;;3
+Zane;15.08.2024;51.0;74.0;;3
+Ivan;03.05.2024;8.0;5.0;;3
+Ivan;20.05.2024;9.0;8.5;;3
+Ivan;04.06.2024;9.0;8.0;;3
+Ivan;10.06.2024;10.0;8.0;;3
+Ivan;25.06.2024;8.0;9.0;;3
+Ivan;03.07.2024;10.0;11.0;;3
+Ivan;16.07.2024;10.0;10.0;;3
+Ivan;02.08.2024;10.0;8.0;;3
+Ivan;15.08.2024;10.0;10.0;;3
+Ivan;30.08.2024;11.0;11.0;;3
+Tom;03.05.2024;11.0;8.0;;3
+Tom;17.05.2024;15.5;17.0;;3
+Tom;20.05.2024;16.0;17.0;;3
+Tom;24.05.2024;17.0;17.0;;3
+Tom;07.06.2024;28.0;32.0;;3
+Tom;10.06.2024;32.0;32.0;;3
+Tom;25.06.2024;40.0;35.0;;3
+Tom;03.07.2024;38.0;55.0;;3
+Tom;16.07.2024;38.0;47.0;Almost died from heat;3
+Tom;31.07.2024;34.0;56.0;;3
+Tom;15.08.2024;35.0;53.0;;3
+Terry;03.05.2024;5.0;9.0;;3
+Terry;26.05.2024;13.0;10.0;;3
+Terry;04.06.2024;18.0;15.0;;3
+Terry;10.06.2024;23.0;24.0;;3
+Terry;14.06.2024;26.0;28.0;Dome;3
+Terry;25.06.2024;52.0;33.0;first flower buds;3
+Terry;03.07.2024;80.0;53.0;;3
+Terry;16.07.2024;91.0;50.0;;3
+Terry;31.07.2024;60.0;82.0;;3
+Terry;15.08.2024;110.0;60.0;;3
+Martha;03.05.2024;13.0;17.0;;3
+Martha;20.05.2024;11.0;23.0;;3
+Martha;04.06.2024;12.0;23.0;Might want more sunlight;3
+Martha;10.06.2024;13.0;22.0;;3
+Martha;25.06.2024;20.0;25.0;;3
+Martha;03.07.2024;38.0;17.0;;3
+Martha;16.07.2024;19.0;32.0;;3
+Martha;31.07.2024;24.0;30.0;;3
+Martha;15.08.2024;24.0;43.0;;3
+Martha;22.08.2024;36.0;28.0;;3
+Dirk;05.05.2024;3.0;1.0;;1
+Dirk;20.05.2024;5.0;2.0;;1
+Dirk;04.06.2024;4.0;3.0;;1
+Dirk;10.06.2024;4.0;3.0;;1
+Dirk;25.06.2024;4.5;2.0;;1
+Dirk;03.07.2024;4.0;3.0;;1
+Dirk;16.07.2024;4.0;4.0;;1
+Dirk;02.08.2024;4.0;3.5;;1
+Dirk;15.08.2024;5.0;3.0;;1
+Dirk;08.09.2024;4.0;2.0;;1
+Mike;06.05.2024;22.0;10.0;Added during plant creation;3
+Mike;20.05.2024;23.0;12.0;;3
+Mike;04.06.2024;30.0;20.0;;3
+Mike;10.06.2024;37.0;16.0;Spreading nicely;3
+Mike;14.06.2024;37.0;16.0;;3
+Mike;30.06.2024;45.0;25.0;;3
+Mike;03.07.2024;50.0;20.0;Some yellow leaves, otherwise doing great;3
+Mike;16.07.2024;46.0;26.0;Almost died from heat;3
+Mike;31.07.2024;47.0;23.0;Last pot broke during the move;3
+Mike;15.08.2024;51.0;30.0;Needs new pot;3
+Biggie;06.05.2024;9.0;14.0;Added during plant creation;1
+Biggie;20.05.2024;12.0;12.0;;1
+Biggie;04.06.2024;13.0;13.0;;1
+Biggie;10.06.2024;13.0;14.0;;1
+Biggie;14.06.2024;12.0;26.0;;1
+Biggie;25.06.2024;12.0;18.0;;1
+Biggie;16.07.2024;16.0;25.0;Finally new leaves;1
+Biggie;31.07.2024;16.0;22.0;Old leaf broke off, but new one is already growing;1
+Biggie;15.08.2024;13.0;6.0;Severe sunburn;1
+Harry;06.05.2024;25.0;20.0;Added during plant creation;3
+Harry;20.05.2024;21.0;29.0;;3
+Harry;24.05.2024;15.0;30.0;;3
+Harry;04.06.2024;16.0;35.0;;3
+Harry;10.06.2024;17.0;35.0;;3
+Harry;14.06.2024;18.0;37.0;;3
+Harry;25.06.2024;19.0;35.0;;3
+Harry;03.07.2024;29.0;34.0;;3
+Harry;16.07.2024;23.0;33.0;Missed some watering while I was away;3
+Harry;31.07.2024;27.0;35.0;;3
+Harry;15.08.2024;26.0;35.0;;3
+Sam;06.05.2024;1.0;6.0;Added during plant creation;3
+Sam;04.06.2024;2.0;4.0;;3
+Sam;10.06.2024;2.5;4.0;;3
+Sam;25.06.2024;3.0;3.0;;3
+Sam;03.07.2024;2.5;3.5;Looking very healthy again;3
+Sam;16.07.2024;2.0;3.0;;3
+Sam;02.08.2024;2.0;3.0;;3
+Sam;15.08.2024;2.5;3.0;;3
+Sam;30.08.2024;3.0;5.0;;3
+Tony;19.05.2024;14.0;8.0;Added during plant creation;3
+Tony;04.06.2024;21.0;16.0;;3
+Tony;10.06.2024;25.0;13.0;;3
+Tony;14.06.2024;24.0;23.0;;3
+Tony;25.06.2024;40.0;32.0;;3
+Tony;03.07.2024;56.0;45.0;;3
+Tony;16.07.2024;60.0;45.0;;3
+Tony;31.07.2024;83.0;40.0;DOne;3
+Tony;15.08.2024;94.0;60.0;;3
+Louie;19.05.2024;9.0;4.0;Added during plant creation;3
+Louie;04.06.2024;12.0;10.0;;3
+Louie;10.06.2024;14.0;16.0;;3
+Louie;14.06.2024;18.0;21.0;;3
+Louie;25.06.2024;32.0;25.0;;3
+Louie;03.07.2024;50.0;55.0;;3
+Louie;16.07.2024;68.0;60.0;;3
+Louie;31.07.2024;83.0;60.0;;3
+Louie;15.08.2024;79.0;47.0;;3
+Jake;24.05.2024;11.0;5.5;Added during plant creation;3
+Jake;04.06.2024;15.0;13.0;;3
+Jake;10.06.2024;18.0;20.0;;3
+Jake;14.06.2024;23.0;29.0;;3
+Jake;25.06.2024;44.0;55.0;;3
+Jake;03.07.2024;70.0;56.0;;3
+Jake;16.07.2024;75.0;65.0;;3
+Jake;31.07.2024;72.0;48.0;;3
+Jake;15.08.2024;81.0;57.0;;3
+Charles;24.05.2024;12.0;7.0;Added during plant creation;3
+Charles;04.06.2024;14.0;10.0;;3
+Charles;10.06.2024;21.0;20.0;;3
+Charles;14.06.2024;23.0;27.0;;3
+Charles;25.06.2024;45.0;33.0;;3
+Charles;03.07.2024;71.0;60.0;;3
+Charles;16.07.2024;95.0;85.0;;3
+Charles;31.07.2024;87.0;40.0;Top branch got broken off during move;3
+Charles;15.08.2024;70.0;60.0;;3
+Ray;26.05.2024;11.0;8.0;Added during plant creation;3
+Ray;04.06.2024;16.0;17.0;;3
+Ray;10.06.2024;25.0;24.0;;3
+Ray;14.06.2024;22.0;30.0;;3
+Ray;25.06.2024;60.0;35.0;first flower buds;3
+Ray;03.07.2024;85.0;65.0;;3
+Ray;16.07.2024;94.0;74.0;;3
+Ray;31.07.2024;89.0;70.0;;3
+Ray;15.08.2024;106.0;68.0;;3
+Amy;26.05.2024;12.0;8.0;Added during plant creation;3
+Amy;04.06.2024;13.0;13.0;;3
+Amy;10.06.2024;15.0;15.0;DOne;3
+Amy;14.06.2024;17.0;18.0;;3
+Amy;25.06.2024;38.0;40.0;;3
+Amy;03.07.2024;61.0;54.0;;3
+Amy;16.07.2024;88.0;56.0;;3
+Amy;16.07.2024;84.0;60.0;;3
+Amy;31.07.2024;110.0;65.0;;3
+Amy;15.08.2024;120.0;61.0;;3
+Rosa;26.05.2024;13.0;8.0;Added during plant creation;3
+Rosa;04.06.2024;14.0;12.0;;3
+Rosa;10.06.2024;17.0;18.0;;3
+Rosa;14.06.2024;19.0;23.0;;3
+Rosa;25.06.2024;42.0;41.0;;3
+Rosa;03.07.2024;73.0;59.0;;3
+Rosa;16.07.2024;94.0;60.0;;3
+Rosa;31.07.2024;104.0;85.0;;3
+Rosa;15.08.2024;150.0;85.0;;3
+Gina;26.05.2024;8.0;5.0;Added during plant creation;3
+Gina;04.06.2024;11.0;13.0;;3
+Gina;10.06.2024;18.0;20.0;Desperately needs a repot;3
+Gina;14.06.2024;18.0;22.0;;3
+Gina;25.06.2024;45.0;32.0;;3
+Gina;03.07.2024;70.0;60.0;;3
+Gina;31.07.2024;96.0;74.0;;3
+Gina;15.08.2024;120.0;50.0;;3
+Scully;26.05.2024;7.0;5.0;Added during plant creation;3
+Scully;04.06.2024;9.0;10.0;;3
+Scully;10.06.2024;14.0;15.0;;3
+Scully;14.06.2024;15.0;18.0;;3
+Scully;25.06.2024;43.0;35.0;;3
+Scully;03.07.2024;68.0;57.0;;3
+Scully;16.07.2024;88.0;69.0;;3
+Scully;31.07.2024;97.0;80.0;;3
+Scully;15.08.2024;86.0;53.0;;3
+Hitchcock;26.05.2024;8.0;7.0;Added during plant creation;3
+Hitchcock;04.06.2024;13.0;12.0;;3
+Hitchcock;10.06.2024;15.0;17.0;;3
+Hitchcock;14.06.2024;17.0;23.0;;3
+Hitchcock;25.06.2024;48.0;50.0;;3
+Hitchcock;03.07.2024;71.0;54.0;;3
+Hitchcock;16.07.2024;87.0;65.0;;3
+Hitchcock;31.07.2024;90.0;96.0;;3
+Hitchcock;15.08.2024;89.0;46.0;;3
+Lucas;04.06.2024;7.0;7.0;Added during plant creation;3
+Lucas;10.06.2024;7.0;6.0;Grows well, but doesn't have a lot of space under Lucy;3
+Lucas;14.06.2024;7.0;5.0;;3
+Lucas;25.06.2024;7.0;5.0;;3
+Lucas;03.07.2024;9.0;6.0;;3
+Lucas;16.07.2024;10.0;7.0;;3
+Lucas;31.07.2024;11.0;9.0;;3
+Lucas;15.08.2024;16.0;9.0;;3
+Nate;04.06.2024;8.0;7.0;Added during plant creation;4
+Nate;10.06.2024;10.0;7.0;;4
+Nate;14.06.2024;11.0;7.0;;4
+Nate;25.06.2024;15.0;10.0;;4
+Nate;16.07.2024;20.0;20.0;;4
+Nate;31.07.2024;23.0;14.0;;4
+Nate;15.08.2024;19.0;23.0;;4
+Sandra;04.06.2024;12.0;8.0;Added during plant creation;4
+Sandra;10.06.2024;10.0;8.0;;4
+Sandra;14.06.2024;10.0;6.0;;4
+Sandra;25.06.2024;12.0;9.0;;4
+Sandra;03.07.2024;15.0;10.0;;4
+Sandra;16.07.2024;16.0;13.0;;4
+Sandra;31.07.2024;22.0;15.0;;4
+Sandra;15.08.2024;26.0;21.0;;4
+Jim;04.06.2024;8.0;5.0;Added during plant creation;4
+Jim;10.06.2024;8.0;5.0;;4
+Jim;14.06.2024;10.0;6.0;;4
+Jim;25.06.2024;12.0;11.0;Might have been attacked by snails;4
+Jim;03.07.2024;17.0;12.0;Something keeps eating leaves;4
+Jim;16.07.2024;20.0;13.0;Seems to survive snail attacks;4
+Jim;31.07.2024;20.0;16.0;;4
+Jim;15.08.2024;32.0;33.0;;4
+Tim;04.06.2024;7.0;6.0;Added during plant creation;5
+Tim;10.06.2024;8.0;9.0;;5
+Tim;14.06.2024;10.0;8.0;;5
+Tim;25.06.2024;12.0;10.0;Might be a bit crowded;5
+Tim;03.07.2024;17.0;12.0;;5
+Tim;16.07.2024;19.0;12.0;;5
+Tim;31.07.2024;26.0;12.0;;5
+Tim;15.08.2024;38.0;15.0;;5
+Chris;04.06.2024;10.0;6.0;Added during plant creation;4
+Chris;10.06.2024;13.0;7.0;;4
+Chris;14.06.2024;11.0;7.0;;4
+Chris;25.06.2024;16.0;10.0;;4
+Chris;03.07.2024;25.0;14.0;;4
+Chris;16.07.2024;30.0;12.0;;4
+Chris;31.07.2024;30.0;12.0;;4
+Chris;15.08.2024;48.0;12.0;;4
+Bart;04.06.2024;3.0;6.0;Added during plant creation;3
+Bart;10.06.2024;7.0;4.0;;3
+Bart;14.06.2024;6.0;4.0;;3
+Bart;25.06.2024;9.0;6.0;;3
+Bart;03.07.2024;14.0;10.0;;3
+Bart;16.07.2024;16.0;7.0;;3
+Bart;31.07.2024;17.0;11.0;;3
+Bart;15.08.2024;22.0;18.0;Recovering slowly;3
+Bond;04.06.2024;10.0;6.0;Added during plant creation;5
+Bond;10.06.2024;7.0;8.0;;5
+Bond;25.06.2024;11.0;8.0;Might have been attacked by snails;5
+Bond;03.07.2024;21.0;11.0;;5
+Bond;16.07.2024;27.0;11.0;;5
+Bond;31.07.2024;26.0;27.0;;5
+Bond;15.08.2024;42.0;54.0;;5
+Mrs Sprout;10.06.2024;22.0;14.0;Added during plant creation;4
+Mrs Sprout;25.06.2024;23.0;14.0;;4
+Mrs Sprout;03.07.2024;24.0;15.0;;4
+Mrs Sprout;16.07.2024;29.0;18.0;;4
+Mrs Sprout;31.07.2024;24.0;21.0;;4
+Mrs Sprout;15.08.2024;30.0;24.0;;4
+Mrs Sprout;04.09.2024;30.0;30.0;;4
+Fuchur;10.06.2024;53.0;39.0;Added during plant creation;3
+Fuchur;25.06.2024;50.0;32.0;;3
+Fuchur;03.07.2024;52.0;36.0;;3
+Fuchur;16.07.2024;51.0;43.0;;3
+Fuchur;31.07.2024;46.0;46.0;Fell over, not sure if he will survive, but now separated into two plants;3
+Fuchur;15.08.2024;48.0;39.0;;3
+Fuchur;05.09.2024;50.0;51.0;;3
+Timon;10.06.2024;16.0;20.0;Added during plant creation;3
+Timon;25.06.2024;19.0;19.0;;3
+Timon;03.07.2024;17.0;22.0;;3
+Timon;16.07.2024;22.0;21.0;;3
+Timon;31.07.2024;19.0;21.0;;3
+Timon;15.08.2024;22.0;26.0;;3
+Timon;03.09.2024;16.0;29.0;;3
+Pumbaa;10.06.2024;21.0;29.0;Added during plant creation;3
+Pumbaa;25.06.2024;22.0;26.0;standing a bit tilted;3
+Pumbaa;16.07.2024;29.0;29.0;;3
+Pumbaa;31.07.2024;22.0;26.0;;3
+Pumbaa;15.08.2024;22.0;27.0;;3
+Pumbaa;30.08.2024;24.0;28.0;;3
+Rihanna;26.06.2024;44.0;30.0;Added during plant creation;0
+Jay;26.06.2024;19.0;23.0;Added during plant creation;0
+Avi;26.06.2024;0.1;0.1;Added during plant creation;3
+Avi;03.07.2024;1.0;0.5;;3
+Avi;16.07.2024;6.0;1.0;;3
+Avi;23.07.2024;11.5;1.0;;3
+Avi;02.08.2024;22.0;9.0;;3
+Avi;15.08.2024;26.0;21.0;;3
+Avi;30.08.2024;21.0;21.0;;3
+Albus;26.06.2024;0.1;0.1;Added during plant creation;3
+Albus;03.07.2024;1.2;0.5;;3
+Albus;23.07.2024;11.0;1.0;;3
+Albus;02.08.2024;20.0;7.0;;3
+Albus;15.08.2024;24.0;16.0;;3
+Albus;30.08.2024;21.0;21.0;;3
+Jenn;26.06.2024;3.5;3.5;Added during plant creation;3
+Jenn;26.06.2024;2.5;6.0;Added during plant creation;3
+Jenn;03.07.2024;3.0;5.0;;3
+Jenn;16.07.2024;4.5;5.0;;3
+Jenn;02.08.2024;3.0;6.5;;3
+Jenn;15.08.2024;6.0;7.0;;3
+Jenn;08.09.2024;3.0;7.0;;3
+Joe;26.06.2024;2.5;5.5;Added during plant creation;3
+Joe;03.07.2024;3.0;6.0;;3
+Joe;16.07.2024;4.5;5.0;;3
+Joe;02.08.2024;3.0;6.0;;3
+Joe;15.08.2024;5.0;6.0;;3
+Joe;08.09.2024;5.0;7.0;;3
+Jack;26.06.2024;0.5;2.5;Added during plant creation;3
+Jack;03.07.2024;0.5;3.0;;3
+Jack;16.07.2024;1.0;2.0;;3
+Jack;02.08.2024;1.0;3.0;;3
+Jack;15.08.2024;0.5;2.0;;3
+Jack;30.08.2024;1.0;3.0;;3
+Jane;26.06.2024;0.5;4.0;Added during plant creation;3
+Jane;03.07.2024;0.5;4.0;;3
+Jane;16.07.2024;1.5;3.5;;3
+Jane;02.08.2024;1.0;4.0;;3
+Jane;15.08.2024;1.0;4.0;;3
+Jane;30.08.2024;2.0;4.0;Dome;3
+Bubba;26.06.2024;51.0;34.0;Added during plant creation;4
+Bubba;03.07.2024;51.0;43.0;;4
+Bubba;16.07.2024;58.0;47.0;First new leaf;4
+Bubba;31.07.2024;59.0;45.0;;4
+Bubba;15.08.2024;58.0;37.0;;4
+Bubba;28.08.2024;64.0;48.0;;4
+Tupac;28.06.2024;2.0;10.0;Added during plant creation;1
+Tupac;03.07.2024;7.0;10.0;;1
+Tupac;16.07.2024;5.0;9.0;Lost a leaf but got two new ones;1
+Tupac;31.07.2024;5.0;6.0;Leaf got burned from the sun;1
+Tupac;15.08.2024;3.0;4.0;Severe sunburn;1
+Gabrielle;03.07.2024;25.0;30.0;Added during plant creation;0
+Jill;03.07.2024;3.0;4.0;Added during plant creation;2
+Jill;16.07.2024;3.5;3.0;Still no new growth;2
+Jill;02.08.2024;3.0;3.0;;2
+Jill;15.08.2024;4.0;4.0;;2
+Jill;08.09.2024;3.0;3.0;;2
+Leela;16.07.2024;10.0;25.0;Added during plant creation;4
+Leela;31.07.2024;14.0;25.0;;4
+Leela;15.08.2024;21.0;30.0;;4
+Anya;16.07.2024;7.5;10.0;Added during plant creation;3
+Anya;31.07.2024;5.0;8.0;;3
+Anya;15.08.2024;9.0;9.0;;3
+Anya;04.09.2024;8.0;10.0;;3
+Tito;16.07.2024;3.0;3.0;Added during plant creation;3
+Tito;02.08.2024;3.0;3.0;;3
+Tito;15.08.2024;3.0;3.0;;3
+Tito;30.08.2024;2.0;3.0;;3
+Tigger;16.07.2024;4.0;5.0;Added during plant creation;3
+Tigger;02.08.2024;5.0;6.5;;3
+Tigger;15.08.2024;5.0;6.0;;3
+Tigger;30.08.2024;6.0;7.0;;3
+Jesus;24.07.2024;14.0;12.0;Added during plant creation;2
+Jesus;31.07.2024;15.0;13.0;Fell over, might survive;2
+Jesus;15.08.2024;16.0;9.0;;2
+Jesus;05.09.2024;2.5;6.0;;2
+Mufasa;09.08.2024;103.0;96.0;Added during plant creation;3
+Mufasa;15.08.2024;95.0;93.0;;3
+Mufasa;21.08.2024;78.0;84.0;;3
+Selene;09.08.2024;25.0;14.0;Added during plant creation;0
+Sting;09.08.2024;3.0;7.0;Added during plant creation;3
+Sting;15.08.2024;5.0;8.0;;3
+Al;12.08.2024;10.0;11.0;Added during plant creation;3
+Al;28.08.2024;5.0;11.0;;3
+Al;30.08.2024;5.0;11.0;;3
+Behemoth;20.08.2024;10.0;23.0;Added during plant creation;3
+Behemoth;07.09.2024;12.5;22.5;;3
+Aurora;20.08.2024;38.0;26.0;Added during plant creation;4
+Aurora;07.09.2024;44.0;36.0;;4
+Dewdrop;20.08.2024;1.0;8.0;Added during plant creation;3
+Dewdrop;30.08.2024;4.0;11.0;;3
+Sarabi;21.08.2024;99.0;62.0;Added during plant creation;3
+Scar;21.08.2024;58.0;68.0;Added during plant creation;3
+Magdalena;22.08.2024;21.0;19.0;Added during plant creation;3
+Magdalena;03.09.2024;22.0;23.0;;3
+Larry;22.08.2024;26.0;15.0;Added during plant creation;3
+Larry;08.09.2024;23.0;19.0;;3
+Simba;23.08.2024;27.0;18.0;Added during plant creation;0
+Gabby;23.08.2024;16.0;24.0;Added during plant creation;0
+Roselyn;23.08.2024;23.0;24.0;Added during plant creation;0
+Ron;27.08.2024;9.0;2.45;Added during plant creation;3
+Ron;08.09.2024;6.0;7.0;;3
+Kaa;29.08.2024;25.0;13.0;Added during plant creation;3
+Francis;29.08.2024;29.0;25.0;Added during plant creation;3
+Peter;29.08.2024;12.0;19.0;Added during plant creation;3
+Peter;03.09.2024;12.0;20.0;;3
+Gabriel;29.08.2024;102.0;18.0;Added during plant creation;3
+Rain;30.08.2024;26.0;30.0;Added during plant creation;3
+Mist;30.08.2024;27.0;28.0;Added during plant creation;3
+Sunshine;30.08.2024;25.0;22.0;Added during plant creation;3
+Atuin;08.09.2024;3.0;10.0;Added during plant creation;3
+Charles;11.09.2024;107.0;49.0;;3
+Gina;11.09.2024;81.0;51.0;;3
+Rosa;11.09.2024;129.0;77.0;;3
+Ray;11.09.2024;107.0;71.0;;3
+Terry;11.09.2024;133.0;58.0;;3
+Scully;11.09.2024;120.0;56.0;;3
+Hitchcock;11.09.2024;97.0;53.0;;3
+Tony;11.09.2024;110.0;72.0;;3
+Louie;11.09.2024;107.0;59.0;;3
+Kelly;13.09.2024;86.0;50.0;;3
+Beehome;13.09.2024;61.0;80.0;;4
+Chrom;13.09.2024;102.0;44.0;;3
+Chris;13.09.2024;54.0;30.0;;4
