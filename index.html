@@ -1,110 +1,1680 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Plants</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/index.css">
-    <script src="js/main.js"></script>
-  </head>
-  <body onload="setup_img_events()"><div id="header">
-  <a href="./index.html">Dashboard</a>
-  <a href="./plant_overview.html">Plants</a>
-  <a href="./species_overview.html">Plant Species</a>
-  <a href="./gallery.html">Gallery</a>
-  <a href="./activity_logs.html">Activities</a>
-  <a href="./graveyard.html">Graveyard</a>
-</div><h1> Upcoming Tasks </h1>
-    <div id="upcoming_tasks_container"><div class="next_activity_item">Sat, 14.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Bubba.html">Bubba</a>, <a href="plants/Dewdrop.html">Dewdrop</a>, <a href="plants/Dirk.html">Dirk</a>, <a href="plants/Gabriel.html">Gabriel</a>, <a href="plants/Jack.html">Jack</a>, <a href="plants/Jane.html">Jane</a>, <a href="plants/Jenn.html">Jenn</a>, <a href="plants/Joe.html">Joe</a>, <a href="plants/Peter.html">Peter</a>, <a href="plants/Pumbaa.html">Pumbaa</a>, <a href="plants/Rain.html">Rain</a></div><br/><div class="activity_header">💩 Fertilizing 💩<br/><a href="plants/Al.html">Al</a>, <a href="plants/Albus.html">Albus</a>, <a href="plants/Amy.html">Amy</a>, <a href="plants/Biggie.html">Biggie</a>, <a href="plants/Bond.html">Bond</a>, <a href="plants/Charles.html">Charles</a>, <a href="plants/Chrom.html">Chrom</a>, <a href="plants/Elvis.html">Elvis</a>, <a href="plants/Findus.html">Findus</a>, <a href="plants/Gina.html">Gina</a>, <a href="plants/Hitchcock.html">Hitchcock</a>, <a href="plants/Jake.html">Jake</a>, <a href="plants/Jerry.html">Jerry</a>, <a href="plants/Kelly.html">Kelly</a>, <a href="plants/Liliana.html">Liliana</a>, <a href="plants/Louie.html">Louie</a>, <a href="plants/Ray.html">Ray</a>, <a href="plants/Rosa.html">Rosa</a>, <a href="plants/Scully.html">Scully</a>, <a href="plants/Terry.html">Terry</a>, <a href="plants/Tom.html">Tom</a>, <a href="plants/Tony.html">Tony</a>, <a href="plants/Zane.html">Zane</a></div><br/><div class="activity_header">🌊 Watering + Fertilizing 💩<br/><a href="plants/Avi.html">Avi</a>, <a href="plants/EvaLongoria.html">Eva Longoria</a>, <a href="plants/Fuchur.html">Fuchur</a>, <a href="plants/Lucy.html">Lucy</a>, <a href="plants/Martha.html">Martha</a>, <a href="plants/Nadja.html">Nadja</a>, <a href="plants/Rosy.html">Rosy</a>, <a href="plants/Sandy.html">Sandy</a>, <a href="plants/Stefan.html">Stefan</a>, <a href="plants/Timon.html">Timon</a></div><br/><div class="activity_header"> Growth <br/><a href="plants/Al.html">Al</a>, <a href="plants/Albus.html">Albus</a>, <a href="plants/Amy.html">Amy</a>, <a href="plants/Avi.html">Avi</a>, <a href="plants/Bart.html">Bart</a>, <a href="plants/Biggie.html">Biggie</a>, <a href="plants/Bond.html">Bond</a>, <a href="plants/Brock.html">Brock</a>, <a href="plants/Bubba.html">Bubba</a>, <a href="plants/Cerberus.html">Cerberus</a>, <a href="plants/Darryl.html">Darryl</a>, <a href="plants/Dewdrop.html">Dewdrop</a>, <a href="plants/Elvis.html">Elvis</a>, <a href="plants/Francis.html">Francis</a>, <a href="plants/Gabriel.html">Gabriel</a>, <a href="plants/Harry.html">Harry</a>, <a href="plants/Ivan.html">Ivan</a>, <a href="plants/Jack.html">Jack</a>, <a href="plants/Jake.html">Jake</a>, <a href="plants/Jane.html">Jane</a>, <a href="plants/Jerry.html">Jerry</a>, <a href="plants/Jim.html">Jim</a>, <a href="plants/Kaa.html">Kaa</a>, <a href="plants/Kevin.html">Kevin</a>, <a href="plants/Leela.html">Leela</a>, <a href="plants/Lucas.html">Lucas</a>, <a href="plants/Lucy.html">Lucy</a>, <a href="plants/Martha.html">Martha</a>, <a href="plants/Mike.html">Mike</a>, <a href="plants/Mist.html">Mist</a>, <a href="plants/Mufasa.html">Mufasa</a>, <a href="plants/Nadja.html">Nadja</a>, <a href="plants/Nate.html">Nate</a>, <a href="plants/Pepe.html">Pepe</a>, <a href="plants/Pumbaa.html">Pumbaa</a>, <a href="plants/Rain.html">Rain</a>, <a href="plants/Rosy.html">Rosy</a>, <a href="plants/Sam.html">Sam</a>, <a href="plants/Sandra.html">Sandra</a>, <a href="plants/Sandy.html">Sandy</a>, <a href="plants/Sarabi.html">Sarabi</a>, <a href="plants/Scar.html">Scar</a>, <a href="plants/Stefan.html">Stefan</a>, <a href="plants/Sting.html">Sting</a>, <a href="plants/Sunshine.html">Sunshine</a>, <a href="plants/Tigger.html">Tigger</a>, <a href="plants/Tim.html">Tim</a>, <a href="plants/Tito.html">Tito</a>, <a href="plants/Tom.html">Tom</a>, <a href="plants/Tupac.html">Tupac</a>, <a href="plants/Zane.html">Zane</a></div></div>
-<div class="next_activity_item">Sun, 15.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Amy.html">Amy</a>, <a href="plants/Atuin.html">Atuin</a>, <a href="plants/Charles.html">Charles</a>, <a href="plants/Elvis.html">Elvis</a>, <a href="plants/Gina.html">Gina</a>, <a href="plants/Hitchcock.html">Hitchcock</a>, <a href="plants/Jake.html">Jake</a>, <a href="plants/Jerry.html">Jerry</a>, <a href="plants/Kevin.html">Kevin</a>, <a href="plants/Larry.html">Larry</a>, <a href="plants/Louie.html">Louie</a>, <a href="plants/Mike.html">Mike</a>, <a href="plants/Ray.html">Ray</a>, <a href="plants/Rosa.html">Rosa</a>, <a href="plants/Scully.html">Scully</a>, <a href="plants/Terry.html">Terry</a>, <a href="plants/Tom.html">Tom</a>, <a href="plants/Tony.html">Tony</a></div></div>
-<div class="next_activity_item">Mon, 16.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Biggie.html">Biggie</a>, <a href="plants/Harry.html">Harry</a>, <a href="plants/Mist.html">Mist</a>, <a href="plants/Ron.html">Ron</a>, <a href="plants/Sunshine.html">Sunshine</a>, <a href="plants/Tupac.html">Tupac</a></div></div>
-<div class="next_activity_item">Tue, 17.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Albus.html">Albus</a>, <a href="plants/Behemoth.html">Behemoth</a>, <a href="plants/Liliana.html">Liliana</a>, <a href="plants/Lucas.html">Lucas</a>, <a href="plants/MrsSprout.html">Mrs Sprout</a>, <a href="plants/Mufasa.html">Mufasa</a>, <a href="plants/Nate.html">Nate</a>, <a href="plants/Sam.html">Sam</a>, <a href="plants/Sandra.html">Sandra</a>, <a href="plants/Sarabi.html">Sarabi</a></div></div>
-<div class="next_activity_item">Wed, 18.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Jill.html">Jill</a>, <a href="plants/Leela.html">Leela</a></div><br/><div class="activity_header">💩 Fertilizing 💩<br/><a href="plants/Aurora.html">Aurora</a></div></div>
-<div class="next_activity_item">Thu, 19.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Bart.html">Bart</a>, <a href="plants/Bond.html">Bond</a>, <a href="plants/Brock.html">Brock</a>, <a href="plants/Chris.html">Chris</a>, <a href="plants/Chrom.html">Chrom</a>, <a href="plants/Jim.html">Jim</a>, <a href="plants/Kelly.html">Kelly</a>, <a href="plants/Tim.html">Tim</a>, <a href="plants/Zane.html">Zane</a></div></div>
-<div class="next_activity_item">Fri, 20.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Anya.html">Anya</a>, <a href="plants/Cerberus.html">Cerberus</a>, <a href="plants/Darryl.html">Darryl</a>, <a href="plants/Findus.html">Findus</a>, <a href="plants/Francis.html">Francis</a>, <a href="plants/Jesus.html">Jesus</a>, <a href="plants/Maria.html">Maria</a>, <a href="plants/Pepe.html">Pepe</a>, <a href="plants/Tito.html">Tito</a></div></div>
-<div class="next_activity_item">Sat, 21.09.2024<br/><div class="activity_header">🌊 Watering 🌊<br/><a href="plants/Aurora.html">Aurora</a>, <a href="plants/Magdalena.html">Magdalena</a>, <a href="plants/Scar.html">Scar</a>, <a href="plants/Tigger.html">Tigger</a></div><br/><div class="activity_header">💩 Fertilizing 💩<br/><a href="plants/Dewdrop.html">Dewdrop</a>, <a href="plants/Maria.html">Maria</a></div></div></div>
-
-    <h1>Autowatered Plants </h1>
-    <div id="autowatering_container"><div class="autowater_item"><a href="plants/Gabrielle.html">Gabrielle</a></div><div class="autowater_item"><a href="plants/Rihanna.html">Rihanna</a></div><div class="autowater_item"><a href="plants/Roselyn.html">Roselyn</a></div><div class="autowater_item"><a href="plants/Simba.html">Simba</a></div></div>
-
-    <h1>Hall of Fame</h1>
-    <div id="hall_of_fame"><div class="hall_of_fame_item"><h3>Tallest Plants</h3><table><tr><td>1.</td><td><a href="plants/Terry.html">Terry</a></td><td>133.0 cm</td></tr>
-<tr><td>2.</td><td><a href="plants/Rosa.html">Rosa</a></td><td>129.0 cm</td></tr>
-<tr><td>3.</td><td><a href="plants/Scully.html">Scully</a></td><td>120.0 cm</td></tr>
-<tr><td>4.</td><td><a href="plants/Amy.html">Amy</a></td><td>120.0 cm</td></tr>
-<tr><td>5.</td><td><a href="plants/Tony.html">Tony</a></td><td>110.0 cm</td></tr>
-<tr><td>6.</td><td><a href="plants/Ray.html">Ray</a></td><td>107.0 cm</td></tr>
-<tr><td>7.</td><td><a href="plants/Louie.html">Louie</a></td><td>107.0 cm</td></tr>
-<tr><td>8.</td><td><a href="plants/Charles.html">Charles</a></td><td>107.0 cm</td></tr>
-<tr><td>9.</td><td><a href="plants/Gabriel.html">Gabriel</a></td><td>102.0 cm</td></tr>
-<tr><td>10.</td><td><a href="plants/Chrom.html">Chrom</a></td><td>102.0 cm</td></tr></table></div><div class="hall_of_fame_item"><h3>Shortest Plants</h3><table><tr><td>1.</td><td><a href="plants/Jack.html">Jack</a></td><td>1.0 cm</td></tr>
-<tr><td>2.</td><td><a href="plants/Jane.html">Jane</a></td><td>2.0 cm</td></tr>
-<tr><td>3.</td><td><a href="plants/Pepe.html">Pepe</a></td><td>2.0 cm</td></tr>
-<tr><td>4.</td><td><a href="plants/Tito.html">Tito</a></td><td>2.0 cm</td></tr>
-<tr><td>5.</td><td><a href="plants/Jesus.html">Jesus</a></td><td>2.5 cm</td></tr>
-<tr><td>6.</td><td><a href="plants/Atuin.html">Atuin</a></td><td>3.0 cm</td></tr>
-<tr><td>7.</td><td><a href="plants/Jenn.html">Jenn</a></td><td>3.0 cm</td></tr>
-<tr><td>8.</td><td><a href="plants/Jill.html">Jill</a></td><td>3.0 cm</td></tr>
-<tr><td>9.</td><td><a href="plants/Sam.html">Sam</a></td><td>3.0 cm</td></tr>
-<tr><td>10.</td><td><a href="plants/Tupac.html">Tupac</a></td><td>3.0 cm</td></tr></table></div><div class="hall_of_fame_item"><h3>Widest Plants</h3><table><tr><td>1.</td><td><a href="plants/Mufasa.html">Mufasa</a></td><td>84.0 cm</td></tr>
-<tr><td>2.</td><td><a href="plants/Beehome.html">Beehome</a></td><td>80.0 cm</td></tr>
-<tr><td>3.</td><td><a href="plants/Rosa.html">Rosa</a></td><td>77.0 cm</td></tr>
-<tr><td>4.</td><td><a href="plants/Findus.html">Findus</a></td><td>75.0 cm</td></tr>
-<tr><td>5.</td><td><a href="plants/Zane.html">Zane</a></td><td>74.0 cm</td></tr>
-<tr><td>6.</td><td><a href="plants/Tony.html">Tony</a></td><td>72.0 cm</td></tr>
-<tr><td>7.</td><td><a href="plants/Ray.html">Ray</a></td><td>71.0 cm</td></tr>
-<tr><td>8.</td><td><a href="plants/Scar.html">Scar</a></td><td>68.0 cm</td></tr>
-<tr><td>9.</td><td><a href="plants/Sarabi.html">Sarabi</a></td><td>62.0 cm</td></tr>
-<tr><td>10.</td><td><a href="plants/Amy.html">Amy</a></td><td>61.0 cm</td></tr></table></div><div class="hall_of_fame_item"><h3>Thinnest Plants</h3><table><tr><td>1.</td><td><a href="plants/Dirk.html">Dirk</a></td><td>2.0 cm</td></tr>
-<tr><td>2.</td><td><a href="plants/Jack.html">Jack</a></td><td>3.0 cm</td></tr>
-<tr><td>3.</td><td><a href="plants/Tito.html">Tito</a></td><td>3.0 cm</td></tr>
-<tr><td>4.</td><td><a href="plants/Jill.html">Jill</a></td><td>3.0 cm</td></tr>
-<tr><td>5.</td><td><a href="plants/Jane.html">Jane</a></td><td>4.0 cm</td></tr>
-<tr><td>6.</td><td><a href="plants/Pepe.html">Pepe</a></td><td>4.0 cm</td></tr>
-<tr><td>7.</td><td><a href="plants/Tupac.html">Tupac</a></td><td>4.0 cm</td></tr>
-<tr><td>8.</td><td><a href="plants/Sam.html">Sam</a></td><td>5.0 cm</td></tr>
-<tr><td>9.</td><td><a href="plants/Jesus.html">Jesus</a></td><td>6.0 cm</td></tr>
-<tr><td>10.</td><td><a href="plants/Biggie.html">Biggie</a></td><td>6.0 cm</td></tr></table></div><div class="hall_of_fame_item"><h3>Fastest Growing Plants</h3><table><tr><td>1.</td><td><a href="plants/Amy.html">Amy</a></td><td>1.99 cm/day</td></tr>
-<tr><td>2.</td><td><a href="plants/Rosa.html">Rosa</a></td><td>1.71 cm/day</td></tr>
-<tr><td>3.</td><td><a href="plants/Scully.html">Scully</a></td><td>1.52 cm/day</td></tr>
-<tr><td>4.</td><td><a href="plants/Ray.html">Ray</a></td><td>1.47 cm/day</td></tr>
-<tr><td>5.</td><td><a href="plants/Jake.html">Jake</a></td><td>1.46 cm/day</td></tr>
-<tr><td>6.</td><td><a href="plants/Tony.html">Tony</a></td><td>1.39 cm/day</td></tr>
-<tr><td>7.</td><td><a href="plants/Terry.html">Terry</a></td><td>1.35 cm/day</td></tr>
-<tr><td>8.</td><td><a href="plants/Louie.html">Louie</a></td><td>1.33 cm/day</td></tr>
-<tr><td>9.</td><td><a href="plants/Hitchcock.html">Hitchcock</a></td><td>1.25 cm/day</td></tr>
-<tr><td>10.</td><td><a href="plants/Charles.html">Charles</a></td><td>1.25 cm/day</td></tr></table></div><div class="hall_of_fame_item"><h3>Slowest Growing Plants</h3><table><tr><td>1.</td><td><a href="plants/Mufasa.html">Mufasa</a></td><td>-3.08 cm/day</td></tr>
-<tr><td>2.</td><td><a href="plants/Jesus.html">Jesus</a></td><td>-0.41 cm/day</td></tr>
-<tr><td>3.</td><td><a href="plants/Al.html">Al</a></td><td>-0.28 cm/day</td></tr>
-<tr><td>4.</td><td><a href="plants/Tupac.html">Tupac</a></td><td>-0.1 cm/day</td></tr>
-<tr><td>5.</td><td><a href="plants/Biggie.html">Biggie</a></td><td>-0.04 cm/day</td></tr>
-<tr><td>6.</td><td><a href="plants/Pepe.html">Pepe</a></td><td>-0.03 cm/day</td></tr>
-<tr><td>7.</td><td><a href="plants/EvaLongoria.html">Eva Longoria</a></td><td>-0.03 cm/day</td></tr>
-<tr><td>8.</td><td><a href="plants/Tito.html">Tito</a></td><td>-0.02 cm/day</td></tr>
-<tr><td>9.</td><td><a href="plants/Jill.html">Jill</a></td><td>-0.01 cm/day</td></tr>
-<tr><td>10.</td><td><a href="plants/Atuin.html">Atuin</a></td><td>0 cm/day</td></tr></table></div><div class="hall_of_fame_item"><h3>Oldest Plants</h3><table><tr><td>1.</td><td><a href="plants/EvaLongoria.html">Eva Longoria</a></td><td>2083 days</td></tr>
-<tr><td>2.</td><td><a href="plants/Lucy.html">Lucy</a></td><td>160 days</td></tr>
-<tr><td>3.</td><td><a href="plants/Sandy.html">Sandy</a></td><td>160 days</td></tr>
-<tr><td>4.</td><td><a href="plants/Stefan.html">Stefan</a></td><td>160 days</td></tr>
-<tr><td>5.</td><td><a href="plants/Beehome.html">Beehome</a></td><td>159 days</td></tr>
-<tr><td>6.</td><td><a href="plants/Nadja.html">Nadja</a></td><td>159 days</td></tr>
-<tr><td>7.</td><td><a href="plants/Maria.html">Maria</a></td><td>159 days</td></tr>
-<tr><td>8.</td><td><a href="plants/Kevin.html">Kevin</a></td><td>159 days</td></tr>
-<tr><td>9.</td><td><a href="plants/Martha.html">Martha</a></td><td>159 days</td></tr>
-<tr><td>10.</td><td><a href="plants/Elvis.html">Elvis</a></td><td>159 days</td></tr></table></div><div class="hall_of_fame_item"><h3>Youngest Plants</h3><table><tr><td>1.</td><td><a href="plants/Atuin.html">Atuin</a></td><td>6 days</td></tr>
-<tr><td>2.</td><td><a href="plants/Sunshine.html">Sunshine</a></td><td>15 days</td></tr>
-<tr><td>3.</td><td><a href="plants/Mist.html">Mist</a></td><td>15 days</td></tr>
-<tr><td>4.</td><td><a href="plants/Rain.html">Rain</a></td><td>15 days</td></tr>
-<tr><td>5.</td><td><a href="plants/Kaa.html">Kaa</a></td><td>16 days</td></tr>
-<tr><td>6.</td><td><a href="plants/Gabriel.html">Gabriel</a></td><td>16 days</td></tr>
-<tr><td>7.</td><td><a href="plants/Francis.html">Francis</a></td><td>16 days</td></tr>
-<tr><td>8.</td><td><a href="plants/Peter.html">Peter</a></td><td>16 days</td></tr>
-<tr><td>9.</td><td><a href="plants/Ron.html">Ron</a></td><td>18 days</td></tr>
-<tr><td>10.</td><td><a href="plants/Gabby.html">Gabby</a></td><td>22 days</td></tr></table></div></div><div id="footer">
-  <div id="github_link"><a href="https://github.com/MarcoTz/Plants">Github</a></div>
-  <div id="num_plants">Number of plants:92</div>
-  <div id="last_build">Last build:&nbsp;14.09.2024</div><div id="image_viewer" onclick="close_image_viewer()">
-  <div id="image_box">
-    <img src="#" id="image_viewer_image"/>
-  </div>
-</div></div></body>
-</html>
+	<head>
+	<title>
+		Dashboard
+	</title>
+	<style>
+		.alternating_children>*:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		.alternating_children>*:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		.flex_container {
+			display:flex;
+			align-content:space-around;
+			align-self:center;
+			justify-content:center;
+			gap:1em;
+			flex-wrap:wrap;
+			align-items:stretch;
+			margin:auto;
+		}
+		.flex_container>* {
+			border-radius:1em;
+			padding:1em;
+		}
+	</style>
+	<style>
+		body {
+			background:var(--bg-color);
+			color:var(--fg-color);
+			font-family:"Noto Sans";
+			font-size:14pt;
+		}
+		h1 {
+			text-align:center;
+			width:100%;
+		}
+		h2 {
+			text-align:center;
+			width:100%;
+			align-self:flex-start;
+		}
+		h3 {
+			text-align:center;
+			width:100%;
+		}
+		a {
+			color:var(--link-color);
+		}
+		a:visited {
+			color:var(--link-color-visited);
+		}
+		img {
+			cursor:pointer;
+		}
+		table {
+			border-collapse:collapse;
+			margin:auto;
+		}
+		tr:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		tr:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		td {
+			padding-left:1em;
+			padding-right:1em;
+		}
+		td:nth-child(even) {
+			text-align:left;
+		}
+		td:nth-child(odd) {
+			text-align:right;
+		}
+		input {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+		select {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+	</style>
+	<style>
+		:root {
+			--bg-color:#222327;
+			--fg-color:#66cce0;
+			--fg-color-dark:#336670;
+			--link-color:#9ed072;
+			--link-color-visited:#72a278;
+			--bg-color-odd:#2a2d37;
+			--bg-color-even:#425661;
+			--bg-color-trans:rgba(22,23,27,0.80);
+			--health-color0:#757675;
+			--health-color1:#d60a0e;
+			--health-color2:#f97b0e;
+			--health-color3:#d9e008;
+			--health-color4:#92e513;
+			--health-color5:#33d818;
+		}
+	</style>
+	<style>
+		#header>* {
+			font-size:16pt;
+			text-align:center;
+			border-radius:1em;
+			width:10em;
+			height:3em;
+			padding:0em;
+			padding-top:1em;
+		}
+		#header {
+			width:100%;
+			margin-bottom:2em;
+			margin-top:2em;
+			padding-bottom:1em;
+			border-top:0px;
+			border-right:0px;
+			border-left:0px;
+			border-bottom:0.50em;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+	</style>
+	<style>
+		#footer {
+			width:100%;
+			margin-top:2em;
+			border-top:0.50em;
+			border-top:0px;
+			border-right:0px;
+			border-bottom:0px;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+		#footer>* {
+			margin:1em;
+			float:right;
+		}
+		#github_link {
+			float:left;
+		}
+		#image_viewer {
+			display:none;
+			width:100%;
+			height:100vh;
+			position:fixed;
+			overflow:none;
+			left:0%;
+			top:0%;
+			margin:0em;
+			background:var(--bg-color-trans);
+		}
+		#image_box {
+			position:relative;
+			width:100%;
+			height:100%;
+			margin:auto;
+			margin-top:5%;
+			overflow:auto;
+		}
+		#image_viewer_image {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom:auto;
+			margin-top:auto;
+			max-width:90%;
+			max-height:80%;
+			width:auto;
+			height:auto;
+		}
+	</style>
+	<style>
+		#hall_of_fame {
+			width:95%;
+			margin:auto;
+		}
+		.hall_of_fame_item {
+			margin:auto;
+			text-align:center;
+		}
+	</style>
+	<style>
+		.task_block {
+			max-width:10em;
+			text-align:center;
+		}
+		.upcoming_task {
+			font-size:12pt;
+			font-weight:bold;
+			text-align:center;
+			width:100%;
+			padding-bottom:0.50em;
+		}
+	</style>
+	<script src="js/main.js">
+		
+	</script>
+</head>
+	<body onLoad="setup_img_events()">
+	<div class="alternating_children flex_container" id="header">
+		<a href="./index.html">Dashboard</a>
+		<a href="./plant_overview.html">Plants</a>
+		<a href="./species_overview.html">Species</a>
+		<a href="./gallery.html">Gallery</a>
+		<a href="./activities.html">Activities</a>
+		<a href="./graveyard.html">Graveyard</a>
+	</div>
+	<h1 >
+		Upcoming Tasks
+	</h1>
+	<div id="tasks_container" class="flex_container alternating_children">
+		<div class="task_block">
+			Mon, 16.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Bubba.html" class="plant_link">Bubba</a>
+				, 
+				<a href="plants/Dewdrop.html" class="plant_link">Dewdrop</a>
+				, 
+				<a href="plants/Dirk.html" class="plant_link">Dirk</a>
+				, 
+				<a href="plants/Harry.html" class="plant_link">Harry</a>
+				, 
+				<a href="plants/Jack.html" class="plant_link">Jack</a>
+				, 
+				<a href="plants/Jane.html" class="plant_link">Jane</a>
+				, 
+				<a href="plants/Jenn.html" class="plant_link">Jenn</a>
+				, 
+				<a href="plants/Joe.html" class="plant_link">Joe</a>
+				, 
+				<a href="plants/Kevin.html" class="plant_link">Kevin</a>
+				, 
+				<a href="plants/Mike.html" class="plant_link">Mike</a>
+				, 
+				<a href="plants/Pumbaa.html" class="plant_link">Pumbaa</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Al.html" class="plant_link">Al</a>
+				, 
+				<a href="plants/Albus.html" class="plant_link">Albus</a>
+				, 
+				<a href="plants/Anya.html" class="plant_link">Anya</a>
+				, 
+				<a href="plants/Behemoth.html" class="plant_link">Behemoth</a>
+				, 
+				<a href="plants/Bond.html" class="plant_link">Bond</a>
+				, 
+				<a href="plants/Chrom.html" class="plant_link">Chrom</a>
+				, 
+				<a href="plants/Findus.html" class="plant_link">Findus</a>
+				, 
+				<a href="plants/Francis.html" class="plant_link">Francis</a>
+				, 
+				<a href="plants/Gabby.html" class="plant_link">Gabby</a>
+				, 
+				<a href="plants/Gabrielle.html" class="plant_link">Gabrielle</a>
+				, 
+				<a href="plants/Jay.html" class="plant_link">Jay</a>
+				, 
+				<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+				, 
+				<a href="plants/Jill.html" class="plant_link">Jill</a>
+				, 
+				<a href="plants/Kaa.html" class="plant_link">Kaa</a>
+				, 
+				<a href="plants/Kelly.html" class="plant_link">Kelly</a>
+				, 
+				<a href="plants/Liliana.html" class="plant_link">Liliana</a>
+				, 
+				<a href="plants/Magdalena.html" class="plant_link">Magdalena</a>
+				, 
+				<a href="plants/Rihanna.html" class="plant_link">Rihanna</a>
+				, 
+				<a href="plants/Roselyn.html" class="plant_link">Roselyn</a>
+				, 
+				<a href="plants/Scar.html" class="plant_link">Scar</a>
+				, 
+				<a href="plants/Simba.html" class="plant_link">Simba</a>
+				, 
+				<a href="plants/Sting.html" class="plant_link">Sting</a>
+				, 
+				<a href="plants/Zane.html" class="plant_link">Zane</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				🌊 Watering+Fertilizing 💩
+				<br/>
+				<a href="plants/Amy.html" class="plant_link">Amy</a>
+				, 
+				<a href="plants/Atuin.html" class="plant_link">Atuin</a>
+				, 
+				<a href="plants/Avi.html" class="plant_link">Avi</a>
+				, 
+				<a href="plants/Biggie.html" class="plant_link">Biggie</a>
+				, 
+				<a href="plants/Charles.html" class="plant_link">Charles</a>
+				, 
+				<a href="plants/Elvis.html" class="plant_link">Elvis</a>
+				, 
+				<a href="plants/EvaLongoria.html" class="plant_link">Eva Longoria</a>
+				, 
+				<a href="plants/Fuchur.html" class="plant_link">Fuchur</a>
+				, 
+				<a href="plants/Gabriel.html" class="plant_link">Gabriel</a>
+				, 
+				<a href="plants/Gina.html" class="plant_link">Gina</a>
+				, 
+				<a href="plants/Hitchcock.html" class="plant_link">Hitchcock</a>
+				, 
+				<a href="plants/Jake.html" class="plant_link">Jake</a>
+				, 
+				<a href="plants/Jerry.html" class="plant_link">Jerry</a>
+				, 
+				<a href="plants/Larry.html" class="plant_link">Larry</a>
+				, 
+				<a href="plants/Louie.html" class="plant_link">Louie</a>
+				, 
+				<a href="plants/Lucy.html" class="plant_link">Lucy</a>
+				, 
+				<a href="plants/Martha.html" class="plant_link">Martha</a>
+				, 
+				<a href="plants/Mist.html" class="plant_link">Mist</a>
+				, 
+				<a href="plants/Nadja.html" class="plant_link">Nadja</a>
+				, 
+				<a href="plants/Peter.html" class="plant_link">Peter</a>
+				, 
+				<a href="plants/Rain.html" class="plant_link">Rain</a>
+				, 
+				<a href="plants/Ray.html" class="plant_link">Ray</a>
+				, 
+				<a href="plants/Ron.html" class="plant_link">Ron</a>
+				, 
+				<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+				, 
+				<a href="plants/Rosy.html" class="plant_link">Rosy</a>
+				, 
+				<a href="plants/Sandy.html" class="plant_link">Sandy</a>
+				, 
+				<a href="plants/Scully.html" class="plant_link">Scully</a>
+				, 
+				<a href="plants/Stefan.html" class="plant_link">Stefan</a>
+				, 
+				<a href="plants/Sunshine.html" class="plant_link">Sunshine</a>
+				, 
+				<a href="plants/Terry.html" class="plant_link">Terry</a>
+				, 
+				<a href="plants/Timon.html" class="plant_link">Timon</a>
+				, 
+				<a href="plants/Tom.html" class="plant_link">Tom</a>
+				, 
+				<a href="plants/Tony.html" class="plant_link">Tony</a>
+				, 
+				<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Al.html" class="plant_link">Al</a>
+				, 
+				<a href="plants/Albus.html" class="plant_link">Albus</a>
+				, 
+				<a href="plants/Amy.html" class="plant_link">Amy</a>
+				, 
+				<a href="plants/Avi.html" class="plant_link">Avi</a>
+				, 
+				<a href="plants/Bart.html" class="plant_link">Bart</a>
+				, 
+				<a href="plants/Biggie.html" class="plant_link">Biggie</a>
+				, 
+				<a href="plants/Bond.html" class="plant_link">Bond</a>
+				, 
+				<a href="plants/Brock.html" class="plant_link">Brock</a>
+				, 
+				<a href="plants/Bubba.html" class="plant_link">Bubba</a>
+				, 
+				<a href="plants/Cerberus.html" class="plant_link">Cerberus</a>
+				, 
+				<a href="plants/Darryl.html" class="plant_link">Darryl</a>
+				, 
+				<a href="plants/Dewdrop.html" class="plant_link">Dewdrop</a>
+				, 
+				<a href="plants/Elvis.html" class="plant_link">Elvis</a>
+				, 
+				<a href="plants/Francis.html" class="plant_link">Francis</a>
+				, 
+				<a href="plants/Gabby.html" class="plant_link">Gabby</a>
+				, 
+				<a href="plants/Gabriel.html" class="plant_link">Gabriel</a>
+				, 
+				<a href="plants/Gabrielle.html" class="plant_link">Gabrielle</a>
+				, 
+				<a href="plants/Harry.html" class="plant_link">Harry</a>
+				, 
+				<a href="plants/Ivan.html" class="plant_link">Ivan</a>
+				, 
+				<a href="plants/Jack.html" class="plant_link">Jack</a>
+				, 
+				<a href="plants/Jake.html" class="plant_link">Jake</a>
+				, 
+				<a href="plants/Jane.html" class="plant_link">Jane</a>
+				, 
+				<a href="plants/Jay.html" class="plant_link">Jay</a>
+				, 
+				<a href="plants/Jerry.html" class="plant_link">Jerry</a>
+				, 
+				<a href="plants/Jim.html" class="plant_link">Jim</a>
+				, 
+				<a href="plants/Kaa.html" class="plant_link">Kaa</a>
+				, 
+				<a href="plants/Kevin.html" class="plant_link">Kevin</a>
+				, 
+				<a href="plants/Leela.html" class="plant_link">Leela</a>
+				, 
+				<a href="plants/Lucas.html" class="plant_link">Lucas</a>
+				, 
+				<a href="plants/Lucy.html" class="plant_link">Lucy</a>
+				, 
+				<a href="plants/Martha.html" class="plant_link">Martha</a>
+				, 
+				<a href="plants/Mike.html" class="plant_link">Mike</a>
+				, 
+				<a href="plants/Mist.html" class="plant_link">Mist</a>
+				, 
+				<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+				, 
+				<a href="plants/Nadja.html" class="plant_link">Nadja</a>
+				, 
+				<a href="plants/Nate.html" class="plant_link">Nate</a>
+				, 
+				<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+				, 
+				<a href="plants/Pumbaa.html" class="plant_link">Pumbaa</a>
+				, 
+				<a href="plants/Rain.html" class="plant_link">Rain</a>
+				, 
+				<a href="plants/Rihanna.html" class="plant_link">Rihanna</a>
+				, 
+				<a href="plants/Roselyn.html" class="plant_link">Roselyn</a>
+				, 
+				<a href="plants/Rosy.html" class="plant_link">Rosy</a>
+				, 
+				<a href="plants/Sam.html" class="plant_link">Sam</a>
+				, 
+				<a href="plants/Sandra.html" class="plant_link">Sandra</a>
+				, 
+				<a href="plants/Sandy.html" class="plant_link">Sandy</a>
+				, 
+				<a href="plants/Sarabi.html" class="plant_link">Sarabi</a>
+				, 
+				<a href="plants/Scar.html" class="plant_link">Scar</a>
+				, 
+				<a href="plants/Selene.html" class="plant_link">Selene</a>
+				, 
+				<a href="plants/Simba.html" class="plant_link">Simba</a>
+				, 
+				<a href="plants/Stefan.html" class="plant_link">Stefan</a>
+				, 
+				<a href="plants/Sting.html" class="plant_link">Sting</a>
+				, 
+				<a href="plants/Sunshine.html" class="plant_link">Sunshine</a>
+				, 
+				<a href="plants/Tigger.html" class="plant_link">Tigger</a>
+				, 
+				<a href="plants/Tim.html" class="plant_link">Tim</a>
+				, 
+				<a href="plants/Tito.html" class="plant_link">Tito</a>
+				, 
+				<a href="plants/Tom.html" class="plant_link">Tom</a>
+				, 
+				<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+				, 
+				<a href="plants/Zane.html" class="plant_link">Zane</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Tue, 17.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Albus.html" class="plant_link">Albus</a>
+				, 
+				<a href="plants/Behemoth.html" class="plant_link">Behemoth</a>
+				, 
+				<a href="plants/Liliana.html" class="plant_link">Liliana</a>
+				, 
+				<a href="plants/Lucas.html" class="plant_link">Lucas</a>
+				, 
+				<a href="plants/MrsSprout.html" class="plant_link">Mrs Sprout</a>
+				, 
+				<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+				, 
+				<a href="plants/Nate.html" class="plant_link">Nate</a>
+				, 
+				<a href="plants/Sam.html" class="plant_link">Sam</a>
+				, 
+				<a href="plants/Sandra.html" class="plant_link">Sandra</a>
+				, 
+				<a href="plants/Sarabi.html" class="plant_link">Sarabi</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Liliana.html" class="plant_link">Liliana</a>
+				, 
+				<a href="plants/Magdalena.html" class="plant_link">Magdalena</a>
+				, 
+				<a href="plants/Peter.html" class="plant_link">Peter</a>
+				, 
+				<a href="plants/Timon.html" class="plant_link">Timon</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Wed, 18.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Gabby.html" class="plant_link">Gabby</a>
+				, 
+				<a href="plants/Jill.html" class="plant_link">Jill</a>
+				, 
+				<a href="plants/Leela.html" class="plant_link">Leela</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Aurora.html" class="plant_link">Aurora</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Anya.html" class="plant_link">Anya</a>
+				, 
+				<a href="plants/EvaLongoria.html" class="plant_link">Eva Longoria</a>
+				, 
+				<a href="plants/Findus.html" class="plant_link">Findus</a>
+				, 
+				<a href="plants/MrsSprout.html" class="plant_link">Mrs Sprout</a>
+				, 
+				<a href="plants/Peppa.html" class="plant_link">Peppa</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Thu, 19.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Bart.html" class="plant_link">Bart</a>
+				, 
+				<a href="plants/Bond.html" class="plant_link">Bond</a>
+				, 
+				<a href="plants/Brock.html" class="plant_link">Brock</a>
+				, 
+				<a href="plants/Chris.html" class="plant_link">Chris</a>
+				, 
+				<a href="plants/Chrom.html" class="plant_link">Chrom</a>
+				, 
+				<a href="plants/Jim.html" class="plant_link">Jim</a>
+				, 
+				<a href="plants/Kelly.html" class="plant_link">Kelly</a>
+				, 
+				<a href="plants/Tim.html" class="plant_link">Tim</a>
+				, 
+				<a href="plants/Zane.html" class="plant_link">Zane</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Fuchur.html" class="plant_link">Fuchur</a>
+				, 
+				<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+				, 
+				<a href="plants/Maria.html" class="plant_link">Maria</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Fri, 20.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Anya.html" class="plant_link">Anya</a>
+				, 
+				<a href="plants/Cerberus.html" class="plant_link">Cerberus</a>
+				, 
+				<a href="plants/Darryl.html" class="plant_link">Darryl</a>
+				, 
+				<a href="plants/Findus.html" class="plant_link">Findus</a>
+				, 
+				<a href="plants/Francis.html" class="plant_link">Francis</a>
+				, 
+				<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+				, 
+				<a href="plants/Maria.html" class="plant_link">Maria</a>
+				, 
+				<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+				, 
+				<a href="plants/Tito.html" class="plant_link">Tito</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sat, 21.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Aurora.html" class="plant_link">Aurora</a>
+				, 
+				<a href="plants/Jay.html" class="plant_link">Jay</a>
+				, 
+				<a href="plants/Magdalena.html" class="plant_link">Magdalena</a>
+				, 
+				<a href="plants/Scar.html" class="plant_link">Scar</a>
+				, 
+				<a href="plants/Tigger.html" class="plant_link">Tigger</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Dewdrop.html" class="plant_link">Dewdrop</a>
+				, 
+				<a href="plants/Maria.html" class="plant_link">Maria</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Aurora.html" class="plant_link">Aurora</a>
+				, 
+				<a href="plants/Behemoth.html" class="plant_link">Behemoth</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 22.09.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Bart.html" class="plant_link">Bart</a>
+				, 
+				<a href="plants/Brock.html" class="plant_link">Brock</a>
+				, 
+				<a href="plants/Bubba.html" class="plant_link">Bubba</a>
+				, 
+				<a href="plants/Chris.html" class="plant_link">Chris</a>
+				, 
+				<a href="plants/Jim.html" class="plant_link">Jim</a>
+				, 
+				<a href="plants/Kevin.html" class="plant_link">Kevin</a>
+				, 
+				<a href="plants/Lucas.html" class="plant_link">Lucas</a>
+				, 
+				<a href="plants/Nate.html" class="plant_link">Nate</a>
+				, 
+				<a href="plants/Sandra.html" class="plant_link">Sandra</a>
+				, 
+				<a href="plants/Tim.html" class="plant_link">Tim</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Atuin.html" class="plant_link">Atuin</a>
+				, 
+				<a href="plants/Dirk.html" class="plant_link">Dirk</a>
+				, 
+				<a href="plants/Jenn.html" class="plant_link">Jenn</a>
+				, 
+				<a href="plants/Jill.html" class="plant_link">Jill</a>
+				, 
+				<a href="plants/Joe.html" class="plant_link">Joe</a>
+				, 
+				<a href="plants/Larry.html" class="plant_link">Larry</a>
+				, 
+				<a href="plants/Ron.html" class="plant_link">Ron</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Mon, 23.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Al.html" class="plant_link">Al</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Tue, 24.09.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/MrsSprout.html" class="plant_link">Mrs Sprout</a>
+				, 
+				<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+				, 
+				<a href="plants/Sarabi.html" class="plant_link">Sarabi</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Wed, 25.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Ivan.html" class="plant_link">Ivan</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Charles.html" class="plant_link">Charles</a>
+				, 
+				<a href="plants/Gina.html" class="plant_link">Gina</a>
+				, 
+				<a href="plants/Hitchcock.html" class="plant_link">Hitchcock</a>
+				, 
+				<a href="plants/Louie.html" class="plant_link">Louie</a>
+				, 
+				<a href="plants/Ray.html" class="plant_link">Ray</a>
+				, 
+				<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+				, 
+				<a href="plants/Scully.html" class="plant_link">Scully</a>
+				, 
+				<a href="plants/Terry.html" class="plant_link">Terry</a>
+				, 
+				<a href="plants/Tony.html" class="plant_link">Tony</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Fri, 27.09.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Mike.html" class="plant_link">Mike</a>
+				, 
+			</div>
+			<div class="upcoming_task">
+				📏 Growth 📏
+				<br/>
+				<a href="plants/Beehome.html" class="plant_link">Beehome</a>
+				, 
+				<a href="plants/Chris.html" class="plant_link">Chris</a>
+				, 
+				<a href="plants/Chrom.html" class="plant_link">Chrom</a>
+				, 
+				<a href="plants/Kelly.html" class="plant_link">Kelly</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sat, 28.09.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Kaa.html" class="plant_link">Kaa</a>
+				, 
+				<a href="plants/Selene.html" class="plant_link">Selene</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 29.09.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Darryl.html" class="plant_link">Darryl</a>
+				, 
+				<a href="plants/Tito.html" class="plant_link">Tito</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Tue, 01.10.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Peppa.html" class="plant_link">Peppa</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Wed, 02.10.2024
+			<br/>
+			<div class="upcoming_task">
+				🌊 Watering 🌊
+				<br/>
+				<a href="plants/Sting.html" class="plant_link">Sting</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Mon, 07.10.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Ivan.html" class="plant_link">Ivan</a>
+				, 
+				<a href="plants/Sam.html" class="plant_link">Sam</a>
+				, 
+				<a href="plants/Selene.html" class="plant_link">Selene</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Thu, 10.10.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Leela.html" class="plant_link">Leela</a>
+				, 
+				<a href="plants/Peppa.html" class="plant_link">Peppa</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Fri, 25.10.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 27.10.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Tigger.html" class="plant_link">Tigger</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Tue, 29.10.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Cerberus.html" class="plant_link">Cerberus</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 10.11.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Pumbaa.html" class="plant_link">Pumbaa</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Wed, 04.12.2024
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Dirk.html" class="plant_link">Dirk</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sat, 24.05.2025
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Harry.html" class="plant_link">Harry</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 01.06.2025
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Jenn.html" class="plant_link">Jenn</a>
+				, 
+				<a href="plants/Joe.html" class="plant_link">Joe</a>
+				, 
+			</div>
+		</div>
+		<div class="task_block">
+			Sun, 07.09.2025
+			<br/>
+			<div class="upcoming_task">
+				💩 Fertilizing 💩
+				<br/>
+				<a href="plants/Jack.html" class="plant_link">Jack</a>
+				, 
+				<a href="plants/Jane.html" class="plant_link">Jane</a>
+				, 
+			</div>
+		</div>
+	</div>
+	<h1 >
+		Autowatered Plants
+	</h1>
+	<div id="autowatering_container" class="flex_container alternating_children">
+		<div class="autowater_item">
+			<a href="plants/Simba.html" class="plant_link">Simba</a>
+		</div>
+		<div class="autowater_item">
+			<a href="plants/Roselyn.html" class="plant_link">Roselyn</a>
+		</div>
+		<div class="autowater_item">
+			<a href="plants/Gabrielle.html" class="plant_link">Gabrielle</a>
+		</div>
+		<div class="autowater_item">
+			<a href="plants/Rihanna.html" class="plant_link">Rihanna</a>
+		</div>
+	</div>
+	<h1 >
+		Hall Of Fame
+	</h1>
+	<div id="hall_of_fame" class="flex_container alternating_children">
+		<div id="hall_of_fame_table">
+			<h3 >
+				Tallest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Terry.html" class="plant_link">Terry</a>
+					</td><td>
+						133.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+					</td><td>
+						129.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Scully.html" class="plant_link">Scully</a>
+					</td><td>
+						120.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Amy.html" class="plant_link">Amy</a>
+					</td><td>
+						120.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Tony.html" class="plant_link">Tony</a>
+					</td><td>
+						110.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Ray.html" class="plant_link">Ray</a>
+					</td><td>
+						107.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Louie.html" class="plant_link">Louie</a>
+					</td><td>
+						107.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Charles.html" class="plant_link">Charles</a>
+					</td><td>
+						107.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Gabriel.html" class="plant_link">Gabriel</a>
+					</td><td>
+						102.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Chrom.html" class="plant_link">Chrom</a>
+					</td><td>
+						102.00 cm
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Shortest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Jack.html" class="plant_link">Jack</a>
+					</td><td>
+						1.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Jane.html" class="plant_link">Jane</a>
+					</td><td>
+						2.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+					</td><td>
+						2.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Tito.html" class="plant_link">Tito</a>
+					</td><td>
+						2.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+					</td><td>
+						2.50 cm
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Atuin.html" class="plant_link">Atuin</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Sam.html" class="plant_link">Sam</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Jenn.html" class="plant_link">Jenn</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Jill.html" class="plant_link">Jill</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Widest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+					</td><td>
+						84.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Beehome.html" class="plant_link">Beehome</a>
+					</td><td>
+						80.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+					</td><td>
+						77.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Findus.html" class="plant_link">Findus</a>
+					</td><td>
+						75.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Zane.html" class="plant_link">Zane</a>
+					</td><td>
+						74.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Tony.html" class="plant_link">Tony</a>
+					</td><td>
+						72.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Ray.html" class="plant_link">Ray</a>
+					</td><td>
+						71.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Scar.html" class="plant_link">Scar</a>
+					</td><td>
+						68.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Sarabi.html" class="plant_link">Sarabi</a>
+					</td><td>
+						62.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Amy.html" class="plant_link">Amy</a>
+					</td><td>
+						61.00 cm
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Thinnest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Dirk.html" class="plant_link">Dirk</a>
+					</td><td>
+						2.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Jill.html" class="plant_link">Jill</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Jack.html" class="plant_link">Jack</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Tito.html" class="plant_link">Tito</a>
+					</td><td>
+						3.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Jane.html" class="plant_link">Jane</a>
+					</td><td>
+						4.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+					</td><td>
+						4.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+					</td><td>
+						4.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Sam.html" class="plant_link">Sam</a>
+					</td><td>
+						5.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Biggie.html" class="plant_link">Biggie</a>
+					</td><td>
+						6.00 cm
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+					</td><td>
+						6.00 cm
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Fastest Growing
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Amy.html" class="plant_link">Amy</a>
+					</td><td>
+						0.99 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+					</td><td>
+						0.86 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Scully.html" class="plant_link">Scully</a>
+					</td><td>
+						0.76 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Ray.html" class="plant_link">Ray</a>
+					</td><td>
+						0.74 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Jake.html" class="plant_link">Jake</a>
+					</td><td>
+						0.73 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Tony.html" class="plant_link">Tony</a>
+					</td><td>
+						0.70 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Terry.html" class="plant_link">Terry</a>
+					</td><td>
+						0.68 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Louie.html" class="plant_link">Louie</a>
+					</td><td>
+						0.67 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Hitchcock.html" class="plant_link">Hitchcock</a>
+					</td><td>
+						0.62 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Charles.html" class="plant_link">Charles</a>
+					</td><td>
+						0.62 cm/day
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Slowest Growing
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+					</td><td>
+						-1.54 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+					</td><td>
+						-0.20 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Al.html" class="plant_link">Al</a>
+					</td><td>
+						-0.14 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+					</td><td>
+						-0.05 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Biggie.html" class="plant_link">Biggie</a>
+					</td><td>
+						-0.02 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+					</td><td>
+						-0.02 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/EvaLongoria.html" class="plant_link">Eva Longoria</a>
+					</td><td>
+						-0.01 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Tito.html" class="plant_link">Tito</a>
+					</td><td>
+						-0.01 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Jill.html" class="plant_link">Jill</a>
+					</td><td>
+						-0.01 cm/day
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Sunshine.html" class="plant_link">Sunshine</a>
+					</td><td>
+						0.00 cm/day
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Oldest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/EvaLongoria.html" class="plant_link">Eva Longoria</a>
+					</td><td>
+						2085.00 days
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Lucy.html" class="plant_link">Lucy</a>
+					</td><td>
+						162.00 days
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Sandy.html" class="plant_link">Sandy</a>
+					</td><td>
+						162.00 days
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Stefan.html" class="plant_link">Stefan</a>
+					</td><td>
+						162.00 days
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Rosy.html" class="plant_link">Rosy</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Martha.html" class="plant_link">Martha</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Kevin.html" class="plant_link">Kevin</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Cerberus.html" class="plant_link">Cerberus</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Nadja.html" class="plant_link">Nadja</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Liliana.html" class="plant_link">Liliana</a>
+					</td><td>
+						161.00 days
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="hall_of_fame_table">
+			<h3 >
+				Youngest
+			</h3>
+			<table >
+				<tr >
+					<td>
+						1. 
+					</td><td>
+						<a href="plants/Atuin.html" class="plant_link">Atuin</a>
+					</td><td>
+						8.00 days
+					</td>
+				</tr><tr >
+					<td>
+						2. 
+					</td><td>
+						<a href="plants/Sunshine.html" class="plant_link">Sunshine</a>
+					</td><td>
+						17.00 days
+					</td>
+				</tr><tr >
+					<td>
+						3. 
+					</td><td>
+						<a href="plants/Mist.html" class="plant_link">Mist</a>
+					</td><td>
+						17.00 days
+					</td>
+				</tr><tr >
+					<td>
+						4. 
+					</td><td>
+						<a href="plants/Rain.html" class="plant_link">Rain</a>
+					</td><td>
+						17.00 days
+					</td>
+				</tr><tr >
+					<td>
+						5. 
+					</td><td>
+						<a href="plants/Kaa.html" class="plant_link">Kaa</a>
+					</td><td>
+						18.00 days
+					</td>
+				</tr><tr >
+					<td>
+						6. 
+					</td><td>
+						<a href="plants/Peter.html" class="plant_link">Peter</a>
+					</td><td>
+						18.00 days
+					</td>
+				</tr><tr >
+					<td>
+						7. 
+					</td><td>
+						<a href="plants/Gabriel.html" class="plant_link">Gabriel</a>
+					</td><td>
+						18.00 days
+					</td>
+				</tr><tr >
+					<td>
+						8. 
+					</td><td>
+						<a href="plants/Francis.html" class="plant_link">Francis</a>
+					</td><td>
+						18.00 days
+					</td>
+				</tr><tr >
+					<td>
+						9. 
+					</td><td>
+						<a href="plants/Ron.html" class="plant_link">Ron</a>
+					</td><td>
+						20.00 days
+					</td>
+				</tr><tr >
+					<td>
+						10. 
+					</td><td>
+						<a href="plants/Roselyn.html" class="plant_link">Roselyn</a>
+					</td><td>
+						24.00 days
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="github_link">
+			<a href="https://github.com/MarcoTz/Plants">Github</a>
+		</div>
+		<div id="num_plants">
+			Number of plants: 92
+		</div>
+		<div id="last_build">
+			Last build: 16.09.2024
+		</div>
+		<div id="image_viewer" onClick="close_image_viewer();" style="display:none;">
+			<div id="image_box" onClick="close_image_viewer();">
+				<img id="image_viewer_image" />
+			</div>
+		</div>
+	</div>
+</body></html>
