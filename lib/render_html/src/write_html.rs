@@ -59,7 +59,6 @@ pub fn write_all(
         std::fs::create_dir_all(species_dir.clone())?;
     }
     for species_html in html_content.species_htmls.iter() {
-        println!("{:?}", out_prefix.join(&species_html.page_name));
         write_html(
             species_html.page_html.clone(),
             &(species_dir.join(&species_html.page_name)),

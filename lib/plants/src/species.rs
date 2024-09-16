@@ -57,7 +57,7 @@ impl Species {
         } else {
             base.to_owned() + "/"
         };
-        prefix + &self.get_name().replace(' ', "") + "html"
+        prefix + &self.get_name().replace(' ', "") + ".html"
     }
 
     pub fn get_plants(&self, plants: &[Plant]) -> Vec<Plant> {
