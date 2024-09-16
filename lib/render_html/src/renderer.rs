@@ -99,7 +99,7 @@ impl<T: DatabaseManager> Renderer<T> {
             let page_html = plant_details
                 .render(&self.date_format, true, num_plants)
                 .render();
-            let page_name = plant.get_url("plants");
+            let page_name = plant.get_url("");
             plant_htmls.push(NamedPage {
                 page_name,
                 page_html,
@@ -121,7 +121,7 @@ impl<T: DatabaseManager> Renderer<T> {
                 .render(&self.date_format, true, all_plants.len() as i32)
                 .render();
             species_htmls.push(NamedPage {
-                page_name: species.get_url("species"),
+                page_name: species.get_url(""),
                 page_html: species_html,
             })
         }
