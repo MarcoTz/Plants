@@ -6,3 +6,6 @@ ExecStart=/home/rooxo/Plants/target/release/plant_updater_bot
 WorkingDirectory=/home/rooxo/Plants
 Type=simple
 Restart=always
+
+[Install]
+WantedBy=default.target
