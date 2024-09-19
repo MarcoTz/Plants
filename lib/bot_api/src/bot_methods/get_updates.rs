@@ -52,7 +52,6 @@ impl BotMethod for GetUpdates {
 
         let update_vals: serde_json::Value = resp.json().await?;
         let updates: Updates = update_vals.try_into()?;
-        log::info!("Got {} new updates", updates.updates.len());
         Ok(updates)
     }
 }

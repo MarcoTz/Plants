@@ -207,7 +207,7 @@ impl Action for NewPlant {
             .origin
             .clone()
             .ok_or(Error::MissingInput("Origin".to_owned()))?;
-        let plant_notes = self.notes.clone().unwrap_or(vec![]);
+        let plant_notes = self.notes.clone().unwrap_or_default();
         let species_name = self
             .species_name
             .clone()
