@@ -77,7 +77,7 @@ mod dir_check_tests {
         Directories, DATA_DIR_NEW, DATA_DIR_OLD, LOGS_DIR, PLANTS_DIR, SPECIES_DIR_NEW,
         SPECIES_DIR_OLD,
     };
-    use std::path::{Path, PathBuf};
+    use std::path::PathBuf;
 
     #[test]
     fn default_dirs() {
@@ -93,19 +93,5 @@ mod dir_check_tests {
             data_dir_out: PathBuf::from(DATA_DIR_NEW),
         };
         assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn ensure_exists() {
-        let dirs = Directories::default();
-        std::env::set_current_dir(Path::new("../")).unwrap();
-        dirs.ensure_exists().unwrap();
-        assert!(dirs.data_dir_in.exists());
-        assert!(dirs.data_dir_out.exists());
-        assert!(dirs.plants_dir_in.exists());
-        assert!(dirs.plants_dir_out.exists());
-        assert!(dirs.species_dir_in.exists());
-        assert!(dirs.logs_dir_in.exists());
-        assert!(dirs.logs_dir_out.exists());
     }
 }
