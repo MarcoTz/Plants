@@ -32,7 +32,7 @@ pub mod test_common {
     use super::plants::{BoolOrString, PlantJSON};
     use chrono::NaiveDate;
 
-    pub const BASE_DIR: &str = "testing/port";
+    pub const BASE_DIR: &str = "../testing/port";
     pub const LOGS_FILE_IN: &str = "Activities.csv";
     pub const LOGS_FILE_OUT: &str = "Activities_new.csv";
     pub const GROWTH_FILE_IN: &str = "Growth.csv";
