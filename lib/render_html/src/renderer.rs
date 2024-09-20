@@ -231,14 +231,14 @@ mod renderer_tests {
         let result = example_renderer().render_all_plants().unwrap();
         let expected = vec![
             NamedPage {
-                page_name: example_plant().get_url("plants"),
+                page_name: example_plant().get_url(""),
                 page_html: PlantDetails::try_from(&example_plant())
                     .unwrap()
                     .render(DATE_FORMAT, true, 2)
                     .render(),
             },
             NamedPage {
-                page_name: example_plant2().get_url("plants"),
+                page_name: example_plant2().get_url(""),
                 page_html: PlantDetails::try_from(&example_plant2())
                     .unwrap()
                     .render(DATE_FORMAT, true, 2)
@@ -252,7 +252,7 @@ mod renderer_tests {
     fn all_species() {
         let result = example_renderer().render_all_species().unwrap();
         let expected = vec![NamedPage {
-            page_name: example_species().get_url("species"),
+            page_name: example_species().get_url(""),
             page_html: SpeciesDetails::from((
                 &example_species(),
                 vec![example_plant(), example_plant2()].as_slice(),
