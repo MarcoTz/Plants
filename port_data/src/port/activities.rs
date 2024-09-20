@@ -158,6 +158,7 @@ mod activities_tests {
     #[test]
     fn load_old() {
         let log_file = PathBuf::from(BASE_DIR).join(LOGS_FILE_IN);
+        println!("{:?}", log_file);
         let result = <Vec<LogCSV> as Port<Vec<LogItem>>>::load_old(&log_file).unwrap();
         let expected = vec![example_log_csv1(), example_log_csv2()];
         assert_eq!(result, expected)
