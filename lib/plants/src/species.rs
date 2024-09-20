@@ -52,7 +52,7 @@ impl Species {
     }
 
     pub fn get_url(&self, base: &str) -> String {
-        let prefix = if base == "" {
+        let prefix = if base.is_empty() {
             "".to_owned()
         } else {
             base.to_owned() + "/"
