@@ -11,7 +11,7 @@ pub use serialize_error::SerializeError;
 use super::update::Update;
 use std::fmt;
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub enum Error {
     Request(RequestError),
     Parse(ParseError),
@@ -22,6 +22,8 @@ pub enum Error {
     EmptyMessage,
     NoMessage(Box<Update>),
     MissingImage,
+    MissingHandler(String),
+    Other(Box<dyn std::error::Error>),
 }
 
 impl std::error::Error for Error {}
@@ -40,6 +42,8 @@ impl fmt::Display for Error {
                 frmt.write_str(&format!("No message for update {update:?}"))
             }
             Error::MissingImage => write!(frmt, "No image sizes were provided"),
+            Error::MissingHandler(msg) => write!(frmt, "Missing handler {msg}"),
+            Error::Other(err) => err.fmt(frmt),
         }
     }
 }

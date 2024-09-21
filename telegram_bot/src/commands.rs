@@ -149,9 +149,8 @@ impl str::FromStr for Command {
 }
 
 impl BotCommand for Command {
-    type Error = Error;
-    fn parse(s: &str) -> Result<Self, Self::Error> {
-        s.parse::<Command>()
+    fn parse(s: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        s.parse::<Command>().map_err(|err| err.into())
     }
     fn get_description(&self) -> String {
         match self {

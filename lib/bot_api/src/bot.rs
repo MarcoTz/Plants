@@ -1,11 +1,13 @@
 use super::{
     bot_methods::{BotMethod, DownloadImage, GetUpdates, SendMessage},
+    commands::Command,
     errors::Error,
+    handlers::Handler,
+    update::Update,
     update::Updates,
 };
 use bytes::Bytes;
 
-#[derive(Debug, PartialEq, Eq)]
 pub struct Bot {
     pub api_key: String,
     pub last_update: i64,
@@ -51,12 +53,52 @@ impl Bot {
     pub async fn download_image(&self, file_id: String) -> Result<Bytes, Error> {
         DownloadImage { file_id }.perform(&self.api_key).await
     }
+
+    pub async fn handle_update<U: Handler<T>, T: Command>(
+        &mut self,
+        update: Update,
+        handler: &mut U,
+    ) -> Result<(), Error> {
+        let msg = update.get_message()?;
+        if msg.is_command() {
+            let cmd: T = msg.get_command().map_err(Error::Other)?;
+            handler.handle_cmd(self, cmd, msg).await;
+        } else if let Some(photo) = msg.photo.clone() {
+            handler.handle_img(self, photo, msg).await;
+        } else {
+            handler.handle_msg(self, msg).await;
+        }
+        self.last_update = update.update_id;
+        Ok(())
+    }
+
+    pub async fn handle_updates<U: Handler<T>, T: Command>(
+        &mut self,
+        handler: &mut U,
+    ) -> Result<(), Error> {
+        let updates = self.get_all_updates().await?;
+        for update in updates.updates {
+            self.handle_update(update, handler).await?;
+        }
+        Ok(())
+    }
+
+    pub async fn run<U: Handler<T>, T: Command>(&mut self, handler: &mut U) {
+        loop {
+            match self.handle_updates(handler).await {
+                Ok(_) => (),
+                Err(err) => {
+                    log::error!("Bot encountered an error: {err}")
+                }
+            }
+        }
+    }
 }
 
 #[cfg(test)]
 mod bot_tests {
     use super::Bot;
-    use crate::test_common::load_config;
+    use crate::test_common::{load_config, ExampleCommand};
 
     #[test]
     fn new_bot() {
@@ -64,9 +106,9 @@ mod bot_tests {
         let result = Bot::new(data.api_key.clone());
         assert_eq!(
             result,
-            Bot {
+            Bot::<ExampleCommand> {
                 api_key: data.api_key,
-                last_update: 0
+                last_update: 0,
             }
         )
     }

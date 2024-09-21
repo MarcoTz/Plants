@@ -46,11 +46,11 @@ impl Message {
         self.text.clone().ok_or(Error::EmptyMessage)
     }
 
-    pub fn get_command<'a, U: Command + 'a>(&self) -> Result<U, Box<dyn std::error::Error + 'a>> {
+    pub fn get_command<U: Command>(&self) -> Result<U, Box<dyn std::error::Error>> {
         self.ensure_command()?;
         let msg_text = self.get_text()?;
         let cmd = msg_text.split(' ').next().ok_or(Error::CommandIsMessage)?;
-        U::parse(&cmd.replace('/', "")).map_err(|err| err.into())
+        U::parse(&cmd.replace('/', ""))
     }
 }
 

@@ -3,12 +3,13 @@ use super::{
     commands::{Command, CommandRes},
     errors::{CommandError, Error},
 };
-use bot_api::{bot::Bot, handlers::Handler, message::Message};
+use bot_api::{bot::Bot, handlers::Handler, message::Message, photo_size::Photo};
 use bytes::Bytes;
 use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
 use std::{
     fs::File,
+    future::Future,
     io::{Read, Write},
     path::PathBuf,
     process, str,
@@ -62,9 +63,10 @@ impl<T: DatabaseManager> ActionHandler<T> {
         }
     }
 
-    pub fn save_image(&self, img: Bytes, msg: Message) -> Result<PathBuf, Error> {
+    pub fn save_image(&self, img: Bytes, msg: &Message) -> Result<PathBuf, Error> {
         let plant_name = msg
             .caption
+            .clone()
             .ok_or(Error::MissingInput("Plant Name".to_owned()))?;
         let img_name = Local::now().date_naive().format("%d%m%Y.jpg").to_string();
         let plant_path = self.plants_dir.join(plant_name.replace(' ', ""));
@@ -216,70 +218,83 @@ impl<T: DatabaseManager> ActionHandler<T> {
             Err(err) => format!("{err}"),
         }
     }
-}
 
-impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
-    type Error = Error;
-    async fn handle_command(
-        &mut self,
-        bot: &Bot,
-        cmd: Command,
-        message: Message,
-    ) -> Result<(), Self::Error> {
-        log::info!("Handling Command {cmd}");
-        let user = message.from.ok_or(Error::Unauthorized("".to_owned()))?;
-        if self.white_list.contains(&user.id) {
-            let ret_msg = self.process_command(cmd);
-            bot.send_message(message.chat.id.to_string(), ret_msg)
-                .await?;
-            Ok(())
-        } else {
-            bot.send_message(
-                message.chat.id.to_string(),
-                "User is not authorized".to_owned(),
-            )
-            .await?;
-
-            Ok(())
+    async fn authorize(&mut self, b: &Bot, msg: &Message) -> bool {
+        let user = &msg.from;
+        match user {
+            None => {
+                let _ = b
+                    .send_message(msg.chat.id.to_string(), "User is not authorized".to_owned())
+                    .await;
+                false
+            }
+            Some(user) => self.white_list.contains(&user.id),
         }
     }
 
-    async fn handle_message(&mut self, bot: &Bot, msg: Message) -> Result<(), Error> {
-        log::info!("Handling message");
-        let user = msg.from.clone().ok_or(Error::Unauthorized("".to_owned()))?;
-        if self.white_list.contains(&user.id) {
-            let chat_id = msg.chat.id.to_string();
-            if let Some(photos) = msg.photo.clone() {
-                let img_biggest = photos.get_biggest()?;
-                let res = bot.download_image(img_biggest.file_id.clone()).await?;
-                match self.save_image(res, msg) {
-                    Ok(out_path) => {
-                        bot.send_message(chat_id, format!("Successfully saved image {out_path:?}"))
-                            .await?
-                    }
-                    Err(err) => bot.send_message(chat_id, format!("{err}")).await?,
-                }
-                Ok(())
-            } else if let Some(text) = msg.text {
-                match self.handle_input(text) {
-                    Ok(ret_msg) => {
-                        bot.send_message(chat_id, ret_msg).await?;
-                        Ok(())
-                    }
-                    Err(err) => {
-                        bot.send_message(chat_id, format!("{err}")).await?;
-                        Ok(())
-                    }
-                }
-            } else {
-                bot.send_message(chat_id, "Could not handle message".to_owned())
-                    .await?;
-                Ok(())
+    async fn get_image(&mut self, b: &mut Bot, photo: Photo, msg: &Message) -> Result<(), Error> {
+        let img_biggest = photo.get_biggest()?;
+        let res = b.download_image(img_biggest.file_id.clone()).await?;
+        match self.save_image(res, msg) {
+            Ok(out_path) => {
+                b.send_message(
+                    msg.chat.id.to_string(),
+                    format!("Successfully saved image {out_path:?}"),
+                )
+                .await?
             }
-        } else {
-            bot.send_message(msg.chat.id.to_string(), "User is unauthorized".to_owned())
-                .await?;
-            Ok(())
+            Err(err) => {
+                b.send_message(msg.chat.id.to_string(), format!("{err}"))
+                    .await?
+            }
+        }
+        Ok(())
+    }
+}
+
+impl<T: DatabaseManager> Handler<Command> for ActionHandler<T> {
+    async fn handle_msg(&mut self, b: &mut Bot, msg: Message) {
+        if !(self.authorize(b, &msg).await) {
+            return;
+        };
+        let text = msg.text.unwrap_or_default();
+        if text.is_empty() {
+            return;
+        };
+        match self.handle_input(text) {
+            Ok(ret_msg) => {
+                let _ = b.send_message(msg.chat.id.to_string(), ret_msg).await;
+            }
+            Err(err) => {
+                let _ = b
+                    .send_message(msg.chat.id.to_string(), format!("{err}"))
+                    .await;
+            }
+        }
+    }
+
+    async fn handle_cmd(&mut self, b: &mut Bot, cmd: Command, msg: Message) {
+        if !(self.authorize(b, &msg).await) {
+            return;
+        };
+        let ret_msg = self.process_command(cmd);
+        let _ = b.send_message(msg.chat.id.to_string(), ret_msg).await;
+    }
+
+    async fn handle_img(&mut self, b: &mut Bot, photo: Photo, msg: Message) {
+        if !(self.authorize(b, &msg).await) {
+            return;
+        };
+        match self.get_image(b, photo, &msg).await {
+            Ok(()) => (),
+            Err(err) => {
+                let _ = b
+                    .send_message(
+                        msg.chat.id.to_string(),
+                        format!("Could not save image: {err}"),
+                    )
+                    .await;
+            }
         }
     }
 }
