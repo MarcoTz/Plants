@@ -5,7 +5,7 @@ pub mod config;
 pub mod errors;
 
 use action_handler::ActionHandler;
-use bot_api::{bot::Bot, run_bot};
+use bot_api::bot::Bot;
 use config::load_config;
 use database::file_backend::FileDB;
 use errors::Error;
@@ -29,7 +29,7 @@ async fn main() -> Result<(), Error> {
     let mut handler = ActionHandler::new(conf.white_list, FileDB::default());
 
     log::info!("Running bot");
-    run_bot(&mut bot, &mut handler).await?;
+    bot.run(&mut handler).await;
     Ok(())
 }
 

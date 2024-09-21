@@ -1,5 +1,6 @@
+use std::error::Error;
+
 pub trait Command: Sized {
-    type Error: std::error::Error;
-    fn parse(s: &str) -> Result<Self, Self::Error>;
+    fn parse(s: &str) -> Result<Self, Box<dyn Error>>;
     fn get_description(&self) -> String;
 }
