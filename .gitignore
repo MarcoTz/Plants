@@ -2,7 +2,8 @@ __pycache__
 html_out/**/*.html
 conf.json
 bot_conf.json
-log.txt
+build.log
+bot.log
 
 
 # Added by cargo
