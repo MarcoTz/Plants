@@ -9,7 +9,7 @@ use std::rc::Rc;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PlantLink {
     pub plant_name: String,
-    plant_url: String,
+    pub plant_url: String,
 }
 
 impl PageComponent for PlantLink {

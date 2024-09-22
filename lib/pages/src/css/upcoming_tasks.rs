@@ -13,10 +13,7 @@ impl CssComponent for UpcomingTasks {
         log::info!("Loading CSS for upcoming tasks");
         let task_block = CssBlock {
             selector: TopSelector::Class("task_block".to_owned()).into(),
-            decls: vec![
-                (Size::MaxWidth.into(), (10.0, Unit::Em).into()).into(),
-                (Property::TextAlign, Keyword::Center.into()).into(),
-            ],
+            decls: vec![(Property::TextAlign, Keyword::Center.into()).into()],
         };
 
         let upcoming_task = CssBlock {
