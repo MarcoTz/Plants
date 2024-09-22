@@ -8,8 +8,8 @@ use bytes::Bytes;
 use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
 use std::{
+    collections::HashSet,
     fs::File,
-    future::Future,
     io::{Read, Write},
     path::PathBuf,
     process, str,
@@ -37,7 +37,7 @@ impl Default for ActionHandler<FileDB> {
             current_action: BotAction::Idle,
             white_list: vec![],
             plants_dir: PathBuf::from("data/Plants"),
-            log_path: PathBuf::from("log.txt"),
+            log_path: PathBuf::from("./build.log"),
             db_man: FileDB::default(),
         }
     }
@@ -49,7 +49,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
             current_action: BotAction::Idle,
             white_list,
             plants_dir: PathBuf::from("data/Plants"),
-            log_path: PathBuf::from("log.txt"),
+            log_path: PathBuf::from("./build.log"),
             db_man,
         }
     }
@@ -166,17 +166,30 @@ impl<T: DatabaseManager> ActionHandler<T> {
                 Ok("Successfully pushed changes".to_owned())
             }
             ImmediateAction::CheckLogs => {
-                log::info!("Getting logs");
+                log::info!("Running static build for new log file");
+                process::Command::new("./target/release/plant_website_static")
+                    .output()
+                    .map_err(|err| CommandError {
+                        cmd: "render website".to_owned(),
+                        msg: err.to_string(),
+                    })?;
+                log::info!("Loading Log File");
+
                 let mut file =
                     File::open(self.log_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;
                 let mut contents: String = "".to_owned();
                 file.read_to_string(&mut contents)
                     .map_err(|err| Error::Other(Box::new(err)))?;
-                let lines = contents
+
+                let mut lines = contents
                     .split("\n")
                     .filter(|line| line.contains("ERR") || line.contains("WARN"))
+                    .filter_map(|line| line.split_once(" - ").map(|(_, s)| s))
                     .map(|line| line.to_owned())
+                    .collect::<HashSet<String>>()
+                    .into_iter()
                     .collect::<Vec<String>>();
+                lines.sort();
                 log::info!("Got {} logs", lines.len());
                 if lines.is_empty() {
                     Ok("No errors or warnings".to_owned())

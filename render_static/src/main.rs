@@ -5,7 +5,7 @@ use render_html::{renderer::Renderer, write_html::write_all};
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
-    file_path: "log.txt",
+    file_path: "build.log",
 };
 
 fn main() -> Result<(), String> {

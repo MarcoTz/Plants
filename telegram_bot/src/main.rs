@@ -14,7 +14,7 @@ use logger::{file_logger::FileLogger, init::init_logger};
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
-    file_path: "log.txt",
+    file_path: "bot.log",
 };
 
 #[tokio::main]
