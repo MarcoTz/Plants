@@ -162,7 +162,7 @@ impl From<&[Plant]> for UpcomingTasks {
             .max()
             .unwrap_or(Local::now().date_naive());
 
-        let mut last_date = Local::now().date_naive();
+        let mut last_date = Local::now().date_naive() - TimeDelta::days(1);
         let diff = (max_date - last_date).num_days();
 
         let mut tasks = vec![];
@@ -182,7 +182,7 @@ impl From<&[Plant]> for UpcomingTasks {
                 continue;
             }
 
-            let next_items = next_plants
+            let mut next_items: Vec<TaskItem> = next_plants
                 .iter()
                 .map(|pl| TaskItem {
                     plant: PlantLink::from((pl.plant, "plants")),
@@ -191,6 +191,12 @@ impl From<&[Plant]> for UpcomingTasks {
                     growth: pl.growth == next_date,
                 })
                 .collect();
+            let sort_key = |pl: &TaskItem| {
+                (if pl.watering { 4 } else { 0 })
+                    + (if pl.fertilizing { 3 } else { 0 })
+                    + (if pl.growth { 2 } else { 0 })
+            };
+            next_items.sort_by(|pl1, pl2| sort_key(pl2).cmp(&sort_key(pl1)));
 
             tasks.push(TaskBlock {
                 date: next_date,
