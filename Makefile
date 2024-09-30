@@ -1,5 +1,6 @@
 build: 
 	cargo build --release 
+	sudo systemctl restart bot_service
 
 website:
 	- rm -r html_out/img
