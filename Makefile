@@ -6,7 +6,7 @@ website:
 	- rm -r html_out/js
 	cargo run --bin plant_website_static
 	cp data/Plants/ html_out/img -r 
-	cp ./js html_out/js
+	cp ./js html_out/js -r 
 
 bot:
 	cargo run --bin plant_updater_bot
