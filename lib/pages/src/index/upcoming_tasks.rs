@@ -85,48 +85,56 @@ impl PageComponent for TaskBlock {
             ],
         };
 
-        let header_inside = Headline {
-            attributes: vec![],
-            size: HeaderSize::H4,
-            content: Rc::new("Inside".to_owned().into()),
-        };
         let mut rows_inside = vec![header_row.clone().into()];
         for item in &self.items_inside {
             rows_inside.push(item.render(date_format));
         }
-
-        let header_outside = Headline {
-            attributes: vec![],
-            size: HeaderSize::H4,
-            content: Rc::new("Outside".to_owned().into()),
-        };
 
         let mut rows_outside = vec![header_row.into()];
         for item in &self.items_outside {
             rows_outside.push(item.render(date_format));
         }
 
-        let table_inside = Table {
-            attributes: vec![],
-            rows: rows_inside,
-        };
-        let table_outside = Table {
-            attributes: vec![],
-            rows: rows_outside,
-        };
+        let mut div_contents = vec![header_str.into()];
+        if rows_inside.len() > 1 {
+            div_contents.push(
+                Headline {
+                    attributes: vec![],
+                    size: HeaderSize::H4,
+                    content: Rc::new("Inside".to_owned().into()),
+                }
+                .into(),
+            );
+            div_contents.push(
+                Table {
+                    attributes: vec![],
+                    rows: rows_inside,
+                }
+                .into(),
+            );
+        }
+
+        if rows_outside.len() > 1 {
+            div_contents.push(
+                Headline {
+                    attributes: vec![],
+                    size: HeaderSize::H4,
+                    content: Rc::new("Outside".to_owned().into()),
+                }
+                .into(),
+            );
+            div_contents.push(
+                Table {
+                    attributes: vec![],
+                    rows: rows_outside,
+                }
+                .into(),
+            )
+        }
 
         Div {
             attributes: vec![Attribute::Class(vec!["task_block".to_owned()])],
-            content: Rc::new(
-                vec![
-                    header_str.into(),
-                    header_inside.into(),
-                    table_inside.into(),
-                    header_outside.into(),
-                    table_outside.into(),
-                ]
-                .into(),
-            ),
+            content: Rc::new(div_contents.into()),
         }
         .into()
     }
