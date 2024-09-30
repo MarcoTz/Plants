@@ -53,6 +53,13 @@ pub struct Plant {
 }
 
 impl Plant {
+    pub fn is_outside(&self) -> bool {
+        match &self.info.location {
+            PlantLocation::Location(loc) => loc.outside,
+            PlantLocation::Other(_) => false,
+        }
+    }
+
     fn get_activities(&self, activity_name: &str) -> Vec<LogItem> {
         log::info!("Getting activitiyes {activity_name} for {}", self.info.name);
         let mut activities = vec![];
