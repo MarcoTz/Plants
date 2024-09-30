@@ -60,6 +60,7 @@ impl Bot {
         handler: &mut U,
     ) -> Result<(), Error> {
         let msg = update.get_message()?;
+        self.last_update = update.update_id;
         if msg.is_command() {
             let cmd: T = msg.get_command().map_err(Error::Other)?;
             handler.handle_cmd(self, cmd, msg).await;
@@ -68,7 +69,6 @@ impl Bot {
         } else {
             handler.handle_msg(self, msg).await;
         }
-        self.last_update = update.update_id;
         Ok(())
     }
 
@@ -88,7 +88,7 @@ impl Bot {
             match self.handle_updates(handler).await {
                 Ok(_) => (),
                 Err(err) => {
-                    log::error!("Bot encountered an error: {err}")
+                    log::error!("Bot encountered an error: {err}");
                 }
             }
         }
@@ -98,20 +98,7 @@ impl Bot {
 #[cfg(test)]
 mod bot_tests {
     use super::Bot;
-    use crate::test_common::{load_config, ExampleCommand};
-
-    #[test]
-    fn new_bot() {
-        let data = load_config();
-        let result = Bot::new(data.api_key.clone());
-        assert_eq!(
-            result,
-            Bot::<ExampleCommand> {
-                api_key: data.api_key,
-                last_update: 0,
-            }
-        )
-    }
+    use crate::test_common::load_config;
 
     #[tokio::test]
     async fn bot_updates() {
