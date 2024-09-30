@@ -168,7 +168,7 @@ impl<T: DatabaseManager> ActionHandler<T> {
             ImmediateAction::CheckLogs => {
                 log::info!("Running static build for new log file");
                 process::Command::new("make")
-                    .arg("build")
+                    .arg("website")
                     .output()
                     .map_err(|err| CommandError {
                         cmd: "render website".to_owned(),
