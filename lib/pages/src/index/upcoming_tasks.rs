@@ -245,7 +245,7 @@ impl From<&[Plant]> for UpcomingTasks {
                     + (if pl.fertilizing { 3 } else { 0 })
                     + (if pl.growth { 2 } else { 0 })
             };
-            let cmp = |pl1: &TaskItem, pl2: &TaskItem| sort_key(pl1).cmp(&sort_key(pl2));
+            let cmp = |pl1: &TaskItem, pl2: &TaskItem| sort_key(pl2).cmp(&sort_key(pl1));
 
             next_items_inside.sort_by(cmp);
             next_items_outside.sort_by(cmp);
