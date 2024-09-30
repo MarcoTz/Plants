@@ -3,9 +3,10 @@ build:
 	sudo systemctl restart bot_service
 
 website:
+	- cargo build --release
 	- rm -r html_out/img
 	- rm -r html_out/js
-	cargo run --bin plant_website_static
+	./target/release/plant_website_static 
 	cp data/Plants/ html_out/img -r 
 	cp ./js html_out/js -r 
 
