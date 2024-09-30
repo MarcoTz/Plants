@@ -2,12 +2,12 @@ use super::HtmlElement;
 use crate::{attribute::Attribute, render::Render};
 use std::rc::Rc;
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Td {
     pub content: Rc<HtmlElement>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Tr {
     pub attributes: Vec<Attribute>,
     pub cols: Vec<Td>,

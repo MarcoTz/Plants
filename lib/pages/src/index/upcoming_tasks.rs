@@ -15,7 +15,8 @@ pub struct UpcomingTasks {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TaskBlock {
     date: NaiveDate,
-    items: Vec<TaskItem>,
+    items_inside: Vec<TaskItem>,
+    items_outside: Vec<TaskItem>,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TaskItem {
@@ -56,9 +57,17 @@ impl PageComponent for TaskItem {
 }
 impl PageComponent for TaskBlock {
     fn render(&self, date_format: &str) -> HtmlElement {
-        let header_str =
-            self.date.weekday().to_string() + ", " + &self.date.format(date_format).to_string();
-        let mut rows = vec![Tr {
+        let header_str = Headline {
+            attributes: vec![],
+            size: HeaderSize::H3,
+            content: Rc::new(
+                (self.date.weekday().to_string()
+                    + ", "
+                    + &self.date.format(date_format).to_string())
+                    .into(),
+            ),
+        };
+        let header_row = Tr {
             attributes: vec![Attribute::Class(vec!["header_row".to_owned()])],
             cols: vec![
                 Td {
@@ -74,23 +83,47 @@ impl PageComponent for TaskBlock {
                     content: Rc::new("📏".to_owned().into()),
                 },
             ],
-        }
-        .into()];
+        };
 
-        for item in &self.items {
-            rows.push(item.render(date_format));
+        let header_inside = Headline {
+            attributes: vec![],
+            size: HeaderSize::H4,
+            content: Rc::new("Inside".to_owned().into()),
+        };
+        let mut rows_inside = vec![header_row.clone().into()];
+        for item in &self.items_inside {
+            rows_inside.push(item.render(date_format));
         }
+
+        let header_outside = Headline {
+            attributes: vec![],
+            size: HeaderSize::H4,
+            content: Rc::new("Outside".to_owned().into()),
+        };
+
+        let mut rows_outside = vec![header_row.into()];
+        for item in &self.items_outside {
+            rows_outside.push(item.render(date_format));
+        }
+
+        let table_inside = Table {
+            attributes: vec![],
+            rows: rows_inside,
+        };
+        let table_outside = Table {
+            attributes: vec![],
+            rows: rows_outside,
+        };
 
         Div {
             attributes: vec![Attribute::Class(vec!["task_block".to_owned()])],
             content: Rc::new(
                 vec![
                     header_str.into(),
-                    Table {
-                        attributes: vec![],
-                        rows,
-                    }
-                    .into(),
+                    header_inside.into(),
+                    table_inside.into(),
+                    header_outside.into(),
+                    table_outside.into(),
                 ]
                 .into(),
             ),
@@ -139,6 +172,7 @@ impl From<&[Plant]> for UpcomingTasks {
             watering: Option<NaiveDate>,
             fertilizing: Option<NaiveDate>,
             growth: NaiveDate,
+            outside: bool,
         }
 
         let plants_with_dates: Vec<PlantWDates> = plants
@@ -148,6 +182,7 @@ impl From<&[Plant]> for UpcomingTasks {
                 watering: plant.get_next_watering(),
                 fertilizing: plant.get_next_fertilizing(),
                 growth: plant.get_next_growth(),
+                outside: plant.is_outside(),
             })
             .collect();
 
@@ -182,25 +217,43 @@ impl From<&[Plant]> for UpcomingTasks {
                 continue;
             }
 
-            let mut next_items: Vec<TaskItem> = next_plants
+            let plants_inside: Vec<&PlantWDates> = next_plants
                 .iter()
-                .map(|pl| TaskItem {
-                    plant: PlantLink::from((pl.plant, "plants")),
-                    watering: pl.watering == Some(next_date),
-                    fertilizing: pl.fertilizing == Some(next_date),
-                    growth: pl.growth == next_date,
-                })
+                .filter(|pl| !pl.outside)
+                .cloned()
                 .collect();
+            let plants_outside: Vec<&PlantWDates> = next_plants
+                .iter()
+                .filter(|pl| pl.outside)
+                .cloned()
+                .collect();
+
+            let to_item = |pl: &PlantWDates| TaskItem {
+                plant: PlantLink::from((pl.plant, "plants")),
+                watering: pl.watering == Some(next_date),
+                fertilizing: pl.fertilizing == Some(next_date),
+                growth: pl.growth == next_date,
+            };
+
+            let mut next_items_inside: Vec<TaskItem> =
+                plants_inside.into_iter().map(to_item).collect();
+            let mut next_items_outside: Vec<TaskItem> =
+                plants_outside.into_iter().map(to_item).collect();
+
             let sort_key = |pl: &TaskItem| {
                 (if pl.watering { 4 } else { 0 })
                     + (if pl.fertilizing { 3 } else { 0 })
                     + (if pl.growth { 2 } else { 0 })
             };
-            next_items.sort_by(|pl1, pl2| sort_key(pl2).cmp(&sort_key(pl1)));
+            let cmp = |pl1: &TaskItem, pl2: &TaskItem| sort_key(pl1).cmp(&sort_key(pl2));
+
+            next_items_inside.sort_by(cmp);
+            next_items_outside.sort_by(cmp);
 
             tasks.push(TaskBlock {
                 date: next_date,
-                items: next_items,
+                items_inside: next_items_inside,
+                items_outside: next_items_outside,
             });
 
             last_date = next_date;
