@@ -34,6 +34,11 @@ impl PageComponent for PlantSearch {
             id: "plant_search_species".to_owned(),
             keyup: "filter_plants()".to_owned(),
         };
+        let location_search = PlantSearchField {
+            name: "Location".to_owned(),
+            id: "plant_search_location".to_owned(),
+            keyup: "filter_plants()".to_owned(),
+        };
         let temp_min_search = PlantNumberSearch {
             name: "Lowest Temperature".to_owned(),
             select_id: "min_temp_updown".to_owned(),
@@ -56,6 +61,7 @@ impl PageComponent for PlantSearch {
             .into(),
             name_search.render(date_format),
             species_search.render(date_format),
+            location_search.render(date_format),
             temp_min_search.render(date_format),
             temp_max_search.render(date_format),
         ];

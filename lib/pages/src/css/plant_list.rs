@@ -39,10 +39,11 @@ impl CssComponent for PlantList {
             ],
         };
 
-        let temps = CssBlock {
+        let hidden_info = CssBlock {
             selector: TopSelector::Multiple(vec![
                 TopSelector::Class("temp_max".to_owned()),
                 TopSelector::Class("temp_min".to_owned()),
+                TopSelector::Class("location_name".to_owned()),
             ])
             .into(),
             decls: vec![(Property::Display, Keyword::Non.into()).into()],
@@ -68,7 +69,7 @@ impl CssComponent for PlantList {
         };
 
         CssDocument {
-            decls: vec![plant_list_item, plant_preview, temps, location_header],
+            decls: vec![plant_list_item, plant_preview, hidden_info, location_header],
         }
     }
 }

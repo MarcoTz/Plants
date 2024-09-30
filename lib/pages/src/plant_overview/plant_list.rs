@@ -21,6 +21,7 @@ pub struct PlantListItem {
     temp_max: Option<f32>,
     temp_min: Option<f32>,
     species_link: Option<SpeciesLink>,
+    location: String,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -137,6 +138,14 @@ impl PageComponent for PlantListItem {
             ),
         }
 
+        div_content.push(
+            Div {
+                attributes: vec![Attribute::Class(vec!["location_name".to_owned()])],
+                content: Rc::new(self.location.clone().into()),
+            }
+            .into(),
+        );
+
         Div {
             attributes: vec![Attribute::Class(vec!["plant_list_item".to_owned()])],
             content: Rc::new(div_content.into()),
@@ -148,21 +157,17 @@ impl PageComponent for PlantListItem {
 impl From<&Plant> for PlantListItem {
     fn from(plant: &Plant) -> PlantListItem {
         let img_base = "img/".to_owned();
-        match &plant.info.species {
-            PlantSpecies::Other(_) => PlantListItem {
-                plant_link: (plant, "plants").into(),
-                plant_preview_url: plant.get_preview_image_url(&img_base),
-                temp_max: None,
-                temp_min: None,
-                species_link: None,
-            },
-            PlantSpecies::Species(sp) => PlantListItem {
-                plant_link: (plant, "plants").into(),
-                plant_preview_url: plant.get_preview_image_url(&img_base),
-                temp_max: Some(sp.temp_max),
-                temp_min: Some(sp.temp_min),
-                species_link: Some((sp.as_ref(), "species").into()),
-            },
+        let sp = match &plant.info.species {
+            PlantSpecies::Other(_) => None,
+            PlantSpecies::Species(sp) => Some(sp),
+        };
+        PlantListItem {
+            plant_link: (plant, "plants").into(),
+            plant_preview_url: plant.get_preview_image_url(&img_base),
+            temp_max: sp.map(|sp| sp.temp_max),
+            temp_min: sp.map(|sp| sp.temp_min),
+            species_link: sp.map(|sp| (sp.as_ref(), "species").into()),
+            location: plant.info.location.get_name(),
         }
     }
 }
