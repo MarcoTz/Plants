@@ -1,0 +1,1991 @@
+<!doctype html>
+<html>
+	<head>
+	<title>
+		Plants
+	</title>
+	<style>
+		.alternating_children>*:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		.alternating_children>*:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		.flex_container {
+			display:flex;
+			align-content:space-around;
+			align-self:center;
+			justify-content:center;
+			gap:1em;
+			flex-wrap:wrap;
+			align-items:stretch;
+			margin:auto;
+		}
+		.flex_container>* {
+			border-radius:1em;
+			padding:1em;
+		}
+	</style>
+	<style>
+		body {
+			background:var(--bg-color);
+			color:var(--fg-color);
+			font-family:"Noto Sans";
+			font-size:14pt;
+		}
+		h1 {
+			text-align:center;
+			width:100%;
+		}
+		h2 {
+			text-align:center;
+			width:100%;
+			align-self:flex-start;
+		}
+		h3 {
+			text-align:center;
+			width:100%;
+		}
+		a {
+			color:var(--link-color);
+		}
+		a:visited {
+			color:var(--link-color-visited);
+		}
+		img {
+			cursor:pointer;
+		}
+		table {
+			border-collapse:collapse;
+			margin:auto;
+		}
+		tr:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		tr:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		td {
+			padding-left:1em;
+			padding-right:1em;
+		}
+		td:nth-child(even) {
+			text-align:left;
+		}
+		td:nth-child(odd) {
+			text-align:right;
+		}
+		input {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+		select {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+	</style>
+	<style>
+		:root {
+			--bg-color:#222327;
+			--fg-color:#66cce0;
+			--fg-color-dark:#336670;
+			--link-color:#9ed072;
+			--link-color-visited:#72a278;
+			--bg-color-odd:#2a2d37;
+			--bg-color-even:#425661;
+			--bg-color-trans:rgba(22,23,27,0.80);
+			--health-color0:#757675;
+			--health-color1:#d60a0e;
+			--health-color2:#f97b0e;
+			--health-color3:#d9e008;
+			--health-color4:#92e513;
+			--health-color5:#33d818;
+		}
+	</style>
+	<style>
+		#header>* {
+			font-size:16pt;
+			text-align:center;
+			border-radius:1em;
+			width:10em;
+			height:3em;
+			padding:0em;
+			padding-top:1em;
+		}
+		#header {
+			width:100%;
+			margin-bottom:2em;
+			margin-top:2em;
+			padding-bottom:1em;
+			border-top:0px;
+			border-right:0px;
+			border-left:0px;
+			border-bottom:0.50em;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+	</style>
+	<style>
+		#footer {
+			width:100%;
+			margin-top:2em;
+			border-top:0.50em;
+			border-top:0px;
+			border-right:0px;
+			border-bottom:0px;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+		#footer>* {
+			margin:1em;
+			float:right;
+		}
+		#github_link {
+			float:left;
+		}
+		#image_viewer {
+			display:none;
+			width:100%;
+			height:100vh;
+			position:fixed;
+			overflow:none;
+			left:0%;
+			top:0%;
+			margin:0em;
+			background:var(--bg-color-trans);
+		}
+		#image_box {
+			position:relative;
+			width:100%;
+			height:100%;
+			margin:auto;
+			margin-top:5%;
+			overflow:auto;
+		}
+		#image_viewer_image {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom:auto;
+			margin-top:auto;
+			max-width:90%;
+			max-height:80%;
+			width:auto;
+			height:auto;
+		}
+	</style>
+	<style>
+		#plant_search {
+			background:var(--bg-color-even);
+			border-radius:1em;
+			padding-bottom:1em;
+			padding-top:0em;
+			width:90%;
+			margin:auto;
+			gap:0.50em;
+		}
+		.search_header {
+			width:100%;
+			text-align:center;
+			font-weight:bold;
+			font-size:14pt;
+			padding-top:0.50em;
+			padding-bottom:0em;
+			margin:auto;
+		}
+	</style>
+	<style>
+		.plant_list_item {
+			height:9em;
+			width:10em;
+			text-align:center;
+			overflow:hidden;
+		}
+		.plant_preview {
+			height:40%;
+			margin-top:0.50em;
+		}
+		.temp_max, .temp_min, .location_name {
+			display:none;
+		}
+		.location_header {
+			background:transparent!important;
+			padding:0em;
+		}
+	</style>
+	<script src="js/main.js">
+		
+	</script>
+	<script src="js/plant_filter.js">
+		
+	</script>
+</head>
+	<body onLoad="setup_img_events()">
+	<div class="alternating_children flex_container" id="header">
+		<a href="./index.html">Dashboard</a>
+		<a href="./plant_overview.html">Plants</a>
+		<a href="./species_overview.html">Species</a>
+		<a href="./gallery.html">Gallery</a>
+		<a href="./activities.html">Activities</a>
+		<a href="./graveyard.html">Graveyard</a>
+	</div>
+	<div id="plant_search" class="flex_container">
+		<div class="search_header">
+			Filter
+		</div>
+		<div >
+			<div >
+				Name
+			</div>
+			<div >
+				<input id="plant_search_name" onKeyUp="filter_plants()"/>
+			</div>
+		</div>
+		<div >
+			<div >
+				Species
+			</div>
+			<div >
+				<input id="plant_search_species" onKeyUp="filter_plants()"/>
+			</div>
+		</div>
+		<div >
+			<div >
+				Location
+			</div>
+			<div >
+				<input id="plant_search_location" onKeyUp="filter_plants()"/>
+			</div>
+		</div>
+		<div >
+			<div >
+				Lowest Temperature
+			</div>
+			<select id="min_temp_updown" onChange="filter_plants()">
+				<option value="+">above</option>
+				<option value="-">below</option>
+			</select>
+			<input id="plant_search_min_temp" onKeyUp="filter_plants()" type="number"/>
+		</div>
+		<div >
+			<div >
+				Highest Temperature
+			</div>
+			<select id="max_temp_updown" onChange="filter_plants()">
+				<option value="+">above</option>
+				<option value="-">below</option>
+			</select>
+			<input id="plant_search_max_temp" onKeyUp="filter_plants()" type="number"/>
+		</div>
+	</div>
+	<div id="plant_list" class="flex_container">
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Bathroom">
+				Bathroom
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Aurora.html" class="plant_link">Aurora</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MothOrchid.html">Moth Orchid</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Aurora/07092024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Bathroom
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="East Window">
+				East Window
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Albus.html" class="plant_link">Albus</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Avocado.html">Avocado</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Albus/30092024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					3
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Avi.html" class="plant_link">Avi</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Avocado.html">Avocado</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Avi/30092024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					3
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Gabby.html" class="plant_link">Gabby</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Efeutute.html">Efeutute</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Gabby/23082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					12
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jay.html" class="plant_link">Jay</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/AustralianUmbrellaTree.html">Australian Umbrella Tree</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jay/26062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Kaa.html" class="plant_link">Kaa</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/SnakePlant.html">Snake Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Kaa/30092024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Pumbaa.html" class="plant_link">Pumbaa</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/ParlorPalm.html">Parlor Palm</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Pumbaa/10062024.jpg" />
+				<div class="temp_max">
+					34
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					East Window
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Front Door">
+				Front Door
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Lucas.html" class="plant_link">Lucas</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Lucas/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Lucy.html" class="plant_link">Lucy</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/ChiliPepper.html">Chili Pepper</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Lucy/14042024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Nadja.html" class="plant_link">Nadja</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/ChiliPepper.html">Chili Pepper</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Nadja/14042024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Nate.html" class="plant_link">Nate</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Nate/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sandra.html" class="plant_link">Sandra</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sandra/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sandy.html" class="plant_link">Sandy</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/ChiliPepper.html">Chili Pepper</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sandy/10062024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Stefan.html" class="plant_link">Stefan</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Strawberry.html">Strawberry</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Stefan/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					-1
+				</div>
+				<div class="location_name">
+					Front Door
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Garage">
+				Garage
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Amy.html" class="plant_link">Amy</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Amy/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Bart.html" class="plant_link">Bart</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Bart/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Beehome.html" class="plant_link">Beehome</a>
+				<br/>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Beehome/14042024.jpg" />
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Biggie.html" class="plant_link">Biggie</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Begonia.html">Begonia</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Biggie/10062024.jpg" />
+				<div class="temp_max">
+					55
+				</div>
+				<div class="temp_min">
+					13
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Bond.html" class="plant_link">Bond</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Bond/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Brock.html" class="plant_link">Brock</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Broccoli.html">Broccoli</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Brock/14042024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Charles.html" class="plant_link">Charles</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Charles/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Chris.html" class="plant_link">Chris</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Chris/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Chrom.html" class="plant_link">Chrom</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Corn.html">Corn</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Chrom/02052024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					13
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Elvis.html" class="plant_link">Elvis</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/CommonIvy.html">Common Ivy</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Elvis/14042024.jpg" />
+				<div class="temp_max">
+					32
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Gina.html" class="plant_link">Gina</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Gina/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Hitchcock.html" class="plant_link">Hitchcock</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Hitchcock/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jake.html" class="plant_link">Jake</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jake/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jerry.html" class="plant_link">Jerry</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jerry/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jim.html" class="plant_link">Jim</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jim/10062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Kelly.html" class="plant_link">Kelly</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Corn.html">Corn</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Kelly/14042024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					13
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Kevin.html" class="plant_link">Kevin</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Cucumber.html">Cucumber</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Kevin/14042024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					13
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Louie.html" class="plant_link">Louie</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Louie/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Mike.html" class="plant_link">Mike</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/AppleMint.html">Apple Mint</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Mike/19082024.jpg" />
+				<div class="temp_max">
+					41
+				</div>
+				<div class="temp_min">
+					-20
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Ray.html" class="plant_link">Ray</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Ray/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Rosa.html" class="plant_link">Rosa</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Rosa/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Scully.html" class="plant_link">Scully</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Scully/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sting.html" class="plant_link">Sting</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/WhiteStonecrop.html">White Stonecrop</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sting/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					-34
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Terry.html" class="plant_link">Terry</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Terry/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tim.html" class="plant_link">Tim</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Basil.html">Basil</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tim/14042024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tom.html" class="plant_link">Tom</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tom/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tony.html" class="plant_link">Tony</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tomato.html">Tomato</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tony/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tupac.html" class="plant_link">Tupac</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Begonia.html">Begonia</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tupac/15082024.jpg" />
+				<div class="temp_max">
+					55
+				</div>
+				<div class="temp_min">
+					13
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Zane.html" class="plant_link">Zane</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Zucchini.html">Zucchini</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Zane/02052024.jpg" />
+				<div class="temp_max">
+					32
+				</div>
+				<div class="temp_min">
+					0
+				</div>
+				<div class="location_name">
+					Garage
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Kitchen">
+				Kitchen
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Behemoth.html" class="plant_link">Behemoth</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/PurplePitcherPlant.html">Purple Pitcher Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Behemoth/07092024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					Kitchen
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Harry.html" class="plant_link">Harry</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Hosta.html">Hosta</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Harry/10062024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					Kitchen
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Rain.html" class="plant_link">Rain</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/BlueStarFern.html">Blue Star Fern</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Rain/30082024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Kitchen
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Living Room">
+				Living Room
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Gabriel.html" class="plant_link">Gabriel</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/StringofPearls.html">String of Pearls</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Gabriel/29082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Living Room
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Leela.html" class="plant_link">Leela</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Tradescantia.html">Tradescantia</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Leela/19082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Living Room
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Rosy.html" class="plant_link">Rosy</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/RoseCalathea.html">Rose Calathea</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Rosy/14042024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					18
+				</div>
+				<div class="location_name">
+					Living Room
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="Nursery">
+				Nursery
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Al.html" class="plant_link">Al</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/AloeVera.html">Aloe Vera</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Al/30082024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					-4
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Dirk.html" class="plant_link">Dirk</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Hellebore.html">Hellebore</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Dirk/10062024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					-20
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Gabrielle.html" class="plant_link">Gabrielle</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Efeutute.html">Efeutute</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Gabrielle/03072024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					12
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jenn.html" class="plant_link">Jenn</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JadePlant.html">Jade Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jenn/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jill.html" class="plant_link">Jill</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JadePlant.html">Jade Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jill/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Joe.html" class="plant_link">Joe</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JadePlant.html">Jade Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Joe/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Larry.html" class="plant_link">Larry</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JapaneseLaurel.html">Japanese Laurel</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Larry/08092024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					-5
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Rihanna.html" class="plant_link">Rihanna</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/AustralianUmbrellaTree.html">Australian Umbrella Tree</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Rihanna/26062024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Ron.html" class="plant_link">Ron</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Hosta.html">Hosta</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Ron/08092024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Roselyn.html" class="plant_link">Roselyn</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Efeutute.html">Efeutute</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Roselyn/23082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					12
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Simba.html" class="plant_link">Simba</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraDeliciosa.html">Monstera Deliciosa</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Simba/23082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					Nursery
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="South Window">
+				South Window
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Bubba.html" class="plant_link">Bubba</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/RubberTree.html">Rubber Tree</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Bubba/15082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Cerberus.html" class="plant_link">Cerberus</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Pseudopilocereus.html">Pseudopilocereus</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Cerberus/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Darryl.html" class="plant_link">Darryl</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/DroopingPricklyPear.html">Drooping Prickly Pear</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Darryl/10062024.jpg" />
+				<div class="temp_max">
+					43
+				</div>
+				<div class="temp_min">
+					0
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Dewdrop.html" class="plant_link">Dewdrop</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/StringofPearls.html">String of Pearls</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Dewdrop/30082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/EvaLongoria.html" class="plant_link">Eva Longoria</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Efeutute.html">Efeutute</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/EvaLongoria/14042024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					12
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Findus.html" class="plant_link">Findus</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/WeepingFig.html">Weeping Fig</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Findus/14042024.jpg" />
+				<div class="temp_max">
+					32
+				</div>
+				<div class="temp_min">
+					16
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Francis.html" class="plant_link">Francis</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/FiddleLeafFig.html">Fiddle Leaf Fig</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Francis/29082024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Ivan.html" class="plant_link">Ivan</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/IvoryTower.html">Ivory Tower</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Ivan/10062024.jpg" />
+				<div class="temp_max">
+					34
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jack.html" class="plant_link">Jack</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JadePlant.html">Jade Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jack/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jane.html" class="plant_link">Jane</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/JadePlant.html">Jade Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jane/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Liliana.html" class="plant_link">Liliana</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/PeaceLily.html">Peace Lily</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Liliana/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Martha.html" class="plant_link">Martha</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraMinima.html">Monstera Minima</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Martha/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Mist.html" class="plant_link">Mist</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/BirdofParadise.html">Bird of Paradise</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Mist/30082024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Pepe.html" class="plant_link">Pepe</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/GymnocalyciumStenopleurum.html">Gymnocalycium Stenopleurum</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Pepe/10062024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					4
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Peter.html" class="plant_link">Peter</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/GardenCroton.html">Garden Croton</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Peter/30092024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sam.html" class="plant_link">Sam</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/Sempervivum.html">Sempervivum</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sam/10062024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					-4
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Scar.html" class="plant_link">Scar</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraDeliciosa.html">Monstera Deliciosa</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Scar/21082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Selene.html" class="plant_link">Selene</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/QueenoftheNight.html">Queen of the Night</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Selene/23082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					7
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sunshine.html" class="plant_link">Sunshine</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/BirdofParadise.html">Bird of Paradise</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sunshine/30082024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tigger.html" class="plant_link">Tigger</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/TigerJaws.html">Tiger Jaws</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tigger/15082024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					-2
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Timon.html" class="plant_link">Timon</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraAdanosii.html">Monstera Adanosii</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Timon/10062024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Tito.html" class="plant_link">Tito</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/WrightsNipple.html">Wrights Nipple</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Tito/30092024.jpg" />
+				<div class="temp_max">
+					45
+				</div>
+				<div class="temp_min">
+					5
+				</div>
+				<div class="location_name">
+					South Window
+				</div>
+			</div>
+		</div>
+		<div class="location_group flex_container alternating_children">
+			<h2 class="location_header" id="West Window">
+				West Window
+			</h2>
+			<div class="plant_list_item">
+				<a href="plants/Anya.html" class="plant_link">Anya</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/PinkyPromise.html">Pinky Promise</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Anya/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Atuin.html" class="plant_link">Atuin</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/TurtleVine.html">Turtle Vine</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Atuin/30092024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Fuchur.html" class="plant_link">Fuchur</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/SongOfIndia.html">Song Of India</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Fuchur/10062024.jpg" />
+				<div class="temp_max">
+					34
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Jesus.html" class="plant_link">Jesus</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/HeartofJesus.html">Heart of Jesus</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Jesus/24072024.jpg" />
+				<div class="temp_max">
+					35
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Magdalena.html" class="plant_link">Magdalena</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraMinima.html">Monstera Minima</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Magdalena/03092024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Maria.html" class="plant_link">Maria</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/PolkaDotPlant.html">Polka Dot Plant</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Maria/14042024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					0
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/MrsSprout.html" class="plant_link">Mrs Sprout</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/ChineseFig.html">Chinese Fig</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/MrsSprout/10062024.jpg" />
+				<div class="temp_max">
+					38
+				</div>
+				<div class="temp_min">
+					15
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Mufasa.html" class="plant_link">Mufasa</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraDeliciosa.html">Monstera Deliciosa</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Mufasa/15082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Peppa.html" class="plant_link">Peppa</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/RoundLeafPeperomia.html">Round Leaf Peperomia</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Peppa/14042024.jpg" />
+				<div class="temp_max">
+					30
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+			<div class="plant_list_item">
+				<a href="plants/Sarabi.html" class="plant_link">Sarabi</a>
+				<br/>
+				<div class="species_link">
+					<a href="species/MonsteraDeliciosa.html">Monstera Deliciosa</a>
+				</div>
+				<br/>
+				<img style="cursor:default;" class="plant_preview" src="img/Sarabi/21082024.jpg" />
+				<div class="temp_max">
+					40
+				</div>
+				<div class="temp_min">
+					10
+				</div>
+				<div class="location_name">
+					West Window
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="github_link">
+			<a href="https://github.com/MarcoTz/Plants">Github</a>
+		</div>
+		<div id="num_plants">
+			Number of plants: 92
+		</div>
+		<div id="last_build">
+			Last build: 02.10.2024
+		</div>
+		<div id="image_viewer" onClick="close_image_viewer();" style="display:none;">
+			<div id="image_box" onClick="close_image_viewer();">
+				<img id="image_viewer_image" />
+			</div>
+		</div>
+	</div>
+</body></html>

@@ -1,0 +1,967 @@
+<!doctype html>
+<html>
+	<head>
+	<title>
+		Chili Pepper
+	</title>
+	<style>
+		.alternating_children>*:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		.alternating_children>*:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		.flex_container {
+			display:flex;
+			align-content:space-around;
+			align-self:center;
+			justify-content:center;
+			gap:1em;
+			flex-wrap:wrap;
+			align-items:stretch;
+			margin:auto;
+		}
+		.flex_container>* {
+			border-radius:1em;
+			padding:1em;
+		}
+	</style>
+	<style>
+		body {
+			background:var(--bg-color);
+			color:var(--fg-color);
+			font-family:"Noto Sans";
+			font-size:14pt;
+		}
+		h1 {
+			text-align:center;
+			width:100%;
+		}
+		h2 {
+			text-align:center;
+			width:100%;
+			align-self:flex-start;
+		}
+		h3 {
+			text-align:center;
+			width:100%;
+		}
+		a {
+			color:var(--link-color);
+		}
+		a:visited {
+			color:var(--link-color-visited);
+		}
+		img {
+			cursor:pointer;
+		}
+		table {
+			border-collapse:collapse;
+			margin:auto;
+		}
+		tr:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		tr:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		td {
+			padding-left:1em;
+			padding-right:1em;
+		}
+		td:nth-child(even) {
+			text-align:left;
+		}
+		td:nth-child(odd) {
+			text-align:right;
+		}
+		input {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+		select {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+	</style>
+	<style>
+		:root {
+			--bg-color:#222327;
+			--fg-color:#66cce0;
+			--fg-color-dark:#336670;
+			--link-color:#9ed072;
+			--link-color-visited:#72a278;
+			--bg-color-odd:#2a2d37;
+			--bg-color-even:#425661;
+			--bg-color-trans:rgba(22,23,27,0.80);
+			--health-color0:#757675;
+			--health-color1:#d60a0e;
+			--health-color2:#f97b0e;
+			--health-color3:#d9e008;
+			--health-color4:#92e513;
+			--health-color5:#33d818;
+		}
+	</style>
+	<style>
+		#header>* {
+			font-size:16pt;
+			text-align:center;
+			border-radius:1em;
+			width:10em;
+			height:3em;
+			padding:0em;
+			padding-top:1em;
+		}
+		#header {
+			width:100%;
+			margin-bottom:2em;
+			margin-top:2em;
+			padding-bottom:1em;
+			border-top:0px;
+			border-right:0px;
+			border-left:0px;
+			border-bottom:0.50em;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+	</style>
+	<style>
+		#footer {
+			width:100%;
+			margin-top:2em;
+			border-top:0.50em;
+			border-top:0px;
+			border-right:0px;
+			border-bottom:0px;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+		#footer>* {
+			margin:1em;
+			float:right;
+		}
+		#github_link {
+			float:left;
+		}
+		#image_viewer {
+			display:none;
+			width:100%;
+			height:100vh;
+			position:fixed;
+			overflow:none;
+			left:0%;
+			top:0%;
+			margin:0em;
+			background:var(--bg-color-trans);
+		}
+		#image_box {
+			position:relative;
+			width:100%;
+			height:100%;
+			margin:auto;
+			margin-top:5%;
+			overflow:auto;
+		}
+		#image_viewer_image {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom:auto;
+			margin-top:auto;
+			max-width:90%;
+			max-height:80%;
+			width:auto;
+			height:auto;
+		}
+	</style>
+	<style>
+		#plant_gallery {
+			width:95%;
+			padding:0em;
+		}
+		.images_plant_container {
+			width:19%;
+			flex-direction:column;
+			padding:0em;
+		}
+		.images_plant {
+			width:90%;
+			margin:auto;
+			padding:0em;
+		}
+		.plant_image {
+			margin:auto;
+		}
+		img {
+			width:100%;
+			height:100%;
+		}
+		h2 {
+			margin:0em;
+		}
+		.img_controls {
+			align-self:flex-end;
+			width:100%;
+			padding-top:0em;
+			padding-bottom:0em;
+		}
+		.img_date {
+			float:left;
+		}
+		.img_nr {
+			float:right;
+		}
+		.left_arrow {
+			float:left;
+			padding-left:0.20em;
+			margin-right:0.20em;
+			cursor:pointer;
+			font-size:24pt;
+		}
+		.right_arrow {
+			float:right;
+			padding-right:0.20em;
+			margin-left:0.20em;
+			cursor:pointer;
+			font-size:24pt;
+		}
+	</style>
+	<style>
+		#species_content {
+			width:95%;
+			margin:auto;
+		}
+		#species_details_gallery {
+			width:95%;
+		}
+		#species_details_gallery>h2 {
+			background:transparent;
+		}
+	</style>
+	<script src="../js/main.js">
+		
+	</script>
+</head>
+	<body onLoad="setup_img_events()">
+	<div class="alternating_children flex_container" id="header">
+		<a href="../index.html">Dashboard</a>
+		<a href="../plant_overview.html">Plants</a>
+		<a href="../species_overview.html">Species</a>
+		<a href="../gallery.html">Gallery</a>
+		<a href="../activities.html">Activities</a>
+		<a href="../graveyard.html">Graveyard</a>
+	</div>
+	<h1 >
+		Chili Pepper
+	</h1>
+	<div id="species_content">
+		<div id="species_details_container">
+			<table >
+				<tr >
+					<td>
+						Scientific Name
+					</td><td>
+						Capsicum anuum
+					</td>
+				</tr><tr >
+					<td>
+						Genus
+					</td><td>
+						Capsicum
+						
+					</td>
+				</tr><tr >
+					<td>
+						Family
+					</td><td>
+						Solanaceae
+						
+					</td>
+				</tr><tr >
+					<td>
+						Sunlight Requirements
+					</td><td>
+						Direct
+					</td>
+				</tr><tr >
+					<td>
+						Temperature Range
+					</td><td>
+						5-30
+					</td>
+				</tr><tr >
+					<td>
+						Optimal Temperature Range
+					</td><td>
+						12-19
+					</td>
+				</tr><tr >
+					<td>
+						Planting Distance
+					</td><td>
+						70
+					</td>
+				</tr><tr >
+					<td>
+						pH Range
+					</td><td>
+						6-7.5
+					</td>
+				</tr><tr >
+					<td>
+						Watering Notes
+					</td><td>
+						Soil should be kept moist, but not wet, water around every 2-3 days during growth
+					</td>
+				</tr><tr >
+					<td>
+						Average Watering Days
+					</td><td>
+						2
+					</td>
+				</tr><tr >
+					<td>
+						Fertilizing Notes
+					</td><td>
+						Fertilize about every 2 weeks, Dilute fertilizer until plants reach about 30cm in size
+					</td>
+				</tr><tr >
+					<td>
+						Average Fertilizing Days
+					</td><td>
+						14
+					</td>
+				</tr><tr >
+					<td>
+						Pruning Notes
+					</td><td>
+						Can be pruned at any time, but pruning is not necessary, To prevent bushiness, remove extra side shoots, To prevent legginess, trim main shoot, Keeping a plant smaller can help gaining more fruit
+					</td>
+				</tr><tr >
+					<td>
+						Companions
+					</td><td>
+						Garlic, Flowers, Herbs
+					</td>
+				</tr><tr >
+					<td>
+						Notes
+					</td><td>
+						All chilis and bell peppers belong to this species, thrives in humid climates
+					</td>
+				</tr><tr >
+					<td>
+						Plants of Species
+					</td><td>
+						<a href="../plants//Nadja.html">Nadja</a>, <a href="../plants//Sandy.html">Sandy</a>, <a href="../plants//Lucy.html">Lucy</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="species_details_gallery" class="alternating_children flex_container">
+		<h2 >
+			Gallery
+		</h2>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Nadja.html">Nadja</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/14042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.04.2024
+						</div>
+						<div class="img_nr">
+							18/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/24042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.04.2024
+						</div>
+						<div class="img_nr">
+							17/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/30042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							30.04.2024
+						</div>
+						<div class="img_nr">
+							16/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/06052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							06.05.2024
+						</div>
+						<div class="img_nr">
+							15/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/08052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							08.05.2024
+						</div>
+						<div class="img_nr">
+							14/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/13052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							13.05.2024
+						</div>
+						<div class="img_nr">
+							13/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/20052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							20.05.2024
+						</div>
+						<div class="img_nr">
+							12/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/24052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.05.2024
+						</div>
+						<div class="img_nr">
+							11/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							10/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							9/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							8/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/19062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							19.06.2024
+						</div>
+						<div class="img_nr">
+							7/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Nadja/12082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							12.08.2024
+						</div>
+						<div class="img_nr">
+							2/18
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Nadja/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							1/18
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Sandy.html">Sandy</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/24042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.04.2024
+						</div>
+						<div class="img_nr">
+							15/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/30042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							30.04.2024
+						</div>
+						<div class="img_nr">
+							14/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/06052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							06.05.2024
+						</div>
+						<div class="img_nr">
+							13/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/08052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							08.05.2024
+						</div>
+						<div class="img_nr">
+							12/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/20052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							20.05.2024
+						</div>
+						<div class="img_nr">
+							11/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/24052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.05.2024
+						</div>
+						<div class="img_nr">
+							10/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							9/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							8/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							7/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Sandy/12082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							12.08.2024
+						</div>
+						<div class="img_nr">
+							2/15
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Sandy/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							1/15
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+		<div class="flex_container images_plant_container">
+			<h2 >
+				<a href="plants/Lucy.html">Lucy</a>
+			</h2>
+			<div class="images_plant">
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/14042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.04.2024
+						</div>
+						<div class="img_nr">
+							16/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/24042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.04.2024
+						</div>
+						<div class="img_nr">
+							15/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/30042024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							30.04.2024
+						</div>
+						<div class="img_nr">
+							14/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/08052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							08.05.2024
+						</div>
+						<div class="img_nr">
+							13/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/13052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							13.05.2024
+						</div>
+						<div class="img_nr">
+							12/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/20052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							20.05.2024
+						</div>
+						<div class="img_nr">
+							11/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/24052024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							24.05.2024
+						</div>
+						<div class="img_nr">
+							10/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/04062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							04.06.2024
+						</div>
+						<div class="img_nr">
+							9/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/10062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							10.06.2024
+						</div>
+						<div class="img_nr">
+							8/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/14062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							14.06.2024
+						</div>
+						<div class="img_nr">
+							7/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/25062024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							25.06.2024
+						</div>
+						<div class="img_nr">
+							6/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/03072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							03.07.2024
+						</div>
+						<div class="img_nr">
+							5/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/16072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							16.07.2024
+						</div>
+						<div class="img_nr">
+							4/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/31072024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							31.07.2024
+						</div>
+						<div class="img_nr">
+							3/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:none;">
+					<img src="../img//Lucy/12082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							12.08.2024
+						</div>
+						<div class="img_nr">
+							2/16
+						</div>
+					</figcaption>
+				</figure>
+				<figure class="plant_image" style="display:block;">
+					<img src="../img//Lucy/15082024.jpg" />
+					<figcaption>
+						<div class="img_date">
+							15.08.2024
+						</div>
+						<div class="img_nr">
+							1/16
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="img_controls">
+				<div class="left_arrow">
+					&#9754;
+				</div>
+				<div class="right_arrow">
+					&#9755
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="github_link">
+			<a href="https://github.com/MarcoTz/Plants">Github</a>
+		</div>
+		<div id="num_plants">
+			Number of plants: 92
+		</div>
+		<div id="last_build">
+			Last build: 02.10.2024
+		</div>
+		<div id="image_viewer" onClick="close_image_viewer();" style="display:none;">
+			<div id="image_box" onClick="close_image_viewer();">
+				<img id="image_viewer_image" />
+			</div>
+		</div>
+	</div>
+</body></html>

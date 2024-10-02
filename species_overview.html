@@ -1,0 +1,563 @@
+<!doctype html>
+<html>
+	<head>
+	<title>
+		Species
+	</title>
+	<style>
+		.alternating_children>*:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		.alternating_children>*:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		.flex_container {
+			display:flex;
+			align-content:space-around;
+			align-self:center;
+			justify-content:center;
+			gap:1em;
+			flex-wrap:wrap;
+			align-items:stretch;
+			margin:auto;
+		}
+		.flex_container>* {
+			border-radius:1em;
+			padding:1em;
+		}
+	</style>
+	<style>
+		body {
+			background:var(--bg-color);
+			color:var(--fg-color);
+			font-family:"Noto Sans";
+			font-size:14pt;
+		}
+		h1 {
+			text-align:center;
+			width:100%;
+		}
+		h2 {
+			text-align:center;
+			width:100%;
+			align-self:flex-start;
+		}
+		h3 {
+			text-align:center;
+			width:100%;
+		}
+		a {
+			color:var(--link-color);
+		}
+		a:visited {
+			color:var(--link-color-visited);
+		}
+		img {
+			cursor:pointer;
+		}
+		table {
+			border-collapse:collapse;
+			margin:auto;
+		}
+		tr:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		tr:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		td {
+			padding-left:1em;
+			padding-right:1em;
+		}
+		td:nth-child(even) {
+			text-align:left;
+		}
+		td:nth-child(odd) {
+			text-align:right;
+		}
+		input {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+		select {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+	</style>
+	<style>
+		:root {
+			--bg-color:#222327;
+			--fg-color:#66cce0;
+			--fg-color-dark:#336670;
+			--link-color:#9ed072;
+			--link-color-visited:#72a278;
+			--bg-color-odd:#2a2d37;
+			--bg-color-even:#425661;
+			--bg-color-trans:rgba(22,23,27,0.80);
+			--health-color0:#757675;
+			--health-color1:#d60a0e;
+			--health-color2:#f97b0e;
+			--health-color3:#d9e008;
+			--health-color4:#92e513;
+			--health-color5:#33d818;
+		}
+	</style>
+	<style>
+		#header>* {
+			font-size:16pt;
+			text-align:center;
+			border-radius:1em;
+			width:10em;
+			height:3em;
+			padding:0em;
+			padding-top:1em;
+		}
+		#header {
+			width:100%;
+			margin-bottom:2em;
+			margin-top:2em;
+			padding-bottom:1em;
+			border-top:0px;
+			border-right:0px;
+			border-left:0px;
+			border-bottom:0.50em;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+	</style>
+	<style>
+		#footer {
+			width:100%;
+			margin-top:2em;
+			border-top:0.50em;
+			border-top:0px;
+			border-right:0px;
+			border-bottom:0px;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+		#footer>* {
+			margin:1em;
+			float:right;
+		}
+		#github_link {
+			float:left;
+		}
+		#image_viewer {
+			display:none;
+			width:100%;
+			height:100vh;
+			position:fixed;
+			overflow:none;
+			left:0%;
+			top:0%;
+			margin:0em;
+			background:var(--bg-color-trans);
+		}
+		#image_box {
+			position:relative;
+			width:100%;
+			height:100%;
+			margin:auto;
+			margin-top:5%;
+			overflow:auto;
+		}
+		#image_viewer_image {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom:auto;
+			margin-top:auto;
+			max-width:90%;
+			max-height:80%;
+			width:auto;
+			height:auto;
+		}
+	</style>
+	<style>
+		.plant_list_item {
+			height:9em;
+			width:10em;
+			text-align:center;
+			overflow:hidden;
+		}
+		.plant_preview {
+			height:40%;
+			margin-top:0.50em;
+		}
+		.temp_max, .temp_min, .location_name {
+			display:none;
+		}
+		.location_header {
+			background:transparent!important;
+			padding:0em;
+		}
+	</style>
+	<script src="js/main.js">
+		
+	</script>
+</head>
+	<body onLoad="setup_img_events()">
+	<div class="alternating_children flex_container" id="header">
+		<a href="./index.html">Dashboard</a>
+		<a href="./plant_overview.html">Plants</a>
+		<a href="./species_overview.html">Species</a>
+		<a href="./gallery.html">Gallery</a>
+		<a href="./activities.html">Activities</a>
+		<a href="./graveyard.html">Graveyard</a>
+	</div>
+	<div id="plant_list" class="flex_container alternating_children">
+		<div class="plant_list_item">
+			<a href="species/WhiteMustard.html">White Mustard</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Tradescantia.html">Tradescantia</a>
+			<br/>
+			<img src="img/Leela/19082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Carrot.html">Carrot</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/JadePlant.html">Jade Plant</a>
+			<br/>
+			<img src="img/Jill/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/SnakePlant.html">Snake Plant</a>
+			<br/>
+			<img src="img/Kaa/30092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/GardenCroton.html">Garden Croton</a>
+			<br/>
+			<img src="img/Peter/30092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Pea.html">Pea</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Ramson.html">Ramson</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Cucumber.html">Cucumber</a>
+			<br/>
+			<img src="img/Kevin/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/AppleMint.html">Apple Mint</a>
+			<br/>
+			<img src="img/Mike/19082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/WhiteStonecrop.html">White Stonecrop</a>
+			<br/>
+			<img src="img/Sting/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Spinach.html">Spinach</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/FiddleLeafFig.html">Fiddle Leaf Fig</a>
+			<br/>
+			<img src="img/Francis/29082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/PolkaDotPlant.html">Polka Dot Plant</a>
+			<br/>
+			<img src="img/Maria/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Garlic.html">Garlic</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/MonsteraMinima.html">Monstera Minima</a>
+			<br/>
+			<img src="img/Magdalena/03092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/GardenCress.html">Garden Cress</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Haworthia.html">Haworthia</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/HeartofJesus.html">Heart of Jesus</a>
+			<br/>
+			<img src="img/Jesus/24072024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Sunflower.html">Sunflower</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Radish.html">Radish</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Efeutute.html">Efeutute</a>
+			<br/>
+			<img src="img/Roselyn/23082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/BunnyEarCactus.html">Bunny Ear Cactus</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/MonsteraDeliciosa.html">Monstera Deliciosa</a>
+			<br/>
+			<img src="img/Sarabi/21082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/PeaceLily.html">Peace Lily</a>
+			<br/>
+			<img src="img/Liliana/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Strawberry.html">Strawberry</a>
+			<br/>
+			<img src="img/Stefan/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Hosta.html">Hosta</a>
+			<br/>
+			<img src="img/Ron/08092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/SongOfIndia.html">Song Of India</a>
+			<br/>
+			<img src="img/Fuchur/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/MonsteraAdanosii.html">Monstera Adanosii</a>
+			<br/>
+			<img src="img/Timon/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/RoundLeafPeperomia.html">Round Leaf Peperomia</a>
+			<br/>
+			<img src="img/Peppa/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/BirdofParadise.html">Bird of Paradise</a>
+			<br/>
+			<img src="img/Mist/30082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/ParlorPalm.html">Parlor Palm</a>
+			<br/>
+			<img src="img/Pumbaa/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/NervePlant.html">Nerve Plant</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/ChineseFig.html">Chinese Fig</a>
+			<br/>
+			<img src="img/MrsSprout/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Corn.html">Corn</a>
+			<br/>
+			<img src="img/Kelly/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/PersianCyclamen.html">Persian Cyclamen</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/DragonScale.html">Dragon Scale</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Pseudopilocereus.html">Pseudopilocereus</a>
+			<br/>
+			<img src="img/Cerberus/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/WeepingFig.html">Weeping Fig</a>
+			<br/>
+			<img src="img/Findus/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Lavender.html">Lavender</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Beetroot.html">Beetroot</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/WrightsNipple.html">Wrights Nipple</a>
+			<br/>
+			<img src="img/Tito/30092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Sempervivum.html">Sempervivum</a>
+			<br/>
+			<img src="img/Sam/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/IvoryTower.html">Ivory Tower</a>
+			<br/>
+			<img src="img/Ivan/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Avocado.html">Avocado</a>
+			<br/>
+			<img src="img/Avi/30092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/TurtleVine.html">Turtle Vine</a>
+			<br/>
+			<img src="img/Atuin/30092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/ChiliPepper.html">Chili Pepper</a>
+			<br/>
+			<img src="img/Nadja/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/MothOrchid.html">Moth Orchid</a>
+			<br/>
+			<img src="img/Aurora/07092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Tomato.html">Tomato</a>
+			<br/>
+			<img src="img/Louie/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Hellebore.html">Hellebore</a>
+			<br/>
+			<img src="img/Dirk/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/RubberTree.html">Rubber Tree</a>
+			<br/>
+			<img src="img/Bubba/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Zucchini.html">Zucchini</a>
+			<br/>
+			<img src="img/Zane/02052024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/BlueStarFern.html">Blue Star Fern</a>
+			<br/>
+			<img src="img/Rain/30082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/StringofHearts.html">String of Hearts</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Begonia.html">Begonia</a>
+			<br/>
+			<img src="img/Tupac/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/RoseCalathea.html">Rose Calathea</a>
+			<br/>
+			<img src="img/Rosy/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Onion.html">Onion</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/JapaneseLaurel.html">Japanese Laurel</a>
+			<br/>
+			<img src="img/Larry/08092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/PinkyPromise.html">Pinky Promise</a>
+			<br/>
+			<img src="img/Anya/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Broccoli.html">Broccoli</a>
+			<br/>
+			<img src="img/Brock/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/QueenoftheNight.html">Queen of the Night</a>
+			<br/>
+			<img src="img/Selene/23082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/DroopingPricklyPear.html">Drooping Prickly Pear</a>
+			<br/>
+			<img src="img/Darryl/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Basil.html">Basil</a>
+			<br/>
+			<img src="img/Lucas/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/StringofPearls.html">String of Pearls</a>
+			<br/>
+			<img src="img/Dewdrop/30082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/GymnocalyciumStenopleurum.html">Gymnocalycium Stenopleurum</a>
+			<br/>
+			<img src="img/Pepe/10062024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/Pineapple.html">Pineapple</a>
+			
+		</div>
+		<div class="plant_list_item">
+			<a href="species/CommonIvy.html">Common Ivy</a>
+			<br/>
+			<img src="img/Elvis/14042024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/TigerJaws.html">Tiger Jaws</a>
+			<br/>
+			<img src="img/Tigger/15082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/PurplePitcherPlant.html">Purple Pitcher Plant</a>
+			<br/>
+			<img src="img/Behemoth/07092024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/AloeVera.html">Aloe Vera</a>
+			<br/>
+			<img src="img/Al/30082024.jpg" class="plant_preview" />
+		</div>
+		<div class="plant_list_item">
+			<a href="species/AustralianUmbrellaTree.html">Australian Umbrella Tree</a>
+			<br/>
+			<img src="img/Jay/26062024.jpg" class="plant_preview" />
+		</div>
+	</div>
+	<div id="footer">
+		<div id="github_link">
+			<a href="https://github.com/MarcoTz/Plants">Github</a>
+		</div>
+		<div id="num_plants">
+			Number of plants: 92
+		</div>
+		<div id="last_build">
+			Last build: 02.10.2024
+		</div>
+		<div id="image_viewer" onClick="close_image_viewer();" style="display:none;">
+			<div id="image_box" onClick="close_image_viewer();">
+				<img id="image_viewer_image" />
+			</div>
+		</div>
+	</div>
+</body></html>

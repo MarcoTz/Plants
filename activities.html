@@ -1,0 +1,2311 @@
+<!doctype html>
+<html>
+	<head>
+	<title>
+		Activities
+	</title>
+	<style>
+		.alternating_children>*:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		.alternating_children>*:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		.flex_container {
+			display:flex;
+			align-content:space-around;
+			align-self:center;
+			justify-content:center;
+			gap:1em;
+			flex-wrap:wrap;
+			align-items:stretch;
+			margin:auto;
+		}
+		.flex_container>* {
+			border-radius:1em;
+			padding:1em;
+		}
+	</style>
+	<style>
+		body {
+			background:var(--bg-color);
+			color:var(--fg-color);
+			font-family:"Noto Sans";
+			font-size:14pt;
+		}
+		h1 {
+			text-align:center;
+			width:100%;
+		}
+		h2 {
+			text-align:center;
+			width:100%;
+			align-self:flex-start;
+		}
+		h3 {
+			text-align:center;
+			width:100%;
+		}
+		a {
+			color:var(--link-color);
+		}
+		a:visited {
+			color:var(--link-color-visited);
+		}
+		img {
+			cursor:pointer;
+		}
+		table {
+			border-collapse:collapse;
+			margin:auto;
+		}
+		tr:nth-child(odd) {
+			background:var(--bg-color-odd);
+		}
+		tr:nth-child(even) {
+			background:var(--bg-color-even);
+		}
+		td {
+			padding-left:1em;
+			padding-right:1em;
+		}
+		td:nth-child(even) {
+			text-align:left;
+		}
+		td:nth-child(odd) {
+			text-align:right;
+		}
+		input {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+		select {
+			background:var(--bg-color);
+			color:var(--fg-color);
+		}
+	</style>
+	<style>
+		:root {
+			--bg-color:#222327;
+			--fg-color:#66cce0;
+			--fg-color-dark:#336670;
+			--link-color:#9ed072;
+			--link-color-visited:#72a278;
+			--bg-color-odd:#2a2d37;
+			--bg-color-even:#425661;
+			--bg-color-trans:rgba(22,23,27,0.80);
+			--health-color0:#757675;
+			--health-color1:#d60a0e;
+			--health-color2:#f97b0e;
+			--health-color3:#d9e008;
+			--health-color4:#92e513;
+			--health-color5:#33d818;
+		}
+	</style>
+	<style>
+		#header>* {
+			font-size:16pt;
+			text-align:center;
+			border-radius:1em;
+			width:10em;
+			height:3em;
+			padding:0em;
+			padding-top:1em;
+		}
+		#header {
+			width:100%;
+			margin-bottom:2em;
+			margin-top:2em;
+			padding-bottom:1em;
+			border-top:0px;
+			border-right:0px;
+			border-left:0px;
+			border-bottom:0.50em;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+	</style>
+	<style>
+		#footer {
+			width:100%;
+			margin-top:2em;
+			border-top:0.50em;
+			border-top:0px;
+			border-right:0px;
+			border-bottom:0px;
+			border-style:solid;
+			border-color:var(--bg-color-even);
+		}
+		#footer>* {
+			margin:1em;
+			float:right;
+		}
+		#github_link {
+			float:left;
+		}
+		#image_viewer {
+			display:none;
+			width:100%;
+			height:100vh;
+			position:fixed;
+			overflow:none;
+			left:0%;
+			top:0%;
+			margin:0em;
+			background:var(--bg-color-trans);
+		}
+		#image_box {
+			position:relative;
+			width:100%;
+			height:100%;
+			margin:auto;
+			margin-top:5%;
+			overflow:auto;
+		}
+		#image_viewer_image {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom:auto;
+			margin-top:auto;
+			max-width:90%;
+			max-height:80%;
+			width:auto;
+			height:auto;
+		}
+	</style>
+	<script src="js/main.js">
+		
+	</script>
+</head>
+	<body onLoad="setup_img_events()">
+	<div class="alternating_children flex_container" id="header">
+		<a href="./index.html">Dashboard</a>
+		<a href="./plant_overview.html">Plants</a>
+		<a href="./species_overview.html">Species</a>
+		<a href="./gallery.html">Gallery</a>
+		<a href="./activities.html">Activities</a>
+		<a href="./graveyard.html">Graveyard</a>
+	</div>
+	<div style="width:95%;margin:auto;">
+		<table >
+			<tr id="header_row">
+				<td>
+					Date
+				</td><td>
+					Activity
+				</td><td>
+					Plants
+				</td><td>
+					Note
+				</td>
+			</tr><tr >
+				<td>
+					30.09.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Kaa, Atuin, Avi, Timon, Leela, Albus, Anya, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Kaa, Atuin, Avi, Timon, Selene, Al, Leela, Albus, Anya, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					27.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Jay, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					27.09.2024
+				</td><td>
+					Repot
+				</td><td>
+					Jay
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Mrs Sprout, Peter, Findus, Larry, Dirk, Jesus, Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Tito, Darryl, Behemoth, Rain, Louie, Avi, Aurora, Jake, Scully, Tony, Tom, Charles, Jim, Cerberus, Timon, Dewdrop, Gina, Brock, Mike, Bart, Tim, Zane, Pepe, Jerry, Bond, Jesus, Maria, Ray, Gabriel, Martha, Hitchcock, Kevin, Rosa, Fuchur, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					20.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Jerry, Bond, Sandra, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Brock, Elvis
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					16.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					14.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Ron, Kaa, Mist, Aurora, Jay, Harry, Magdalena, Sunshine, Albus, Scar
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Behemoth, Findus, Jesus, Maria, Francis, Anya
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Jake, Scully, Tony, Tom, Charles, Jim, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Jerry, Bond, Sting, Ray, Hitchcock, Kevin, Rosa, Terry, Amy, Chrom
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					11.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Jill
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Sarabi, Nadja, Mrs Sprout, Sandy, Lucy, Liliana, Peppa, Sandra, Leela, Mufasa, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.09.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Sarabi, Mrs Sprout, Peppa, Leela, Mufasa
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					09.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Jake, Scully, Tony, Tom, Charles, Jim, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Terry, Amy, Chrom
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					08.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Atuin, Aurora, Jay, Gabby, Larry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					08.09.2024
+				</td><td>
+					Repot
+				</td><td>
+					Atuin, Jay, Gabby
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					08.09.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Aurora
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.09.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Sam, Jack, Tigger, Dewdrop, Ivan, Selene, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Jack, Louie, Jake, Scully, Tigger, Tony, Tom, Charles, Jim, Dewdrop, Gina, Chris, Kelly, Ivan, Brock, Bart, Tim, Zane, Selene, Jerry, Bond, Ray, Hitchcock, Kevin, Rosa, Beehome, Terry, Amy, Jane, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Jim, Sandy, Lucy, Brock, Mike, Findus, Bart, Tim, Zane, Tupac, Biggie, Jerry, Bond, Sandra, Al, Gabriel, Hitchcock, Kevin, Nate, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Joe, Dirk, Jesus, Jenn, Maria, Fuchur
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					02.09.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Behemoth, Mist, Rain, Nadja, Aurora, Jake, Scully, Tom, Charles, Eva Longoria, Sandy, Lucy, Liliana, Magdalena, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Stefan, Jerry, Bond, Elvis, Sandra, Sunshine, Sting, Ray, Martha, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Mist, Rain, Sunshine
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Tito, Darryl, Mist, Rain, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Cerberus, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Pepe, Biggie, Jerry, Bond, Sandra, Sunshine, Sting, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Tito, Darryl, Cerberus, Pepe
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					29.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Kaa, Peter, Francis, Gabriel
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					29.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Kaa, Sarabi, Mrs Sprout, Peter, Dewdrop, Findus, Francis, Gabriel, Scar, Fuchur
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					28.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Brock, Mike, Bart, Tim, Zane, Jerry, Bond, Elvis, Sandra, Pumbaa, Ray, Hitchcock, Mufasa, Kevin, Rosa, Bubba, Anya, Beehome, Nate, Terry, Amy, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					28.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Al, Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					27.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Harry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					27.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Ron, Jill, Behemoth, Louie, Jake, Scully, Tony, Harry, Charles, Gina, Brock, Bart, Zane, Stefan, Bond, Leela, Ray, Hitchcock, Rosa, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					26.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Aurora
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Liliana, Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Brock, Bart, Tim, Zane, Jerry, Bond, Sandra, Ray, Hitchcock, Kevin, Rosa, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jack, Louie, Nadja, Avi, Jake, Scully, Tony, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Dirk, Jerry, Sandra, Jenn, Ray, Hitchcock, Kevin, Albus, Rosa, Bubba, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Avi, Selene, Albus
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Louie, Nadja, Roselyn, Jake, Scully, Tony, Tom, Charles, Gabby, Jim, Eva Longoria, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Jerry, Sandra, Ray, Hitchcock, Kevin, Rosa, Bubba, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					, Root Growth
+				</td>
+			</tr><tr >
+				<td>
+					22.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Larry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					22.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Jack, Tigger, Ivan, Findus, Larry, Jesus, Fuchur, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Mrs Sprout, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Magdalena, Magdalena, Gina, Chris, Kelly, Brock, Bart, Tim, Zane, Jerry, Bond, Sandra, Maria, Maria, Ray, Martha, Martha, Hitchcock, Mufasa, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Martha
+				</td><td>
+					Split into two plants
+				</td>
+			</tr><tr >
+				<td>
+					21.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Mrs Sprout, Simba, Maria, Rosy
+				</td><td>
+					, Root growth
+				</td>
+			</tr><tr >
+				<td>
+					20.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Behemoth, Aurora, Dewdrop, Mufasa
+				</td><td>
+					, Split into three plants
+				</td>
+			</tr><tr >
+				<td>
+					20.08.2024
+				</td><td>
+					Stalking+Pruning
+				</td><td>
+					Louie, Jake, Scully, Tony, Charles, Gina, Ray, Hitchcock, Rosa, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					20.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Sarabi, Behemoth, Louie, Nadja, Aurora, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Dewdrop, Gina, Chris, Kelly, Brock, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Ray, Hitchcock, Rosa, Scar, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Avi, Joe, Eva Longoria, Liliana, Timon, Mike, Peppa, Dirk, Leela, Pumbaa, Albus, Bubba, Anya, Fuchur
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Mike, Leela
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Bart, Stefan, Biggie, Jerry, Bond, Elvis, Ray, Hitchcock, Kevin, Rosa, Beehome, Terry, Amy, Chrom
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					15.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Brock, Mike, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Ray, Hitchcock, Kevin, Kevin, Rosa, Beehome, Nate, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					14.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					14.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Mrs Sprout, Findus, Maria, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Brock, Mike, Bart, Tim, Jerry, Bond, Sandra, Ray, Hitchcock, Rosa, Beehome, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jill, Louie, Nadja, Avi, Jake, Scully, Tony, Harry, Tom, Charles, Joe, Jim, Sandy, Lucy, Liliana, Timon, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Tupac, Tupac, Stefan, Stefan, Dirk, Biggie, Biggie, Biggie, Jerry, Elvis, Sandra, Jenn, Sting, Pumbaa, Ray, Martha, Hitchcock, Mufasa, Kevin, Albus, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Liliana, Timon, Timon, Al, Pumbaa, Pumbaa, Martha, Martha, Mufasa, Mufasa
+				</td><td>
+					, Root Growht
+				</td>
+			</tr><tr >
+				<td>
+					12.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Lucas, Nadja, Sandy, Lucy, Sandra, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					11.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Mike, Bart, Tim, Zane, Tupac, Biggie, Jerry, Bond, Sandra, Ray, Hitchcock, Rosa, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					09.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Tito, Darryl, Cerberus, Chris, Kelly, Pepe, Peppa, Jesus, Maria, Bubba, Beehome, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					08.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Charles, Sandy, Lucy, Gina, Brock, Bart, Zane, Bond, Sandra, Ray, Hitchcock, Rosa, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.08.2024
+				</td><td>
+					Repot
+				</td><td>
+					Tupac, Biggie
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Lucas, Jack, Louie, Nadja, Mrs Sprout, Jake, Scully, Tigger, Tony, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Gina, Chris, Kelly, Ivan, Brock, Mike, Findus, Bart, Tim, Zane, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Sandra, Ray, Hitchcock, Rosa, Bubba, Nate, Terry, Amy, Jane, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Louie, Nadja, Mrs Sprout, Jake, Scully, Tony, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Gina, Chris, Kelly, Mike, Findus, Bart, Tim, Zane, Stefan, Jerry, Sandra, Ray, Hitchcock, Rosa, Nate, Terry, Amy, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Jesus, Sting, Maria, Fuchur
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jill, Louie, Nadja, Avi, Jake, Scully, Tony, Harry, Tom, Charles, Joe, Jim, Sandy, Lucy, Gina, Kelly, Brock, Mike, Bart, Tim, Zane, Dirk, Jerry, Bond, Elvis, Sandra, Jenn, Ray, Hitchcock, Kevin, Albus, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					04.08.2024
+				</td><td>
+					Pruning
+				</td><td>
+					Nadja
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					04.08.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Selene
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					02.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Darryl, Jill, Louie, Nadja, Avi, Jake, Scully, Tony, Tom, Charles, Joe, Jim, Sandy, Lucy, Gina, Brock, Mike, Bart, Tim, Zane, Dirk, Jerry, Bond, Elvis, Sandra, Jenn, Ray, Hitchcock, Albus, Rosa, Nate, Terry, Amy, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					01.08.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Terry, Amy, Chrom
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					31.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Mrs Sprout, Jake, Scully, Tony, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Liliana, Timon, Gina, Chris, Kelly, Brock, Mike, Findus, Bart, Tim, Zane, Tupac, Biggie, Jerry, Bond, Elvis, Sandra, Leela, Pumbaa, Ray, Martha, Hitchcock, Rosa, Bubba, Anya, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					31.07.2024
+				</td><td>
+					Pruning
+				</td><td>
+					Louie, Jake, Scully, Tony, Tom, Charles, Gina, Hitchcock, Rosa, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Charles, Gina, Ray, Rosa, Terry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					26.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Tom, Jim, Eva Longoria, Sandy, Lucy, Chris, Kelly, Brock, Tim, Stefan, Stefan, Jerry, Bond, Jesus, Sandra, Maria, Bubba, Fuchur, Nate, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Liliana, Biggie
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Kevin
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Lucas, Jack, Nadja, Tigger, Tom, Jim, Sandy, Lucy, Ivan, Tim, Jerry, Bond, Jesus, Sandra, Kevin, Anya, Beehome, Nate, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Nadja, Tom, Jim, Sandy, Lucy, Tim, Jerry, Bond, Sandra, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Jill, Avi, Mrs Sprout, Joe, Jim, Mike, Findus, Peppa, Dirk, Jerry, Jenn, Leela, Albus, Fuchur, Beehome, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Mrs Sprout, Peppa, Leela, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					22.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Harry, Tom, Tom, Jim, Sandy, Lucy, Brock, Mike, Tim, Zane, Stefan, Jerry, Bond, Elvis, Sandra, Kevin, Beehome, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Pumbaa
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Tom, Jim, Eva Longoria, Sandy, Lucy, Timon, Chris, Kelly, Brock, Mike, Tim, Zane, Stefan, Biggie, Jerry, Bond, Elvis, Sandra, Pumbaa, Martha, Kevin, Beehome, Nate, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Eva Longoria, Timon, Elvis, Martha
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jill, Nadja, Avi, Mrs Sprout, Harry, Tom, Joe, Jim, Sandy, Lucy, Liliana, Chris, Kelly, Brock, Mike, Tim, Tupac, Dirk, Biggie, Jerry, Bond, Sandra, Jenn, Kevin, Albus, Beehome, Nate, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Tom, Jim, Brock, Mike, Tim, Zane, Jerry, Bond, Maria, Kevin, Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Tom, Jim, Brock, Mike, Tim, Zane, Jerry, Bond, Maria, Kevin, Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Mike, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					16.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Jake, Scully, Tony, Tom, Charles, Jim, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Stefan, Jerry, Bond, Leela, Ray, Hitchcock, Kevin, Rosa, Anya, Beehome, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					16.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Louie, Avi, Jake, Scully, Tony, Charles, Gina, Chris, Kelly, Bart, Stefan, Ray, Hitchcock, Albus, Rosa, Terry, Amy, Chrom
+				</td><td>
+					, Root Growth
+				</td>
+			</tr><tr >
+				<td>
+					16.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Sam, Tito, Jack, Avi, Tigger, Cerberus, Ivan, Pepe, Leela, Albus, Anya, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.07.2024
+				</td><td>
+					Pruning
+				</td><td>
+					Zane, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jill, Jack, Louie, Nadja, Avi, Mrs Sprout, Jake, Scully, Tony, Harry, Tom, Charles, Joe, Jim, Sandy, Lucy, Gina, Chris, Kelly, Brock, Mike, Findus, Bart, Tim, Zane, Tupac, Stefan, Dirk, Biggie, Jerry, Bond, Elvis, Sandra, Jenn, Ray, Hitchcock, Kevin, Albus, Rosa, Beehome, Nate, Terry, Amy, Jane, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					11.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Mrs Sprout, Eva Longoria, Liliana, Timon, Findus, Pumbaa, Maria, Martha, Bubba, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Dirk
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Darryl, Jill, Jack, Avi, Harry, Joe, Cerberus, Chris, Kelly, Brock, Mike, Tupac, Stefan, Bond, Elvis, Jenn, Albus, Beehome, Jane, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Darryl, Cerberus
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Nadja, Sandy, Lucy, Stefan, Sandra, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jack, Nadja, Joe, Sandy, Lucy, Mike, Tupac, Stefan, Biggie, Sandra, Jenn, Nate, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Mike
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					04.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Eva Longoria, Fuchur, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Mrs Sprout, Ivan, Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Tom, Jim, Timon, Brock, Tim, Jerry, Pumbaa, Martha, Kevin
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Mrs Sprout, Tom, Jim, Liliana, Timon, Ivan, Brock, Tim, Pepe, Biggie, Jerry, Bond, Pumbaa, Maria, Martha, Kevin, Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					02.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Jake, Scully, Tony, Harry, Tom, Charles, Gina, Chris, Kelly, Mike, Findus, Bart, Tim, Zane, Stefan, Dirk, Ray, Hitchcock, Kevin, Rosa, Beehome, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					02.07.2024
+				</td><td>
+					Repot
+				</td><td>
+					Findus
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					02.07.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Louie, Louie, Jake, Jake, Scully, Scully, Tony, Tony, Charles, Charles, Gina, Gina, Chris, Kelly, Bart, Bart, Zane, Gabrielle, Ray, Ray, Hitchcock, Hitchcock, Rosa, Rosa, Terry, Terry, Amy, Amy, Chrom
+				</td><td>
+					, Added Root Growth
+				</td>
+			</tr><tr >
+				<td>
+					01.07.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jill, Jack, Nadja, Tom, Joe, Jim, Sandy, Lucy, Tim, Peppa, Jerry, Elvis, Sandra, Jenn, Maria, Albus, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					30.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Tom, Mike, Tim, Biggie
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					29.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Tom, Jim, Sandy, Lucy, Tim, Zane, Jerry, Sandra, Kevin, Nate
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					28.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jack, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Liliana, Gina, Chris, Kelly, Brock, Mike, Bart, Tim, Zane, Tupac, Stefan, Jerry, Bond, Sandra, Maria, Ray, Hitchcock, Kevin, Kevin, Albus, Rosa, Beehome, Beehome, Nate, Terry, Amy, Jane, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					28.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Brock, Albus, Rosy
+				</td><td>
+					, Moved to actual pot
+				</td>
+			</tr><tr >
+				<td>
+					27.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Brock, Mike, Bart, Tim, Zane, Stefan, Jerry, Bond, Sandra, Ray, Hitchcock, Kevin, Rosa, Fuchur, Beehome, Nate, Terry, Amy, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					26.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Jack, Nadja, Tom, Joe, Jim, Sandy, Lucy, Tim, Zane, Jerry, Bond, Sandra, Jenn, Nate, Jane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Nadja, Avi, Mrs Sprout, Jay, Rihanna, Eva Longoria, Sandy, Lucy, Timon, Findus, Zane, Stefan, Biggie, Elvis, Sandra, Pumbaa, Nate, Rosy
+				</td><td>
+					, Added root growth to water, Root growth into water
+				</td>
+			</tr><tr >
+				<td>
+					25.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Mrs Sprout, Jake, Tony, Harry, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Timon, Gina, Chris, Kelly, Brock, Mike, Findus, Bart, Tim, Zane, Stefan, Dirk, Biggie, Jerry, Bond, Elvis, Sandra, Pumbaa, Ray, Kevin, Rosa, Nate, Terry, Amy, Amy, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.06.2024
+				</td><td>
+					Pruning
+				</td><td>
+					Louie, Jake, Tony, Tom, Charles, Gina, Jerry, Ray, Kevin, Rosa, Beehome, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Bubba
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Avi, Mrs Sprout, Tony, Harry, Tom, Jim, Eva Longoria, Sandy, Lucy, Liliana, Timon, Gina, Chris, Kelly, Mike, Findus, Tim, Peppa, Stefan, Dirk, Biggie, Jerry, Bond, Elvis, Sandra, Pumbaa, Maria, Maria, Ray, Martha, Kevin, Rosa, Fuchur, Beehome, Nate, Terry, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Ivan, Mike, Bart, Tim, Zane, Pepe, Stefan, Biggie, Jerry, Bond, Sandra, Ray, Hitchcock, Rosa, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Mrs Sprout, Jake, Scully, Tony, Tom, Charles, Jim, Gina, Brock, Bart, Tim, Jerry, Bond, Ray, Hitchcock, Kevin, Rosa, Fuchur, Beehome, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Mrs Sprout, Fuchur
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					16.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Darryl, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Cerberus, Gina, Mike, Findus, Bart, Tim, Zane, Jerry, Sandra, Ray, Hitchcock, Kevin, Rosa, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Bart, Tim, Zane, Stefan, Stefan, Jerry, Bond, Sandra, Ray, Hitchcock, Kevin, Rosa, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Gina, Chris, Kelly, Mike, Bart, Tim, Zane, Peppa, Stefan, Stefan, Biggie, Jerry, Bond, Sandra, Ray, Hitchcock, Kevin, Rosa, Beehome, Nate, Terry, Amy, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					14.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Brock, Mike, Stefan, Dirk, Elvis, Maria, Kevin, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Tony, Tom, Charles, Jim, Sandy, Lucy, Liliana, Gina, Chris, Kelly, Bart, Tim, Zane, Stefan, Jerry, Sandra, Ray, Rosa, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Martha
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Biggie
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Gina, Bart, Tim, Zane, Biggie, Jerry, Bond, Ray, Hitchcock, Rosa, Beehome, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					11.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Gina, Chris, Kelly, Ivan, Brock, Mike, Bart, Tim, Stefan, Jerry, Elvis, Sandra, Ray, Martha, Hitchcock, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.06.2024
+				</td><td>
+					Added Autowaterer
+				</td><td>
+					Jake, Scully, Bart, Zane, Hitchcock, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Louie, Louie, Tony, Tony, Bart, Bart, Zane, Zane, Bond, Bond, Beehome, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Mrs Sprout, Jake, Scully, Tony, Harry, Tom, Charles, Jim, Sandy, Lucy, Timon, Chris, Kelly, Brock, Mike, Findus, Bart, Tim, Zane, Biggie, Jerry, Bond, Sandra, Pumbaa, Ray, Hitchcock, Rosa, Fuchur, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Louie, Tony, Charles, Timon, Gina, Chris, Kelly, Pumbaa, Ray, Rosa, Fuchur, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					09.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Jake, Harry, Tom, Jim, Eva Longoria, Sandy, Lucy, Liliana, Bart, Tim, Zane, Stefan, Jerry, Bond, Elvis, Sandra, Ray, Rosa, Beehome, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					09.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Scully, Mike, Hitchcock
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					08.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Nadja, Jake, Tony, Harry, Tom, Jim, Sandy, Lucy, Chris, Kelly, Mike, Bart, Tim, Zane, Jerry, Bond, Sandra, Ray, Rosa, Beehome, Nate, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Zane, Dirk, Elvis, Maria, Martha, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Jake, Scully, Tony, Tom, Charles, Jim, Sandy, Lucy, Gina, Mike, Bart, Tim, Zane, Stefan, Dirk, Jerry, Elvis, Sandra, Maria, Ray, Martha, Hitchcock, Rosa, Beehome, Nate, Amy, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Jake, Bart, Zane, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Nadja, Tony, Harry, Tom, Charles, Jim, Sandy, Brock, Mike, Bart, Tim, Zane, Stefan, Jerry, Bond, Sandra, Ray, Hitchcock, Beehome, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.06.2024
+				</td><td>
+					Repot
+				</td><td>
+					Elvis, Ray
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Lucas, Louie, Nadja, Tony, Harry, Tom, Jim, Sandy, Lucy, Chris, Kelly, Mike, Tim, Zane, Stefan, Jerry, Elvis, Sandra, Maria, Beehome, Nate, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					04.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Lucas, Nadja, Jake, Scully, Tom, Charles, Jim, Eva Longoria, Sandy, Lucy, Liliana, Gina, Chris, Brock, Mike, Tim, Stefan, Jerry, Sandra, Ray, Hitchcock, Rosa, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					04.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Lucas, Lucas, Nadja, Jake, Scully, Tom, Charles, Jim, Jim, Eva Longoria, Sandy, Lucy, Liliana, Gina, Chris, Chris, Brock, Mike, Findus, Bart, Tim, Tim, Pepe, Stefan, Dirk, Jerry, Bond, Sandra, Sandra, Ray, Hitchcock, Rosa, Nate, Nate, Terry, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					03.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Nadja, Jake, Scully, Tony, Harry, Tom, Charles, Sandy, Lucy, Gina, Kelly, Mike, Stefan, Biggie, Jerry, Jerry, Elvis, Ray, Hitchcock, Rosa, Amy, Chrom
+				</td><td>
+					, Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					01.06.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Jake, Scully, Harry, Tom, Charles, Sandy, Lucy, Gina, Kelly, Brock, Zane, Stefan, Jerry, Martha, Hitchcock, Rosa, Beehome, Terry, Amy, Chrom, Rosy
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					01.06.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Jack, Joe, Jenn, Jane
+				</td><td>
+					Root Growth
+				</td>
+			</tr><tr >
+				<td>
+					31.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Nadja, Tony, Tom, Sandy, Lucy, Peppa, Stefan, Jerry
+				</td><td>
+					Rain water
+				</td>
+			</tr><tr >
+				<td>
+					30.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Scully, Harry, Tom, Gina, Zane, Biggie, Jerry, Ray, Hitchcock, Rosa, Amy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					29.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tony, Tom, Sandy, Lucy, Findus, Jerry, Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					28.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Jake, Harry, Tom, Charles, Eva Longoria, Sandy, Lucy, Liliana, Kelly, Brock, Mike, Zane, Stefan, Jerry, Elvis, Beehome, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					27.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Tom, Jerry, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					26.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Terry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					26.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Darryl, Louie, Nadja, Scully, Tony, Harry, Tom, Sandy, Lucy, Cerberus, Gina, Kelly, Ivan, Stefan, Dirk, Jerry, Ray, Hitchcock, Rosa, Beehome, Terry, Amy, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					25.05.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Albus
+				</td><td>
+					Added Root growth to water
+				</td>
+			</tr><tr >
+				<td>
+					25.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tom, Sandy, Lucy, Mike, Stefan, Jerry, Beehome, Terry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.05.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Louie, Tony, Harry, Kelly, Brock, Mike, Zane, Biggie, Elvis, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Jake, Tom, Charles, Zane, Dirk, Jerry, Elvis, Martha, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Jake, Charles, Zane
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					23.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Harry, Eva Longoria, Sandy, Lucy, Liliana, Findus, Stefan, Biggie, Beehome
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					22.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Tony, Tom, Mike, Jerry, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					21.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Nadja, Tony, Tom, Eva Longoria, Sandy, Lucy, Kelly, Stefan, Jerry, Maria, Terry, Chrom
+				</td><td>
+					, Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					20.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Louie, Nadja, Tony, Harry, Tom, Sandy, Lucy, Liliana, Kelly, Brock, Pepe, Stefan, Dirk, Jerry, Elvis, Beehome, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					20.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Sam, Liliana, Pepe
+				</td><td>
+					Combined Sam, Pepe and Harvey into a single pot
+				</td>
+			</tr><tr >
+				<td>
+					19.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Brock
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Louie, Tony, Brock, Findus, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Kelly, Mike, Dirk, Elvis, Beehome, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Tom, Kelly, Jerry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.05.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Nadja, Tom, Eva Longoria, Sandy, Lucy, Findus, Stefan, Jerry, Kevin
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Harry, Tom, Sandy, Lucy, Findus, Zane, Stefan, Jerry, Chrom, Rosy
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					17.05.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Sam, Darryl, Cerberus, Ivan, Pepe, Martha
+				</td><td>
+					Root Growth
+				</td>
+			</tr><tr >
+				<td>
+					16.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Sandy, Lucy, Liliana, Stefan, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Tom, Mike, Biggie, Jerry, Terry
+				</td><td>
+					Rain Water
+				</td>
+			</tr><tr >
+				<td>
+					14.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tom, Eva Longoria, Sandy, Lucy, Kelly, Zane, Peppa, Stefan, Dirk, Biggie, Jerry, Elvis, Maria, Martha, Beehome, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Harry, Tom, Sandy, Lucy, Kelly, Mike, Zane, Stefan, Jerry, Elvis, Beehome, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Terry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tom, Sandy, Lucy, Kelly, Zane, Stefan, Jerry, Beehome, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					11.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Tom, Liliana, Kelly, Brock, Zane, Biggie, Jerry, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					10.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tom, Sandy, Lucy, Kelly, Mike, Zane, Stefan, Jerry, Elvis, Beehome, Terry, Chrom, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					09.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Sam, Nadja, Harry, Tom, Sandy, Lucy, Mike, Findus, Stefan, Biggie, Jerry, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					08.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Brock, Stefan, Dirk, Maria, Terry
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Nadja, Tom, Eva Longoria, Sandy, Sandy, Lucy, Lucy, Liliana, Cerberus, Kelly, Ivan, Zane, Stefan, Stefan, Jerry, Elvis, Martha, Beehome, Terry, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					07.05.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Harry, Pepe, Rosy, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					06.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Harry, Mike
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.05.2024
+				</td><td>
+					Watering
+				</td><td>
+					Darryl, Mike, Biggie, Elvis, Elvis, Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					05.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Darryl, Biggie
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					02.05.2024
+				</td><td>
+					Repot
+				</td><td>
+					Kelly, Zane, Chrom
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					24.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Tom, Sandy, Lucy, Liliana, Findus, Peppa, Stefan, Jerry, Elvis, Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					22.04.2024
+				</td><td>
+					Repot
+				</td><td>
+					Eva Longoria, Sandy, Lucy, Kelly, Brock, Stefan
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					22.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Eva Longoria, Sandy, Lucy, Liliana, Kelly, Brock, Findus, Pepe, Peppa, Stefan, Elvis, Martha, Beehome, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					19.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Maria, Martha, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Eva Longoria, Liliana, Peppa, Maria, Martha
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					18.04.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Findus, Peppa
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.04.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Maria, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					17.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Cerberus, Rosy
+				</td><td>
+					Rainy day, outside plants are all wet
+				</td>
+			</tr><tr >
+				<td>
+					16.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Maria
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					16.04.2024
+				</td><td>
+					Fertilizing
+				</td><td>
+					Elvis, Kevin
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					15.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Findus
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					14.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Eva Longoria, Lucy, Peppa, Stefan, Beehome, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.04.2024
+				</td><td>
+					Added Autowaterer
+				</td><td>
+					Kevin
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					13.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Liliana, Martha, Kevin, Beehome, Rosy
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					12.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Eva Longoria, Peppa, Maria, Kevin, Beehome
+				</td><td>
+					
+				</td>
+			</tr><tr >
+				<td>
+					11.04.2024
+				</td><td>
+					Watering
+				</td><td>
+					Nadja, Elvis
+				</td><td>
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="footer">
+		<div id="github_link">
+			<a href="https://github.com/MarcoTz/Plants">Github</a>
+		</div>
+		<div id="num_plants">
+			Number of plants: 92
+		</div>
+		<div id="last_build">
+			Last build: 02.10.2024
+		</div>
+		<div id="image_viewer" onClick="close_image_viewer();" style="display:none;">
+			<div id="image_box" onClick="close_image_viewer();">
+				<img id="image_viewer_image" />
+			</div>
+		</div>
+	</div>
+</body></html>
