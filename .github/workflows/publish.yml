@@ -19,7 +19,7 @@ jobs:
         with:
           rust-version: 1.81.0
       - name: Build Project 
-        run: make build
+        run: make website
       - name: Move Files
         run: |
           mv ./html_out ../public/
