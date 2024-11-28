@@ -1,7 +1,8 @@
-use database::file_backend::FileDB;
+use database::{database_manager::DatabaseManager, sqlite_backend::SQLiteDB};
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
 use render_html::{renderer::Renderer, write_html::write_all};
+use std::path::PathBuf;
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
@@ -11,7 +12,13 @@ static LOGGER: FileLogger = FileLogger {
 fn main() -> Result<(), String> {
     init_logger(&LOGGER)?;
 
-    let db_man = FileDB::default();
+    let mut db_man = SQLiteDB::new(PathBuf::from("plants.db")).map_err(|err| err.to_string())?;
+    let locations = db_man
+        .get_location("Garage")
+        .map_err(|err| err.to_string())?;
+    println!("{:?}", locations);
+
+    std::process::exit(0);
     let mut renderer = Renderer {
         database_manager: db_man,
         date_format: "%d.%m.%Y".to_owned(),

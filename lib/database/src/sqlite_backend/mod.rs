@@ -18,15 +18,9 @@ pub struct SQLiteDB {
     pub connection: Connection,
 }
 
-/*
-Expects the following database schems
-
-table Plants
-
-*/
 impl SQLiteDB {
     pub fn new(path: PathBuf) -> Result<SQLiteDB, Error> {
-        let con = sqlite::open(path)?;
+        let con = sqlite::open(path.clone())?;
         Ok(SQLiteDB {
             db_path: path,
             connection: con,
@@ -37,9 +31,15 @@ impl SQLiteDB {
 impl DatabaseManager for SQLiteDB {
     // Plant Methods
     fn get_all_plants(&mut self) -> Result<Vec<Plant>, Box<dyn StdErr>> {
+        /*        let info_query = "SELECT * FROM plants";
+        let growth_query = "SELECT * FROM growth WHERE plant=%s";
+        let activity_query = "SELECT * FROM activities WHERE plant=%s";
+        let image_query = "SELECT * FROM plant_images WHERE plant_name=%s";*/
         todo!()
     }
+
     fn get_plants_by_location(&mut self, _location: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
+        //        let names_query = "SELECT name FROM plants WHERE location = %s";
         todo!()
     }
     fn get_plant(&mut self, _plant_name: &str) -> Result<Plant, Box<dyn StdErr>> {
@@ -60,6 +60,7 @@ impl DatabaseManager for SQLiteDB {
 
     // Species Methods
     fn get_all_species(&mut self) -> Result<Vec<Species>, Box<dyn StdErr>> {
+        //        let query = "SELECT * FROM species;";
         todo!()
     }
     fn get_species(&mut self, _species_name: &str) -> Result<Species, Box<dyn StdErr>> {
@@ -79,10 +80,68 @@ impl DatabaseManager for SQLiteDB {
 
     // Location Methods
     fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn StdErr>> {
-        todo!()
+        let query = "SELECT * FROM locations";
+        let mut locations = vec![];
+        let location_callback = |rows: &[(&str, Option<&str>)]| {
+            let mut location = "";
+            let mut outside = false;
+            for (key, val) in rows.into_iter() {
+                match *key {
+                    "name" => {
+                        if let Some(name) = *val {
+                            location = name
+                        } else {
+                            continue;
+                        }
+                    }
+                    "outside" => outside = *val == Some("1"),
+                    _ => continue,
+                }
+            }
+            locations.push(Location {
+                name: location.to_owned(),
+                outside,
+            });
+            true
+        };
+        self.connection.iterate(query, location_callback)?;
+        Ok(locations)
     }
-    fn get_location(&mut self, _location_name: &str) -> Result<Location, Box<dyn StdErr>> {
-        todo!()
+    fn get_location(&mut self, location_name: &str) -> Result<Location, Box<dyn StdErr>> {
+        let query = format!("SELECT * FROM locations WHERE name LIKE '%{location_name}%'");
+        let mut location = None;
+        let loc_callback = |rows: &[(&str, Option<&str>)]| {
+            let mut name = "";
+            let mut outside = false;
+            for (key, val) in rows.iter() {
+                match *key {
+                    "name" => {
+                        if let Some(loc) = *val {
+                            name = loc
+                        } else {
+                            continue;
+                        }
+                    }
+                    "outside" => outside = *val == Some("1"),
+                    _ => continue,
+                }
+            }
+            if name != "" {
+                location = Some(Location {
+                    name: name.to_owned(),
+                    outside,
+                });
+            }
+            true
+        };
+        self.connection.iterate(query, loc_callback)?;
+
+        match location {
+            None => Err(Box::new(Error::LocationNotFound {
+                name: location_name.to_owned(),
+            })),
+            Some(loc) => Ok(loc),
+        }
     }
 
     // Log Methods
