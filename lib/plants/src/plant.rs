@@ -256,6 +256,18 @@ impl TryFrom<PlantSpecies> for Species {
     }
 }
 
+impl From<Species> for PlantSpecies {
+    fn from(sp: Species) -> PlantSpecies {
+        PlantSpecies::Species(Box::new(sp))
+    }
+}
+
+impl From<Location> for PlantLocation {
+    fn from(loc: Location) -> PlantLocation {
+        PlantLocation::Location(Box::new(loc))
+    }
+}
+
 #[derive(Debug)]
 enum CmpOptions {
     Height,

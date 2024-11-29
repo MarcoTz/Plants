@@ -1,11 +1,11 @@
-use super::database_manager::DatabaseManager;
+use super::{database_manager::DatabaseManager, file_backend::json_to_plant::load_images};
 use chrono::NaiveDate;
 use plants::{
     graveyard::GraveyardPlant,
     growth_item::GrowthItem,
     location::Location,
     log_item::LogItem,
-    plant::{Plant, PlantInfo},
+    plant::{Plant, PlantInfo, PlantLocation, PlantSpecies},
     species::Species,
 };
 use sqlite::Connection;
@@ -18,6 +18,7 @@ pub struct SQLiteDB {
     pub db_path: PathBuf,
     pub connection: Connection,
     pub date_format: String,
+    pub plants_dir: PathBuf,
 }
 
 impl SQLiteDB {
@@ -27,18 +28,178 @@ impl SQLiteDB {
             db_path: path,
             connection: con,
             date_format: "%d.%m.%Y".to_owned(),
+            plants_dir: PathBuf::from("data").join("Plants"),
         })
+    }
+
+    pub fn get_growth_plant(&mut self, plant_name: &str) -> Vec<GrowthItem> {
+        let growth_query = format!("SELECT * FROM growth WHERE plant='{}'", plant_name);
+        let mut growths = vec![];
+        let growth_callback = |rows: &[(&str, Option<&str>)]| {
+            for (key, value) in rows.iter() {
+                let mut plant = "";
+                let mut date = None;
+                let mut height = -1.0;
+                let mut width = -1.0;
+                let mut note = None;
+
+                let mut health = -1;
+                let val = if let Some(val) = value {
+                    *val
+                } else {
+                    continue;
+                };
+
+                match *key {
+                    "plant" => plant = val,
+                    "date" => {
+                        date = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
+                    }
+                    "height_cm" => height = val.parse::<f32>().unwrap(),
+                    "width_cm" => width = val.parse::<f32>().unwrap(),
+                    "note" => {
+                        note = if val != "" {
+                            Some(val.to_owned())
+                        } else {
+                            None
+                        }
+                    }
+                    "health" => health = val.parse::<i32>().unwrap(),
+                    _ => continue,
+                }
+
+                if plant != "" && date.is_some() && height != -1.0 && width != -1.0 && health != -1
+                {
+                    growths.push(GrowthItem {
+                        plant: plant.to_owned(),
+                        date: date.unwrap(),
+                        height_cm: height,
+                        width_cm: width,
+                        note,
+                        health,
+                    });
+                }
+            }
+            true
+        };
+        self.connection
+            .iterate(growth_query, growth_callback)
+            .unwrap();
+        growths
+    }
+
+    pub fn get_logs_plant(&mut self, plant_name: &str) -> Vec<LogItem> {
+        let mut logs = vec![];
+        let log_query = format!("SELECT * FROM activities WHERE plant={}", plant_name);
+        let log_callback = |rows: &[(&str, Option<&str>)]| {
+            let mut name = "";
+            let mut date = None;
+            let mut plant = "";
+            let mut note = None;
+            for (key, value) in rows.iter() {
+                let val = if let Some(val) = value {
+                    *val
+                } else {
+                    continue;
+                };
+
+                match *key {
+                    "name" => name = val,
+                    "date" => {
+                        date = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
+                    }
+                    "plant" => plant = val,
+                    "note" => {
+                        note = if val != "" {
+                            Some(val.to_owned())
+                        } else {
+                            None
+                        }
+                    }
+                    _ => continue,
+                }
+            }
+            if name != "" && plant != "" && date.is_some() {
+                logs.push(LogItem {
+                    activity: name.to_owned(),
+                    date: date.unwrap(),
+                    plant: plant.to_owned(),
+                    note,
+                });
+                true
+            } else {
+                false
+            }
+        };
+        self.connection.iterate(log_query, log_callback).unwrap();
+        logs
     }
 }
 
 impl DatabaseManager for SQLiteDB {
     // Plant Methods
     fn get_all_plants(&mut self) -> Result<Vec<Plant>, Box<dyn StdErr>> {
-        /*        let info_query = "SELECT * FROM plants";
-        let growth_query = "SELECT * FROM growth WHERE plant=%s";
-        let activity_query = "SELECT * FROM activities WHERE plant=%s";
-        let image_query = "SELECT * FROM plant_images WHERE plant_name=%s";*/
-        todo!()
+        let info_query = "SELECT * FROM plants";
+        let mut infos = vec![];
+        let info_callback = |rows: &[(&str, Option<&str>)]| {
+            let mut name = "";
+            let mut species = "";
+            let mut location = "";
+            let mut origin = "";
+            let mut obtained = None;
+            let mut auto_water = false;
+            let mut notes = None;
+            for (key, value) in rows.into_iter() {
+                let val = if let Some(val) = value { val } else { continue };
+                match *key {
+                    "name" => name = val,
+                    "species" => species = val,
+                    "location" => location = val,
+                    "origin" => origin = val,
+                    "obtained" => {
+                        obtained = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
+                    }
+                    "auto_water" => auto_water = *val == "1",
+                    "notes" => notes = Some(val),
+                    _ => continue,
+                }
+            }
+            if name != "" && species != "" && obtained.is_some() {
+                infos.push(PlantInfo {
+                    name: name.to_owned(),
+                    species: PlantSpecies::Other(species.to_owned()),
+                    location: PlantLocation::Other(location.to_owned()),
+                    origin: origin.to_owned(),
+                    obtained: obtained.unwrap(),
+                    auto_water,
+                    notes: notes
+                        .cloned()
+                        .unwrap_or("")
+                        .to_owned()
+                        .split(", ")
+                        .map(|st| st.to_owned())
+                        .collect(),
+                });
+            }
+            true
+        };
+        self.connection.iterate(info_query, info_callback)?;
+
+        let mut plants = vec![];
+        for plant in infos.into_iter() {
+            let growths = self.get_growth_plant(&plant.name);
+            let logs = self.get_logs_plant(&plant.name);
+
+            let img_dir = self.plants_dir.join(plant.name.replace(' ', ""));
+            let images = load_images(&img_dir)?;
+            plants.push(Plant {
+                info: plant,
+                growth: growths,
+                activities: logs,
+                images,
+            });
+        }
+        Ok(plants)
     }
 
     fn get_plants_by_location(&mut self, _location: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
@@ -72,7 +233,45 @@ impl DatabaseManager for SQLiteDB {
 
     // Graveyard Methods
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn StdErr>> {
-        todo!()
+        let query = "SELECT * FROM graveyard";
+        let mut graveyard = vec![];
+
+        let graveyard_callback = |rows: &[(&str, Option<&str>)]| {
+            let mut name = "";
+            let mut species = "";
+            let mut planted = None;
+            let mut died = None;
+            let mut reason = "";
+            for (key, value) in rows.into_iter() {
+                let val = if let Some(val) = value { val } else { continue };
+
+                match *key {
+                    "name" => name = val,
+                    "species" => species = val,
+                    "planted" => {
+                        planted = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
+                    }
+                    "died" => {
+                        died = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
+                    }
+                    "reason" => reason = val,
+                    _ => continue,
+                }
+
+                if name != "" && species != "" && planted.is_some() && died.is_some() {
+                    graveyard.push(GraveyardPlant {
+                        name: name.to_owned(),
+                        species: species.to_owned(),
+                        planted: planted.unwrap(),
+                        died: died.unwrap(),
+                        reason: reason.to_owned(),
+                    });
+                }
+            }
+            true
+        };
+        self.connection.iterate(query, graveyard_callback)?;
+        Ok(graveyard)
     }
     fn kill_plant(&mut self, _plant: GraveyardPlant) -> Result<(), Box<dyn StdErr>> {
         todo!()
@@ -193,8 +392,29 @@ impl DatabaseManager for SQLiteDB {
         Ok(logs)
     }
 
-    fn write_logs(&mut self, _logs: Vec<LogItem>) -> Result<(), Box<dyn StdErr>> {
-        todo!()
+    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn StdErr>> {
+        let mut insert_strs = vec![];
+        for log in logs.into_iter() {
+            let note_str = if let Some(note) = log.note {
+                format!("'{note}'")
+            } else {
+                "null".to_owned()
+            };
+
+            insert_strs.push(format!(
+                "('{}','{}','{}',{})",
+                log.activity,
+                log.date.format(&self.date_format),
+                log.plant,
+                note_str,
+            ));
+        }
+        let query = format!(
+            "INSERT INTO activities (name,date,plant,note) VALUES {};",
+            insert_strs.join(", ")
+        );
+        self.connection.execute(query)?;
+        Ok(())
     }
 
     // Growth Methods
