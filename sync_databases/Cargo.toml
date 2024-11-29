@@ -1,0 +1,13 @@
+[package]
+name = "sync_databases"
+version = "0.0.1"
+edition = "2021"
+
+[[bin]]
+name="sync_databases"
+path="src/main.rs"
+
+[dependencies]
+plants = { path = "../lib/plants" }
+database = { path = "../lib/database" }
+chrono = "0.4.38"
