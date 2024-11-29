@@ -15,3 +15,5 @@ pages = {path="../lib/pages"}
 render_html = {path="../lib/render_html"}
 logger = {path="../lib/logger"}
 log = "0.4.22"
+
+chrono = "0.4.38"
