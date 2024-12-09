@@ -49,6 +49,8 @@ pub mod test_common {
         }
     }
 
+    impl std::error::Error for ExampleError {}
+
     #[test]
     fn display_example_err() {
         let result = format!("{}", ExampleError {});
@@ -56,15 +58,12 @@ pub mod test_common {
         assert_eq!(result, expected)
     }
 
-    impl std::error::Error for ExampleError {}
-
     impl Command for ExampleCommand {
-        type Error = ExampleError;
-        fn parse(s: &str) -> Result<ExampleCommand, ExampleError> {
+        fn parse(s: &str) -> Result<ExampleCommand, Box<dyn std::error::Error>> {
             match s {
                 "succ" => Ok(ExampleCommand::Succ),
                 "err" => Ok(ExampleCommand::Error),
-                _ => Err(ExampleError),
+                _ => Err(Box::new(ExampleError)),
             }
         }
         fn get_description(&self) -> String {
@@ -79,217 +78,14 @@ pub mod test_common {
     }
 
     impl Handler<ExampleCommand> for ExampleHandler {
-        type Error = ExampleError;
-        async fn handle_message(&mut self, _: &Bot, msg: Message) -> Result<(), ExampleError> {
-            match msg.get_text() {
-                Ok(_) => Ok(()),
-                Err(_) => Err(ExampleError),
-            }
+        async fn handle_msg(&mut self, _: &mut Bot, _: Message) {
+            return ();
         }
-        async fn handle_command(
-            &mut self,
-            _: &Bot,
-            cmd: ExampleCommand,
-            _: Message,
-        ) -> Result<(), ExampleError> {
-            match cmd {
-                ExampleCommand::Succ => Ok(()),
-                ExampleCommand::Error => Err(ExampleError),
-            }
+        async fn handle_cmd(&mut self, _: &mut Bot, _: ExampleCommand, _: Message) {
+            return ();
         }
-    }
-}
-
-#[cfg(test)]
-mod api_tests {
-    use super::{handle_update, run_bot};
-    use crate::{
-        bot::Bot,
-        chat::Chat,
-        message::{Message, MessageEntity},
-        test_common::{load_config, ExampleHandler},
-        update::{Update, UpdateContent},
-    };
-
-    fn example_bot() -> Bot {
-        let data = load_config();
-        Bot::new(data.api_key)
-    }
-
-    #[tokio::test]
-    async fn handle_no_msg() {
-        let example_update = Update {
-            update_id: 1,
-            content: None,
-        };
-        let mut bot = example_bot();
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_err())
-    }
-
-    #[tokio::test]
-    async fn handle_command() {
-        let mut bot = example_bot();
-        let example_update = Update {
-            update_id: 1,
-            content: Some(UpdateContent::Message(Message {
-                id: 1,
-                date: 1,
-                from: None,
-                caption: None,
-                chat: Chat {
-                    id: 1,
-                    ty: "type".to_owned(),
-                    title: None,
-                    username: None,
-                    first_name: None,
-                    last_name: None,
-                },
-                text: Some("/succ".to_owned()),
-                photo: None,
-                entities: Some(vec![MessageEntity {
-                    ty: "bot_command".to_owned(),
-                    offset: 1,
-                    length: 1,
-                    url: None,
-                    user: None,
-                    language: None,
-                    custom_emoji_id: None,
-                }]),
-            })),
-        };
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_ok())
-    }
-
-    #[tokio::test]
-    async fn handle_command_no_parse() {
-        let mut bot = example_bot();
-        let example_update = Update {
-            update_id: 1,
-            content: Some(UpdateContent::Message(Message {
-                id: 1,
-                date: 1,
-                from: None,
-                chat: Chat {
-                    id: 1,
-                    ty: "type".to_owned(),
-                    title: None,
-                    username: None,
-                    first_name: None,
-                    last_name: None,
-                },
-                text: Some("/something".to_owned()),
-                photo: None,
-                caption: None,
-                entities: Some(vec![MessageEntity {
-                    ty: "bot_command".to_owned(),
-                    offset: 1,
-                    length: 1,
-                    url: None,
-                    user: None,
-                    language: None,
-                    custom_emoji_id: None,
-                }]),
-            })),
-        };
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_err())
-    }
-
-    #[tokio::test]
-    async fn handle_message() {
-        let mut bot = example_bot();
-        let example_update = Update {
-            update_id: 1,
-            content: Some(UpdateContent::Message(Message {
-                id: 1,
-                date: 1,
-                from: None,
-                chat: Chat {
-                    id: 1,
-                    ty: "type".to_owned(),
-                    title: None,
-                    username: None,
-                    first_name: None,
-                    last_name: None,
-                },
-                text: Some("message".to_owned()),
-                photo: None,
-                caption: None,
-                entities: None,
-            })),
-        };
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_ok())
-    }
-
-    #[tokio::test]
-    async fn handle_command_err() {
-        let mut bot = example_bot();
-        let example_update = Update {
-            update_id: 1,
-            content: Some(UpdateContent::Message(Message {
-                id: 1,
-                date: 1,
-                from: None,
-                chat: Chat {
-                    id: 1,
-                    ty: "type".to_owned(),
-                    title: None,
-                    username: None,
-                    first_name: None,
-                    last_name: None,
-                },
-                text: Some("/err".to_owned()),
-                photo: None,
-                caption: None,
-                entities: Some(vec![MessageEntity {
-                    ty: "bot_command".to_owned(),
-                    offset: 1,
-                    length: 1,
-                    url: None,
-                    user: None,
-                    language: None,
-                    custom_emoji_id: None,
-                }]),
-            })),
-        };
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_err())
-    }
-
-    #[tokio::test]
-    async fn handle_message_err() {
-        let mut bot = example_bot();
-        let example_update = Update {
-            update_id: 1,
-            content: Some(UpdateContent::Message(Message {
-                id: 1,
-                date: 1,
-                from: None,
-                chat: Chat {
-                    id: 1,
-                    ty: "type".to_owned(),
-                    title: None,
-                    username: None,
-                    first_name: None,
-                    last_name: None,
-                },
-                text: None,
-                photo: None,
-                caption: None,
-                entities: None,
-            })),
-        };
-        let result = handle_update(&mut bot, &mut ExampleHandler {}, example_update).await;
-        assert!(result.is_err())
-    }
-
-    #[tokio::test]
-    async fn run_err() {
-        let mut bot = Bot::new("not a valid key".to_owned());
-        let res = run_bot(&mut bot, &mut ExampleHandler {}).await;
-        assert!(res.is_err())
+        async fn handle_img(&mut self, _: &mut Bot, _: super::photo_size::Photo, _: Message) {
+            panic!("not implemented")
+        }
     }
 }

@@ -297,6 +297,7 @@ mod plant_list_tests {
     fn example_list_item1() -> PlantListItem {
         PlantListItem {
             plant_link: PlantLink::from((&example_plant1(), "plants")),
+            location: "test".to_owned(),
             plant_preview_url: None,
             temp_max: Some(100.0),
             temp_min: Some(0.0),
@@ -341,6 +342,7 @@ mod plant_list_tests {
             plant_preview_url: None,
             temp_max: Some(100.0),
             temp_min: Some(0.0),
+            location: "test".to_owned(),
             species_link: Some(SpeciesLink::from((&example_species(), "species"))),
         }
     }
@@ -382,6 +384,7 @@ mod plant_list_tests {
             plant_preview_url: None,
             temp_max: Some(100.0),
             temp_min: Some(0.0),
+            location: "test".to_owned(),
             species_link: Some(SpeciesLink::from((&example_species(), "species"))),
         }
     }
