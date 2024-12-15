@@ -463,6 +463,15 @@ impl DatabaseManager for SQLiteDB {
         Ok(location)
     }
 
+    fn write_location(&mut self, location: Location) -> Result<(), Box<dyn StdErr>> {
+        let query = format!(
+            "INSERT INTO locations (name,outside) VALUES ({},{})",
+            location.name, location.outside
+        );
+        self.connection.execute(query)?;
+        Ok(())
+    }
+
     // Log Methods
     fn get_logs(&mut self) -> Result<Vec<LogItem>, Box<dyn StdErr>> {
         let query = "SELECT * FROM activities";

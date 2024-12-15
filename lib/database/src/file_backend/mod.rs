@@ -235,6 +235,10 @@ impl DatabaseManager for FileDB {
             .ok_or(err)
     }
 
+    fn write_location(&mut self, loc: Location) -> Result<(), Box<dyn std::error::Error>> {
+        todo!()
+    }
+
     fn plant_exists(&mut self, plant_name: &str) -> Result<bool, Box<dyn std::error::Error>> {
         if self.plants_cache.is_empty() {
             self.load_plants()?;
