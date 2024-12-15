@@ -5,7 +5,7 @@ use super::{
 };
 use chrono::TimeDelta;
 use serde::{Deserialize, Serialize};
-use std::{fmt, str::FromStr};
+use std::{collections::HashMap, fmt, str::FromStr};
 
 #[derive(Serialize, PartialEq, Deserialize, Clone, Debug)]
 pub enum SunlightRequirement {
@@ -73,6 +73,90 @@ impl Species {
             }
         }
         species_plants
+    }
+}
+
+impl TryFrom<HashMap<String, String>> for Species {
+    type Error = Error;
+    fn try_from(map: HashMap<String, String>) -> Result<Species, Error> {
+        let lookup_fun = |key: &str| {
+            map.get(key).cloned().ok_or(Error::KeyNotFound {
+                key: key.to_owned(),
+                task: "Species".to_owned(),
+            })
+        };
+        let sun_str = lookup_fun("sunlight")?;
+        let sunlight = sun_str.parse::<SunlightRequirement>()?;
+
+        let temp_min_str = lookup_fun("temp_min")?;
+        let temp_min = temp_min_str.parse::<f32>()?;
+        let temp_max_str = lookup_fun("temp_max")?;
+        let temp_max = temp_max_str.parse::<f32>()?;
+        let temp_min_opt_str = lookup_fun("opt_temp_min")?;
+        let opt_temp_min = temp_min_opt_str.parse::<f32>()?;
+        let temp_max_opt_str = lookup_fun("opt_temp_max")?;
+        let opt_temp_max = temp_max_opt_str.parse::<f32>()?;
+        let ph_min_str = lookup_fun("ph_min")?;
+        let ph_min = ph_min_str.parse::<f32>()?;
+        let ph_max_str = lookup_fun("ph_max")?;
+        let ph_max = ph_max_str.parse::<f32>()?;
+
+        let dist = map
+            .get("planting_distance")
+            .map(|d| d.parse::<f32>())
+            .transpose()?;
+        let watering_notes = map
+            .get("watering_notes")
+            .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
+            .unwrap_or(vec![]);
+
+        let avg_watering_days = map
+            .get("avg_watering_days")
+            .map(|d| d.parse::<i32>())
+            .transpose()?;
+        let avg_fertilizing_days = map
+            .get("avg_watering_days")
+            .map(|d| d.parse::<i32>())
+            .transpose()?;
+
+        let fertilizing_notes = map
+            .get("fertilizing_notes")
+            .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
+            .unwrap_or(vec![]);
+        let pruning_notes = map
+            .get("pruning_notes")
+            .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
+            .unwrap_or(vec![]);
+        let companions = map
+            .get("companions")
+            .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
+            .unwrap_or(vec![]);
+        let additional_notes = map
+            .get("additional_notes")
+            .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
+            .unwrap_or(vec![]);
+
+        Ok(Species {
+            name: lookup_fun("name")?,
+            scientific_name: lookup_fun("scientific_name")?,
+            genus: lookup_fun("genus")?,
+            family: lookup_fun("family")?,
+            sunlight,
+            temp_min,
+            temp_max,
+            opt_temp_min,
+            opt_temp_max,
+            planting_distance: dist,
+            ph_min,
+            ph_max,
+            watering_notes,
+            fertilizing_notes,
+            avg_watering_days,
+            avg_fertilizing_days,
+            pruning_notes,
+            companions,
+            additional_notes,
+        })
     }
 }
 
