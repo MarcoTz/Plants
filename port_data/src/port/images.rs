@@ -7,7 +7,7 @@ use std::{
     path::PathBuf,
 };
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub struct OldImage {
     created: NaiveDate,
     file_path: PathBuf,
@@ -95,7 +95,7 @@ mod images_tests {
     use crate::port::test_common::{
         example_date1, example_date2, BASE_DIR, IMAGES_DIR, PLANTS_DIR_OUT,
     };
-    use std::path::PathBuf;
+    use std::{collections::HashSet, path::PathBuf};
 
     fn example_old1() -> OldImage {
         OldImage {
@@ -157,8 +157,10 @@ mod images_tests {
     #[test]
     fn load_old() {
         let images_dir = PathBuf::from(BASE_DIR).join(IMAGES_DIR);
-        let result = <Vec<OldImage> as Port<Vec<PlantImage>>>::load_old(&images_dir).unwrap();
-        let expected = vec![example_old1(), example_old2()];
+        let images = <Vec<OldImage> as Port<Vec<PlantImage>>>::load_old(&images_dir).unwrap();
+        let result: HashSet<&OldImage> = HashSet::from_iter(images.iter());
+        let expected_images = [example_old1(), example_old2()];
+        let expected = HashSet::from_iter(expected_images.iter());
         assert_eq!(result, expected)
     }
 
