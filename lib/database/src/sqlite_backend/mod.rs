@@ -1,12 +1,11 @@
 use super::{database_manager::DatabaseManager, file_backend::json_to_plant::load_images};
-use chrono::NaiveDate;
 use plants::{
     graveyard::GraveyardPlant,
     growth_item::GrowthItem,
     location::Location,
     log_item::LogItem,
-    plant::{Plant, PlantInfo, PlantLocation, PlantSpecies},
-    species::{Species, SunlightRequirement},
+    plant::{Plant, PlantInfo},
+    species::Species,
 };
 use sqlite::Connection;
 use std::{collections::HashMap, error::Error as StdErr, path::PathBuf};
@@ -53,107 +52,38 @@ impl SQLiteDB {
         Ok(maps)
     }
 
-    pub fn get_growth_plant(&mut self, plant_name: &str) -> Vec<GrowthItem> {
+    pub fn get_growth_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<GrowthItem>, Box<dyn std::error::Error>> {
         let growth_query = format!("SELECT * FROM growth WHERE plant='{}'", plant_name);
-        let mut growths = vec![];
-        let growth_callback = |rows: &[(&str, Option<&str>)]| {
-            for (key, value) in rows.iter() {
-                let mut plant = "";
-                let mut date = None;
-                let mut height = -1.0;
-                let mut width = -1.0;
-                let mut note = None;
-
-                let mut health = -1;
-                let val = if let Some(val) = value {
-                    *val
-                } else {
-                    continue;
-                };
-
-                match *key {
-                    "plant" => plant = val,
-                    "date" => {
-                        date = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
-                    }
-                    "height_cm" => height = val.parse::<f32>().unwrap(),
-                    "width_cm" => width = val.parse::<f32>().unwrap(),
-                    "note" => {
-                        note = if val != "" {
-                            Some(val.to_owned())
-                        } else {
-                            None
-                        }
-                    }
-                    "health" => health = val.parse::<i32>().unwrap(),
-                    _ => continue,
-                }
-
-                if plant != "" && date.is_some() && height != -1.0 && width != -1.0 && health != -1
-                {
-                    growths.push(GrowthItem {
-                        plant: plant.to_owned(),
-                        date: date.unwrap(),
-                        height_cm: height,
-                        width_cm: width,
-                        note,
-                        health,
-                    });
-                }
-            }
-            true
-        };
-        self.connection
-            .iterate(growth_query, growth_callback)
-            .unwrap();
-        growths
+        let growth_maps = self.read_rows(
+            &growth_query,
+            vec!["plant", "date", "height_cm", "width_cm", "note"],
+        )?;
+        let mut growth = vec![];
+        for mut map in growth_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let item: GrowthItem = map.try_into()?;
+            growth.push(item)
+        }
+        Ok(growth)
     }
 
-    pub fn get_logs_plant(&mut self, plant_name: &str) -> Vec<LogItem> {
-        let mut logs = vec![];
+    pub fn get_logs_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<LogItem>, Box<dyn std::error::Error>> {
         let log_query = format!("SELECT * FROM activities WHERE plant={}", plant_name);
-        let log_callback = |rows: &[(&str, Option<&str>)]| {
-            let mut name = "";
-            let mut date = None;
-            let mut plant = "";
-            let mut note = None;
-            for (key, value) in rows.iter() {
-                let val = if let Some(val) = value {
-                    *val
-                } else {
-                    continue;
-                };
+        let log_maps = self.read_rows(&log_query, vec!["name", "date", "plant", "note"])?;
 
-                match *key {
-                    "name" => name = val,
-                    "date" => {
-                        date = Some(NaiveDate::parse_from_str(val, &self.date_format).unwrap())
-                    }
-                    "plant" => plant = val,
-                    "note" => {
-                        note = if val != "" {
-                            Some(val.to_owned())
-                        } else {
-                            None
-                        }
-                    }
-                    _ => continue,
-                }
-            }
-            if name != "" && plant != "" && date.is_some() {
-                logs.push(LogItem {
-                    activity: name.to_owned(),
-                    date: date.unwrap(),
-                    plant: plant.to_owned(),
-                    note,
-                });
-                true
-            } else {
-                false
-            }
-        };
-        self.connection.iterate(log_query, log_callback).unwrap();
-        logs
+        let mut logs = vec![];
+        for mut map in log_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let item: LogItem = map.try_into()?;
+            logs.push(item);
+        }
+        Ok(logs)
     }
 }
 
@@ -174,40 +104,16 @@ impl DatabaseManager for SQLiteDB {
             ],
         )?;
         let mut infos = vec![];
-        for val_map in info_maps.into_iter() {
-            let read_fun = |key: &str| {
-                val_map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            let species_name = read_fun("species")?;
-            let species = self
-                .get_species(&species_name)
-                .map(|sp| PlantSpecies::Species(Box::new(sp)))
-                .unwrap_or(PlantSpecies::Other(species_name));
-            let location_name = read_fun("location")?;
-            let location = self
-                .get_location(&location_name)
-                .map(|loc| PlantLocation::Location(Box::new(loc)))
-                .unwrap_or(PlantLocation::Other(location_name));
-            let obtained_str = read_fun("obtained")?;
-            let auto_water = read_fun("auto_water")? == "1";
-            let notes = read_fun("notes")?;
-            infos.push(PlantInfo {
-                name: read_fun("name")?,
-                species,
-                location,
-                origin: read_fun("origin")?,
-                obtained: NaiveDate::parse_from_str(&obtained_str, &self.date_format)?,
-                auto_water,
-                notes: notes.split(", ").map(|s| s.to_owned()).collect(),
-            });
+        for mut map in info_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let info: PlantInfo = map.try_into()?;
+            infos.push(info);
         }
 
         let mut plants = vec![];
         for plant in infos.into_iter() {
-            let growths = self.get_growth_plant(&plant.name);
-            let logs = self.get_logs_plant(&plant.name);
+            let growths = self.get_growth_plant(&plant.name)?;
+            let logs = self.get_logs_plant(&plant.name)?;
 
             let img_dir = self.plants_dir.join(plant.name.replace(' ', ""));
             let images = load_images(&img_dir)?;
@@ -255,43 +161,13 @@ impl DatabaseManager for SQLiteDB {
                 "notes",
             ],
         )?;
-        let plant_map = info_maps.first().ok_or(Error::PlantNotFound {
+        let mut plant_map = info_maps.first().cloned().ok_or(Error::PlantNotFound {
             name: plant_name.to_owned(),
         })?;
-        let lookup_fun = |key: &str| {
-            plant_map.get(key).cloned().ok_or(Error::MissingValue {
-                key: key.to_owned(),
-            })
-        };
-        let species_name = lookup_fun("species")?;
-        let species = self
-            .get_species(&species_name)
-            .map(|sp| PlantSpecies::Species(Box::new(sp)))
-            .unwrap_or(PlantSpecies::Other(species_name));
-        let location_name = lookup_fun("location")?;
-        let location = self
-            .get_location(&location_name)
-            .map(|loc| PlantLocation::Location(Box::new(loc)))
-            .unwrap_or(PlantLocation::Other(location_name));
-        let obtained_str = lookup_fun("obtained")?;
-        let auto_water = lookup_fun("auto_water")? == "1";
-        let notes = lookup_fun("notes")?
-            .split(", ")
-            .map(|s| s.to_owned())
-            .collect();
-        let info = PlantInfo {
-            name: lookup_fun("name")?,
-            species,
-            location,
-            origin: lookup_fun("origin")?,
-            obtained: NaiveDate::parse_from_str(&obtained_str, &self.date_format)?,
-            auto_water,
-            notes,
-        };
-
-        let growths = self.get_growth_plant(&plant_name);
-        let logs = self.get_logs_plant(&plant_name);
-
+        plant_map.insert("date_format".to_owned(), self.date_format.clone());
+        let info: PlantInfo = plant_map.try_into()?;
+        let growths = self.get_growth_plant(&plant_name)?;
+        let logs = self.get_logs_plant(&plant_name)?;
         let img_dir = self.plants_dir.join(plant_name.replace(' ', ""));
         let images = load_images(&img_dir)?;
         Ok(Plant {
@@ -390,89 +266,9 @@ impl DatabaseManager for SQLiteDB {
             ],
         )?;
         let mut species = vec![];
-        for species_map in species_maps {
-            let lookup_fun = |key: &str| {
-                species_map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            let sun_str = lookup_fun("sunlight")?;
-            let sunlight = sun_str
-                .parse::<SunlightRequirement>()
-                .map_err(|_| Error::BadValue {
-                    key: "sunlight".to_owned(),
-                    value: sun_str,
-                })?;
-
-            let temp_min_str = lookup_fun("temp_min")?;
-            let temp_min = temp_min_str.parse::<f32>()?;
-            let temp_max_str = lookup_fun("temp_max")?;
-            let temp_max = temp_max_str.parse::<f32>()?;
-            let temp_min_opt_str = lookup_fun("opt_temp_min")?;
-            let opt_temp_min = temp_min_opt_str.parse::<f32>()?;
-            let temp_max_opt_str = lookup_fun("opt_temp_max")?;
-            let opt_temp_max = temp_max_opt_str.parse::<f32>()?;
-            let ph_min_str = lookup_fun("ph_min")?;
-            let ph_min = ph_min_str.parse::<f32>()?;
-            let ph_max_str = lookup_fun("ph_max")?;
-            let ph_max = ph_max_str.parse::<f32>()?;
-
-            let dist = species_map
-                .get("planting_distance")
-                .map(|d| d.parse::<f32>())
-                .transpose()?;
-            let watering_notes = species_map
-                .get("watering_notes")
-                .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
-                .unwrap_or(vec![]);
-
-            let avg_watering_days = species_map
-                .get("avg_watering_days")
-                .map(|d| d.parse::<i32>())
-                .transpose()?;
-            let avg_fertilizing_days = species_map
-                .get("avg_watering_days")
-                .map(|d| d.parse::<i32>())
-                .transpose()?;
-
-            let fertilizing_notes = species_map
-                .get("fertilizing_notes")
-                .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
-                .unwrap_or(vec![]);
-            let pruning_notes = species_map
-                .get("pruning_notes")
-                .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
-                .unwrap_or(vec![]);
-            let companions = species_map
-                .get("companions")
-                .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
-                .unwrap_or(vec![]);
-            let additional_notes = species_map
-                .get("additional_notes")
-                .map(|s| s.split(", ").map(|x| x.to_owned()).collect())
-                .unwrap_or(vec![]);
-
-            species.push(Species {
-                name: lookup_fun("name")?,
-                scientific_name: lookup_fun("scientific_name")?,
-                genus: lookup_fun("genus")?,
-                family: lookup_fun("family")?,
-                sunlight,
-                temp_min,
-                temp_max,
-                opt_temp_min,
-                opt_temp_max,
-                planting_distance: dist,
-                ph_min,
-                ph_max,
-                watering_notes,
-                fertilizing_notes,
-                avg_watering_days,
-                avg_fertilizing_days,
-                pruning_notes,
-                companions,
-                additional_notes,
-            });
+        for mut species_map in species_maps.into_iter() {
+            species_map.insert("date_format".to_owned(), self.date_format.clone());
+            species.push(species_map.try_into()?);
         }
 
         Ok(species)
@@ -504,78 +300,10 @@ impl DatabaseManager for SQLiteDB {
                 "additional_notes",
             ],
         )?;
-        let map_fst = species_map.first().ok_or(Error::SpeciesNotFound {
+        let map_fst = species_map.first().cloned().ok_or(Error::SpeciesNotFound {
             name: species_name.to_owned(),
         })?;
-        let lookup_fun = |key: &str| {
-            map_fst.get(key).cloned().ok_or(Error::MissingValue {
-                key: key.to_owned(),
-            })
-        };
-        let sunlight = lookup_fun("sunlight")?.parse::<SunlightRequirement>()?;
-
-        let temp_min = lookup_fun("temp_min")?.parse::<f32>()?;
-        let temp_max = lookup_fun("temp_max")?.parse::<f32>()?;
-        let opt_temp_min = lookup_fun("temp_min_opt")?.parse::<f32>()?;
-        let opt_temp_max = lookup_fun("temp_max_opt")?.parse::<f32>()?;
-        let ph_min = lookup_fun("ph_min")?.parse::<f32>()?;
-        let ph_max = lookup_fun("ph_max")?.parse::<f32>()?;
-
-        let planting_distance = map_fst
-            .get("planting_distance")
-            .map(|s| s.parse::<f32>())
-            .transpose()?;
-        let avg_watering_days = map_fst
-            .get("avg_watering_days")
-            .map(|s| s.parse::<i32>())
-            .transpose()?;
-        let avg_fertilizing_days = map_fst
-            .get("avg_fertilizing_days")
-            .map(|s| s.parse::<i32>())
-            .transpose()?;
-
-        let watering_notes = map_fst
-            .get("watering_notes")
-            .map(|s| s.split(", ").map(|s| s.to_owned()).collect())
-            .unwrap_or(vec![]);
-        let fertilizing_notes = map_fst
-            .get("fertilizing_notes")
-            .map(|s| s.split(", ").map(|s| s.to_owned()).collect())
-            .unwrap_or(vec![]);
-        let pruning_notes = map_fst
-            .get("pruning_notes")
-            .map(|s| s.split(", ").map(|s| s.to_owned()).collect())
-            .unwrap_or(vec![]);
-        let companions = map_fst
-            .get("companions")
-            .map(|s| s.split(", ").map(|s| s.to_owned()).collect())
-            .unwrap_or(vec![]);
-        let additional_notes = map_fst
-            .get("additional_notes")
-            .map(|s| s.split(", ").map(|s| s.to_owned()).collect())
-            .unwrap_or(vec![]);
-
-        let species = Species {
-            name: lookup_fun("name")?,
-            scientific_name: lookup_fun("scientific_name")?,
-            family: lookup_fun("family")?,
-            genus: lookup_fun("genus")?,
-            sunlight,
-            temp_min,
-            temp_max,
-            opt_temp_max,
-            opt_temp_min,
-            ph_min,
-            ph_max,
-            planting_distance,
-            avg_watering_days,
-            avg_fertilizing_days,
-            watering_notes,
-            fertilizing_notes,
-            pruning_notes,
-            companions,
-            additional_notes,
-        };
+        let species: Species = map_fst.try_into()?;
 
         Ok(species)
     }
@@ -666,21 +394,10 @@ impl DatabaseManager for SQLiteDB {
         let graveyard_maps =
             self.read_rows(&query, vec!["name", "species", "planted", "died", "reason"])?;
         let mut graveyard = vec![];
-        for map in graveyard_maps {
-            let lookup_fun = |key: &str| {
-                map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            let planted = NaiveDate::parse_from_str(&lookup_fun("planted")?, &self.date_format)?;
-            let died = NaiveDate::parse_from_str(&lookup_fun("died")?, &self.date_format)?;
-            graveyard.push(GraveyardPlant {
-                name: lookup_fun("name")?,
-                species: lookup_fun("species")?,
-                planted,
-                died,
-                reason: lookup_fun("reason")?,
-            });
+        for mut map in graveyard_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let plant: GraveyardPlant = map.try_into()?;
+            graveyard.push(plant);
         }
 
         Ok(graveyard)
@@ -718,16 +435,10 @@ impl DatabaseManager for SQLiteDB {
         let query = "SELECT * FROM locations";
         let location_maps = self.read_rows(query, vec!["name"])?;
         let mut locations = vec![];
-        for map in location_maps {
-            let lookup_fun = |key: &str| {
-                map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            locations.push(Location {
-                name: lookup_fun("name")?,
-                outside: lookup_fun("outside")? == "1",
-            });
+        for mut map in location_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let loc: Location = map.try_into()?;
+            locations.push(loc);
         }
 
         Ok(locations)
@@ -757,18 +468,10 @@ impl DatabaseManager for SQLiteDB {
         let query = "SELECT * FROM activities";
         let logs_maps = self.read_rows(query, vec!["name", "date", "plant", "note"])?;
         let mut logs = vec![];
-        for map in logs_maps {
-            let lookup_fun = |key: &str| {
-                map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            logs.push(LogItem {
-                activity: lookup_fun("name")?,
-                date: NaiveDate::parse_from_str(&lookup_fun("date")?, &self.date_format)?,
-                plant: lookup_fun("plant")?,
-                note: map.get("note").cloned(),
-            });
+        for mut map in logs_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let log: LogItem = map.try_into()?;
+            logs.push(log);
         }
         Ok(logs)
     }
@@ -806,23 +509,10 @@ impl DatabaseManager for SQLiteDB {
             vec!["plant", "date", "height_cm", "width_cm", "note", "health"],
         )?;
         let mut growth = vec![];
-        for map in growth_maps {
-            let lookup_fun = |key: &str| {
-                map.get(key).cloned().ok_or(Error::MissingValue {
-                    key: key.to_owned(),
-                })
-            };
-            let height_cm = lookup_fun("height_cm")?.parse::<f32>()?;
-            let width_cm = lookup_fun("width_cm")?.parse::<f32>()?;
-            let health = lookup_fun("health")?.parse::<i32>()?;
-            growth.push(GrowthItem {
-                plant: lookup_fun("plant")?,
-                date: NaiveDate::parse_from_str(&lookup_fun("date")?, &self.date_format)?,
-                height_cm,
-                width_cm,
-                health,
-                note: map.get("note").cloned(),
-            });
+        for mut map in growth_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let item: GrowthItem = map.try_into()?;
+            growth.push(item);
         }
         Ok(growth)
     }
