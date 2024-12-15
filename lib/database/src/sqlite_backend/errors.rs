@@ -5,6 +5,10 @@ pub enum Error {
     SQLiteErr(sqlite::Error),
     UnexpectedColumn { name: String },
     LocationNotFound { name: String },
+    MissingValue { key: String },
+    PlantNotFound { name: String },
+    SpeciesNotFound { name: String },
+    BadValue { key: String, value: String },
 }
 
 impl fmt::Display for Error {
@@ -13,6 +17,12 @@ impl fmt::Display for Error {
             Error::SQLiteErr(e) => e.fmt(f),
             Error::UnexpectedColumn { name } => write!(f, "Unexpected column {name} in sql result"),
             Error::LocationNotFound { name } => write!(f, "Could not find location {name}"),
+            Error::MissingValue { key } => write!(f, "Missing value for key {key}"),
+            Error::PlantNotFound { name } => write!(f, "Could not find plant {name}"),
+            Error::BadValue { key, value } => {
+                write!(f, "Could not parse value {value} in column {key}")
+            }
+            Error::SpeciesNotFound { name } => write!(f, "Could not find species {name}"),
         }
     }
 }
