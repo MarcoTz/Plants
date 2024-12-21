@@ -40,7 +40,7 @@ impl SQLiteDB {
         let callback = |cols: &[(&str, Option<&str>)]| {
             let mut map = HashMap::new();
             for (key, val) in cols.into_iter() {
-                let value = if let Some(val) = val { val } else { continue };
+                let value = if let Some(val) = val { val } else { "" };
                 if column_keys.contains(key) {
                     map.insert(format!("{}", key), format!("{}", value));
                 }
@@ -84,6 +84,10 @@ impl SQLiteDB {
             logs.push(item);
         }
         Ok(logs)
+    }
+
+    pub fn sanitize<T: ToString>(&self, input: &T) -> String {
+        input.to_string().replace('\'', "''")
     }
 }
 
@@ -215,24 +219,29 @@ impl DatabaseManager for SQLiteDB {
         let mut plant_query =
             "INSERT INTO plants (name,species,location,origin,obtained,auto_water,notes) VALUES "
                 .to_owned();
-        for plant in plants {
-            let notes_str = if plant.notes.is_empty() {
+        let fmt_plant = |info: PlantInfo| {
+            let notes_str = if info.notes.is_empty() {
                 "null".to_owned()
             } else {
-                format!("'{}'", plant.notes.join(", "))
+                format!("'{}'", self.sanitize(&info.notes.join(", ")))
             };
 
-            let plant_str = format!(
-                ", ('{}','{}','{}','{}','{}','{}')",
-                plant.name,
-                plant.species,
-                plant.location,
-                plant.obtained,
-                plant.auto_water,
+            format!(
+                "('{}','{}', '{}','{}','{}','{}',{})",
+                self.sanitize(&info.name),
+                self.sanitize(&info.species),
+                self.sanitize(&info.location),
+                self.sanitize(&info.origin),
+                self.sanitize(&info.obtained),
+                self.sanitize(&info.auto_water),
                 notes_str
-            );
-            plant_query += &plant_str;
+            )
+        };
+        let mut plant_strs = vec![];
+        for plant in plants {
+            plant_strs.push(fmt_plant(plant));
         }
+        plant_query += &plant_strs.join(", ");
         plant_query += ";";
         self.connection.execute(plant_query)?;
         Ok(())
@@ -311,39 +320,44 @@ impl DatabaseManager for SQLiteDB {
     fn write_species(&mut self, species: Species) -> Result<(), Box<dyn StdErr>> {
         let plant_distance_str = species
             .planting_distance
-            .map(|f| format!("'{}'", f))
+            .map(|f| format!("{}", f))
             .unwrap_or("null".to_owned());
         let avg_watering_days_str = species
             .avg_watering_days
-            .map(|f| format!("'{}'", f))
+            .map(|f| format!("{}", f))
             .unwrap_or("null".to_owned());
         let avg_fertilizing_str = species
             .avg_fertilizing_days
-            .map(|f| format!("'{}'", f))
+            .map(|f| format!("{}", f))
             .unwrap_or("null".to_owned());
 
         let watering_notes_str = if species.watering_notes.is_empty() {
             "null".to_owned()
         } else {
-            format!("'{}'", species.watering_notes.join(", "))
+            format!("'{}'", self.sanitize(&species.watering_notes.join(", ")))
         };
         let fertilizing_notes_str = if species.fertilizing_notes.is_empty() {
             "null".to_owned()
         } else {
-            format!("'{}'", species.fertilizing_notes.join(", "))
+            format!("'{}'", self.sanitize(&species.fertilizing_notes.join(", ")))
         };
         let pruning_str = if species.pruning_notes.is_empty() {
             "null".to_owned()
         } else {
-            format!("'{}'", species.pruning_notes.join(", "))
+            format!("'{}'", self.sanitize(&species.pruning_notes.join(", ")))
+        };
+        let companions_str = if species.companions.is_empty() {
+            "null".to_owned()
+        } else {
+            format!("'{}'", self.sanitize(&species.companions.join(", ")))
         };
         let notes_str = if species.additional_notes.is_empty() {
             "null".to_owned()
         } else {
-            format!("'{}'", species.additional_notes.join(", "))
+            format!("'{}'", self.sanitize(&species.additional_notes.join(", ")))
         };
         let species_query = format!(
-            "INSERT INTO species 
+            "INSERT INTO species
             (name,
             scientific_name,
             genus,
@@ -364,12 +378,12 @@ impl DatabaseManager for SQLiteDB {
             companions,
             additional_notes)
             VALUES 
-            ('{}','{}','{}','{}','{}',{},{},{},{},{},{},{},{},{},{},{},{},{})",
-            species.name,
-            species.scientific_name,
-            species.genus,
-            species.family,
-            species.sunlight,
+            ('{}','{}','{}','{}','{}',{},{},{},{},{},{},{},{},{},{},{},{},{},{})",
+            self.sanitize(&species.name),
+            self.sanitize(&species.scientific_name),
+            self.sanitize(&species.genus),
+            self.sanitize(&species.family),
+            self.sanitize(&species.sunlight),
             species.temp_min,
             species.temp_max,
             species.opt_temp_min,
@@ -382,6 +396,7 @@ impl DatabaseManager for SQLiteDB {
             avg_watering_days_str,
             avg_fertilizing_str,
             pruning_str,
+            companions_str,
             notes_str
         );
         self.connection.execute(species_query)?;
@@ -405,17 +420,30 @@ impl DatabaseManager for SQLiteDB {
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn StdErr>> {
         let graveyard_query = format!(
-            "INSERT INTO graveyard (name,species,planted,died,reason) values ('{}','{}','{}','{}','{}')",plant.name,plant.species,plant.planted.format(&self.date_format),plant.died.format(&self.date_format),plant.reason
-        );
+            "INSERT INTO graveyard (name,species,planted,died,reason) values ('{}','{}','{}','{}','{}')",
+            self.sanitize(&plant.name),
+            self.sanitize(&plant.species),
+            plant.planted.format(&self.date_format),
+            plant.died.format(&self.date_format),
+            self.sanitize(&plant.reason));
         self.connection.execute(graveyard_query)?;
 
-        let info_query = format!("DELETE FROM plants WHERE name='{}';", plant.name);
+        let info_query = format!(
+            "DELETE FROM plants WHERE name='{}';",
+            self.sanitize(&plant.name)
+        );
         self.connection.execute(info_query)?;
 
-        let logs_query = format!("DELETE FROM activities WHERE plant='{}';", plant.name);
+        let logs_query = format!(
+            "DELETE FROM activities WHERE plant='{}';",
+            self.sanitize(&plant.name)
+        );
         self.connection.execute(logs_query)?;
 
-        let growth_query = format!("DELETE FROM growth WHERE plant='{}';", plant.name);
+        let growth_query = format!(
+            "DELETE FROM growth WHERE plant='{}';",
+            self.sanitize(&plant.name)
+        );
         self.connection.execute(growth_query)?;
 
         // move images to dead dir
@@ -425,7 +453,7 @@ impl DatabaseManager for SQLiteDB {
         }
         let dead_path = dead_dir.join(plant.name.clone());
         let plant_path = PathBuf::from(&self.plants_dir).join(plant.name);
-        std::fs::rename(plant_path, dead_path).map_err(|err| Box::new(err))?;
+        let _ = std::fs::rename(plant_path, dead_path);
 
         Ok(())
     }
@@ -433,7 +461,7 @@ impl DatabaseManager for SQLiteDB {
     // Location Methods
     fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn StdErr>> {
         let query = "SELECT * FROM locations";
-        let location_maps = self.read_rows(query, vec!["name"])?;
+        let location_maps = self.read_rows(query, vec!["name", "outside"])?;
         let mut locations = vec![];
         for mut map in location_maps.into_iter() {
             map.insert("date_format".to_owned(), self.date_format.clone());
@@ -465,8 +493,9 @@ impl DatabaseManager for SQLiteDB {
 
     fn write_location(&mut self, location: Location) -> Result<(), Box<dyn StdErr>> {
         let query = format!(
-            "INSERT INTO locations (name,outside) VALUES ({},{})",
-            location.name, location.outside
+            "INSERT INTO locations (name,outside) VALUES ('{}','{}')",
+            self.sanitize(&location.name),
+            location.outside
         );
         self.connection.execute(query)?;
         Ok(())
@@ -496,10 +525,10 @@ impl DatabaseManager for SQLiteDB {
 
             insert_strs.push(format!(
                 "('{}','{}','{}',{})",
-                log.activity,
-                log.date.format(&self.date_format),
-                log.plant,
-                note_str,
+                self.sanitize(&log.activity),
+                self.sanitize(&log.date.format(&self.date_format)),
+                self.sanitize(&log.plant),
+                self.sanitize(&note_str),
             ));
         }
         let query = format!(
@@ -534,19 +563,19 @@ impl DatabaseManager for SQLiteDB {
         let mut insert_strs = vec![];
         for item in growth.into_iter() {
             let note_str = if let Some(note) = item.note {
-                format!("'{note}'")
+                format!("'{}'", self.sanitize(&note))
             } else {
                 "null".to_owned()
             };
 
             insert_strs.push(format!(
                 "('{}','{}',{},{},{},{})",
-                item.plant,
-                item.date.format(&self.date_format),
-                item.height_cm,
-                item.width_cm,
-                note_str,
-                item.health
+                self.sanitize(&item.plant),
+                self.sanitize(&item.date.format(&self.date_format)),
+                self.sanitize(&item.height_cm),
+                self.sanitize(&item.width_cm),
+                &note_str,
+                self.sanitize(&item.health)
             ));
         }
 

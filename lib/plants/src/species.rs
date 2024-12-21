@@ -92,9 +92,9 @@ impl TryFrom<HashMap<String, String>> for Species {
         let temp_min = temp_min_str.parse::<f32>()?;
         let temp_max_str = lookup_fun("temp_max")?;
         let temp_max = temp_max_str.parse::<f32>()?;
-        let temp_min_opt_str = lookup_fun("opt_temp_min")?;
+        let temp_min_opt_str = lookup_fun("temp_min_opt")?;
         let opt_temp_min = temp_min_opt_str.parse::<f32>()?;
-        let temp_max_opt_str = lookup_fun("opt_temp_max")?;
+        let temp_max_opt_str = lookup_fun("temp_max_opt")?;
         let opt_temp_max = temp_max_opt_str.parse::<f32>()?;
         let ph_min_str = lookup_fun("ph_min")?;
         let ph_min = ph_min_str.parse::<f32>()?;

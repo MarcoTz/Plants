@@ -1,15 +1,12 @@
 use database::{database_manager::DatabaseManager, file_backend::FileDB, sqlite_backend::SQLiteDB};
 use std::path::PathBuf;
 
-use chrono::NaiveDate;
-use plants::log_item::LogItem;
-
 type SourceDB = FileDB;
-type TragetDB = SQLiteDB;
+type TargetDB = SQLiteDB;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut source = SourceDB::default();
-    let mut target = SQLiteDB::new(PathBuf::from("plants.db")).map_err(|err| err.to_string())?;
+    let mut target = TargetDB::new(PathBuf::from("plants.db")).map_err(|err| err.to_string())?;
 
     // sync plants
     let all_plants = source.get_all_plants()?;
