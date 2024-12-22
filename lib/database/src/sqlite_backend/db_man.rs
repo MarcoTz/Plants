@@ -467,28 +467,36 @@ impl DatabaseManager for SQLiteDB {
         Ok(logs)
     }
 
-    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn StdErr>> {
-        let mut insert_strs = vec![];
-        for log in logs.into_iter() {
-            let note_str = if let Some(note) = log.note {
-                format!("'{note}'")
-            } else {
-                "null".to_owned()
+    fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn StdErr>> {
+        let fmt_log = |log: &LogItem| {
+            let note_str = match &log.note {
+                Some(note) => format!("'{}'", &note),
+                None => "null".to_owned(),
             };
 
-            insert_strs.push(format!(
+            format!(
                 "('{}','{}','{}',{})",
                 self.sanitize(&log.activity),
                 self.sanitize(&log.date.format(&self.date_format)),
                 self.sanitize(&log.plant),
                 self.sanitize(&note_str),
-            ));
-        }
-        let query = format!(
-            "INSERT INTO activities (name,date,plant,note) VALUES {};",
-            insert_strs.join(", ")
-        );
+            )
+        };
+
+        let mut query = "INSERT INTO activities ".to_owned();
+        query += "(name,date,plant,note)";
+        query += " VALUES ";
+        query += &fmt_log(&log);
+        query += " ON CONFLICT DO NOTHING";
+        query += ";";
         self.connection.execute(query)?;
+        Ok(())
+    }
+
+    fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn StdErr>> {
+        for log in logs {
+            self.write_log(log)?;
+        }
         Ok(())
     }
 
