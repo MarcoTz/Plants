@@ -137,10 +137,6 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn StdErr>> {
-        let mut plant_query =
-            "INSERT INTO plants (name,species,location,origin,obtained,auto_water,notes) VALUES "
-                .to_owned();
-        let plant_query_conf = " ON CONFLICT(name) DO UPDATE SET (species,location,origin,obtained,auto_water,notes) = ";
         let fmt_plant = |info: &PlantInfo, include_name: bool| {
             let notes_str = if info.notes.is_empty() {
                 "null".to_owned()
@@ -165,8 +161,12 @@ impl DatabaseManager for SQLiteDB {
                 notes_str
             )
         };
+        let mut plant_query =
+            "INSERT INTO plants (name,species,location,origin,obtained,auto_water,notes) VALUES "
+                .to_owned();
+
         plant_query += &fmt_plant(&plant, true);
-        plant_query += plant_query_conf;
+        plant_query += " ON CONFLICT(name) DO UPDATE SET (species,location,origin,obtained,auto_water,notes) = ";
         plant_query += &fmt_plant(&plant, false);
         plant_query += ";";
         self.connection.execute(plant_query)?;
@@ -251,54 +251,86 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn write_species(&mut self, species: Species) -> Result<(), Box<dyn StdErr>> {
-        let plant_distance_str = species
-            .planting_distance
-            .map(|f| format!("{}", f))
-            .unwrap_or("null".to_owned());
-        let avg_watering_days_str = species
-            .avg_watering_days
-            .map(|f| format!("{}", f))
-            .unwrap_or("null".to_owned());
-        let avg_fertilizing_str = species
-            .avg_fertilizing_days
-            .map(|f| format!("{}", f))
-            .unwrap_or("null".to_owned());
+        let fmt_species = |species: &Species, include_name: bool| {
+            let name_str = if include_name {
+                format!("'{}',", self.sanitize(&species.name))
+            } else {
+                "".to_owned()
+            };
 
-        let watering_notes_str = if species.watering_notes.is_empty() {
-            "null".to_owned()
-        } else {
-            format!("'{}'", self.sanitize(&species.watering_notes.join(", ")))
+            let plant_distance_str = species
+                .planting_distance
+                .map(|f| format!("{}", f))
+                .unwrap_or("null".to_owned());
+            let avg_watering_days_str = species
+                .avg_watering_days
+                .map(|f| format!("{}", f))
+                .unwrap_or("null".to_owned());
+            let avg_fertilizing_str = species
+                .avg_fertilizing_days
+                .map(|f| format!("{}", f))
+                .unwrap_or("null".to_owned());
+
+            let watering_notes_str = if species.watering_notes.is_empty() {
+                "null".to_owned()
+            } else {
+                format!("'{}'", self.sanitize(&species.watering_notes.join(", ")))
+            };
+            let fertilizing_notes_str = if species.fertilizing_notes.is_empty() {
+                "null".to_owned()
+            } else {
+                format!("'{}'", self.sanitize(&species.fertilizing_notes.join(", ")))
+            };
+            let pruning_str = if species.pruning_notes.is_empty() {
+                "null".to_owned()
+            } else {
+                format!("'{}'", self.sanitize(&species.pruning_notes.join(", ")))
+            };
+            let companions_str = if species.companions.is_empty() {
+                "null".to_owned()
+            } else {
+                format!("'{}'", self.sanitize(&species.companions.join(", ")))
+            };
+            let notes_str = if species.additional_notes.is_empty() {
+                "null".to_owned()
+            } else {
+                format!("'{}'", self.sanitize(&species.additional_notes.join(", ")))
+            };
+            format!(
+                "({}'{}','{}','{}','{}',{},{},{},{},{},{},{},{},{},{},{},{},{},{})",
+                name_str,
+                self.sanitize(&species.scientific_name),
+                self.sanitize(&species.genus),
+                self.sanitize(&species.family),
+                self.sanitize(&species.sunlight),
+                species.temp_min,
+                species.temp_max,
+                species.opt_temp_min,
+                species.opt_temp_max,
+                plant_distance_str,
+                species.ph_min,
+                species.ph_max,
+                watering_notes_str,
+                fertilizing_notes_str,
+                avg_watering_days_str,
+                avg_fertilizing_str,
+                pruning_str,
+                companions_str,
+                notes_str
+            )
         };
-        let fertilizing_notes_str = if species.fertilizing_notes.is_empty() {
-            "null".to_owned()
-        } else {
-            format!("'{}'", self.sanitize(&species.fertilizing_notes.join(", ")))
-        };
-        let pruning_str = if species.pruning_notes.is_empty() {
-            "null".to_owned()
-        } else {
-            format!("'{}'", self.sanitize(&species.pruning_notes.join(", ")))
-        };
-        let companions_str = if species.companions.is_empty() {
-            "null".to_owned()
-        } else {
-            format!("'{}'", self.sanitize(&species.companions.join(", ")))
-        };
-        let notes_str = if species.additional_notes.is_empty() {
-            "null".to_owned()
-        } else {
-            format!("'{}'", self.sanitize(&species.additional_notes.join(", ")))
-        };
-        let species_query = format!(
-            "INSERT INTO species
-            (name,
-            scientific_name,
-            genus,
-            family,
-            sunlight,
-            temp_min,
-            temp_max,
-            temp_min_opt,
+
+        let fields = |include_name: bool| {
+            let name = if include_name { "name," } else { "" };
+            format!(
+                "({name}
+            scientific_name, 
+            genus, 
+            family, 
+            sunlight, 
+            temp_min, 
+            temp_max, 
+            temp_min_opt, 
             temp_max_opt,
             planting_distance,
             ph_min,
@@ -309,30 +341,21 @@ impl DatabaseManager for SQLiteDB {
             avg_fertilizing_days,
             pruning_notes,
             companions,
-            additional_notes)
-            VALUES 
-            ('{}','{}','{}','{}','{}',{},{},{},{},{},{},{},{},{},{},{},{},{},{})",
-            self.sanitize(&species.name),
-            self.sanitize(&species.scientific_name),
-            self.sanitize(&species.genus),
-            self.sanitize(&species.family),
-            self.sanitize(&species.sunlight),
-            species.temp_min,
-            species.temp_max,
-            species.opt_temp_min,
-            species.opt_temp_max,
-            plant_distance_str,
-            species.ph_min,
-            species.ph_max,
-            watering_notes_str,
-            fertilizing_notes_str,
-            avg_watering_days_str,
-            avg_fertilizing_str,
-            pruning_str,
-            companions_str,
-            notes_str
-        );
+            additional_notes)"
+            )
+        };
+        let mut species_query = "INSERT INTO species ".to_owned();
+        species_query += &fields(true);
+        species_query += " VALUES ";
+        species_query += &fmt_species(&species, true);
+        species_query += " ON CONFLICT(name) DO UPDATE SET ";
+        species_query += &fields(false);
+        species_query += " = ";
+        species_query += &fmt_species(&species, false);
+        species_query += ";";
+        println!("{species_query}");
         self.connection.execute(species_query)?;
+
         Ok(())
     }
 
