@@ -516,35 +516,48 @@ impl DatabaseManager for SQLiteDB {
         Ok(growth)
     }
 
-    fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn StdErr>> {
-        if growth.is_empty() {
-            return Ok(());
-        }
-
-        let mut insert_strs = vec![];
-        for item in growth.into_iter() {
-            let note_str = if let Some(note) = item.note {
-                format!("'{}'", self.sanitize(&note))
+    fn write_growth(&mut self, growth: GrowthItem) -> Result<(), Box<dyn StdErr>> {
+        let fmt_growth = |item: &GrowthItem, include_key: bool| {
+            let prefix = if include_key {
+                format!(
+                    "'{}','{}',",
+                    self.sanitize(&item.plant),
+                    &item.date.format(&self.date_format)
+                )
             } else {
-                "null".to_owned()
+                "".to_owned()
+            };
+            let note_str = match &item.note {
+                None => "null".to_owned(),
+                Some(note) => format!("'{}'", self.sanitize(note)),
             };
 
-            insert_strs.push(format!(
-                "('{}','{}',{},{},{},{})",
-                self.sanitize(&item.plant),
-                self.sanitize(&item.date.format(&self.date_format)),
+            format!(
+                "({} {},{},{},{})",
+                prefix,
                 self.sanitize(&item.height_cm),
                 self.sanitize(&item.width_cm),
                 &note_str,
                 self.sanitize(&item.health)
-            ));
-        }
+            )
+        };
+        let mut query = "INSERT INTO growth".to_owned();
+        query += "(plant,date,height_cm,width_cm,note,health)";
+        query += " VALUES ";
+        query += &fmt_growth(&growth, true);
+        query += " ON CONFLICT DO UPDATE SET ";
+        query += "(height_cm,width_cm,note,health) = ";
+        query += &fmt_growth(&growth, false);
+        query += ";";
 
-        let query = format!(
-            "INSERT INTO growth (plant,date,height_cm,width_cm,note,health) VALUES {};",
-            insert_strs.join(", ")
-        );
         self.connection.execute(query)?;
+        Ok(())
+    }
+
+    fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn StdErr>> {
+        for growth in growth.into_iter() {
+            self.write_growth(growth)?;
+        }
         Ok(())
     }
 
