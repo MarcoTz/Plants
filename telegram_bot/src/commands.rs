@@ -28,6 +28,9 @@ pub enum Command {
     Abort,
     Push,
     CheckLogs,
+    TodayWater,
+    TodayFertilize,
+    TodayGrowth,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -57,6 +60,9 @@ impl Command {
             Command::Abort,
             Command::Push,
             Command::CheckLogs,
+            Command::TodayWater,
+            Command::TodayFertilize,
+            Command::TodayGrowth,
         ]
     }
 
@@ -96,6 +102,11 @@ impl Command {
             Command::MoveToGraveyard => {
                 CommandRes::NewAction(Box::new(MoveToGraveyard::default().into()))
             }
+            Command::TodayWater => CommandRes::ImmediateAction(ImmediateAction::GetWaterToday),
+            Command::TodayFertilize => {
+                CommandRes::ImmediateAction(ImmediateAction::GetFertilizeToday)
+            }
+            Command::TodayGrowth => CommandRes::ImmediateAction(ImmediateAction::GetGrowthToday),
         }
     }
 }
@@ -119,6 +130,9 @@ impl fmt::Display for Command {
             Command::UpdateSpecies => frmt.write_str("update_species"),
             Command::UpdatePlant => frmt.write_str("update_plant"),
             Command::MoveToGraveyard => frmt.write_str("move_to_graveyard"),
+            Command::TodayWater => frmt.write_str("today_water"),
+            Command::TodayFertilize => frmt.write_str("today_fertilize"),
+            Command::TodayGrowth => frmt.write_str("today_growth"),
         }
     }
 }
@@ -143,6 +157,9 @@ impl str::FromStr for Command {
             "update_species" => Ok(Command::UpdateSpecies),
             "update_plant" => Ok(Command::UpdatePlant),
             "move_to_graveyard" => Ok(Command::MoveToGraveyard),
+            "today_water" => Ok(Command::TodayWater),
+            "today_fertilize" => Ok(Command::TodayFertilize),
+            "today_growth" => Ok(Command::TodayGrowth),
             _ => Err(Error::ParseError(format!("Command {s}"))),
         }
     }
@@ -170,6 +187,9 @@ impl BotCommand for Command {
             Command::Abort => "Abort the current action".to_owned(),
             Command::Push => "Push local changes to github".to_owned(),
             Command::CheckLogs => "Check warnings generated from build".to_owned(),
+            Command::TodayWater => "Check which plants should get watered today".to_owned(),
+            Command::TodayFertilize => "Check which plants should be fertilized today".to_owned(),
+            Command::TodayGrowth => "Check which plants need growth updates by today".to_owned(),
         }
     }
 }

@@ -20,6 +20,9 @@ pub enum ImmediateAction {
     Push,
     Abort,
     CheckLogs,
+    GetWaterToday,
+    GetFertilizeToday,
+    GetGrowthToday,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -202,6 +205,56 @@ impl<T: DatabaseManager> ActionHandler<T> {
                 let action = self.current_action.to_string();
                 self.current_action = BotAction::Idle;
                 Ok(format!("Aborted action {action}"))
+            }
+            ImmediateAction::GetWaterToday => {
+                let plants = self.db_man.get_all_plants()?;
+                let mut names = vec![];
+                for plant in plants.into_iter() {
+                    match plant.get_next_watering() {
+                        None => continue,
+                        Some(date) => {
+                            if date >= Local::now().date_naive() {
+                                names.push(plant.info.name)
+                            }
+                        }
+                    }
+                }
+
+                Ok(format!("Plants to water today: \n{}", names.join("\n ")))
+            }
+            ImmediateAction::GetFertilizeToday => {
+                let plants = self.db_man.get_all_plants()?;
+                let mut names = vec![];
+                for plant in plants.into_iter() {
+                    match plant.get_next_fertilizing() {
+                        None => continue,
+                        Some(date) => {
+                            if date >= Local::now().date_naive() {
+                                names.push(plant.info.name)
+                            }
+                        }
+                    }
+                }
+
+                Ok(format!(
+                    "Plants to fertilize today:\n {}",
+                    names.join("\n ")
+                ))
+            }
+            ImmediateAction::GetGrowthToday => {
+                let plants = self.db_man.get_all_plants()?;
+                let mut names = vec![];
+                for plant in plants.into_iter() {
+                    let date = plant.get_next_growth();
+                    if date >= Local::now().date_naive() {
+                        names.push(plant.info.name)
+                    }
+                }
+
+                Ok(format!(
+                    "Plants to get growth for today:\n {}",
+                    names.join("\n ")
+                ))
             }
         }
     }
