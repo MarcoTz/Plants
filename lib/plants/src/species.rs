@@ -7,7 +7,7 @@ use chrono::TimeDelta;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fmt, str::FromStr};
 
-#[derive(Serialize, PartialEq, Deserialize, Clone, Debug)]
+#[derive(Serialize, PartialEq, Deserialize, Clone, Debug, Hash)]
 pub enum SunlightRequirement {
     Direct,
     Indirect,
@@ -75,6 +75,25 @@ impl Species {
         species_plants
     }
 }
+
+impl std::hash::Hash for Species {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.name.hash(state);
+        self.scientific_name.hash(state);
+        self.genus.hash(state);
+        self.family.hash(state);
+        self.sunlight.hash(state);
+        self.watering_notes.hash(state);
+        self.avg_watering_days.hash(state);
+        self.fertilizing_notes.hash(state);
+        self.avg_fertilizing_days.hash(state);
+        self.pruning_notes.hash(state);
+        self.companions.hash(state);
+        self.additional_notes.hash(state);
+    }
+}
+
+impl std::cmp::Eq for Species {}
 
 impl TryFrom<HashMap<String, String>> for Species {
     type Error = Error;

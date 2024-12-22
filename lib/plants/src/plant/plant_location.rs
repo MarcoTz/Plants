@@ -1,7 +1,7 @@
 use crate::location::Location;
 use std::fmt;
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub enum PlantLocation {
     Location(Box<Location>),
     Other(String),

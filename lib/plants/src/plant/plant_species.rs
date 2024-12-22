@@ -1,7 +1,7 @@
 use crate::{errors::Error, species::Species};
 use std::fmt;
 
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug, Hash)]
 pub enum PlantSpecies {
     Species(Box<Species>),
     Other(String),

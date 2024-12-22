@@ -172,7 +172,7 @@ mod species_test {
     use crate::port::test_common::{BASE_DIR, SPECIES_DIR_IN, SPECIES_DIR_OUT};
     use database::file_backend::load_json::load_dir;
     use plants::species::{Species, SunlightRequirement};
-    use std::path::PathBuf;
+    use std::{collections::HashSet, path::PathBuf};
 
     fn example_species_json1() -> SpeciesJSON {
         SpeciesJSON {
@@ -355,8 +355,8 @@ mod species_test {
         assert!(file1.exists());
         assert!(file2.exists());
 
-        let result: Vec<Species> = load_dir(&species_dir).unwrap();
-        let expected = vec![example_species2(), example_species1()];
+        let result = HashSet::from_iter(load_dir(&species_dir).unwrap().iter().cloned());
+        let expected = HashSet::from([example_species2(), example_species1()]);
         assert_eq!(result, expected);
 
         std::fs::remove_dir_all(dir1.clone()).unwrap();
