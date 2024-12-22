@@ -35,6 +35,8 @@ impl<T: DatabaseManager> Renderer<T> {
     pub fn render_index(&mut self) -> Result<String, Error> {
         log::info!("Building index");
         let plants = self.database_manager.get_all_plants()?;
+        println!("got palnts");
+
         let index = Index::try_from(plants.as_slice())?;
         Ok(index
             .render(&self.date_format, false, plants.len() as i32)

@@ -563,7 +563,7 @@ impl DatabaseManager for SQLiteDB {
 
     // Existence Methods
     fn plant_exists(&mut self, plant_name: &str) -> Result<bool, Box<dyn StdErr>> {
-        let query = format!("SELECT COUNT(*) AS num FROM plants WHERE name LIKE '%{plant_name}%'");
+        let query = format!("SELECT COUNT(*) AS num FROM plants WHERE name='{plant_name}'");
         let plant_maps = self.read_rows(&query, vec!["num"])?;
         let plant_map = plant_maps.first().ok_or(Error::MissingValue {
             key: "num".to_owned(),
