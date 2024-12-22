@@ -339,15 +339,6 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn kill_plant(&mut self, plant: GraveyardPlant) -> Result<(), Box<dyn StdErr>> {
-        let graveyard_query = format!(
-            "INSERT INTO graveyard (name,species,planted,died,reason) values ('{}','{}','{}','{}','{}')",
-            self.sanitize(&plant.name),
-            self.sanitize(&plant.species),
-            plant.planted.format(&self.date_format),
-            plant.died.format(&self.date_format),
-            self.sanitize(&plant.reason));
-        self.connection.execute(graveyard_query)?;
-
         let info_query = format!(
             "DELETE FROM plants WHERE name='{}';",
             self.sanitize(&plant.name)
@@ -366,13 +357,16 @@ impl DatabaseManager for SQLiteDB {
         );
         self.connection.execute(growth_query)?;
 
+        let plant_name = plant.name.clone();
+        self.add_to_graveyard(plant)?;
+
         // move images to dead dir
         let dead_dir = self.plants_dir.join("dead");
         if !dead_dir.exists() {
             std::fs::create_dir_all(dead_dir.clone())?;
         }
-        let dead_path = dead_dir.join(plant.name.clone());
-        let plant_path = PathBuf::from(&self.plants_dir).join(plant.name);
+        let dead_path = dead_dir.join(plant_name.clone());
+        let plant_path = PathBuf::from(&self.plants_dir).join(plant_name);
         let _ = std::fs::rename(plant_path, dead_path);
 
         Ok(())

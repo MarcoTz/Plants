@@ -29,7 +29,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let graveyard = source.get_graveyard()?;
     println!("Loaded {} graveyard plants from source", graveyard.len());
     for graveyard_plant in graveyard.into_iter() {
-        target.kill_plant(graveyard_plant)?;
+        target.add_to_graveyard(graveyard_plant)?;
     }
     println!("Wrote graveyard plants to target");
     let target_num = target.get_graveyard()?.len();

@@ -1,4 +1,4 @@
-use plants::{growth_item::GrowthItem, log_item::LogItem};
+use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
 use sqlite::Connection;
 use std::{collections::HashMap, path::PathBuf};
 
@@ -77,6 +77,22 @@ impl SQLiteDB {
             logs.push(item);
         }
         Ok(logs)
+    }
+
+    pub fn add_to_graveyard(
+        &mut self,
+        plant: GraveyardPlant,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let graveyard_query = format!(
+            "INSERT INTO graveyard (name,species,planted,died,reason) values ('{}','{}','{}','{}','{}')",
+            self.sanitize(&plant.name),
+            self.sanitize(&plant.species),
+            plant.planted.format(&self.date_format),
+            plant.died.format(&self.date_format),
+            self.sanitize(&plant.reason));
+        self.connection.execute(graveyard_query)?;
+
+        Ok(())
     }
 
     pub fn sanitize<T: ToString>(&self, input: &T) -> String {
