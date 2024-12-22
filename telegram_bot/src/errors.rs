@@ -6,6 +6,7 @@ use std::fmt;
 pub enum Error {
     PlantError(PlantError),
     BotError(BotError),
+    DBError(Box<dyn std::error::Error>),
     NoActionRunning,
     ActionAlreadyRunning(String),
     ActionAlreadyDone(String),
@@ -48,6 +49,7 @@ impl fmt::Display for Error {
         match self {
             Error::PlantError(plant_err) => frmt.write_str(&format!("{plant_err}")),
             Error::BotError(bot_err) => frmt.write_str(&format!("{bot_err}")),
+            Error::DBError(err) => err.fmt(frmt),
             Error::NoActionRunning => {
                 frmt.write_str("Currently there is no active action, please try again")
             }

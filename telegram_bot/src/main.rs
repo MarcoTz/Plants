@@ -7,10 +7,11 @@ pub mod errors;
 use action_handler::ActionHandler;
 use bot_api::bot::Bot;
 use config::load_config;
-use database::file_backend::FileDB;
+use database::sqlite_backend::SQLiteDB;
 use errors::Error;
 use log::Level;
 use logger::{file_logger::FileLogger, init::init_logger};
+use std::path::PathBuf;
 
 static LOGGER: FileLogger = FileLogger {
     level: Level::Info,
@@ -26,7 +27,9 @@ async fn main() -> Result<(), Error> {
     log::info!("Successfully loaded config");
 
     let mut bot = Bot::new(conf.api_key);
-    let mut handler = ActionHandler::new(conf.white_list, FileDB::default());
+    let db =
+        SQLiteDB::new(PathBuf::from("plants.db")).map_err(|err| Error::DBError(Box::new(err)))?;
+    let mut handler = ActionHandler::new(conf.white_list, db);
 
     log::info!("Running bot");
     bot.run(&mut handler).await;
