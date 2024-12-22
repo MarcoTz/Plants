@@ -156,7 +156,7 @@ impl DatabaseManager for SQLiteDB {
                 self.sanitize(&info.species),
                 self.sanitize(&info.location),
                 self.sanitize(&info.origin),
-                self.sanitize(&info.obtained),
+                info.obtained.format(&self.date_format),
                 self.sanitize(&info.auto_water),
                 notes_str
             )

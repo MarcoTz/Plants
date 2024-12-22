@@ -52,7 +52,7 @@ impl SQLiteDB {
         let growth_query = format!("SELECT * FROM growth WHERE plant='{}'", plant_name);
         let growth_maps = self.read_rows(
             &growth_query,
-            vec!["plant", "date", "height_cm", "width_cm", "note"],
+            vec!["plant", "date", "height_cm", "width_cm", "health", "note"],
         )?;
         let mut growth = vec![];
         for mut map in growth_maps.into_iter() {
@@ -67,7 +67,7 @@ impl SQLiteDB {
         &mut self,
         plant_name: &str,
     ) -> Result<Vec<LogItem>, Box<dyn std::error::Error>> {
-        let log_query = format!("SELECT * FROM activities WHERE plant={}", plant_name);
+        let log_query = format!("SELECT * FROM activities WHERE plant='{}'", plant_name);
         let log_maps = self.read_rows(&log_query, vec!["name", "date", "plant", "note"])?;
 
         let mut logs = vec![];
