@@ -441,11 +441,15 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn write_location(&mut self, location: Location) -> Result<(), Box<dyn StdErr>> {
-        let query = format!(
-            "INSERT INTO locations (name,outside) VALUES ('{}','{}')",
-            self.sanitize(&location.name),
-            location.outside
-        );
+        let fmt_location =
+            |loc: &Location| format!("('{}','{}')", self.sanitize(&loc.name), loc.outside);
+        let mut query = "INSERT INTO locations ".to_owned();
+        query += "(name,outside)";
+        query += " VALUES ";
+        query += &fmt_location(&location);
+        query += " ON CONFLICT(name) DO UPDATE SET outside= ";
+        query += &format!("'{}'", location.outside);
+        query += ";";
         self.connection.execute(query)?;
         Ok(())
     }
