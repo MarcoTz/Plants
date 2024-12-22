@@ -114,6 +114,10 @@ pub mod test_common {
             Ok(vec![example_location()])
         }
 
+        fn write_location(&mut self, _: Location) -> Result<(), Box<dyn Error>> {
+            Ok(())
+        }
+
         fn get_location(&mut self, name: &str) -> Result<Location, Box<dyn Error>> {
             if name == "Inside" {
                 Ok(example_location())
