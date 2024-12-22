@@ -140,16 +140,23 @@ impl DatabaseManager for SQLiteDB {
         let mut plant_query =
             "INSERT INTO plants (name,species,location,origin,obtained,auto_water,notes) VALUES "
                 .to_owned();
-        let fmt_plant = |info: PlantInfo| {
+        let plant_query_conf = " ON CONFLICT(name) DO UPDATE SET (species,location,origin,obtained,auto_water,notes) = ";
+        let fmt_plant = |info: &PlantInfo, include_name: bool| {
             let notes_str = if info.notes.is_empty() {
                 "null".to_owned()
             } else {
                 format!("'{}'", self.sanitize(&info.notes.join(", ")))
             };
 
+            let name_str = if include_name {
+                format!("'{}',", self.sanitize(&info.name))
+            } else {
+                "".to_owned()
+            };
+
             format!(
-                "('{}','{}', '{}','{}','{}','{}',{})",
-                self.sanitize(&info.name),
+                "({} '{}', '{}','{}','{}','{}',{})",
+                name_str,
                 self.sanitize(&info.species),
                 self.sanitize(&info.location),
                 self.sanitize(&info.origin),
@@ -158,9 +165,9 @@ impl DatabaseManager for SQLiteDB {
                 notes_str
             )
         };
-        let mut plant_strs = vec![];
-        plant_strs.push(fmt_plant(plant));
-        plant_query += &plant_strs.join(", ");
+        plant_query += &fmt_plant(&plant, true);
+        plant_query += plant_query_conf;
+        plant_query += &fmt_plant(&plant, false);
         plant_query += ";";
         self.connection.execute(plant_query)?;
         Ok(())
