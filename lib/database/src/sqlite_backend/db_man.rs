@@ -5,7 +5,8 @@ use plants::{
     growth_item::GrowthItem,
     location::Location,
     log_item::LogItem,
-    plant::{Plant, PlantInfo},
+    named::Named,
+    plant::{Plant, PlantInfo, PlantLocation, PlantSpecies},
     species::Species,
 };
 
@@ -35,14 +36,22 @@ impl DatabaseManager for SQLiteDB {
         }
 
         let mut plants = vec![];
-        for plant in infos.into_iter() {
+        for plant in infos.iter_mut() {
+            match self.get_species(&plant.species.get_name()) {
+                Ok(sp) => plant.species = PlantSpecies::Species(Box::new(sp)),
+                Err(_) => (),
+            };
+            match self.get_location(&plant.location.get_name()) {
+                Ok(loc) => plant.location = PlantLocation::Location(Box::new(loc)),
+                Err(_) => (),
+            };
             let growths = self.get_growth_plant(&plant.name)?;
             let logs = self.get_logs_plant(&plant.name)?;
 
             let img_dir = self.plants_dir.join(plant.name.replace(' ', ""));
             let images = load_images(&img_dir)?;
             plants.push(Plant {
-                info: plant,
+                info: plant.clone(),
                 growth: growths,
                 activities: logs,
                 images,
@@ -91,7 +100,15 @@ impl DatabaseManager for SQLiteDB {
             name: plant_name.to_owned(),
         })?;
         plant_map.insert("date_format".to_owned(), self.date_format.clone());
-        let info: PlantInfo = plant_map.try_into()?;
+        let mut info: PlantInfo = plant_map.try_into()?;
+        match self.get_species(&info.species.get_name()) {
+            Ok(sp) => info.species = PlantSpecies::Species(Box::new(sp)),
+            Err(_) => (),
+        };
+        match self.get_location(&info.location.get_name()) {
+            Ok(loc) => info.location = PlantLocation::Location(Box::new(loc)),
+            Err(_) => (),
+        };
         let growths = self.get_growth_plant(&plant_name)?;
         let logs = self.get_logs_plant(&plant_name)?;
         let img_dir = self.plants_dir.join(plant_name.replace(' ', ""));
