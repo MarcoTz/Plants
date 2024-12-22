@@ -9,7 +9,7 @@ use errors::Error;
 use json_to_plant::load_plants;
 use load_csv::{load_activities, load_graveyard, load_growth, load_locations};
 use load_json::load_species;
-use write_csv::{write_activities, write_graveyard, write_growth};
+use write_csv::{add_location, write_activities, write_graveyard, write_growth};
 use write_json::{write_plants, write_species};
 
 use crate::database_manager::DatabaseManager;
@@ -236,7 +236,8 @@ impl DatabaseManager for FileDB {
     }
 
     fn write_location(&mut self, loc: Location) -> Result<(), Box<dyn std::error::Error>> {
-        todo!()
+        add_location(loc, &self.location_file)?;
+        Ok(())
     }
 
     fn plant_exists(&mut self, plant_name: &str) -> Result<bool, Box<dyn std::error::Error>> {

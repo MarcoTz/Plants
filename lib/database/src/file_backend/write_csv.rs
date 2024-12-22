@@ -1,6 +1,8 @@
 use super::errors::{Error, SerializeError};
 use csv::WriterBuilder;
-use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
+use plants::{
+    graveyard::GraveyardPlant, growth_item::GrowthItem, location::Location, log_item::LogItem,
+};
 use serde::Serialize;
 use std::{
     fs::{File, OpenOptions},
@@ -57,6 +59,10 @@ pub fn write_graveyard(
     append: bool,
 ) -> Result<(), Error> {
     write_csv(graveyard, graveyard_out, append)
+}
+
+pub fn add_location(location: Location, location_out: &PathBuf) -> Result<(), Error> {
+    write_csv(vec![location], location_out, true)
 }
 
 #[cfg(test)]
