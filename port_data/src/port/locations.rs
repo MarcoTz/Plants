@@ -70,6 +70,7 @@ mod locations_test {
         PLANTS_DIR_IN,
     };
     use database::file_backend::load_csv::load_csv;
+    use std::collections::HashSet;
     use std::path::PathBuf;
 
     fn example_location1() -> Location {
@@ -88,12 +89,17 @@ mod locations_test {
     #[test]
     fn load_old() {
         let plants_dir = PathBuf::from(BASE_DIR).join(PLANTS_DIR_IN);
-        let result = <Vec<PlantJSON> as Port<Vec<Location>>>::load_old(&plants_dir).unwrap();
-        let expected = vec![
+        let result = HashSet::from_iter(
+            <Vec<PlantJSON> as Port<Vec<Location>>>::load_old(&plants_dir)
+                .unwrap()
+                .iter()
+                .cloned(),
+        );
+        let expected = HashSet::from([
             example_plant_json3(),
             example_plant_json2(),
             example_plant_json1(),
-        ];
+        ]);
         assert_eq!(result, expected)
     }
 

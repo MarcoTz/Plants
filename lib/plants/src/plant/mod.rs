@@ -1,48 +1,16 @@
-use super::{
-    errors::Error,
-    growth_item::GrowthItem,
-    location::Location,
-    log_item::LogItem,
-    named::Named,
-    serialize::{date_serializer, location_serializer, species_serializer},
-    species::Species,
-};
+use super::{errors::Error, growth_item::GrowthItem, log_item::LogItem, named::Named};
 use chrono::{Local, NaiveDate, TimeDelta};
-use serde::{Deserialize, Serialize};
-use std::{cmp::max, path::PathBuf};
+use std::cmp::max;
 
-#[derive(Clone, PartialEq, Eq, Debug)]
-pub struct PlantImage {
-    pub created: NaiveDate,
-    pub file_name: String,
-    pub file_path: PathBuf,
-}
+pub mod plant_image;
+pub mod plant_info;
+pub mod plant_location;
+pub mod plant_species;
 
-#[derive(Clone, PartialEq, Debug)]
-pub enum PlantSpecies {
-    Species(Box<Species>),
-    Other(String),
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum PlantLocation {
-    Location(Box<Location>),
-    Other(String),
-}
-
-#[derive(Serialize, Clone, Deserialize, Debug, PartialEq)]
-pub struct PlantInfo {
-    pub name: String,
-    #[serde(with = "species_serializer")]
-    pub species: PlantSpecies,
-    #[serde(with = "location_serializer")]
-    pub location: PlantLocation,
-    pub origin: String,
-    #[serde(with = "date_serializer")]
-    pub obtained: NaiveDate,
-    pub auto_water: bool,
-    pub notes: Vec<String>,
-}
+pub use plant_image::PlantImage;
+pub use plant_info::PlantInfo;
+pub use plant_location::PlantLocation;
+pub use plant_species::PlantSpecies;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Plant {
@@ -243,16 +211,6 @@ impl Plant {
         let name = self.get_name().replace(' ', "");
         let image_url = base.to_owned() + &name + "/" + &image.file_name;
         Some(image_url)
-    }
-}
-
-impl TryFrom<PlantSpecies> for Species {
-    type Error = Error;
-    fn try_from(pl_sp: PlantSpecies) -> Result<Species, Self::Error> {
-        match pl_sp {
-            PlantSpecies::Species(sp) => Ok(*sp),
-            PlantSpecies::Other(sp) => Err(Error::SpeciesNotFound(sp)),
-        }
     }
 }
 

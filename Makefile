@@ -28,6 +28,8 @@ port:
 	cargo run --bin port_data
 	cp ../Plants/Logs/Graveyard.csv data/Logs
 
+sync:
+	cargo run -p sync_databases
 
 check:
 	cargo clippy 

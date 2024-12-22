@@ -217,6 +217,9 @@ pub mod test_common {
         fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn Error>> {
             panic!("not implemented")
         }
+        fn write_location(&mut self, _: Location) -> Result<(), Box<dyn Error>> {
+            panic!("not implemented")
+        }
 
         fn get_location(&mut self, _: &str) -> Result<Location, Box<dyn Error>> {
             panic!("not implemented")

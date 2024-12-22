@@ -9,7 +9,8 @@ members = [
   "lib/bot_api",
   "render_static",
   "telegram_bot",
-  "port_data"
+  "port_data",
+  "sync_databases"
 ]
 resolver = "2"
-default-members = ["render_static","telegram_bot", "port_data"]
+default-members = ["render_static","telegram_bot", "port_data","sync_databases"]

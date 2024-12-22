@@ -32,6 +32,7 @@ pub trait DatabaseManager {
     // Location Methods
     fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn Error>>;
     fn get_location(&mut self, location_name: &str) -> Result<Location, Box<dyn Error>>;
+    fn write_location(&mut self, location: Location) -> Result<(), Box<dyn Error>>;
 
     // Log Methods
     fn get_logs(&mut self) -> Result<Vec<LogItem>, Box<dyn Error>>;

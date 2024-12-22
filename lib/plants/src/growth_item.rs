@@ -1,7 +1,7 @@
-use super::serialize::date_serializer;
+use super::{errors::Error, serialize::date_serializer};
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
-use std::cmp::Ordering;
+use std::{cmp::Ordering, collections::HashMap};
 
 #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
 pub struct GrowthItem {
@@ -25,6 +25,33 @@ impl PartialOrd for GrowthItem {
 impl Ord for GrowthItem {
     fn cmp(&self, other: &GrowthItem) -> Ordering {
         self.date.cmp(&other.date)
+    }
+}
+
+impl TryFrom<HashMap<String, String>> for GrowthItem {
+    type Error = Error;
+    fn try_from(map: HashMap<String, String>) -> Result<GrowthItem, Error> {
+        let date_format = map.get("date_format").ok_or(Error::KeyNotFound {
+            key: "date_format".to_owned(),
+            task: "GrowthItem".to_owned(),
+        })?;
+        let lookup_fun = |key: &str| {
+            map.get(key).cloned().ok_or(Error::KeyNotFound {
+                key: key.to_owned(),
+                task: "GrowthItem".to_owned(),
+            })
+        };
+        let height_cm = lookup_fun("height_cm")?.parse::<f32>()?;
+        let width_cm = lookup_fun("width_cm")?.parse::<f32>()?;
+        let health = lookup_fun("health")?.parse::<i32>()?;
+        Ok(GrowthItem {
+            plant: lookup_fun("plant")?,
+            date: NaiveDate::parse_from_str(&lookup_fun("date")?, &date_format)?,
+            height_cm,
+            width_cm,
+            health,
+            note: map.get("note").cloned(),
+        })
     }
 }
 

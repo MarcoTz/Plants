@@ -1,118 +1,109 @@
-use super::database_manager::DatabaseManager;
-use plants::{
-    graveyard::GraveyardPlant,
-    growth_item::GrowthItem,
-    location::Location,
-    log_item::LogItem,
-    plant::{Plant, PlantInfo},
-    species::Species,
-};
+use plants::{graveyard::GraveyardPlant, growth_item::GrowthItem, log_item::LogItem};
 use sqlite::Connection;
-use std::{error::Error as StdErr, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf};
 
+pub mod db_man;
 pub mod errors;
 use errors::Error;
 
 pub struct SQLiteDB {
     pub db_path: PathBuf,
     pub connection: Connection,
+    pub date_format: String,
+    pub plants_dir: PathBuf,
 }
 
-/*
-Expects the following database schems
-
-table Plants
-
-*/
 impl SQLiteDB {
     pub fn new(path: PathBuf) -> Result<SQLiteDB, Error> {
-        panic!("not implemented")
-        //let con = sqlite::open(path)?;
-        //Ok(SQLiteDB {
-        //    db_path: path,
-       //     connection: con,
-       // })
-    }
-}
-
-impl DatabaseManager for SQLiteDB {
-    // Plant Methods
-    fn get_all_plants(&mut self) -> Result<Vec<Plant>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_plants_by_location(&mut self, _location: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_plant(&mut self, _plant_name: &str) -> Result<Plant, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_plants_species(&mut self, _species_name: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_num_plants(&mut self) -> Result<i32, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn StdErr>> {
-        self.write_plants(vec![plant])
-    }
-    fn write_plants(&mut self, _plants: Vec<PlantInfo>) -> Result<(), Box<dyn StdErr>> {
-        todo!()
+        let con = sqlite::open(path.clone())?;
+        Ok(SQLiteDB {
+            db_path: path,
+            connection: con,
+            date_format: "%d.%m.%Y".to_owned(),
+            plants_dir: PathBuf::from("data").join("Plants"),
+        })
     }
 
-    // Species Methods
-    fn get_all_species(&mut self) -> Result<Vec<Species>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_species(&mut self, _species_name: &str) -> Result<Species, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_species(&mut self, _species: Species) -> Result<(), Box<dyn StdErr>> {
-        todo!()
-    }
-
-    // Graveyard Methods
-    fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn kill_plant(&mut self, _plant: GraveyardPlant) -> Result<(), Box<dyn StdErr>> {
-        todo!()
-    }
-
-    // Location Methods
-    fn get_locations(&mut self) -> Result<Vec<Location>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn get_location(&mut self, _location_name: &str) -> Result<Location, Box<dyn StdErr>> {
-        todo!()
+    pub fn read_rows(
+        &mut self,
+        query: &str,
+        column_keys: Vec<&str>,
+    ) -> Result<Vec<HashMap<String, String>>, Error> {
+        let mut maps = vec![];
+        let callback = |cols: &[(&str, Option<&str>)]| {
+            let mut map = HashMap::new();
+            for (key, val) in cols.into_iter() {
+                let value = if let Some(val) = val { val } else { "" };
+                if column_keys.contains(key) {
+                    map.insert(format!("{}", key), format!("{}", value));
+                }
+            }
+            maps.push(map);
+            true
+        };
+        self.connection.iterate(query, callback)?;
+        Ok(maps)
     }
 
-    // Log Methods
-    fn get_logs(&mut self) -> Result<Vec<LogItem>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_logs(&mut self, _logs: Vec<LogItem>) -> Result<(), Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn StdErr>> {
-        self.write_logs(vec![log])
-    }
-
-    // Growth Methods
-    fn get_growth(&mut self) -> Result<Vec<GrowthItem>, Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_growths(&mut self, _growth: Vec<GrowthItem>) -> Result<(), Box<dyn StdErr>> {
-        todo!()
-    }
-    fn write_growth(&mut self, growth: GrowthItem) -> Result<(), Box<dyn StdErr>> {
-        self.write_growths(vec![growth])
+    pub fn get_growth_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<GrowthItem>, Box<dyn std::error::Error>> {
+        let growth_query = format!("SELECT * FROM growth WHERE plant='{}'", plant_name);
+        let growth_maps = self.read_rows(
+            &growth_query,
+            vec!["plant", "date", "height_cm", "width_cm", "note"],
+        )?;
+        let mut growth = vec![];
+        for mut map in growth_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let item: GrowthItem = map.try_into()?;
+            growth.push(item)
+        }
+        Ok(growth)
     }
 
-    // Existence Methods
-    fn plant_exists(&mut self, _plant_name: &str) -> Result<bool, Box<dyn StdErr>> {
-        todo!()
+    pub fn get_logs_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<LogItem>, Box<dyn std::error::Error>> {
+        let log_query = format!("SELECT * FROM activities WHERE plant={}", plant_name);
+        let log_maps = self.read_rows(&log_query, vec!["name", "date", "plant", "note"])?;
+
+        let mut logs = vec![];
+        for mut map in log_maps.into_iter() {
+            map.insert("date_format".to_owned(), self.date_format.clone());
+            let item: LogItem = map.try_into()?;
+            logs.push(item);
+        }
+        Ok(logs)
     }
-    fn species_exists(&mut self, _species_name: &str) -> Result<bool, Box<dyn StdErr>> {
-        todo!()
+
+    pub fn add_to_graveyard(
+        &mut self,
+        plant: GraveyardPlant,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let fmt_plant = |plant: &GraveyardPlant| {
+            format!(
+                "('{}','{}','{}','{}','{}')",
+                self.sanitize(&plant.name),
+                self.sanitize(&plant.species),
+                plant.planted.format(&self.date_format),
+                plant.died.format(&self.date_format),
+                self.sanitize(&plant.reason)
+            )
+        };
+        let fields = "(name,species,planted,died,reason)";
+        let mut graveyard_query = "INSERT INTO graveyard ".to_owned();
+        graveyard_query += fields;
+        graveyard_query += " VALUES ";
+        graveyard_query += &fmt_plant(&plant);
+        graveyard_query += ";";
+        self.connection.execute(graveyard_query)?;
+        Ok(())
+    }
+
+    pub fn sanitize<T: ToString>(&self, input: &T) -> String {
+        input.to_string().replace('\'', "''")
     }
 }

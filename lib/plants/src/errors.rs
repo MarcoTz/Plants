@@ -1,4 +1,8 @@
-use std::fmt;
+use chrono::ParseError;
+use std::{
+    fmt,
+    num::{ParseFloatError, ParseIntError},
+};
 
 #[derive(Debug)]
 pub enum Error {
@@ -9,6 +13,10 @@ pub enum Error {
     WrongType(String),
     SpeciesNotFound(String),
     BadHealth(i32),
+    KeyNotFound { key: String, task: String },
+    DateParsing { msg: String },
+    FloatParsing { msg: String },
+    IntParsing { msg: String },
 }
 
 impl fmt::Display for Error {
@@ -23,10 +31,41 @@ impl fmt::Display for Error {
             Error::WrongType(field) => write!(frmt, "Wrong type for {field}"),
             Error::SpeciesNotFound(name) => write!(frmt, "Could not find species {name}"),
             Error::BadHealth(num) => write!(frmt, "{num} is not a valid value for health"),
+            Error::KeyNotFound { key, task } => write!(frmt, "Could not find {key} for {task}"),
+            Error::DateParsing { msg } => {
+                write!(frmt, "Could not parse date, message: {msg}")
+            }
+            Error::FloatParsing { msg } => write!(frmt, "Could not parse float, message: {msg}"),
+            Error::IntParsing { msg } => write!(frmt, "Could not parse int, message: {msg}"),
         }
     }
 }
+
 impl std::error::Error for Error {}
+
+impl From<ParseError> for Error {
+    fn from(err: ParseError) -> Error {
+        Error::DateParsing {
+            msg: err.to_string(),
+        }
+    }
+}
+
+impl From<ParseFloatError> for Error {
+    fn from(err: ParseFloatError) -> Error {
+        Error::FloatParsing {
+            msg: err.to_string(),
+        }
+    }
+}
+
+impl From<ParseIntError> for Error {
+    fn from(err: ParseIntError) -> Error {
+        Error::IntParsing {
+            msg: err.to_string(),
+        }
+    }
+}
 
 #[cfg(test)]
 mod error_tests {

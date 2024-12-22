@@ -12,6 +12,7 @@ fn main() -> Result<(), String> {
     init_logger(&LOGGER)?;
 
     let db_man = FileDB::default();
+
     let mut renderer = Renderer {
         database_manager: db_man,
         date_format: "%d.%m.%Y".to_owned(),

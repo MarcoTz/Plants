@@ -6,7 +6,7 @@ use plants::plant::{PlantInfo, PlantLocation, PlantSpecies};
 use serde::{Deserialize, Serialize};
 use std::{fs::read_dir, path::PathBuf};
 
-#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct PlantJSON {
     pub auto_watering: BoolOrString,
     pub current_location: String,
@@ -18,7 +18,7 @@ pub struct PlantJSON {
     pub species_name: String,
 }
 
-#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Hash, Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(untagged)]
 pub enum BoolOrString {
     Bool(bool),
@@ -101,7 +101,7 @@ mod plants_tests {
         example_plant_json3, BASE_DIR, PLANTS_DIR_IN, PLANTS_DIR_OUT,
     };
     use database::file_backend::load_json::load_dir;
-    use std::path::PathBuf;
+    use std::{collections::HashSet, path::PathBuf};
 
     fn example_info1() -> PlantInfo {
         PlantInfo {
@@ -142,12 +142,17 @@ mod plants_tests {
     #[test]
     fn load_old() {
         let plants_dir = PathBuf::from(BASE_DIR).join(PLANTS_DIR_IN);
-        let result = <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::load_old(&plants_dir).unwrap();
-        let expected = vec![
+        let result = HashSet::from_iter(
+            <Vec<PlantJSON> as Port<Vec<PlantInfo>>>::load_old(&plants_dir)
+                .unwrap()
+                .iter()
+                .cloned(),
+        );
+        let expected = HashSet::from([
             example_plant_json3(),
             example_plant_json2(),
             example_plant_json1(),
-        ];
+        ]);
         assert_eq!(result, expected)
     }
 
@@ -199,8 +204,8 @@ mod plants_tests {
         assert!(file2.exists());
         assert!(file3.exists());
 
-        let result: Vec<PlantInfo> = load_dir(&plant_dir).unwrap();
-        let expected = vec![example_info3(), example_info1(), example_info2()];
+        let result = HashSet::from_iter(load_dir(&plant_dir).unwrap().iter().cloned());
+        let expected = HashSet::from([example_info3(), example_info1(), example_info2()]);
         assert_eq!(result, expected);
 
         std::fs::remove_file(file1.clone()).unwrap();
