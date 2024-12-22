@@ -135,7 +135,8 @@ impl DatabaseManager for SQLiteDB {
         let num = num_str.parse::<i32>()?;
         Ok(num)
     }
-    fn write_plants(&mut self, plants: Vec<PlantInfo>) -> Result<(), Box<dyn StdErr>> {
+
+    fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn StdErr>> {
         let mut plant_query =
             "INSERT INTO plants (name,species,location,origin,obtained,auto_water,notes) VALUES "
                 .to_owned();
@@ -158,12 +159,17 @@ impl DatabaseManager for SQLiteDB {
             )
         };
         let mut plant_strs = vec![];
-        for plant in plants {
-            plant_strs.push(fmt_plant(plant));
-        }
+        plant_strs.push(fmt_plant(plant));
         plant_query += &plant_strs.join(", ");
         plant_query += ";";
         self.connection.execute(plant_query)?;
+        Ok(())
+    }
+
+    fn write_plants(&mut self, plants: Vec<PlantInfo>) -> Result<(), Box<dyn StdErr>> {
+        for plant in plants.into_iter() {
+            self.write_plant(plant)?;
+        }
         Ok(())
     }
 
