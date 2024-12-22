@@ -353,7 +353,6 @@ impl DatabaseManager for SQLiteDB {
         species_query += " = ";
         species_query += &fmt_species(&species, false);
         species_query += ";";
-        println!("{species_query}");
         self.connection.execute(species_query)?;
 
         Ok(())

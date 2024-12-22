@@ -83,15 +83,23 @@ impl SQLiteDB {
         &mut self,
         plant: GraveyardPlant,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let graveyard_query = format!(
-            "INSERT INTO graveyard (name,species,planted,died,reason) values ('{}','{}','{}','{}','{}')",
-            self.sanitize(&plant.name),
-            self.sanitize(&plant.species),
-            plant.planted.format(&self.date_format),
-            plant.died.format(&self.date_format),
-            self.sanitize(&plant.reason));
+        let fmt_plant = |plant: &GraveyardPlant| {
+            format!(
+                "('{}','{}','{}','{}','{}')",
+                self.sanitize(&plant.name),
+                self.sanitize(&plant.species),
+                plant.planted.format(&self.date_format),
+                plant.died.format(&self.date_format),
+                self.sanitize(&plant.reason)
+            )
+        };
+        let fields = "(name,species,planted,died,reason)";
+        let mut graveyard_query = "INSERT INTO graveyard ".to_owned();
+        graveyard_query += fields;
+        graveyard_query += " VALUES ";
+        graveyard_query += &fmt_plant(&plant);
+        graveyard_query += ";";
         self.connection.execute(graveyard_query)?;
-
         Ok(())
     }
 
