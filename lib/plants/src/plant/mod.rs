@@ -78,6 +78,10 @@ impl Plant {
         );
         let self_activities = self.get_activities(activity_name);
         let m_last_activity = self_activities.iter().max();
+        let last_growth = self.get_last_growth().map(|gr| gr.health).unwrap_or(1);
+        if last_growth == 0 {
+            return None;
+        }
         match (m_last_activity, &self.info.species) {
             (None, _) => Some(Local::now().date_naive()),
             (_, PlantSpecies::Other(_)) => None,
@@ -195,14 +199,20 @@ impl Plant {
         prefix + &self.get_name().replace(' ', "") + ".html"
     }
 
-    pub fn get_next_growth(&self) -> NaiveDate {
+    pub fn get_next_growth(&self) -> Option<NaiveDate> {
         log::info!("Getting next growth for {}", self.info.name);
         match self.get_last_growth() {
-            Err(_) => Local::now().date_naive(),
-            Ok(last_growth) => max(
-                last_growth.date + TimeDelta::days(14),
-                Local::now().date_naive(),
-            ),
+            Err(_) => Some(Local::now().date_naive()),
+            Ok(last_growth) => {
+                if last_growth.health == 0 {
+                    None
+                } else {
+                    Some(max(
+                        last_growth.date + TimeDelta::days(14),
+                        Local::now().date_naive(),
+                    ))
+                }
+            }
         }
     }
 
@@ -483,14 +493,14 @@ mod plant_tests {
 
     #[test]
     fn next_growth() {
-        let result = example_plant().get_next_growth();
+        let result = example_plant().get_next_growth().unwrap();
         let expected = Local::now().date_naive();
         assert_eq!(result, expected)
     }
 
     #[test]
     fn next_growth_now() {
-        let result = empty_plant().get_next_growth();
+        let result = empty_plant().get_next_growth().unwrap();
         let expected = Local::now().date_naive();
         assert_eq!(result, expected)
     }

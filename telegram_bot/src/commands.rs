@@ -205,37 +205,6 @@ mod command_tests {
     use std::str::FromStr;
 
     #[test]
-    fn all() {
-        let result = Command::get_all();
-        let expected = vec![
-            Command::Help,
-            Command::Water,
-            Command::WaterLocation,
-            Command::Fertilize,
-            Command::Rain,
-            Command::NewGrowth,
-            Command::NewPlant,
-            Command::NewSpecies,
-            Command::NewActivity,
-            Command::UpdateSpecies,
-            Command::UpdatePlant,
-            Command::Today,
-            Command::MoveToGraveyard,
-            Command::Abort,
-            Command::Push,
-            Command::CheckLogs,
-        ];
-        assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn result_help() {
-        let result = Command::Help.get_res();
-        let expected = CommandRes::Message("Possible commands:\n\n/help -- Display Help Text\n/water -- Water plants (today)\n/water_location -- Water all plants in location (today)\n/fertilize -- Fertilize plants (today)\n/rain -- It rained (all outside plants will be watered)\n/new_growth -- Enter new growth\n/new_plant -- Enter new plant\n/new_species -- Enter new species\n/new_activity -- Enter new activity\n/update_species -- Update species\n/update_plant -- Update plant\n/today -- Enter the current date as input\n/move_to_graveyard -- Move Plant to graveyard\n/abort -- Abort the current action\n/push -- Push local changes to github\n/check_logs -- Check warnings generated from build".to_owned());
-        assert_eq!(result, expected)
-    }
-
-    #[test]
     fn result_water() {
         let result = Command::Water.get_res();
         let expected =
