@@ -26,11 +26,12 @@ table Plants
 */
 impl SQLiteDB {
     pub fn new(path: PathBuf) -> Result<SQLiteDB, Error> {
-        let con = sqlite::open(path)?;
-        Ok(SQLiteDB {
-            db_path: path,
-            connection: con,
-        })
+        panic!("not implemented")
+        //let con = sqlite::open(path)?;
+        //Ok(SQLiteDB {
+        //    db_path: path,
+       //     connection: con,
+       // })
     }
 }
 
