@@ -20,7 +20,7 @@ impl TryFrom<HashMap<String, String>> for Location {
         };
         Ok(Location {
             name: lookup_fun("name")?,
-            outside: lookup_fun("outside")? == "1",
+            outside: lookup_fun("outside")? == "true",
         })
     }
 }

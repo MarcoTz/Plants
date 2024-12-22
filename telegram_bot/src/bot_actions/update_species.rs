@@ -80,6 +80,7 @@ impl Action for UpdateSpecies {
             .species_name
             .clone()
             .ok_or(Error::MissingInput("Species Name".to_owned()))?;
+        println!("getting species {species_name}");
         let mut species = db_man.get_species(&species_name)?;
         let update_field = self
             .update_field

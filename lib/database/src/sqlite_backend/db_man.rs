@@ -52,8 +52,9 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn get_plants_by_location(&mut self, location: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
+        println!("loading location {location}");
         let location_query =
-            format!("SELECT UNIQUE name FROM plants WHERE location LIKE '%{location}%'");
+            format!("SELECT DISTINCT name FROM plants WHERE location LIKE '%{location}%';");
         let name_maps = self.read_rows(&location_query, vec!["name"])?;
         let names = name_maps
             .into_iter()
@@ -67,12 +68,13 @@ impl DatabaseManager for SQLiteDB {
         let mut plants = vec![];
         for name in names {
             plants.push(self.get_plant(&name)?);
+            println!("Got plant {name}");
         }
         Ok(plants)
     }
 
     fn get_plant(&mut self, plant_name: &str) -> Result<Plant, Box<dyn StdErr>> {
-        let info_query = format!("SELECT * FROM plants WHERE name={plant_name}");
+        let info_query = format!("SELECT * FROM plants WHERE name='{plant_name}'");
         let info_maps = self.read_rows(
             &info_query,
             vec![
@@ -217,7 +219,7 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn get_species(&mut self, species_name: &str) -> Result<Species, Box<dyn StdErr>> {
-        let species_query = format!("SELECT * FROM species WHERE name={species_name};");
+        let species_query = format!("SELECT * FROM species WHERE name='{species_name}';");
         let species_map = self.read_rows(
             &species_query,
             vec![
@@ -468,6 +470,7 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn StdErr>> {
+        println!("writing log {log:?})");
         let fmt_log = |log: &LogItem| {
             let note_str = match &log.note {
                 Some(note) => format!("'{}'", &note),
@@ -477,7 +480,7 @@ impl DatabaseManager for SQLiteDB {
             format!(
                 "('{}','{}','{}',{})",
                 self.sanitize(&log.activity),
-                self.sanitize(&log.date.format(&self.date_format)),
+                &log.date.format(&self.date_format),
                 self.sanitize(&log.plant),
                 self.sanitize(&note_str),
             )
@@ -576,8 +579,7 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn species_exists(&mut self, species_name: &str) -> Result<bool, Box<dyn StdErr>> {
-        let query =
-            format!("SELECT COUNT(*) AS num FROM species WHERE name LIKE '%{species_name}%'");
+        let query = format!("SELECT COUNT(*) AS num FROM species WHERE name='{species_name}'");
         let species_maps = self.read_rows(&query, vec!["num"])?;
         let species_map = species_maps.first().ok_or(Error::MissingValue {
             key: "num".to_owned(),

@@ -67,6 +67,7 @@ impl Action for UpdatePlant {
                     .update_field
                     .as_ref()
                     .ok_or(Error::MissingInput("Update Field".to_owned()))?;
+                println!("parsing value {input}");
                 let value = str_to_value(input, field, db_man, &self.date_format)?;
                 self.update_value = Some(value);
                 self.current_step = Step::Done;

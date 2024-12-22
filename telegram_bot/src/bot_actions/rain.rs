@@ -16,6 +16,7 @@ impl Action for Rain {
     }
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         let locations = db_man.get_locations()?;
+        println!("Got locations {locations:?}");
         let outside_locations: Vec<Location> =
             locations.into_iter().filter(|loc| loc.outside).collect();
         let mut outside_plants = vec![];

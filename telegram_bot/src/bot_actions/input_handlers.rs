@@ -2,7 +2,7 @@ use crate::errors::Error;
 use chrono::NaiveDate;
 use database::database_manager::DatabaseManager;
 use plants::{
-    plant::PlantSpecies,
+    plant::{PlantLocation, PlantSpecies},
     plant_update::{UpdateField, UpdateValue},
 };
 
@@ -75,6 +75,15 @@ pub fn str_to_value<T: DatabaseManager>(
         match species {
             Ok(sp) => Ok(UpdateValue::Species(PlantSpecies::Species(Box::new(sp)))),
             Err(_) => Ok(UpdateValue::Species(PlantSpecies::Other(input))),
+        }
+    } else if UpdateField::get_location_fields().contains(field) {
+        match db_man.get_location(input.trim()) {
+            Ok(loc) => Ok(UpdateValue::Location(PlantLocation::Location(Box::new(
+                loc,
+            )))),
+            Err(_) => Ok(UpdateValue::Location(PlantLocation::Other(
+                input.trim().to_owned(),
+            ))),
         }
     } else if UpdateField::get_date_fields().contains(field) {
         let date = NaiveDate::parse_from_str(&input, date_format).map_err(|_| ty_err)?;
