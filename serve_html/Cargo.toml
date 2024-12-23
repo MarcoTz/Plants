@@ -1,0 +1,19 @@
+[package]
+name = "serve_html"
+version = "0.0.1"
+edition = "2021"
+
+[[bin]]
+name="serve_html"
+path="src/main.rs"
+
+[dependencies]
+plants = { path = "../lib/plants" }
+database = { path = "../lib/database" }
+html = {path="../lib/html"}
+pages = {path="../lib/pages"}
+render_html = {path="../lib/render_html"}
+logger = {path="../lib/logger"}
+log = "0.4.22"
+chrono = "0.4.38"
+rouille = "3.6.2"

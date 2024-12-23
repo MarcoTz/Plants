@@ -61,7 +61,6 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn get_plants_by_location(&mut self, location: &str) -> Result<Vec<Plant>, Box<dyn StdErr>> {
-        println!("loading location {location}");
         let location_query =
             format!("SELECT DISTINCT name FROM plants WHERE location LIKE '%{location}%';");
         let name_maps = self.read_rows(&location_query, vec!["name"])?;
@@ -77,7 +76,6 @@ impl DatabaseManager for SQLiteDB {
         let mut plants = vec![];
         for name in names {
             plants.push(self.get_plant(&name)?);
-            println!("Got plant {name}");
         }
         Ok(plants)
     }
@@ -153,6 +151,20 @@ impl DatabaseManager for SQLiteDB {
         })?;
         let num = num_str.parse::<i32>()?;
         Ok(num)
+    }
+
+    fn find_plant_name(&mut self, plant_name: String) -> Result<String, Box<dyn StdErr>> {
+        let names_query = "SELECT name FROM plants";
+        let rows = self.read_rows(names_query, vec!["name"])?;
+        for row in rows.into_iter() {
+            let name = row.get("name").ok_or(Box::new(Error::MissingValue {
+                key: "name".to_owned(),
+            }))?;
+            if name.replace(" ", "") == plant_name {
+                return Ok(name.clone());
+            }
+        }
+        Err(Box::new(Error::PlantNotFound { name: plant_name }))
     }
 
     fn write_plant(&mut self, plant: PlantInfo) -> Result<(), Box<dyn StdErr>> {
@@ -377,6 +389,20 @@ impl DatabaseManager for SQLiteDB {
         Ok(())
     }
 
+    fn find_species_name(&mut self, species_name: String) -> Result<String, Box<dyn StdErr>> {
+        let names_query = "SELECT name FROM species";
+        let rows = self.read_rows(names_query, vec!["name"])?;
+        for row in rows.into_iter() {
+            let name = row.get("name").ok_or(Box::new(Error::MissingValue {
+                key: "name".to_owned(),
+            }))?;
+            if name.replace(" ", "") == species_name {
+                return Ok(name.clone());
+            }
+        }
+        Err(Box::new(Error::PlantNotFound { name: species_name }))
+    }
+
     // Graveyard Methods
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn StdErr>> {
         let query = "SELECT * FROM graveyard";
@@ -487,7 +513,6 @@ impl DatabaseManager for SQLiteDB {
     }
 
     fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn StdErr>> {
-        println!("writing log {log:?})");
         let fmt_log = |log: &LogItem| {
             let note_str = match &log.note {
                 Some(note) => format!("'{}'", &note),
