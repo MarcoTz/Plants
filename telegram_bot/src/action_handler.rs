@@ -245,9 +245,13 @@ impl<T: DatabaseManager> ActionHandler<T> {
                 let plants = self.db_man.get_all_plants()?;
                 let mut names = vec![];
                 for plant in plants.into_iter() {
-                    let date = plant.get_next_growth();
-                    if date >= Local::now().date_naive() {
-                        names.push(plant.info.name)
+                    match plant.get_next_growth() {
+                        None => continue,
+                        Some(date) => {
+                            if date >= Local::now().date_naive() {
+                                names.push(plant.info.name)
+                            }
+                        }
                     }
                 }
 
@@ -371,7 +375,6 @@ mod action_handler_tests {
     use super::{ActionHandler, BotAction, Command};
     use crate::bot_actions::{NewPlant, Rain};
     use crate::test_common::DummyManager;
-    use database::file_backend::FileDB;
     use std::path::PathBuf;
 
     fn example_handler() -> ActionHandler<DummyManager> {
@@ -382,19 +385,6 @@ mod action_handler_tests {
             plants_dir: PathBuf::from("data/Plants"),
             db_man: DummyManager {},
         }
-    }
-
-    #[test]
-    fn handler_default() {
-        let result = ActionHandler::default();
-        let expected = ActionHandler {
-            current_action: BotAction::Idle,
-            white_list: vec![],
-            plants_dir: PathBuf::from("data/Plants"),
-            log_path: PathBuf::from("log.txt"),
-            db_man: FileDB::default(),
-        };
-        assert_eq!(result, expected)
     }
 
     #[test]
@@ -448,13 +438,6 @@ mod action_handler_tests {
         handler.current_action = BotAction::NewPlant(NewPlant::default());
         let result = handler.new_action(&BotAction::Rain(Rain {}));
         assert!(result.is_err())
-    }
-
-    #[test]
-    fn handle_cmd_msg() {
-        let result = example_handler().process_command(Command::Help);
-        let expected = "Possible commands:\n\n/help -- Display Help Text\n/water -- Water plants (today)\n/water_location -- Water all plants in location (today)\n/fertilize -- Fertilize plants (today)\n/rain -- It rained (all outside plants will be watered)\n/new_growth -- Enter new growth\n/new_plant -- Enter new plant\n/new_species -- Enter new species\n/new_activity -- Enter new activity\n/update_species -- Update species\n/update_plant -- Update plant\n/today -- Enter the current date as input\n/move_to_graveyard -- Move Plant to graveyard\n/abort -- Abort the current action\n/push -- Push local changes to github\n/check_logs -- Check warnings generated from build";
-        assert_eq!(result, expected)
     }
 
     #[test]

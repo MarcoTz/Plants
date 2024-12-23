@@ -179,7 +179,7 @@ impl From<&[Plant]> for UpcomingTasks {
             plant: &'a Plant,
             watering: Option<NaiveDate>,
             fertilizing: Option<NaiveDate>,
-            growth: NaiveDate,
+            growth: Option<NaiveDate>,
             outside: bool,
         }
 
@@ -199,8 +199,8 @@ impl From<&[Plant]> for UpcomingTasks {
             .map(|pl| {
                 pl.watering
                     .max(pl.fertilizing)
-                    .max(Some(pl.growth))
-                    .unwrap()
+                    .max(pl.growth)
+                    .unwrap_or_default()
             })
             .max()
             .unwrap_or(Local::now().date_naive());
@@ -217,7 +217,7 @@ impl From<&[Plant]> for UpcomingTasks {
                 .filter(|pl| {
                     pl.watering == Some(next_date)
                         || pl.fertilizing == Some(next_date)
-                        || pl.growth == next_date
+                        || pl.growth == Some(next_date)
                 })
                 .collect();
             if next_plants.is_empty() {
@@ -240,7 +240,7 @@ impl From<&[Plant]> for UpcomingTasks {
                 plant: PlantLink::from((pl.plant, "plants")),
                 watering: pl.watering == Some(next_date),
                 fertilizing: pl.fertilizing == Some(next_date),
-                growth: pl.growth == next_date,
+                growth: pl.growth == Some(next_date),
             };
 
             let mut next_items_inside: Vec<TaskItem> =
