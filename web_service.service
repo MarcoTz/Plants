@@ -1,0 +1,11 @@
+[Unit]
+Description=Plant Updater HTTP Server
+
+[Service]
+ExecStart=/home/rooxo/Plants/target/release/serve_html
+WorkingDirectory=/home/rooxo/Plants
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=default.target
