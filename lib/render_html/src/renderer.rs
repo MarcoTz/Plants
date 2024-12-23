@@ -32,10 +32,16 @@ pub struct Renderer<T: DatabaseManager> {
 }
 
 impl<T: DatabaseManager> Renderer<T> {
+    pub fn new(database_manager: T, date_format: &str) -> Renderer<T> {
+        Renderer {
+            database_manager,
+            date_format: date_format.to_owned(),
+        }
+    }
+
     pub fn render_index(&mut self) -> Result<String, Error> {
         log::info!("Building index");
         let plants = self.database_manager.get_all_plants()?;
-        println!("got palnts");
 
         let index = Index::try_from(plants.as_slice())?;
         Ok(index
@@ -90,6 +96,21 @@ impl<T: DatabaseManager> Renderer<T> {
             .render())
     }
 
+    pub fn render_plant_details(&mut self, plant: String) -> Result<NamedPage, Error> {
+        log::info!("Rendering Details Page for plant {}", plant);
+        let plant = self.database_manager.get_plant(&plant)?;
+        let num_plants = self.database_manager.get_num_plants()?;
+        let plant_details = PlantDetails::try_from(&plant)?;
+        let page_html = plant_details
+            .render(&self.date_format, true, num_plants)
+            .render();
+        let page_name = plant.get_url("");
+        Ok(NamedPage {
+            page_name,
+            page_html,
+        })
+    }
+
     pub fn render_all_plants(&mut self) -> Result<Vec<NamedPage>, Error> {
         log::info!("Rendering Plant Details");
         let plants = self.database_manager.get_all_plants()?;
@@ -108,6 +129,20 @@ impl<T: DatabaseManager> Renderer<T> {
             })
         }
         Ok(plant_htmls)
+    }
+
+    pub fn render_species_details(&mut self, species: String) -> Result<NamedPage, Error> {
+        log::info!("Rendering Details Page for spieces {}", species);
+        let species = self.database_manager.get_species(&species)?;
+        let all_plants = self.database_manager.get_all_plants()?;
+        let species_details = SpeciesDetails::from((&species, all_plants.as_slice()));
+        let species_html = species_details
+            .render(&self.date_format, true, all_plants.len() as i32)
+            .render();
+        Ok(NamedPage {
+            page_name: species.get_url(""),
+            page_html: species_html,
+        })
     }
 
     pub fn render_all_species(&mut self) -> Result<Vec<NamedPage>, Error> {

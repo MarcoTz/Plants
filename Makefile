@@ -10,6 +10,9 @@ website:
 	cp data/Plants/ html_out/img -r 
 	cp ./js html_out/js -r 
 
+serve:
+	cargo run -p serve_html --bin serve_html
+
 bot:
 	cargo run --bin plant_updater_bot
 

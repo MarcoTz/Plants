@@ -19,11 +19,13 @@ pub trait DatabaseManager {
         self.write_plants(vec![plant])
     }
     fn write_plants(&mut self, plants: Vec<PlantInfo>) -> Result<(), Box<dyn Error>>;
+    fn find_plant_name(&mut self, plant_name: String) -> Result<String, Box<dyn Error>>;
 
     // Species Methods
     fn get_all_species(&mut self) -> Result<Vec<Species>, Box<dyn Error>>;
     fn get_species(&mut self, species_name: &str) -> Result<Species, Box<dyn Error>>;
     fn write_species(&mut self, species: Species) -> Result<(), Box<dyn Error>>;
+    fn find_species_name(&mut self, plant_name: String) -> Result<String, Box<dyn Error>>;
 
     // Graveyard Methods
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn Error>>;

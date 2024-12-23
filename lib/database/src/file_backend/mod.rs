@@ -163,6 +163,25 @@ impl DatabaseManager for FileDB {
             .ok_or(Error::PlantNotFound(plant_name.to_owned()).into())
     }
 
+    fn find_plant_name(
+        &mut self,
+        plant_name: String,
+    ) -> Result<String, Box<dyn std::error::Error>> {
+        let plant_dir_contents = std::fs::read_dir(self.plants_dir.clone())?;
+        for entry in plant_dir_contents {
+            let entry = entry?;
+            let path = entry.path();
+            let file_name = path.to_str().ok_or(Box::new(Error::IOErr(errors::IOErr {
+                kind: "path name".to_owned(),
+            })))?;
+            let name = file_name.replace(".json", "").replace(" ", "");
+            if name == plant_name {
+                return Ok(name);
+            }
+        }
+        Err(Box::new(Error::PlantNotFound(plant_name)))
+    }
+
     fn get_all_species(&mut self) -> Result<Vec<Species>, Box<dyn std::error::Error>> {
         if self.species_cache.is_empty() {
             self.load_species()?;
@@ -182,6 +201,25 @@ impl DatabaseManager for FileDB {
             .first()
             .cloned()
             .ok_or(Error::SpeciesNotFound(species_name.to_owned()).into())
+    }
+
+    fn find_species_name(
+        &mut self,
+        species_name: String,
+    ) -> Result<String, Box<dyn std::error::Error>> {
+        let species_dir_contents = std::fs::read_dir(self.species_dir.clone())?;
+        for entry in species_dir_contents {
+            let entry = entry?;
+            let path = entry.path();
+            let file_name = path.to_str().ok_or(Box::new(Error::IOErr(errors::IOErr {
+                kind: "path name".to_owned(),
+            })))?;
+            let name = file_name.replace(".json", "").replace(" ", "");
+            if name == species_name {
+                return Ok(name);
+            }
+        }
+        Err(Box::new(Error::SpeciesNotFound(species_name)))
     }
 
     fn get_graveyard(&mut self) -> Result<Vec<GraveyardPlant>, Box<dyn std::error::Error>> {
