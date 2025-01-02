@@ -9,7 +9,7 @@ use chrono::Local;
 use database::{database_manager::DatabaseManager, file_backend::FileDB};
 use std::{
     collections::HashSet,
-    fs::File,
+    fs::{create_dir_all, File},
     io::{Read, Write},
     path::PathBuf,
     process, str,
@@ -73,7 +73,9 @@ impl<T: DatabaseManager> ActionHandler<T> {
             .ok_or(Error::MissingInput("Plant Name".to_owned()))?;
         let img_name = Local::now().date_naive().format("%d%m%Y.jpg").to_string();
         let plant_path = self.plants_dir.join(plant_name.replace(' ', ""));
-        println!("{plant_path:?}");
+        if !plant_path.exists() {
+            create_dir_all(plant_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;
+        }
         let out_path = plant_path.join(img_name);
         let mut out_file =
             File::create(out_path.clone()).map_err(|err| Error::Other(Box::new(err)))?;

@@ -110,6 +110,9 @@ pub fn load_plants(
 
 pub fn load_images(image_dir: &PathBuf) -> Result<Vec<PlantImage>, Error> {
     let mut plant_images = vec![];
+    if !image_dir.exists() {
+        fs::create_dir_all(image_dir)?;
+    }
     let dir_files = fs::read_dir(image_dir)?;
     for dir_file in dir_files {
         let dir_file = dir_file?;

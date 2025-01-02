@@ -67,7 +67,6 @@ impl Action for UpdatePlant {
                     .update_field
                     .as_ref()
                     .ok_or(Error::MissingInput("Update Field".to_owned()))?;
-                println!("parsing value {input}");
                 let value = str_to_value(input, field, db_man, &self.date_format)?;
                 self.update_value = Some(value);
                 self.current_step = Step::Done;
@@ -86,7 +85,9 @@ impl Action for UpdatePlant {
             .plant_name
             .clone()
             .ok_or(Error::MissingInput("Species Name".to_owned()))?;
+        println!("Getting plant {plant_name}");
         let mut plant = db_man.get_plant(&plant_name)?;
+        println!("Successfully got plant");
         let update_field = self
             .update_field
             .clone()
@@ -95,6 +96,7 @@ impl Action for UpdatePlant {
             .update_value
             .clone()
             .ok_or(Error::MissingInput("Update Value".to_owned()))?;
+        println!("updating plant");
         update_plant(&mut plant, update_field, update_value)?;
         db_man.write_plant(plant.info)?;
         let ret_msg = format!("Successfully updated plant {plant_name}");
