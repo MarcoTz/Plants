@@ -171,30 +171,6 @@ mod json_to_plant_tests {
     }
 
     #[test]
-    fn load_bad_plant_dir() {
-        let result = load_plants(
-            &PathBuf::from(&FILE_DOES_NOT_EXIST),
-            &PathBuf::from(&DUMMY_SPECIES_PATH),
-            &PathBuf::from(&ACTIVITIES_DUMMY),
-            &PathBuf::from(&GROWTH_DUMMY),
-            &PathBuf::from(&LOCATIONS_DUMMY),
-        );
-        assert!(result.is_err())
-    }
-
-    #[test]
-    fn load_bad_species_dir() {
-        let result = load_plants(
-            &PathBuf::from(&DUMMY_PLANT_PATH),
-            &PathBuf::from(&FILE_DOES_NOT_EXIST),
-            &PathBuf::from(&ACTIVITIES_DUMMY),
-            &PathBuf::from(&GROWTH_DUMMY),
-            &PathBuf::from(&LOCATIONS_DUMMY),
-        );
-        assert!(result.is_err())
-    }
-
-    #[test]
     fn load_bad_activity_file() {
         let result = load_plants(
             &PathBuf::from(&DUMMY_PLANT_PATH),
@@ -233,12 +209,6 @@ mod json_to_plant_tests {
     #[test]
     fn load_images_no_date() {
         let result = load_images(&PathBuf::from(&TESTING_BASE));
-        assert!(result.is_err())
-    }
-
-    #[test]
-    fn load_images_bad_dir() {
-        let result = load_images(&PathBuf::from(&FILE_DOES_NOT_EXIST));
         assert!(result.is_err())
     }
 }

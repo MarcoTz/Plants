@@ -170,6 +170,14 @@ pub mod test_common {
     impl Error for DummyError {}
 
     impl DatabaseManager for DummyManager {
+        fn find_plant_name(&mut self, _: String) -> Result<String, Box<dyn Error>> {
+            panic!("not implemented")
+        }
+
+        fn find_species_name(&mut self, _: String) -> Result<String, Box<dyn Error>> {
+            panic!("not implemented")
+        }
+
         fn get_all_plants(&mut self) -> Result<Vec<Plant>, Box<dyn Error>> {
             Ok(vec![example_plant(), example_plant2()])
         }

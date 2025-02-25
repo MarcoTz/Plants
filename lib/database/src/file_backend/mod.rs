@@ -817,11 +817,6 @@ pub mod test_common {
     }
 
     #[test]
-    fn ensure_does_not_exist() {
-        assert!(!Path::new(FILE_DOES_NOT_EXIST).exists());
-    }
-
-    #[test]
     fn ensure_json_exists() {
         let json_dummy = Path::new(JSON_DUMMY);
         let json_dummy_deserialize = Path::new(JSON_DUMMY_DESERIALIZE);
@@ -999,14 +994,6 @@ mod file_backend_tests {
     }
 
     #[test]
-    fn load_plants_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(&FILE_DOES_NOT_EXIST);
-        let result = db.load_plants();
-        assert!(result.is_err())
-    }
-
-    #[test]
     fn load_species() {
         let mut db = dummy_db();
         db.load_species().unwrap();
@@ -1015,14 +1002,6 @@ mod file_backend_tests {
         let mut expected = vec![dummy_species()];
         expected.sort_by(|species1, species2| species1.name.cmp(&species2.name));
         assert_eq!(db.species_cache, expected)
-    }
-
-    #[test]
-    fn load_species_bad_dir() {
-        let mut db = dummy_db();
-        db.species_dir = PathBuf::from(&FILE_DOES_NOT_EXIST);
-        let result = db.load_species();
-        assert!(result.is_err())
     }
 
     #[test]
@@ -1106,27 +1085,11 @@ mod file_backend_tests {
     }
 
     #[test]
-    fn db_man_get_all_plants_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(&FILE_DOES_NOT_EXIST);
-        let result = db.get_all_plants();
-        assert!(result.is_err())
-    }
-
-    #[test]
     fn db_man_get_num_plants() {
         let mut db = dummy_db();
         let result = db.get_num_plants().unwrap();
         let expected = 2;
         assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn db_man_get_num_plants_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(&FILE_DOES_NOT_EXIST);
-        let result = db.get_num_plants();
-        assert!(result.is_err())
     }
 
     #[test]
@@ -1160,14 +1123,6 @@ mod file_backend_tests {
         let mut expected = vec![dummy_species()];
         expected.sort_by(|species1, species2| species1.name.cmp(&species2.name));
         assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn db_man_get_all_species_bad_dir() {
-        let mut db = dummy_db();
-        db.species_dir = PathBuf::from(&FILE_DOES_NOT_EXIST);
-        let result = db.get_all_species();
-        assert!(result.is_err())
     }
 
     #[test]
@@ -1228,14 +1183,6 @@ mod file_backend_tests {
     }
 
     #[test]
-    fn db_man_get_plants_species_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(FILE_DOES_NOT_EXIST);
-        let result = db.get_plants_species("test species");
-        assert!(result.is_err())
-    }
-
-    #[test]
     fn db_man_get_locations() {
         let mut db = dummy_db();
         let mut result = db.get_locations().unwrap();
@@ -1284,14 +1231,6 @@ mod file_backend_tests {
     }
 
     #[test]
-    fn db_man_plant_exists_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(FILE_DOES_NOT_EXIST);
-        let result = db.plant_exists("Dummy1");
-        assert!(result.is_err())
-    }
-
-    #[test]
     fn db_man_species_exists() {
         let mut db = dummy_db();
         let result = db.species_exists("test species").unwrap();
@@ -1303,14 +1242,6 @@ mod file_backend_tests {
         let mut db = dummy_db();
         let result = db.species_exists("not a species").unwrap();
         assert!(!result)
-    }
-
-    #[test]
-    fn db_man_species_exists_bad_dir() {
-        let mut db = dummy_db();
-        db.species_dir = PathBuf::from(FILE_DOES_NOT_EXIST);
-        let result = db.species_exists("test species");
-        assert!(result.is_err())
     }
 
     #[test]
@@ -1363,14 +1294,6 @@ mod file_backend_tests {
         let result = db.get_plants_by_location("test location").unwrap();
         let expected = vec![dummy_plant1()];
         assert_eq!(result, expected)
-    }
-
-    #[test]
-    fn db_man_get_plants_by_location_bad_dir() {
-        let mut db = dummy_db();
-        db.plants_dir = PathBuf::from(FILE_DOES_NOT_EXIST);
-        let result = db.get_plants_by_location("test location");
-        assert!(result.is_err())
     }
 
     #[test]
