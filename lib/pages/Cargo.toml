@@ -4,7 +4,7 @@ version="0.0.1"
 edition="2021"
 
 [dependencies]
-html = {path="../html"}
 plants = {path="../plants"}
 log = "0.4.22"
 chrono = "0.4.38"
+html = { git = "https://github.com/MarcoTz/rust-html.git" }

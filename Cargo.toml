@@ -2,7 +2,6 @@
 members = [
   "lib/plants",
   "lib/database",
-  "lib/html",
   "lib/pages",
   "lib/render_html",
   "lib/logger",

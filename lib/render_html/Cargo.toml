@@ -7,6 +7,6 @@ edition="2021"
 plants = { path="../plants" }
 database = {path="../database" }
 pages = { path="../pages" } 
-html = { path="../html"} 
 chrono = "0.4.38"
 log = "0.4.22"
+html = { git = "https://github.com/MarcoTz/rust-html.git" } 
