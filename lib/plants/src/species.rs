@@ -122,6 +122,7 @@ impl TryFrom<HashMap<String, String>> for Species {
 
         let dist = map
             .get("planting_distance")
+            .filter(|d| !d.is_empty())
             .map(|d| d.parse::<f32>())
             .transpose()?;
         let watering_notes = map
