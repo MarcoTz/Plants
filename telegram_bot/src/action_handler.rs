@@ -210,28 +210,31 @@ impl<T: DatabaseManager> ActionHandler<T> {
             }
             ImmediateAction::GetWaterToday => {
                 let plants = self.db_man.get_all_plants()?;
+                let today = Local::now().date_naive();
                 let mut names = vec![];
                 for plant in plants.into_iter() {
                     match plant.get_next_watering() {
                         None => continue,
                         Some(date) => {
-                            if date >= Local::now().date_naive() {
+                            if date <= today {
                                 names.push(plant.info.name)
                             }
                         }
                     }
                 }
+                names.sort();
 
                 Ok(format!("Plants to water today: \n{}", names.join("\n ")))
             }
             ImmediateAction::GetFertilizeToday => {
                 let plants = self.db_man.get_all_plants()?;
                 let mut names = vec![];
+                let today = Local::now().date_naive();
                 for plant in plants.into_iter() {
                     match plant.get_next_fertilizing() {
                         None => continue,
                         Some(date) => {
-                            if date >= Local::now().date_naive() {
+                            if date <= today {
                                 names.push(plant.info.name)
                             }
                         }
