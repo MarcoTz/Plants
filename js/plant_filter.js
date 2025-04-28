@@ -21,7 +21,7 @@ function filter_plants() {
     new_visibility = 'block';
 
     if(!(plant_info['name'].includes(plant_name_filter)))new_visibility = 'none';
-    if(plant_info['species'] != undefined && !(plant_info['species'].includes(species_name_filter))) new_visibility = 'none';
+    if(plant_info['species'] == undefined || !(plant_info['species'].includes(species_name_filter))) new_visibility = 'none';
     if(!plant_info['location'].includes(loc)) new_visibility = 'none';
     if(max_temp != '') {
       max_temp = Number(max_temp)
