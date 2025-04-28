@@ -78,14 +78,23 @@ impl CssComponent for PlantDetails {
 
         let plant_graph = CssBlock {
             selector: TopSelector::Class("plant_graph".to_owned()).into(),
-            decls: vec![(Size::Width.into(), (45.0, Unit::Percent).into()).into()],
+            decls: vec![
+                (Size::Width.into(), (40.0, Unit::Percent).into()).into(),
+                (
+                    Padding {
+                        dir: Direction::All,
+                    }
+                    .into(),
+                    (1.0, Unit::Em).into(),
+                )
+                    .into(),
+            ],
         };
 
         let activities_container = CssBlock {
             selector: TopSelector::Id("plant_activities_container".to_owned()).into(),
             decls: vec![
                 (Size::Width.into(), (95.0, Unit::Percent).into()).into(),
-                (Flex::FlexWrap.into(), Keyword::NoWrap.into()).into(),
                 (
                     Margin {
                         dir: Direction::All,
