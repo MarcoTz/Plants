@@ -32,7 +32,7 @@ impl CssComponent for Gallery {
             selector: TopSelector::Class("images_plant_container".to_owned()).into(),
             decls: vec![
                 (Size::Width.into(), (19.0, Unit::Percent).into()).into(),
-                (Flex::FlexDirection.into(), Keyword::Column.into()).into(),
+                //(Flex::FlexDirection.into(), Keyword::Column.into()).into(),
                 (
                     Padding {
                         dir: Direction::All,

@@ -135,14 +135,9 @@ impl From<(&Plant, &str)> for PlantGallery {
         };
         let mut images_sorted = plant.images.clone();
         images_sorted.sort_by(|img1, img2| img2.created.cmp(&img1.created));
-        let plant_base = if img_base.starts_with("..") {
-            "../plants"
-        } else {
-            "plants"
-        };
         PlantGallery {
             plant_name: plant.info.name.clone(),
-            plant_url: plant.get_url(plant_base),
+            plant_url: plant.get_url(img_base),
             plant_images: images_sorted
                 .iter()
                 .enumerate()

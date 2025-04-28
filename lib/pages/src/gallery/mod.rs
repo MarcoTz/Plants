@@ -58,7 +58,7 @@ impl Page for Gallery {
 impl From<&[Plant]> for Gallery {
     fn from(plants: &[Plant]) -> Gallery {
         log::info!("Getting Plant Galleries");
-        let img_base = "img/plants";
+        let img_base = "img/";
         let plant_galleries = plants.iter().map(|x| (x, img_base).into()).collect();
         Gallery { plant_galleries }
     }
