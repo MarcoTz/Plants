@@ -23,7 +23,6 @@ pub struct TaskItem {
     plant: PlantLink,
     watering: bool,
     fertilizing: bool,
-    growth: bool,
 }
 
 impl PageComponent for TaskItem {
@@ -46,9 +45,6 @@ impl PageComponent for TaskItem {
                 },
                 Td {
                     content: Rc::new(get_sym(self.fertilizing).into()),
-                },
-                Td {
-                    content: Rc::new(get_sym(self.growth).into()),
                 },
             ],
         }
@@ -78,9 +74,6 @@ impl PageComponent for TaskBlock {
                 },
                 Td {
                     content: Rc::new("💩".to_owned().into()),
-                },
-                Td {
-                    content: Rc::new("📏".to_owned().into()),
                 },
             ],
         };
@@ -179,7 +172,6 @@ impl From<&[Plant]> for UpcomingTasks {
             plant: &'a Plant,
             watering: Option<NaiveDate>,
             fertilizing: Option<NaiveDate>,
-            growth: Option<NaiveDate>,
             outside: bool,
         }
 
@@ -189,19 +181,13 @@ impl From<&[Plant]> for UpcomingTasks {
                 plant,
                 watering: plant.get_next_watering(),
                 fertilizing: plant.get_next_fertilizing(),
-                growth: plant.get_next_growth(),
                 outside: plant.is_outside(),
             })
             .collect();
 
         let max_date = plants_with_dates
             .iter()
-            .map(|pl| {
-                pl.watering
-                    .max(pl.fertilizing)
-                    .max(pl.growth)
-                    .unwrap_or_default()
-            })
+            .map(|pl| pl.watering.max(pl.fertilizing).unwrap_or_default())
             .max()
             .unwrap_or(Local::now().date_naive());
 
@@ -214,11 +200,7 @@ impl From<&[Plant]> for UpcomingTasks {
 
             let next_plants: Vec<&PlantWDates> = plants_with_dates
                 .iter()
-                .filter(|pl| {
-                    pl.watering == Some(next_date)
-                        || pl.fertilizing == Some(next_date)
-                        || pl.growth == Some(next_date)
-                })
+                .filter(|pl| pl.watering == Some(next_date) || pl.fertilizing == Some(next_date))
                 .collect();
             if next_plants.is_empty() {
                 last_date = next_date;
@@ -240,7 +222,6 @@ impl From<&[Plant]> for UpcomingTasks {
                 plant: PlantLink::from((pl.plant, "plants")),
                 watering: pl.watering == Some(next_date),
                 fertilizing: pl.fertilizing == Some(next_date),
-                growth: pl.growth == Some(next_date),
             };
 
             let mut next_items_inside: Vec<TaskItem> =
@@ -249,9 +230,7 @@ impl From<&[Plant]> for UpcomingTasks {
                 plants_outside.into_iter().map(to_item).collect();
 
             let sort_key = |pl: &TaskItem| {
-                (if pl.watering { 4 } else { 0 })
-                    + (if pl.fertilizing { 3 } else { 0 })
-                    + (if pl.growth { 2 } else { 0 })
+                (if pl.watering { 4 } else { 0 }) + (if pl.fertilizing { 3 } else { 0 })
             };
             let cmp = |pl1: &TaskItem, pl2: &TaskItem| sort_key(pl2).cmp(&sort_key(pl1));
 

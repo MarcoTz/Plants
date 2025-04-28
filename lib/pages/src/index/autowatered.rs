@@ -15,6 +15,13 @@ pub struct AutoWatered {
 
 impl PageComponent for AutoWatered {
     fn render(&self, date_format: &str) -> HtmlElement {
+        if self.auto_watered_plants.is_empty() {
+            return Div {
+                attributes: vec![],
+                content: Rc::new("".to_owned().into()),
+            }
+            .into();
+        }
         log::info!("Loading Autowatered Plants");
         let auto_water_header = Headline {
             attributes: vec![],

@@ -1,7 +1,7 @@
 use crate::page::CssComponent;
 use html::css::{
     block::CssBlock,
-    property::{Border, Color, Direction, Flex, Font, Margin, Padding, Property, Size},
+    property::{Border, Color, Direction, Font, Margin, Padding, Property, Size},
     selector::TopSelector,
     value::{Keyword, Unit, Value},
     CssDocument,
