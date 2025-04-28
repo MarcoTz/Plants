@@ -1,6 +1,7 @@
-build: 
+build: website
 	cargo build --release 
 	sudo systemctl restart bot_service
+	sudo systemctl restart web_service
 
 website:
 	- cargo build --release
