@@ -38,6 +38,7 @@ pub trait DatabaseManager {
 
     // Log Methods
     fn get_logs(&mut self) -> Result<Vec<LogItem>, Box<dyn Error>>;
+    fn get_logs_plant(&mut self, plant_name: &str) -> Result<Vec<LogItem>, Box<dyn Error>>;
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn Error>>;
     fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn Error>> {
         self.write_logs(vec![log])
@@ -45,6 +46,7 @@ pub trait DatabaseManager {
 
     // Growth Methods
     fn get_growth(&mut self) -> Result<Vec<GrowthItem>, Box<dyn Error>>;
+    fn get_growth_plant(&mut self, plant_name: &str) -> Result<Vec<GrowthItem>, Box<dyn Error>>;
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn Error>>;
     fn write_growth(&mut self, growth: GrowthItem) -> Result<(), Box<dyn Error>> {
         self.write_growths(vec![growth])

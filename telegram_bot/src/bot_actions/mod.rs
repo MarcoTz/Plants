@@ -1,4 +1,11 @@
 mod fertilize_plants;
+mod get_location_plants;
+mod get_plant_activities;
+mod get_plant_details;
+mod get_plant_fertilizing;
+mod get_plant_growth;
+mod get_plant_watering;
+mod get_species_details;
 mod input_handlers;
 mod move_to_graveyard;
 mod new_activity;
@@ -16,6 +23,13 @@ use database::database_manager::DatabaseManager;
 use std::fmt;
 
 pub use fertilize_plants::FertilizePlants;
+pub use get_location_plants::GetLocationPlants;
+pub use get_plant_activities::GetPlantActivities;
+pub use get_plant_details::GetPlantDetails;
+pub use get_plant_fertilizing::GetPlantFertilizing;
+pub use get_plant_growth::GetPlantGrowth;
+pub use get_plant_watering::GetPlantWatering;
+pub use get_species_details::GetSpeciesDetails;
 pub use move_to_graveyard::MoveToGraveyard;
 pub use new_activity::NewActivity;
 pub use new_growth::NewGrowth;
@@ -41,6 +55,13 @@ pub enum BotAction {
     UpdateSpecies(UpdateSpecies),
     UpdatePlant(UpdatePlant),
     MoveToGraveyard(MoveToGraveyard),
+    GetLocationPlants(GetLocationPlants),
+    GetPlantDetails(GetPlantDetails),
+    GetSpeciesDetails(GetSpeciesDetails),
+    GetPlantActivities(GetPlantActivities),
+    GetPlantWatering(GetPlantWatering),
+    GetPlantFertilizing(GetPlantFertilizing),
+    GetPlantGrowth(GetPlantGrowth),
 }
 
 impl PartialEq for BotAction {
@@ -59,6 +80,28 @@ impl PartialEq for BotAction {
                 | (BotAction::UpdateSpecies(_), BotAction::UpdateSpecies(_))
                 | (BotAction::UpdatePlant(_), BotAction::UpdatePlant(_))
                 | (BotAction::MoveToGraveyard(_), BotAction::MoveToGraveyard(_))
+                | (
+                    BotAction::GetLocationPlants(_),
+                    BotAction::GetLocationPlants(_)
+                )
+                | (BotAction::GetPlantDetails(_), BotAction::GetPlantDetails(_))
+                | (
+                    BotAction::GetSpeciesDetails(_),
+                    BotAction::GetSpeciesDetails(_)
+                )
+                | (
+                    BotAction::GetPlantActivities(_),
+                    BotAction::GetPlantActivities(_)
+                )
+                | (
+                    BotAction::GetPlantWatering(_),
+                    BotAction::GetPlantWatering(_)
+                )
+                | (
+                    BotAction::GetPlantFertilizing(_),
+                    BotAction::GetPlantFertilizing(_)
+                )
+                | (BotAction::GetPlantGrowth(_), BotAction::GetPlantGrowth(_))
         )
     }
 }
@@ -77,20 +120,27 @@ pub trait Action {
 }
 
 impl fmt::Display for BotAction {
-    fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            BotAction::Idle => frmt.write_str("Idle"),
-            BotAction::WaterPlants(_) => frmt.write_str("Water Plants"),
-            BotAction::WaterLocation(_) => frmt.write_str("Water Location"),
-            BotAction::Rain(_) => frmt.write_str("Rain"),
-            BotAction::FertilizePlants(_) => frmt.write_str("Fertilize Plants"),
-            BotAction::NewGrowth(_) => frmt.write_str("New Growth"),
-            BotAction::NewActivity(_) => frmt.write_str("New Activity"),
-            BotAction::NewPlant(_) => frmt.write_str("New Plant"),
-            BotAction::NewSpecies(_) => frmt.write_str("New Species"),
-            BotAction::UpdateSpecies(_) => frmt.write_str("Update Species"),
-            BotAction::UpdatePlant(_) => frmt.write_str("Update Plant"),
-            BotAction::MoveToGraveyard(_) => frmt.write_str("Move To Graveyard"),
+            BotAction::Idle => f.write_str("Idle"),
+            BotAction::WaterPlants(_) => f.write_str("Water Plants"),
+            BotAction::WaterLocation(_) => f.write_str("Water Location"),
+            BotAction::Rain(_) => f.write_str("Rain"),
+            BotAction::FertilizePlants(_) => f.write_str("Fertilize Plants"),
+            BotAction::NewGrowth(_) => f.write_str("New Growth"),
+            BotAction::NewActivity(_) => f.write_str("New Activity"),
+            BotAction::NewPlant(_) => f.write_str("New Plant"),
+            BotAction::NewSpecies(_) => f.write_str("New Species"),
+            BotAction::UpdateSpecies(_) => f.write_str("Update Species"),
+            BotAction::UpdatePlant(_) => f.write_str("Update Plant"),
+            BotAction::MoveToGraveyard(_) => f.write_str("Move To Graveyard"),
+            BotAction::GetLocationPlants(_) => f.write_str("Get Plants at Location"),
+            BotAction::GetPlantDetails(_) => f.write_str("Get Plant Details"),
+            BotAction::GetSpeciesDetails(_) => f.write_str("Get Species Details"),
+            BotAction::GetPlantActivities(_) => f.write_str("Get Activities for Plant"),
+            BotAction::GetPlantWatering(_) => f.write_str("Get Watering Dates for Plant"),
+            BotAction::GetPlantFertilizing(_) => f.write_str("Get Fertilizing Dates for Plant"),
+            BotAction::GetPlantGrowth(_) => f.write_str("Get Growth Updates for Plant"),
         }
     }
 }
@@ -114,6 +164,13 @@ impl Action for BotAction {
             BotAction::UpdateSpecies(updsp) => updsp.handle_input(input, db_man),
             BotAction::UpdatePlant(updpl) => updpl.handle_input(input, db_man),
             BotAction::MoveToGraveyard(gr) => gr.handle_input(input, db_man),
+            BotAction::GetLocationPlants(glp) => glp.handle_input(input, db_man),
+            BotAction::GetPlantDetails(gpd) => gpd.handle_input(input, db_man),
+            BotAction::GetSpeciesDetails(gsd) => gsd.handle_input(input, db_man),
+            BotAction::GetPlantActivities(gpa) => gpa.handle_input(input, db_man),
+            BotAction::GetPlantWatering(gpw) => gpw.handle_input(input, db_man),
+            BotAction::GetPlantFertilizing(gpf) => gpf.handle_input(input, db_man),
+            BotAction::GetPlantGrowth(gpg) => gpg.handle_input(input, db_man),
         }
     }
     fn is_done(&self) -> bool {
@@ -130,8 +187,16 @@ impl Action for BotAction {
             BotAction::UpdateSpecies(updsp) => updsp.is_done(),
             BotAction::UpdatePlant(updpl) => updpl.is_done(),
             BotAction::MoveToGraveyard(gr) => gr.is_done(),
+            BotAction::GetLocationPlants(glp) => glp.is_done(),
+            BotAction::GetPlantDetails(gpd) => gpd.is_done(),
+            BotAction::GetSpeciesDetails(gsd) => gsd.is_done(),
+            BotAction::GetPlantActivities(gpa) => gpa.is_done(),
+            BotAction::GetPlantWatering(gpw) => gpw.is_done(),
+            BotAction::GetPlantFertilizing(gpf) => gpf.is_done(),
+            BotAction::GetPlantGrowth(gpg) => gpg.is_done(),
         }
     }
+
     fn write_result<T: DatabaseManager>(&self, db_man: &mut T) -> Result<String, Error> {
         match self {
             BotAction::Idle => Err(Error::NoActionRunning),
@@ -146,6 +211,13 @@ impl Action for BotAction {
             BotAction::UpdateSpecies(updsp) => updsp.write_result(db_man),
             BotAction::UpdatePlant(updpl) => updpl.write_result(db_man),
             BotAction::MoveToGraveyard(gr) => gr.write_result(db_man),
+            BotAction::GetLocationPlants(glp) => glp.write_result(db_man),
+            BotAction::GetPlantDetails(gpd) => gpd.write_result(db_man),
+            BotAction::GetSpeciesDetails(gsd) => gsd.write_result(db_man),
+            BotAction::GetPlantActivities(gpa) => gpa.write_result(db_man),
+            BotAction::GetPlantWatering(gpw) => gpw.write_result(db_man),
+            BotAction::GetPlantFertilizing(gpf) => gpf.write_result(db_man),
+            BotAction::GetPlantGrowth(gpg) => gpg.write_result(db_man),
         }
     }
 
@@ -163,6 +235,13 @@ impl Action for BotAction {
             BotAction::UpdateSpecies(updsp) => updsp.get_next_prompt(),
             BotAction::UpdatePlant(updpl) => updpl.get_next_prompt(),
             BotAction::MoveToGraveyard(gr) => gr.get_next_prompt(),
+            BotAction::GetLocationPlants(glp) => glp.get_next_prompt(),
+            BotAction::GetPlantDetails(gpd) => gpd.get_next_prompt(),
+            BotAction::GetSpeciesDetails(gsd) => gsd.get_next_prompt(),
+            BotAction::GetPlantActivities(gpa) => gpa.get_next_prompt(),
+            BotAction::GetPlantWatering(gpw) => gpw.get_next_prompt(),
+            BotAction::GetPlantFertilizing(gpf) => gpf.get_next_prompt(),
+            BotAction::GetPlantGrowth(gpg) => gpg.get_next_prompt(),
         }
     }
 }

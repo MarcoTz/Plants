@@ -19,6 +19,16 @@ pub fn input_plant_name<T: DatabaseManager>(
     }
 }
 
+pub fn input_location<T: DatabaseManager>(input: String, db_man: &mut T) -> Result<String, Error> {
+    let name = input.trim().to_owned();
+    let exists = db_man.get_location(&name).is_ok();
+    if exists {
+        Ok(name)
+    } else {
+        Err(Error::LocationDoesNotExist(name))
+    }
+}
+
 pub fn input_plant_names<T: DatabaseManager>(
     input: String,
     db_man: &mut T,

@@ -303,6 +303,17 @@ impl DatabaseManager for FileDB {
         Ok(self.logs_cache.clone())
     }
 
+    fn get_logs_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<LogItem>, Box<dyn std::error::Error>> {
+        Ok(self
+            .get_logs()?
+            .into_iter()
+            .filter(|log| log.plant == plant_name)
+            .collect())
+    }
+
     fn write_logs(&mut self, logs: Vec<LogItem>) -> Result<(), Box<dyn std::error::Error>> {
         write_activities(logs, &self.get_activities_filepath(), true)?;
         Ok(())
@@ -329,6 +340,17 @@ impl DatabaseManager for FileDB {
             self.load_growth()?;
         }
         Ok(self.growth_cache.clone())
+    }
+
+    fn get_growth_plant(
+        &mut self,
+        plant_name: &str,
+    ) -> Result<Vec<GrowthItem>, Box<dyn std::error::Error>> {
+        Ok(self
+            .get_growth()?
+            .into_iter()
+            .filter(|growth| growth.plant == plant_name)
+            .collect())
     }
 
     fn write_growths(&mut self, growth: Vec<GrowthItem>) -> Result<(), Box<dyn std::error::Error>> {

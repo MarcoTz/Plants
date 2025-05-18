@@ -23,6 +23,8 @@ pub enum ImmediateAction {
     GetWaterToday,
     GetFertilizeToday,
     GetGrowthToday,
+    GetAllPlants,
+    GetAllSpecies,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -264,6 +266,24 @@ impl<T: DatabaseManager> ActionHandler<T> {
                     "Plants to get growth for today:\n {}",
                     names.join("\n ")
                 ))
+            }
+            ImmediateAction::GetAllPlants => {
+                let plants = self.db_man.get_all_plants()?;
+                let mut plants_formatted = vec![];
+                for plant in plants {
+                    let plant_str = format!("{} ({})", plant.info.name, plant.info.species,);
+                    plants_formatted.push(plant_str);
+                }
+                Ok(plants_formatted.join("\n"))
+            }
+            ImmediateAction::GetAllSpecies => {
+                let species = self.db_man.get_all_species()?;
+                let mut species_formatted = vec![];
+                for species in species {
+                    let species_str = format!("{} ({})", species.name, species.scientific_name);
+                    species_formatted.push(species_str);
+                }
+                Ok(species_formatted.join("\n"))
             }
         }
     }

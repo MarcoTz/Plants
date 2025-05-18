@@ -1,8 +1,10 @@
 use super::{
     action_handler::ImmediateAction,
     bot_actions::{
-        BotAction, FertilizePlants, MoveToGraveyard, NewActivity, NewGrowth, NewPlant, NewSpecies,
-        Rain, UpdatePlant, UpdateSpecies, WaterLocation, WaterPlants,
+        BotAction, FertilizePlants, GetLocationPlants, GetPlantActivities, GetPlantDetails,
+        GetPlantFertilizing, GetPlantGrowth, GetPlantWatering, GetSpeciesDetails, MoveToGraveyard,
+        NewActivity, NewGrowth, NewPlant, NewSpecies, Rain, UpdatePlant, UpdateSpecies,
+        WaterLocation, WaterPlants,
     },
     errors::Error,
 };
@@ -31,6 +33,16 @@ pub enum Command {
     TodayWater,
     TodayFertilize,
     TodayGrowth,
+
+    AllPlants,
+    AllSpecies,
+    LocationPlants,
+    PlantDetails,
+    SpeciesDetails,
+    PlantActivities,
+    PlantWatering,
+    PlantFertilizing,
+    PlantGrowth,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -63,6 +75,15 @@ impl Command {
             Command::TodayWater,
             Command::TodayFertilize,
             Command::TodayGrowth,
+            Command::AllPlants,
+            Command::AllSpecies,
+            Command::LocationPlants,
+            Command::PlantDetails,
+            Command::SpeciesDetails,
+            Command::PlantActivities,
+            Command::PlantWatering,
+            Command::PlantFertilizing,
+            Command::PlantGrowth,
         ]
     }
 
@@ -107,32 +128,64 @@ impl Command {
                 CommandRes::ImmediateAction(ImmediateAction::GetFertilizeToday)
             }
             Command::TodayGrowth => CommandRes::ImmediateAction(ImmediateAction::GetGrowthToday),
+            Command::AllPlants => CommandRes::ImmediateAction(ImmediateAction::GetAllPlants),
+            Command::LocationPlants => {
+                CommandRes::NewAction(Box::new(GetLocationPlants::default().into()))
+            }
+            Command::AllSpecies => CommandRes::ImmediateAction(ImmediateAction::GetAllSpecies),
+            Command::PlantDetails => {
+                CommandRes::NewAction(Box::new(GetPlantDetails::default().into()))
+            }
+            Command::SpeciesDetails => {
+                CommandRes::NewAction(Box::new(GetSpeciesDetails::default().into()))
+            }
+            Command::PlantActivities => {
+                CommandRes::NewAction(Box::new(GetPlantActivities::default().into()))
+            }
+            Command::PlantWatering => {
+                CommandRes::NewAction(Box::new(GetPlantWatering::default().into()))
+            }
+            Command::PlantFertilizing => {
+                CommandRes::NewAction(Box::new(GetPlantFertilizing::default().into()))
+            }
+            Command::PlantGrowth => {
+                CommandRes::NewAction(Box::new(GetPlantGrowth::default().into()))
+            }
         }
     }
 }
 
 impl fmt::Display for Command {
-    fn fmt(&self, frmt: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Command::Help => frmt.write_str("help"),
-            Command::Today => frmt.write_str("today"),
-            Command::Abort => frmt.write_str("abort"),
-            Command::Push => frmt.write_str("push"),
-            Command::CheckLogs => frmt.write_str("check_logs"),
-            Command::Water => frmt.write_str("water"),
-            Command::WaterLocation => frmt.write_str("water_location"),
-            Command::Fertilize => frmt.write_str("fertilize"),
-            Command::Rain => frmt.write_str("rain"),
-            Command::NewGrowth => frmt.write_str("new_growth"),
-            Command::NewPlant => frmt.write_str("new_plant"),
-            Command::NewSpecies => frmt.write_str("new_species"),
-            Command::NewActivity => frmt.write_str("new_activity"),
-            Command::UpdateSpecies => frmt.write_str("update_species"),
-            Command::UpdatePlant => frmt.write_str("update_plant"),
-            Command::MoveToGraveyard => frmt.write_str("move_to_graveyard"),
-            Command::TodayWater => frmt.write_str("today_water"),
-            Command::TodayFertilize => frmt.write_str("today_fertilize"),
-            Command::TodayGrowth => frmt.write_str("today_growth"),
+            Command::Help => f.write_str("help"),
+            Command::Today => f.write_str("today"),
+            Command::Abort => f.write_str("abort"),
+            Command::Push => f.write_str("push"),
+            Command::CheckLogs => f.write_str("check_logs"),
+            Command::Water => f.write_str("water"),
+            Command::WaterLocation => f.write_str("water_location"),
+            Command::Fertilize => f.write_str("fertilize"),
+            Command::Rain => f.write_str("rain"),
+            Command::NewGrowth => f.write_str("new_growth"),
+            Command::NewPlant => f.write_str("new_plant"),
+            Command::NewSpecies => f.write_str("new_species"),
+            Command::NewActivity => f.write_str("new_activity"),
+            Command::UpdateSpecies => f.write_str("update_species"),
+            Command::UpdatePlant => f.write_str("update_plant"),
+            Command::MoveToGraveyard => f.write_str("move_to_graveyard"),
+            Command::TodayWater => f.write_str("today_water"),
+            Command::TodayFertilize => f.write_str("today_fertilize"),
+            Command::TodayGrowth => f.write_str("today_growth"),
+            Command::AllPlants => f.write_str("all_plants"),
+            Command::LocationPlants => f.write_str("loction_plants"),
+            Command::AllSpecies => f.write_str("all_species"),
+            Command::PlantDetails => f.write_str("plant_details"),
+            Command::SpeciesDetails => f.write_str("species_details"),
+            Command::PlantActivities => f.write_str("plant_activities"),
+            Command::PlantWatering => f.write_str("plant_watering"),
+            Command::PlantFertilizing => f.write_str("plant_fertilizing"),
+            Command::PlantGrowth => f.write_str("plant_growth"),
         }
     }
 }
@@ -160,6 +213,15 @@ impl str::FromStr for Command {
             "today_water" => Ok(Command::TodayWater),
             "today_fertilize" => Ok(Command::TodayFertilize),
             "today_growth" => Ok(Command::TodayGrowth),
+            "all_plants" => Ok(Command::AllPlants),
+            "loction_plants" => Ok(Command::LocationPlants),
+            "all_species" => Ok(Command::AllSpecies),
+            "plant_details" => Ok(Command::PlantDetails),
+            "species_details" => Ok(Command::SpeciesDetails),
+            "plant_activities" => Ok(Command::PlantActivities),
+            "plant_watering" => Ok(Command::PlantWatering),
+            "plant_fertilizing" => Ok(Command::PlantFertilizing),
+            "plant_growth" => Ok(Command::PlantGrowth),
             _ => Err(Error::ParseError(format!("Command {s}"))),
         }
     }
@@ -190,6 +252,15 @@ impl BotCommand for Command {
             Command::TodayWater => "Check which plants should get watered today".to_owned(),
             Command::TodayFertilize => "Check which plants should be fertilized today".to_owned(),
             Command::TodayGrowth => "Check which plants need growth updates by today".to_owned(),
+            Command::AllPlants => "Show all plants".to_owned(),
+            Command::LocationPlants => "Show plants at location".to_owned(),
+            Command::AllSpecies => "Show all species".to_owned(),
+            Command::PlantDetails => "Show details for plant".to_owned(),
+            Command::SpeciesDetails => "Show details for species".to_owned(),
+            Command::PlantActivities => "Show Activities for plant".to_owned(),
+            Command::PlantWatering => "Show last watering days for plant".to_owned(),
+            Command::PlantFertilizing => "Show last fertilizing days for plant".to_owned(),
+            Command::PlantGrowth => "Show growht updates for plant".to_owned(),
         }
     }
 }

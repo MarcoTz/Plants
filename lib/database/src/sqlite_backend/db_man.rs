@@ -512,6 +512,10 @@ impl DatabaseManager for SQLiteDB {
         Ok(logs)
     }
 
+    fn get_logs_plant(&mut self, plant_name: &str) -> Result<Vec<LogItem>, Box<dyn StdErr>> {
+        self.get_logs_plant(plant_name)
+    }
+
     fn write_log(&mut self, log: LogItem) -> Result<(), Box<dyn StdErr>> {
         let fmt_log = |log: &LogItem| {
             let note_str = match &log.note {
@@ -559,6 +563,10 @@ impl DatabaseManager for SQLiteDB {
             growth.push(item);
         }
         Ok(growth)
+    }
+
+    fn get_growth_plant(&mut self, plant_name: &str) -> Result<Vec<GrowthItem>, Box<dyn StdErr>> {
+        self.get_growth_plant(plant_name)
     }
 
     fn write_growth(&mut self, growth: GrowthItem) -> Result<(), Box<dyn StdErr>> {

@@ -59,8 +59,8 @@ impl Bot {
         update: Update,
         handler: &mut U,
     ) -> Result<(), Error> {
-        let msg = update.get_message()?;
         self.last_update = update.update_id;
+        let msg = update.get_message()?;
         if msg.is_command() {
             let cmd: T = msg.get_command().map_err(Error::Other)?;
             handler.handle_cmd(self, cmd, msg).await;
